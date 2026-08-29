@@ -1,0 +1,3534 @@
+{
+  "resources": [
+    {
+      "id": "iron_ore",
+      "name": "Iron Ore",
+      "default_capacity": 500,
+      "base_market_price": 1.0,
+      "volatility": 0.00658,
+      "icon_key": "ore_iron",
+      "accent_key": "iron",
+      "category": "Ores / Metals"
+    },
+    {
+      "id": "copper_ore",
+      "name": "Copper Ore",
+      "default_capacity": 500,
+      "base_market_price": 1.4,
+      "volatility": 0.00661,
+      "icon_key": "ore_copper",
+      "accent_key": "copper",
+      "category": "Ores / Metals"
+    },
+    {
+      "id": "bauxite",
+      "name": "Bauxite",
+      "default_capacity": 500,
+      "base_market_price": 1.1,
+      "volatility": 0.00659,
+      "icon_key": "hex",
+      "accent_key": "default",
+      "category": "Agriculture"
+    },
+    {
+      "id": "nickel_ore",
+      "name": "Nickel Ore",
+      "default_capacity": 500,
+      "base_market_price": 1.8,
+      "volatility": 0.00664,
+      "icon_key": "ore_chunk",
+      "accent_key": "default",
+      "category": "Ores / Metals"
+    },
+    {
+      "id": "zinc_ore",
+      "name": "Zinc Ore",
+      "default_capacity": 500,
+      "base_market_price": 1.25,
+      "volatility": 0.0066,
+      "icon_key": "ore_chunk",
+      "accent_key": "default",
+      "category": "Ores / Metals"
+    },
+    {
+      "id": "lead_ore",
+      "name": "Lead Ore",
+      "default_capacity": 500,
+      "base_market_price": 1.15,
+      "volatility": 0.00659,
+      "icon_key": "ore_chunk",
+      "accent_key": "default",
+      "category": "Ores / Metals"
+    },
+    {
+      "id": "tin_ore",
+      "name": "Tin Ore",
+      "default_capacity": 500,
+      "base_market_price": 1.45,
+      "volatility": 0.00662,
+      "icon_key": "ore_chunk",
+      "accent_key": "default",
+      "category": "Ores / Metals"
+    },
+    {
+      "id": "manganese_ore",
+      "name": "Manganese Ore",
+      "default_capacity": 500,
+      "base_market_price": 1.35,
+      "volatility": 0.00661,
+      "icon_key": "ore_chunk",
+      "accent_key": "default",
+      "category": "Ores / Metals"
+    },
+    {
+      "id": "chromium_ore",
+      "name": "Chromium Ore",
+      "default_capacity": 500,
+      "base_market_price": 1.65,
+      "volatility": 0.00663,
+      "icon_key": "ore_chunk",
+      "accent_key": "default",
+      "category": "Ores / Metals"
+    },
+    {
+      "id": "titanium_ore",
+      "name": "Titanium Ore",
+      "default_capacity": 500,
+      "base_market_price": 2.4,
+      "volatility": 0.00669,
+      "icon_key": "ore_chunk",
+      "accent_key": "default",
+      "category": "Ores / Metals"
+    },
+    {
+      "id": "tungsten_ore",
+      "name": "Tungsten Ore",
+      "default_capacity": 500,
+      "base_market_price": 2.8,
+      "volatility": 0.00672,
+      "icon_key": "ore_chunk",
+      "accent_key": "default",
+      "category": "Ores / Metals"
+    },
+    {
+      "id": "cobalt_ore",
+      "name": "Cobalt Ore",
+      "default_capacity": 500,
+      "base_market_price": 2.6,
+      "volatility": 0.00671,
+      "icon_key": "ore_chunk",
+      "accent_key": "default",
+      "category": "Ores / Metals"
+    },
+    {
+      "id": "molybdenum_ore",
+      "name": "Molybdenum Ore",
+      "default_capacity": 500,
+      "base_market_price": 2.2,
+      "volatility": 0.00668,
+      "icon_key": "ore_chunk",
+      "accent_key": "default",
+      "category": "Ores / Metals"
+    },
+    {
+      "id": "vanadium_ore",
+      "name": "Vanadium Ore",
+      "default_capacity": 500,
+      "base_market_price": 2.1,
+      "volatility": 0.00667,
+      "icon_key": "ore_chunk",
+      "accent_key": "default",
+      "category": "Ores / Metals"
+    },
+    {
+      "id": "silver_ore",
+      "name": "Silver Ore",
+      "default_capacity": 500,
+      "base_market_price": 3.6,
+      "volatility": 0.00679,
+      "icon_key": "ore_chunk",
+      "accent_key": "default",
+      "category": "Ores / Metals"
+    },
+    {
+      "id": "gold_ore",
+      "name": "Gold Ore",
+      "default_capacity": 500,
+      "base_market_price": 5.0,
+      "volatility": 0.0069,
+      "icon_key": "ore_gold",
+      "accent_key": "default",
+      "category": "Ores / Metals"
+    },
+    {
+      "id": "platinum_ore",
+      "name": "Platinum Ore",
+      "default_capacity": 500,
+      "base_market_price": 5.8,
+      "volatility": 0.00696,
+      "icon_key": "ore_chunk",
+      "accent_key": "default",
+      "category": "Ores / Metals"
+    },
+    {
+      "id": "palladium_ore",
+      "name": "Palladium Ore",
+      "default_capacity": 500,
+      "base_market_price": 5.4,
+      "volatility": 0.00693,
+      "icon_key": "ore_chunk",
+      "accent_key": "default",
+      "category": "Ores / Metals"
+    },
+    {
+      "id": "lithium_ore",
+      "name": "Lithium Ore",
+      "default_capacity": 500,
+      "base_market_price": 2.3,
+      "volatility": 0.00668,
+      "icon_key": "ore_lithium",
+      "accent_key": "default",
+      "category": "Ores / Metals"
+    },
+    {
+      "id": "uranium_ore",
+      "name": "Uranium Ore",
+      "default_capacity": 500,
+      "base_market_price": 3.2,
+      "volatility": 0.00676,
+      "icon_key": "ore_uranium",
+      "accent_key": "default",
+      "category": "Ores / Metals"
+    },
+    {
+      "id": "rare_earth_ore",
+      "name": "Rare Earth Ore",
+      "default_capacity": 500,
+      "base_market_price": 2.7,
+      "volatility": 0.00672,
+      "icon_key": "ore_rare_earth",
+      "accent_key": "default",
+      "category": "Ores / Metals"
+    },
+    {
+      "id": "niobium_ore",
+      "name": "Niobium Ore",
+      "default_capacity": 500,
+      "base_market_price": 2.5,
+      "volatility": 0.0067,
+      "icon_key": "ore_chunk",
+      "accent_key": "default",
+      "category": "Ores / Metals"
+    },
+    {
+      "id": "coal",
+      "name": "Coal",
+      "default_capacity": 500,
+      "base_market_price": 1.2,
+      "volatility": 0.0066,
+      "icon_key": "coal_chunk",
+      "accent_key": "coal",
+      "category": "Ores / Metals"
+    },
+    {
+      "id": "quartz",
+      "name": "Quartz",
+      "default_capacity": 500,
+      "base_market_price": 1.1,
+      "volatility": 0.00659,
+      "icon_key": "crystal",
+      "accent_key": "crystal",
+      "category": "Minerals"
+    },
+    {
+      "id": "silica_sand",
+      "name": "Silica Sand",
+      "default_capacity": 500,
+      "base_market_price": 0.9,
+      "volatility": 0.00657,
+      "icon_key": "sand",
+      "accent_key": "crystal",
+      "category": "Minerals"
+    },
+    {
+      "id": "limestone",
+      "name": "Limestone",
+      "default_capacity": 500,
+      "base_market_price": 0.8,
+      "volatility": 0.00656,
+      "icon_key": "stone_block",
+      "accent_key": "default",
+      "category": "Minerals"
+    },
+    {
+      "id": "gypsum",
+      "name": "Gypsum",
+      "default_capacity": 500,
+      "base_market_price": 0.85,
+      "volatility": 0.00657,
+      "icon_key": "crystal",
+      "accent_key": "crystal",
+      "category": "Minerals"
+    },
+    {
+      "id": "clay",
+      "name": "Clay",
+      "default_capacity": 500,
+      "base_market_price": 0.7,
+      "volatility": 0.00656,
+      "icon_key": "hex",
+      "accent_key": "default",
+      "category": "Minerals"
+    },
+    {
+      "id": "kaolin",
+      "name": "Kaolin",
+      "default_capacity": 500,
+      "base_market_price": 1.0,
+      "volatility": 0.00658,
+      "icon_key": "hex",
+      "accent_key": "default",
+      "category": "Minerals"
+    },
+    {
+      "id": "phosphate_rock",
+      "name": "Phosphate Rock",
+      "default_capacity": 500,
+      "base_market_price": 1.25,
+      "volatility": 0.0066,
+      "icon_key": "hex",
+      "accent_key": "default",
+      "category": "Minerals"
+    },
+    {
+      "id": "potash",
+      "name": "Potash",
+      "default_capacity": 500,
+      "base_market_price": 1.35,
+      "volatility": 0.00661,
+      "icon_key": "hex",
+      "accent_key": "default",
+      "category": "Minerals"
+    },
+    {
+      "id": "salt",
+      "name": "Salt",
+      "default_capacity": 500,
+      "base_market_price": 0.75,
+      "volatility": 0.00656,
+      "icon_key": "salt_crystal",
+      "accent_key": "crystal",
+      "category": "Minerals"
+    },
+    {
+      "id": "sulfur",
+      "name": "Sulfur",
+      "default_capacity": 500,
+      "base_market_price": 1.15,
+      "volatility": 0.00659,
+      "icon_key": "sulfur_crystal",
+      "accent_key": "default",
+      "category": "Minerals"
+    },
+    {
+      "id": "graphite",
+      "name": "Graphite",
+      "default_capacity": 500,
+      "base_market_price": 1.75,
+      "volatility": 0.00664,
+      "icon_key": "graphite_block",
+      "accent_key": "default",
+      "category": "Ores / Metals"
+    },
+    {
+      "id": "fluorspar",
+      "name": "Fluorspar",
+      "default_capacity": 500,
+      "base_market_price": 1.5,
+      "volatility": 0.00662,
+      "icon_key": "crystal",
+      "accent_key": "crystal",
+      "category": "Minerals"
+    },
+    {
+      "id": "magnesite",
+      "name": "Magnesite",
+      "default_capacity": 500,
+      "base_market_price": 1.3,
+      "volatility": 0.0066,
+      "icon_key": "hex",
+      "accent_key": "default",
+      "category": "Minerals"
+    },
+    {
+      "id": "borate_ore",
+      "name": "Borate Ore",
+      "default_capacity": 500,
+      "base_market_price": 1.45,
+      "volatility": 0.00662,
+      "icon_key": "crystal",
+      "accent_key": "crystal",
+      "category": "Ores / Metals"
+    },
+    {
+      "id": "crude_oil",
+      "name": "Crude Oil",
+      "default_capacity": 500,
+      "base_market_price": 2.2,
+      "volatility": 0.00668,
+      "icon_key": "oil_drop",
+      "accent_key": "oil",
+      "category": "Oil & Gas"
+    },
+    {
+      "id": "natural_gas",
+      "name": "Natural Gas",
+      "default_capacity": 500,
+      "base_market_price": 1.9,
+      "volatility": 0.00665,
+      "icon_key": "flame",
+      "accent_key": "gas",
+      "category": "Oil & Gas"
+    },
+    {
+      "id": "timber",
+      "name": "Timber",
+      "default_capacity": 500,
+      "base_market_price": 1.1,
+      "volatility": 0.00659,
+      "icon_key": "log",
+      "accent_key": "wood",
+      "category": "Forestry"
+    },
+    {
+      "id": "wheat",
+      "name": "Wheat",
+      "default_capacity": 500,
+      "base_market_price": 0.95,
+      "volatility": 0.00658,
+      "icon_key": "wheat",
+      "accent_key": "grain",
+      "category": "Agriculture"
+    },
+    {
+      "id": "corn",
+      "name": "Corn",
+      "default_capacity": 500,
+      "base_market_price": 0.9,
+      "volatility": 0.00657,
+      "icon_key": "corn",
+      "accent_key": "grain",
+      "category": "Agriculture"
+    },
+    {
+      "id": "soybeans",
+      "name": "Soybeans",
+      "default_capacity": 500,
+      "base_market_price": 1.05,
+      "volatility": 0.00658,
+      "icon_key": "package",
+      "accent_key": "crop",
+      "category": "Agriculture"
+    },
+    {
+      "id": "sugarcane",
+      "name": "Sugarcane",
+      "default_capacity": 500,
+      "base_market_price": 0.85,
+      "volatility": 0.00657,
+      "icon_key": "package",
+      "accent_key": "crop",
+      "category": "Agriculture"
+    },
+    {
+      "id": "cotton",
+      "name": "Cotton",
+      "default_capacity": 500,
+      "base_market_price": 1.2,
+      "volatility": 0.0066,
+      "icon_key": "cotton",
+      "accent_key": "cotton",
+      "category": "Agriculture"
+    },
+    {
+      "id": "rapeseed",
+      "name": "Rapeseed",
+      "default_capacity": 500,
+      "base_market_price": 1.0,
+      "volatility": 0.00658,
+      "icon_key": "hex",
+      "accent_key": "crop",
+      "category": "Agriculture"
+    },
+    {
+      "id": "potatoes",
+      "name": "Potatoes",
+      "default_capacity": 500,
+      "base_market_price": 0.8,
+      "volatility": 0.00656,
+      "icon_key": "package",
+      "accent_key": "crop",
+      "category": "Agriculture"
+    },
+    {
+      "id": "fruit",
+      "name": "Fruit",
+      "default_capacity": 500,
+      "base_market_price": 1.1,
+      "volatility": 0.00659,
+      "icon_key": "fruit",
+      "accent_key": "crop",
+      "category": "Agriculture"
+    },
+    {
+      "id": "natural_rubber",
+      "name": "Natural Rubber",
+      "default_capacity": 500,
+      "base_market_price": 1.7,
+      "volatility": 0.00664,
+      "icon_key": "latex",
+      "accent_key": "chemical",
+      "category": "Forestry"
+    },
+    {
+      "id": "iron",
+      "name": "Iron",
+      "default_capacity": 300,
+      "base_market_price": 3.0,
+      "volatility": 0.00724,
+      "icon_key": "ingot",
+      "accent_key": "iron",
+      "category": "Materials"
+    },
+    {
+      "id": "steel",
+      "name": "Steel",
+      "default_capacity": 200,
+      "base_market_price": 8.0,
+      "volatility": 0.00764,
+      "icon_key": "ingot",
+      "accent_key": "default",
+      "category": "Materials"
+    },
+    {
+      "id": "stainless_steel",
+      "name": "Stainless Steel",
+      "default_capacity": 300,
+      "base_market_price": 9.11,
+      "volatility": 0.00773,
+      "icon_key": "ingot",
+      "accent_key": "default",
+      "category": "Materials"
+    },
+    {
+      "id": "copper",
+      "name": "Copper",
+      "default_capacity": 300,
+      "base_market_price": 3.5,
+      "volatility": 0.00728,
+      "icon_key": "ingot",
+      "accent_key": "copper",
+      "category": "Materials"
+    },
+    {
+      "id": "aluminum",
+      "name": "Aluminum",
+      "default_capacity": 300,
+      "base_market_price": 2.55,
+      "volatility": 0.0072,
+      "icon_key": "ingot",
+      "accent_key": "default",
+      "category": "Materials"
+    },
+    {
+      "id": "zinc",
+      "name": "Zinc",
+      "default_capacity": 300,
+      "base_market_price": 2.85,
+      "volatility": 0.00723,
+      "icon_key": "ingot",
+      "accent_key": "default",
+      "category": "Materials"
+    },
+    {
+      "id": "lead",
+      "name": "Lead",
+      "default_capacity": 300,
+      "base_market_price": 2.65,
+      "volatility": 0.00721,
+      "icon_key": "ingot",
+      "accent_key": "default",
+      "category": "Materials"
+    },
+    {
+      "id": "tin",
+      "name": "Tin",
+      "default_capacity": 300,
+      "base_market_price": 3.31,
+      "volatility": 0.00726,
+      "icon_key": "hex",
+      "accent_key": "default",
+      "category": "Materials"
+    },
+    {
+      "id": "nickel",
+      "name": "Nickel",
+      "default_capacity": 300,
+      "base_market_price": 4.1,
+      "volatility": 0.00733,
+      "icon_key": "ingot",
+      "accent_key": "default",
+      "category": "Materials"
+    },
+    {
+      "id": "titanium",
+      "name": "Titanium",
+      "default_capacity": 300,
+      "base_market_price": 5.47,
+      "volatility": 0.00744,
+      "icon_key": "ingot",
+      "accent_key": "default",
+      "category": "Materials"
+    },
+    {
+      "id": "tungsten",
+      "name": "Tungsten",
+      "default_capacity": 300,
+      "base_market_price": 6.38,
+      "volatility": 0.00751,
+      "icon_key": "hex",
+      "accent_key": "default",
+      "category": "Materials"
+    },
+    {
+      "id": "manganese",
+      "name": "Manganese",
+      "default_capacity": 300,
+      "base_market_price": 3.08,
+      "volatility": 0.00725,
+      "icon_key": "hex",
+      "accent_key": "default",
+      "category": "Materials"
+    },
+    {
+      "id": "chromium",
+      "name": "Chromium",
+      "default_capacity": 300,
+      "base_market_price": 3.76,
+      "volatility": 0.0073,
+      "icon_key": "hex",
+      "accent_key": "default",
+      "category": "Materials"
+    },
+    {
+      "id": "cobalt",
+      "name": "Cobalt",
+      "default_capacity": 300,
+      "base_market_price": 5.93,
+      "volatility": 0.00747,
+      "icon_key": "hex",
+      "accent_key": "default",
+      "category": "Materials"
+    },
+    {
+      "id": "molybdenum",
+      "name": "Molybdenum",
+      "default_capacity": 300,
+      "base_market_price": 5.02,
+      "volatility": 0.0074,
+      "icon_key": "hex",
+      "accent_key": "default",
+      "category": "Materials"
+    },
+    {
+      "id": "vanadium",
+      "name": "Vanadium",
+      "default_capacity": 300,
+      "base_market_price": 4.79,
+      "volatility": 0.00738,
+      "icon_key": "ingot",
+      "accent_key": "default",
+      "category": "Materials"
+    },
+    {
+      "id": "lithium",
+      "name": "Lithium",
+      "default_capacity": 300,
+      "base_market_price": 5.24,
+      "volatility": 0.00742,
+      "icon_key": "hex",
+      "accent_key": "default",
+      "category": "Materials"
+    },
+    {
+      "id": "gold",
+      "name": "Gold",
+      "default_capacity": 300,
+      "base_market_price": 11.4,
+      "volatility": 0.00791,
+      "icon_key": "ingot",
+      "accent_key": "default",
+      "category": "Materials"
+    },
+    {
+      "id": "silver",
+      "name": "Silver",
+      "default_capacity": 300,
+      "base_market_price": 8.21,
+      "volatility": 0.00766,
+      "icon_key": "ingot",
+      "accent_key": "default",
+      "category": "Materials"
+    },
+    {
+      "id": "platinum",
+      "name": "Platinum",
+      "default_capacity": 300,
+      "base_market_price": 16.53,
+      "volatility": 0.00832,
+      "icon_key": "ingot",
+      "accent_key": "default",
+      "category": "Materials"
+    },
+    {
+      "id": "palladium",
+      "name": "Palladium",
+      "default_capacity": 300,
+      "base_market_price": 15.39,
+      "volatility": 0.00823,
+      "icon_key": "ingot",
+      "accent_key": "default",
+      "category": "Materials"
+    },
+    {
+      "id": "rare_earth_metals",
+      "name": "Rare Earth Metals",
+      "default_capacity": 300,
+      "base_market_price": 8.21,
+      "volatility": 0.00766,
+      "icon_key": "hex",
+      "accent_key": "default",
+      "category": "Materials"
+    },
+    {
+      "id": "niobium",
+      "name": "Niobium",
+      "default_capacity": 300,
+      "base_market_price": 5.7,
+      "volatility": 0.00746,
+      "icon_key": "hex",
+      "accent_key": "default",
+      "category": "Materials"
+    },
+    {
+      "id": "nickel_alloy",
+      "name": "Nickel Alloy",
+      "default_capacity": 300,
+      "base_market_price": 9.31,
+      "volatility": 0.00774,
+      "icon_key": "ingot",
+      "accent_key": "default",
+      "category": "Materials"
+    },
+    {
+      "id": "superconducting_alloy",
+      "name": "Superconducting Alloy",
+      "default_capacity": 300,
+      "base_market_price": 13.1,
+      "volatility": 0.00805,
+      "icon_key": "ingot",
+      "accent_key": "default",
+      "category": "Materials"
+    },
+    {
+      "id": "glass",
+      "name": "Glass",
+      "default_capacity": 300,
+      "base_market_price": 2.32,
+      "volatility": 0.00719,
+      "icon_key": "hex",
+      "accent_key": "default",
+      "category": "Materials"
+    },
+    {
+      "id": "cement",
+      "name": "Cement",
+      "default_capacity": 300,
+      "base_market_price": 1.7,
+      "volatility": 0.00714,
+      "icon_key": "hex",
+      "accent_key": "default",
+      "category": "Materials"
+    },
+    {
+      "id": "ceramics",
+      "name": "Ceramics",
+      "default_capacity": 300,
+      "base_market_price": 1.82,
+      "volatility": 0.00715,
+      "icon_key": "hex",
+      "accent_key": "default",
+      "category": "Materials"
+    },
+    {
+      "id": "processed_gypsum",
+      "name": "Processed Gypsum",
+      "default_capacity": 300,
+      "base_market_price": 1.2,
+      "volatility": 0.0071,
+      "icon_key": "crystal",
+      "accent_key": "crystal",
+      "category": "Materials"
+    },
+    {
+      "id": "purified_graphite",
+      "name": "Purified Graphite",
+      "default_capacity": 300,
+      "base_market_price": 2.68,
+      "volatility": 0.00721,
+      "icon_key": "hex",
+      "accent_key": "default",
+      "category": "Materials"
+    },
+    {
+      "id": "silicon",
+      "name": "Silicon",
+      "default_capacity": 300,
+      "base_market_price": 3.26,
+      "volatility": 0.00726,
+      "icon_key": "hex",
+      "accent_key": "default",
+      "category": "Materials"
+    },
+    {
+      "id": "high_purity_silicon",
+      "name": "High-Purity Silicon",
+      "default_capacity": 300,
+      "base_market_price": 10.51,
+      "volatility": 0.00784,
+      "icon_key": "hex",
+      "accent_key": "default",
+      "category": "Materials"
+    },
+    {
+      "id": "carbon_fiber",
+      "name": "Carbon Fiber",
+      "default_capacity": 300,
+      "base_market_price": 12.88,
+      "volatility": 0.00803,
+      "icon_key": "hex",
+      "accent_key": "default",
+      "category": "Materials"
+    },
+    {
+      "id": "lumber",
+      "name": "Lumber",
+      "default_capacity": 300,
+      "base_market_price": 1.45,
+      "volatility": 0.00712,
+      "icon_key": "log",
+      "accent_key": "wood",
+      "category": "Materials"
+    },
+    {
+      "id": "wood_pulp",
+      "name": "Wood Pulp",
+      "default_capacity": 300,
+      "base_market_price": 2.4,
+      "volatility": 0.00719,
+      "icon_key": "log",
+      "accent_key": "wood",
+      "category": "Materials"
+    },
+    {
+      "id": "cellulose",
+      "name": "Cellulose",
+      "default_capacity": 300,
+      "base_market_price": 2.38,
+      "volatility": 0.00719,
+      "icon_key": "battery",
+      "accent_key": "battery",
+      "category": "Materials"
+    },
+    {
+      "id": "treated_lumber",
+      "name": "Treated Lumber",
+      "default_capacity": 300,
+      "base_market_price": 2.72,
+      "volatility": 0.00722,
+      "icon_key": "log",
+      "accent_key": "wood",
+      "category": "Materials"
+    },
+    {
+      "id": "polymer",
+      "name": "Polymer",
+      "default_capacity": 300,
+      "base_market_price": 4.95,
+      "volatility": 0.0074,
+      "icon_key": "flask",
+      "accent_key": "chemical",
+      "category": "Chemicals"
+    },
+    {
+      "id": "synthetic_rubber",
+      "name": "Synthetic Rubber",
+      "default_capacity": 300,
+      "base_market_price": 4.43,
+      "volatility": 0.00735,
+      "icon_key": "flask",
+      "accent_key": "chemical",
+      "category": "Chemicals"
+    },
+    {
+      "id": "industrial_resin",
+      "name": "Industrial Resin",
+      "default_capacity": 300,
+      "base_market_price": 4.16,
+      "volatility": 0.00733,
+      "icon_key": "flask",
+      "accent_key": "chemical",
+      "category": "Chemicals"
+    },
+    {
+      "id": "chemical_feedstock",
+      "name": "Chemical Feedstock",
+      "default_capacity": 300,
+      "base_market_price": 3.18,
+      "volatility": 0.00725,
+      "icon_key": "flask",
+      "accent_key": "chemical",
+      "category": "Chemicals"
+    },
+    {
+      "id": "sulfuric_acid",
+      "name": "Sulfuric Acid",
+      "default_capacity": 300,
+      "base_market_price": 2.45,
+      "volatility": 0.0072,
+      "icon_key": "flask",
+      "accent_key": "chemical",
+      "category": "Chemicals"
+    },
+    {
+      "id": "chlorine",
+      "name": "Chlorine",
+      "default_capacity": 300,
+      "base_market_price": 1.48,
+      "volatility": 0.00712,
+      "icon_key": "flask",
+      "accent_key": "chemical",
+      "category": "Materials"
+    },
+    {
+      "id": "ammonia",
+      "name": "Ammonia",
+      "default_capacity": 300,
+      "base_market_price": 3.25,
+      "volatility": 0.00726,
+      "icon_key": "flask",
+      "accent_key": "chemical",
+      "category": "Materials"
+    },
+    {
+      "id": "phosphoric_acid",
+      "name": "Phosphoric Acid",
+      "default_capacity": 300,
+      "base_market_price": 2.74,
+      "volatility": 0.00722,
+      "icon_key": "flask",
+      "accent_key": "chemical",
+      "category": "Chemicals"
+    },
+    {
+      "id": "potassium_compound",
+      "name": "Potassium Compound",
+      "default_capacity": 300,
+      "base_market_price": 2.38,
+      "volatility": 0.00719,
+      "icon_key": "hex",
+      "accent_key": "default",
+      "category": "Materials"
+    },
+    {
+      "id": "industrial_gas",
+      "name": "Industrial Gas",
+      "default_capacity": 300,
+      "base_market_price": 2.25,
+      "volatility": 0.00718,
+      "icon_key": "flame",
+      "accent_key": "gas",
+      "category": "Chemicals"
+    },
+    {
+      "id": "hydrogen",
+      "name": "Hydrogen",
+      "default_capacity": 300,
+      "base_market_price": 3.25,
+      "volatility": 0.00726,
+      "icon_key": "flame",
+      "accent_key": "gas",
+      "category": "Chemicals"
+    },
+    {
+      "id": "bitumen",
+      "name": "Bitumen",
+      "default_capacity": 300,
+      "base_market_price": 3.76,
+      "volatility": 0.0073,
+      "icon_key": "oil_drop",
+      "accent_key": "oil",
+      "category": "Materials"
+    },
+    {
+      "id": "flour",
+      "name": "Flour",
+      "default_capacity": 300,
+      "base_market_price": 1.3,
+      "volatility": 0.0071,
+      "icon_key": "wheat",
+      "accent_key": "grain",
+      "category": "Materials"
+    },
+    {
+      "id": "corn_meal",
+      "name": "Corn Meal",
+      "default_capacity": 300,
+      "base_market_price": 1.25,
+      "volatility": 0.0071,
+      "icon_key": "corn",
+      "accent_key": "grain",
+      "category": "Food & Agriculture"
+    },
+    {
+      "id": "starch",
+      "name": "Starch",
+      "default_capacity": 300,
+      "base_market_price": 1.65,
+      "volatility": 0.00713,
+      "icon_key": "hex",
+      "accent_key": "default",
+      "category": "Materials"
+    },
+    {
+      "id": "raw_sugar",
+      "name": "Raw Sugar",
+      "default_capacity": 300,
+      "base_market_price": 1.2,
+      "volatility": 0.0071,
+      "icon_key": "package",
+      "accent_key": "crop",
+      "category": "Food & Agriculture"
+    },
+    {
+      "id": "refined_sugar",
+      "name": "Refined Sugar",
+      "default_capacity": 300,
+      "base_market_price": 1.2,
+      "volatility": 0.0071,
+      "icon_key": "package",
+      "accent_key": "crop",
+      "category": "Food & Agriculture"
+    },
+    {
+      "id": "soy_oil",
+      "name": "Soy Oil",
+      "default_capacity": 300,
+      "base_market_price": 2.45,
+      "volatility": 0.0072,
+      "icon_key": "oil_drop",
+      "accent_key": "oil",
+      "category": "Food & Agriculture"
+    },
+    {
+      "id": "soy_protein",
+      "name": "Soy Protein",
+      "default_capacity": 300,
+      "base_market_price": 2.45,
+      "volatility": 0.0072,
+      "icon_key": "package",
+      "accent_key": "crop",
+      "category": "Food & Agriculture"
+    },
+    {
+      "id": "vegetable_oil",
+      "name": "Vegetable Oil",
+      "default_capacity": 300,
+      "base_market_price": 2.4,
+      "volatility": 0.00719,
+      "icon_key": "oil_drop",
+      "accent_key": "oil",
+      "category": "Materials"
+    },
+    {
+      "id": "cotton_fiber",
+      "name": "Cotton Fiber",
+      "default_capacity": 300,
+      "base_market_price": 1.55,
+      "volatility": 0.00712,
+      "icon_key": "cotton",
+      "accent_key": "cotton",
+      "category": "Materials"
+    },
+    {
+      "id": "fruit_concentrate",
+      "name": "Fruit Concentrate",
+      "default_capacity": 300,
+      "base_market_price": 2.43,
+      "volatility": 0.00719,
+      "icon_key": "package",
+      "accent_key": "crop",
+      "category": "Food & Agriculture"
+    },
+    {
+      "id": "processed_rubber",
+      "name": "Processed Rubber",
+      "default_capacity": 300,
+      "base_market_price": 2.65,
+      "volatility": 0.00721,
+      "icon_key": "flask",
+      "accent_key": "chemical",
+      "category": "Chemicals"
+    },
+    {
+      "id": "fermentation_feedstock",
+      "name": "Fermentation Feedstock",
+      "default_capacity": 300,
+      "base_market_price": 1.67,
+      "volatility": 0.00713,
+      "icon_key": "flask",
+      "accent_key": "default",
+      "category": "Materials"
+    },
+    {
+      "id": "galvanized_metal",
+      "name": "Galvanized Metal",
+      "default_capacity": 300,
+      "base_market_price": 3.49,
+      "volatility": 0.00728,
+      "icon_key": "hex",
+      "accent_key": "default",
+      "category": "Materials"
+    },
+    {
+      "id": "shielding_material",
+      "name": "Shielding Material",
+      "default_capacity": 300,
+      "base_market_price": 2.37,
+      "volatility": 0.00719,
+      "icon_key": "hex",
+      "accent_key": "default",
+      "category": "Materials"
+    },
+    {
+      "id": "vanadium_alloy",
+      "name": "Vanadium Alloy",
+      "default_capacity": 300,
+      "base_market_price": 4.82,
+      "volatility": 0.00739,
+      "icon_key": "ingot",
+      "accent_key": "default",
+      "category": "Materials"
+    },
+    {
+      "id": "catalyst_metal",
+      "name": "Catalyst Metal",
+      "default_capacity": 300,
+      "base_market_price": 12.81,
+      "volatility": 0.00802,
+      "icon_key": "hex",
+      "accent_key": "default",
+      "category": "Materials"
+    },
+    {
+      "id": "nuclear_material",
+      "name": "Nuclear Material",
+      "default_capacity": 300,
+      "base_market_price": 6.26,
+      "volatility": 0.0075,
+      "icon_key": "hex",
+      "accent_key": "default",
+      "category": "Materials"
+    },
+    {
+      "id": "bio_lubricant",
+      "name": "Bio-Lubricant",
+      "default_capacity": 300,
+      "base_market_price": 2.3,
+      "volatility": 0.00718,
+      "icon_key": "flask",
+      "accent_key": "default",
+      "category": "Materials"
+    },
+    {
+      "id": "organic_feedstock",
+      "name": "Organic Feedstock",
+      "default_capacity": 300,
+      "base_market_price": 1.77,
+      "volatility": 0.00714,
+      "icon_key": "flask",
+      "accent_key": "default",
+      "category": "Materials"
+    },
+    {
+      "id": "iron_components",
+      "name": "Iron Components",
+      "default_capacity": 180,
+      "base_market_price": 3.48,
+      "volatility": 0.00778,
+      "icon_key": "ingot",
+      "accent_key": "iron",
+      "category": "Components"
+    },
+    {
+      "id": "steel_components",
+      "name": "Steel Components",
+      "default_capacity": 180,
+      "base_market_price": 9.28,
+      "volatility": 0.00824,
+      "icon_key": "ingot",
+      "accent_key": "component",
+      "category": "Components"
+    },
+    {
+      "id": "stainless_components",
+      "name": "Stainless Components",
+      "default_capacity": 180,
+      "base_market_price": 10.57,
+      "volatility": 0.00835,
+      "icon_key": "gear",
+      "accent_key": "component",
+      "category": "Components"
+    },
+    {
+      "id": "aluminum_components",
+      "name": "Aluminum Components",
+      "default_capacity": 180,
+      "base_market_price": 2.96,
+      "volatility": 0.00774,
+      "icon_key": "ingot",
+      "accent_key": "component",
+      "category": "Components"
+    },
+    {
+      "id": "titanium_components",
+      "name": "Titanium Components",
+      "default_capacity": 180,
+      "base_market_price": 6.35,
+      "volatility": 0.00801,
+      "icon_key": "ingot",
+      "accent_key": "component",
+      "category": "Components"
+    },
+    {
+      "id": "precision_components",
+      "name": "Precision Components",
+      "default_capacity": 180,
+      "base_market_price": 20.49,
+      "volatility": 0.00914,
+      "icon_key": "gear",
+      "accent_key": "component",
+      "category": "Components"
+    },
+    {
+      "id": "gear_components",
+      "name": "Gear Components",
+      "default_capacity": 180,
+      "base_market_price": 11.3,
+      "volatility": 0.0084,
+      "icon_key": "gear",
+      "accent_key": "component",
+      "category": "Components"
+    },
+    {
+      "id": "bearing_components",
+      "name": "Bearing Components",
+      "default_capacity": 180,
+      "base_market_price": 11.71,
+      "volatility": 0.00844,
+      "icon_key": "gear",
+      "accent_key": "component",
+      "category": "Components"
+    },
+    {
+      "id": "cutting_tooling",
+      "name": "Cutting Tooling",
+      "default_capacity": 180,
+      "base_market_price": 17.04,
+      "volatility": 0.00886,
+      "icon_key": "hex",
+      "accent_key": "default",
+      "category": "Materials"
+    },
+    {
+      "id": "hydraulic_components",
+      "name": "Hydraulic Components",
+      "default_capacity": 180,
+      "base_market_price": 14.41,
+      "volatility": 0.00865,
+      "icon_key": "gear",
+      "accent_key": "component",
+      "category": "Components"
+    },
+    {
+      "id": "pump_components",
+      "name": "Pump Components",
+      "default_capacity": 180,
+      "base_market_price": 13.63,
+      "volatility": 0.00859,
+      "icon_key": "gear",
+      "accent_key": "component",
+      "category": "Components"
+    },
+    {
+      "id": "compressor_components",
+      "name": "Compressor Components",
+      "default_capacity": 180,
+      "base_market_price": 12.5,
+      "volatility": 0.0085,
+      "icon_key": "gear",
+      "accent_key": "component",
+      "category": "Components"
+    },
+    {
+      "id": "turbine_components",
+      "name": "Turbine Components",
+      "default_capacity": 180,
+      "base_market_price": 17.51,
+      "volatility": 0.0089,
+      "icon_key": "gear",
+      "accent_key": "component",
+      "category": "Energy"
+    },
+    {
+      "id": "structural_components",
+      "name": "Structural Components",
+      "default_capacity": 180,
+      "base_market_price": 15.23,
+      "volatility": 0.00872,
+      "icon_key": "gear",
+      "accent_key": "component",
+      "category": "Components"
+    },
+    {
+      "id": "mining_components",
+      "name": "Mining Components",
+      "default_capacity": 180,
+      "base_market_price": 17.04,
+      "volatility": 0.00886,
+      "icon_key": "gear",
+      "accent_key": "component",
+      "category": "Components"
+    },
+    {
+      "id": "vehicle_components",
+      "name": "Vehicle Components",
+      "default_capacity": 180,
+      "base_market_price": 15.97,
+      "volatility": 0.00878,
+      "icon_key": "gear",
+      "accent_key": "component",
+      "category": "Transport"
+    },
+    {
+      "id": "marine_components",
+      "name": "Marine Components",
+      "default_capacity": 180,
+      "base_market_price": 23.89,
+      "volatility": 0.00941,
+      "icon_key": "gear",
+      "accent_key": "ship",
+      "category": "Components"
+    },
+    {
+      "id": "rail_components",
+      "name": "Rail Components",
+      "default_capacity": 180,
+      "base_market_price": 22.61,
+      "volatility": 0.00931,
+      "icon_key": "gear",
+      "accent_key": "rail",
+      "category": "Transport"
+    },
+    {
+      "id": "aerospace_components",
+      "name": "Aerospace Components",
+      "default_capacity": 180,
+      "base_market_price": 25.29,
+      "volatility": 0.00952,
+      "icon_key": "gear",
+      "accent_key": "aircraft",
+      "category": "Transport"
+    },
+    {
+      "id": "copper_wire",
+      "name": "Copper Wire",
+      "default_capacity": 180,
+      "base_market_price": 2.71,
+      "volatility": 0.00772,
+      "icon_key": "ingot",
+      "accent_key": "copper",
+      "category": "Materials"
+    },
+    {
+      "id": "insulated_wire",
+      "name": "Insulated Wire",
+      "default_capacity": 180,
+      "base_market_price": 5.69,
+      "volatility": 0.00796,
+      "icon_key": "hex",
+      "accent_key": "default",
+      "category": "Materials"
+    },
+    {
+      "id": "electrical_components",
+      "name": "Electrical Components",
+      "default_capacity": 180,
+      "base_market_price": 7.04,
+      "volatility": 0.00806,
+      "icon_key": "gear",
+      "accent_key": "component",
+      "category": "Components"
+    },
+    {
+      "id": "transformer_components",
+      "name": "Transformer Components",
+      "default_capacity": 180,
+      "base_market_price": 15.0,
+      "volatility": 0.0087,
+      "icon_key": "gear",
+      "accent_key": "component",
+      "category": "Components"
+    },
+    {
+      "id": "motor_components",
+      "name": "Motor Components",
+      "default_capacity": 180,
+      "base_market_price": 19.2,
+      "volatility": 0.00904,
+      "icon_key": "gear",
+      "accent_key": "component",
+      "category": "Components"
+    },
+    {
+      "id": "magnetic_components",
+      "name": "Magnetic Components",
+      "default_capacity": 180,
+      "base_market_price": 13.28,
+      "volatility": 0.00856,
+      "icon_key": "gear",
+      "accent_key": "component",
+      "category": "Components"
+    },
+    {
+      "id": "power_electronics",
+      "name": "Power Electronics",
+      "default_capacity": 180,
+      "base_market_price": 51.83,
+      "volatility": 0.0107,
+      "icon_key": "chip",
+      "accent_key": "electronics",
+      "category": "Electronics"
+    },
+    {
+      "id": "display_components",
+      "name": "Display Components",
+      "default_capacity": 180,
+      "base_market_price": 21.51,
+      "volatility": 0.00922,
+      "icon_key": "chip",
+      "accent_key": "component",
+      "category": "Components"
+    },
+    {
+      "id": "semiconductor_components",
+      "name": "Semiconductor Components",
+      "default_capacity": 180,
+      "base_market_price": 43.46,
+      "volatility": 0.0107,
+      "icon_key": "chip",
+      "accent_key": "electronics",
+      "category": "Electronics"
+    },
+    {
+      "id": "semiconductor_die",
+      "name": "Semiconductor Die",
+      "default_capacity": 180,
+      "base_market_price": 54.5,
+      "volatility": 0.0107,
+      "icon_key": "chip",
+      "accent_key": "electronics",
+      "category": "Electronics"
+    },
+    {
+      "id": "sensor_components",
+      "name": "Sensor Components",
+      "default_capacity": 180,
+      "base_market_price": 54.5,
+      "volatility": 0.0107,
+      "icon_key": "chip",
+      "accent_key": "electronics",
+      "category": "Electronics"
+    },
+    {
+      "id": "control_electronics",
+      "name": "Control Electronics",
+      "default_capacity": 180,
+      "base_market_price": 57.4,
+      "volatility": 0.0107,
+      "icon_key": "chip",
+      "accent_key": "electronics",
+      "category": "Electronics"
+    },
+    {
+      "id": "computing_components",
+      "name": "Computing Components",
+      "default_capacity": 180,
+      "base_market_price": 111.9,
+      "volatility": 0.0107,
+      "icon_key": "chip",
+      "accent_key": "electronics",
+      "category": "Electronics"
+    },
+    {
+      "id": "memory_components",
+      "name": "Memory Components",
+      "default_capacity": 180,
+      "base_market_price": 67.48,
+      "volatility": 0.0107,
+      "icon_key": "chip",
+      "accent_key": "component",
+      "category": "Components"
+    },
+    {
+      "id": "processor_components",
+      "name": "Processor Components",
+      "default_capacity": 180,
+      "base_market_price": 68.58,
+      "volatility": 0.0107,
+      "icon_key": "chip",
+      "accent_key": "component",
+      "category": "Components"
+    },
+    {
+      "id": "telecom_components",
+      "name": "Telecom Components",
+      "default_capacity": 180,
+      "base_market_price": 60.25,
+      "volatility": 0.0107,
+      "icon_key": "gear",
+      "accent_key": "telecom",
+      "category": "Electronics"
+    },
+    {
+      "id": "network_components",
+      "name": "Network Components",
+      "default_capacity": 180,
+      "base_market_price": 101.94,
+      "volatility": 0.0107,
+      "icon_key": "gear",
+      "accent_key": "telecom",
+      "category": "Electronics"
+    },
+    {
+      "id": "avionics_components",
+      "name": "Avionics Components",
+      "default_capacity": 180,
+      "base_market_price": 94.77,
+      "volatility": 0.0107,
+      "icon_key": "gear",
+      "accent_key": "component",
+      "category": "Components"
+    },
+    {
+      "id": "battery_materials",
+      "name": "Battery Materials",
+      "default_capacity": 180,
+      "base_market_price": 12.41,
+      "volatility": 0.00849,
+      "icon_key": "battery",
+      "accent_key": "battery",
+      "category": "Energy"
+    },
+    {
+      "id": "battery_components",
+      "name": "Battery Components",
+      "default_capacity": 180,
+      "base_market_price": 15.81,
+      "volatility": 0.00876,
+      "icon_key": "battery",
+      "accent_key": "battery",
+      "category": "Energy"
+    },
+    {
+      "id": "advanced_cell_components",
+      "name": "Advanced Cell Components",
+      "default_capacity": 180,
+      "base_market_price": 16.59,
+      "volatility": 0.00883,
+      "icon_key": "battery",
+      "accent_key": "battery",
+      "category": "Components"
+    },
+    {
+      "id": "storage_components",
+      "name": "Storage Components",
+      "default_capacity": 180,
+      "base_market_price": 54.98,
+      "volatility": 0.0107,
+      "icon_key": "battery",
+      "accent_key": "battery",
+      "category": "Energy"
+    },
+    {
+      "id": "solar_components",
+      "name": "Solar Components",
+      "default_capacity": 180,
+      "base_market_price": 20.15,
+      "volatility": 0.00911,
+      "icon_key": "gear",
+      "accent_key": "component",
+      "category": "Energy"
+    },
+    {
+      "id": "wind_components",
+      "name": "Wind Components",
+      "default_capacity": 180,
+      "base_market_price": 39.3,
+      "volatility": 0.01064,
+      "icon_key": "gear",
+      "accent_key": "component",
+      "category": "Energy"
+    },
+    {
+      "id": "reactor_components",
+      "name": "Reactor Components",
+      "default_capacity": 180,
+      "base_market_price": 7.26,
+      "volatility": 0.00808,
+      "icon_key": "gear",
+      "accent_key": "component",
+      "category": "Energy"
+    },
+    {
+      "id": "electrolyzer_components",
+      "name": "Electrolyzer Components",
+      "default_capacity": 180,
+      "base_market_price": 51.83,
+      "volatility": 0.0107,
+      "icon_key": "gear",
+      "accent_key": "component",
+      "category": "Components"
+    },
+    {
+      "id": "concrete_components",
+      "name": "Concrete Components",
+      "default_capacity": 180,
+      "base_market_price": 6.75,
+      "volatility": 0.00804,
+      "icon_key": "gear",
+      "accent_key": "component",
+      "category": "Components"
+    },
+    {
+      "id": "glass_panels",
+      "name": "Glass Panels",
+      "default_capacity": 180,
+      "base_market_price": 4.26,
+      "volatility": 0.00784,
+      "icon_key": "hex",
+      "accent_key": "default",
+      "category": "Materials"
+    },
+    {
+      "id": "ceramic_components",
+      "name": "Ceramic Components",
+      "default_capacity": 180,
+      "base_market_price": 2.17,
+      "volatility": 0.00767,
+      "icon_key": "gear",
+      "accent_key": "component",
+      "category": "Components"
+    },
+    {
+      "id": "insulation_material",
+      "name": "Insulation Material",
+      "default_capacity": 180,
+      "base_market_price": 3.64,
+      "volatility": 0.00779,
+      "icon_key": "hex",
+      "accent_key": "default",
+      "category": "Materials"
+    },
+    {
+      "id": "composite_components",
+      "name": "Composite Components",
+      "default_capacity": 180,
+      "base_market_price": 20.19,
+      "volatility": 0.00912,
+      "icon_key": "gear",
+      "accent_key": "component",
+      "category": "Components"
+    },
+    {
+      "id": "packaging_components",
+      "name": "Packaging Components",
+      "default_capacity": 180,
+      "base_market_price": 5.78,
+      "volatility": 0.00796,
+      "icon_key": "gear",
+      "accent_key": "component",
+      "category": "Components"
+    },
+    {
+      "id": "food_ingredients",
+      "name": "Food Ingredients",
+      "default_capacity": 180,
+      "base_market_price": 2.27,
+      "volatility": 0.00768,
+      "icon_key": "package",
+      "accent_key": "crop",
+      "category": "Food & Agriculture"
+    },
+    {
+      "id": "nutrition_components",
+      "name": "Nutrition Components",
+      "default_capacity": 180,
+      "base_market_price": 8.81,
+      "volatility": 0.0082,
+      "icon_key": "package",
+      "accent_key": "crop",
+      "category": "Food & Agriculture"
+    },
+    {
+      "id": "fertilizer_components",
+      "name": "Fertilizer Components",
+      "default_capacity": 180,
+      "base_market_price": 5.17,
+      "volatility": 0.00791,
+      "icon_key": "gear",
+      "accent_key": "component",
+      "category": "Components"
+    },
+    {
+      "id": "agricultural_chemicals",
+      "name": "Agricultural Chemicals",
+      "default_capacity": 180,
+      "base_market_price": 8.6,
+      "volatility": 0.00819,
+      "icon_key": "flask",
+      "accent_key": "chemical",
+      "category": "Chemicals"
+    },
+    {
+      "id": "technical_textile",
+      "name": "Technical Textile",
+      "default_capacity": 180,
+      "base_market_price": 3.85,
+      "volatility": 0.00781,
+      "icon_key": "cotton",
+      "accent_key": "default",
+      "category": "Materials"
+    },
+    {
+      "id": "industrial_fabric",
+      "name": "Industrial Fabric",
+      "default_capacity": 180,
+      "base_market_price": 7.14,
+      "volatility": 0.00807,
+      "icon_key": "cotton",
+      "accent_key": "default",
+      "category": "Materials"
+    },
+    {
+      "id": "wooden_components",
+      "name": "Wooden Components",
+      "default_capacity": 180,
+      "base_market_price": 3.33,
+      "volatility": 0.00777,
+      "icon_key": "log",
+      "accent_key": "wood",
+      "category": "Components"
+    },
+    {
+      "id": "fiber_components",
+      "name": "Fiber Components",
+      "default_capacity": 180,
+      "base_market_price": 10.57,
+      "volatility": 0.00835,
+      "icon_key": "gear",
+      "accent_key": "component",
+      "category": "Components"
+    },
+    {
+      "id": "bio_composite",
+      "name": "Bio-Composite",
+      "default_capacity": 180,
+      "base_market_price": 7.75,
+      "volatility": 0.00812,
+      "icon_key": "hex",
+      "accent_key": "default",
+      "category": "Materials"
+    },
+    {
+      "id": "biopolymer",
+      "name": "Biopolymer",
+      "default_capacity": 180,
+      "base_market_price": 5.89,
+      "volatility": 0.00797,
+      "icon_key": "flask",
+      "accent_key": "chemical",
+      "category": "Chemicals"
+    },
+    {
+      "id": "tire_components",
+      "name": "Tire Components",
+      "default_capacity": 180,
+      "base_market_price": 21.54,
+      "volatility": 0.00922,
+      "icon_key": "gear",
+      "accent_key": "component",
+      "category": "Components"
+    },
+    {
+      "id": "ethanol_components",
+      "name": "Ethanol Components",
+      "default_capacity": 180,
+      "base_market_price": 3.87,
+      "volatility": 0.00781,
+      "icon_key": "gear",
+      "accent_key": "component",
+      "category": "Components"
+    },
+    {
+      "id": "biodiesel_feedstock",
+      "name": "Biodiesel Feedstock",
+      "default_capacity": 180,
+      "base_market_price": 9.46,
+      "volatility": 0.00826,
+      "icon_key": "flask",
+      "accent_key": "default",
+      "category": "Materials"
+    },
+    {
+      "id": "galvanized_components",
+      "name": "Galvanized Components",
+      "default_capacity": 180,
+      "base_market_price": 5.82,
+      "volatility": 0.00797,
+      "icon_key": "gear",
+      "accent_key": "component",
+      "category": "Components"
+    },
+    {
+      "id": "shielding_components",
+      "name": "Shielding Components",
+      "default_capacity": 180,
+      "base_market_price": 4.38,
+      "volatility": 0.00785,
+      "icon_key": "gear",
+      "accent_key": "component",
+      "category": "Components"
+    },
+    {
+      "id": "advanced_alloy_components",
+      "name": "Advanced Alloy Components",
+      "default_capacity": 180,
+      "base_market_price": 24.08,
+      "volatility": 0.00943,
+      "icon_key": "ingot",
+      "accent_key": "component",
+      "category": "Components"
+    },
+    {
+      "id": "catalyst_components",
+      "name": "Catalyst Components",
+      "default_capacity": 180,
+      "base_market_price": 33.42,
+      "volatility": 0.01017,
+      "icon_key": "gear",
+      "accent_key": "component",
+      "category": "Components"
+    },
+    {
+      "id": "gas_handling_components",
+      "name": "Gas Handling Components",
+      "default_capacity": 180,
+      "base_market_price": 6.52,
+      "volatility": 0.00802,
+      "icon_key": "flame",
+      "accent_key": "gas",
+      "category": "Chemicals"
+    },
+    {
+      "id": "asphalt_components",
+      "name": "Asphalt Components",
+      "default_capacity": 180,
+      "base_market_price": 10.93,
+      "volatility": 0.00837,
+      "icon_key": "gear",
+      "accent_key": "component",
+      "category": "Components"
+    },
+    {
+      "id": "agricultural_mineral_components",
+      "name": "Agricultural Mineral Components",
+      "default_capacity": 180,
+      "base_market_price": 8.89,
+      "volatility": 0.00821,
+      "icon_key": "gear",
+      "accent_key": "component",
+      "category": "Components"
+    },
+    {
+      "id": "sweetener_components",
+      "name": "Sweetener Components",
+      "default_capacity": 180,
+      "base_market_price": 8.01,
+      "volatility": 0.00814,
+      "icon_key": "gear",
+      "accent_key": "component",
+      "category": "Components"
+    },
+    {
+      "id": "silicon_substrate",
+      "name": "Silicon Substrate",
+      "default_capacity": 180,
+      "base_market_price": 10.48,
+      "volatility": 0.00834,
+      "icon_key": "hex",
+      "accent_key": "default",
+      "category": "Materials"
+    },
+    {
+      "id": "rubber_blend_components",
+      "name": "Rubber Blend Components",
+      "default_capacity": 180,
+      "base_market_price": 13.64,
+      "volatility": 0.00859,
+      "icon_key": "flask",
+      "accent_key": "chemical",
+      "category": "Chemicals"
+    },
+    {
+      "id": "refractory_alloy_components",
+      "name": "Refractory Alloy Components",
+      "default_capacity": 180,
+      "base_market_price": 28.82,
+      "volatility": 0.00981,
+      "icon_key": "ingot",
+      "accent_key": "component",
+      "category": "Components"
+    },
+    {
+      "id": "filtration_components",
+      "name": "Filtration Components",
+      "default_capacity": 180,
+      "base_market_price": 9.64,
+      "volatility": 0.00827,
+      "icon_key": "gear",
+      "accent_key": "component",
+      "category": "Components"
+    },
+    {
+      "id": "membrane_components",
+      "name": "Membrane Components",
+      "default_capacity": 180,
+      "base_market_price": 10.66,
+      "volatility": 0.00835,
+      "icon_key": "gear",
+      "accent_key": "component",
+      "category": "Components"
+    },
+    {
+      "id": "medical_components",
+      "name": "Medical Components",
+      "default_capacity": 180,
+      "base_market_price": 33.83,
+      "volatility": 0.01021,
+      "icon_key": "gear",
+      "accent_key": "medical",
+      "category": "Medical"
+    },
+    {
+      "id": "autonomous_components",
+      "name": "Autonomous Components",
+      "default_capacity": 180,
+      "base_market_price": 26.89,
+      "volatility": 0.00965,
+      "icon_key": "gear",
+      "accent_key": "component",
+      "category": "Components"
+    },
+    {
+      "id": "server_components",
+      "name": "Server Components",
+      "default_capacity": 180,
+      "base_market_price": 43.46,
+      "volatility": 0.0107,
+      "icon_key": "gear",
+      "accent_key": "component",
+      "category": "Components"
+    },
+    {
+      "id": "ai_compute_components",
+      "name": "AI Compute Components",
+      "default_capacity": 180,
+      "base_market_price": 49.16,
+      "volatility": 0.0107,
+      "icon_key": "gear",
+      "accent_key": "component",
+      "category": "Components"
+    },
+    {
+      "id": "chemical_components",
+      "name": "Chemical Components",
+      "default_capacity": 180,
+      "base_market_price": 10.44,
+      "volatility": 0.00834,
+      "icon_key": "flask",
+      "accent_key": "chemical",
+      "category": "Chemicals"
+    },
+    {
+      "id": "bio_material_components",
+      "name": "Bio-Material Components",
+      "default_capacity": 180,
+      "base_market_price": 5.55,
+      "volatility": 0.00794,
+      "icon_key": "gear",
+      "accent_key": "component",
+      "category": "Components"
+    },
+    {
+      "id": "nuclear_fuel_components",
+      "name": "Nuclear Fuel Components",
+      "default_capacity": 180,
+      "base_market_price": 17.64,
+      "volatility": 0.00891,
+      "icon_key": "gear",
+      "accent_key": "component",
+      "category": "Energy"
+    },
+    {
+      "id": "grid_storage_components",
+      "name": "Grid Storage Components",
+      "default_capacity": 180,
+      "base_market_price": 15.42,
+      "volatility": 0.00873,
+      "icon_key": "battery",
+      "accent_key": "battery",
+      "category": "Energy"
+    },
+    {
+      "id": "corrosion_resistant_components",
+      "name": "Corrosion Resistant Components",
+      "default_capacity": 180,
+      "base_market_price": 19.07,
+      "volatility": 0.00903,
+      "icon_key": "gear",
+      "accent_key": "component",
+      "category": "Components"
+    },
+    {
+      "id": "industrial_equipment",
+      "name": "Industrial Equipment",
+      "default_capacity": 100,
+      "base_market_price": 35.77,
+      "volatility": 0.01076,
+      "icon_key": "hex",
+      "accent_key": "default",
+      "category": "Components"
+    },
+    {
+      "id": "heavy_machinery",
+      "name": "Heavy Machinery",
+      "default_capacity": 100,
+      "base_market_price": 125.79,
+      "volatility": 0.0111,
+      "icon_key": "hex",
+      "accent_key": "default",
+      "category": "Components"
+    },
+    {
+      "id": "mining_equipment",
+      "name": "Mining Equipment",
+      "default_capacity": 100,
+      "base_market_price": 52.25,
+      "volatility": 0.0111,
+      "icon_key": "hex",
+      "accent_key": "default",
+      "category": "Components"
+    },
+    {
+      "id": "mining_drill",
+      "name": "Mining Drill",
+      "default_capacity": 100,
+      "base_market_price": 55.99,
+      "volatility": 0.0111,
+      "icon_key": "hex",
+      "accent_key": "default",
+      "category": "Materials"
+    },
+    {
+      "id": "heavy_mining_drill",
+      "name": "Heavy Mining Drill",
+      "default_capacity": 100,
+      "base_market_price": 130.24,
+      "volatility": 0.0111,
+      "icon_key": "hex",
+      "accent_key": "default",
+      "category": "Materials"
+    },
+    {
+      "id": "excavator",
+      "name": "Excavator",
+      "default_capacity": 100,
+      "base_market_price": 75.74,
+      "volatility": 0.0111,
+      "icon_key": "hex",
+      "accent_key": "default",
+      "category": "Materials"
+    },
+    {
+      "id": "industrial_crusher",
+      "name": "Industrial Crusher",
+      "default_capacity": 100,
+      "base_market_price": 54.68,
+      "volatility": 0.0111,
+      "icon_key": "hex",
+      "accent_key": "default",
+      "category": "Materials"
+    },
+    {
+      "id": "industrial_pump",
+      "name": "Industrial Pump",
+      "default_capacity": 100,
+      "base_market_price": 55.98,
+      "volatility": 0.0111,
+      "icon_key": "gear",
+      "accent_key": "default",
+      "category": "Materials"
+    },
+    {
+      "id": "industrial_compressor",
+      "name": "Industrial Compressor",
+      "default_capacity": 100,
+      "base_market_price": 53.26,
+      "volatility": 0.0111,
+      "icon_key": "gear",
+      "accent_key": "default",
+      "category": "Materials"
+    },
+    {
+      "id": "hydraulic_system",
+      "name": "Hydraulic System",
+      "default_capacity": 100,
+      "base_market_price": 45.91,
+      "volatility": 0.0111,
+      "icon_key": "gear",
+      "accent_key": "default",
+      "category": "Materials"
+    },
+    {
+      "id": "electric_motor",
+      "name": "Electric Motor",
+      "default_capacity": 100,
+      "base_market_price": 54.76,
+      "volatility": 0.0111,
+      "icon_key": "gear",
+      "accent_key": "default",
+      "category": "Materials"
+    },
+    {
+      "id": "precision_motor",
+      "name": "Precision Motor",
+      "default_capacity": 100,
+      "base_market_price": 65.15,
+      "volatility": 0.0111,
+      "icon_key": "gear",
+      "accent_key": "default",
+      "category": "Materials"
+    },
+    {
+      "id": "gearbox",
+      "name": "Gearbox",
+      "default_capacity": 100,
+      "base_market_price": 41.34,
+      "volatility": 0.0111,
+      "icon_key": "gear",
+      "accent_key": "default",
+      "category": "Materials"
+    },
+    {
+      "id": "cnc_machine",
+      "name": "CNC Machine",
+      "default_capacity": 100,
+      "base_market_price": 139.74,
+      "volatility": 0.0111,
+      "icon_key": "hex",
+      "accent_key": "default",
+      "category": "Components"
+    },
+    {
+      "id": "industrial_cutting_machine",
+      "name": "Industrial Cutting Machine",
+      "default_capacity": 100,
+      "base_market_price": 116.76,
+      "volatility": 0.0111,
+      "icon_key": "hex",
+      "accent_key": "default",
+      "category": "Components"
+    },
+    {
+      "id": "processing_equipment",
+      "name": "Processing Equipment",
+      "default_capacity": 100,
+      "base_market_price": 110.2,
+      "volatility": 0.0111,
+      "icon_key": "hex",
+      "accent_key": "default",
+      "category": "Components"
+    },
+    {
+      "id": "advanced_furnace",
+      "name": "Advanced Furnace",
+      "default_capacity": 100,
+      "base_market_price": 99.27,
+      "volatility": 0.0111,
+      "icon_key": "hex",
+      "accent_key": "default",
+      "category": "Materials"
+    },
+    {
+      "id": "construction_materials",
+      "name": "Construction Materials",
+      "default_capacity": 100,
+      "base_market_price": 34.14,
+      "volatility": 0.01063,
+      "icon_key": "hex",
+      "accent_key": "default",
+      "category": "Materials"
+    },
+    {
+      "id": "reinforced_concrete",
+      "name": "Reinforced Concrete",
+      "default_capacity": 100,
+      "base_market_price": 27.45,
+      "volatility": 0.0101,
+      "icon_key": "hex",
+      "accent_key": "default",
+      "category": "Materials"
+    },
+    {
+      "id": "structural_systems",
+      "name": "Structural Systems",
+      "default_capacity": 100,
+      "base_market_price": 44.84,
+      "volatility": 0.0111,
+      "icon_key": "hex",
+      "accent_key": "default",
+      "category": "Materials"
+    },
+    {
+      "id": "industrial_hall_modules",
+      "name": "Industrial Hall Modules",
+      "default_capacity": 100,
+      "base_market_price": 55.45,
+      "volatility": 0.0111,
+      "icon_key": "hex",
+      "accent_key": "default",
+      "category": "Materials"
+    },
+    {
+      "id": "prefabricated_structures",
+      "name": "Prefabricated Structures",
+      "default_capacity": 100,
+      "base_market_price": 31.13,
+      "volatility": 0.01039,
+      "icon_key": "cotton",
+      "accent_key": "default",
+      "category": "Materials"
+    },
+    {
+      "id": "industrial_glass_panels",
+      "name": "Industrial Glass Panels",
+      "default_capacity": 100,
+      "base_market_price": 13.83,
+      "volatility": 0.00901,
+      "icon_key": "hex",
+      "accent_key": "default",
+      "category": "Materials"
+    },
+    {
+      "id": "industrial_insulation",
+      "name": "Industrial Insulation",
+      "default_capacity": 100,
+      "base_market_price": 21.51,
+      "volatility": 0.00962,
+      "icon_key": "hex",
+      "accent_key": "default",
+      "category": "Materials"
+    },
+    {
+      "id": "engineered_structures",
+      "name": "Engineered Structures",
+      "default_capacity": 100,
+      "base_market_price": 61.03,
+      "volatility": 0.0111,
+      "icon_key": "hex",
+      "accent_key": "default",
+      "category": "Materials"
+    },
+    {
+      "id": "electrical_cable",
+      "name": "Electrical Cable",
+      "default_capacity": 100,
+      "base_market_price": 16.98,
+      "volatility": 0.00926,
+      "icon_key": "hex",
+      "accent_key": "default",
+      "category": "Materials"
+    },
+    {
+      "id": "power_cable",
+      "name": "Power Cable",
+      "default_capacity": 100,
+      "base_market_price": 17.28,
+      "volatility": 0.00928,
+      "icon_key": "hex",
+      "accent_key": "default",
+      "category": "Materials"
+    },
+    {
+      "id": "transformer",
+      "name": "Transformer",
+      "default_capacity": 100,
+      "base_market_price": 44.63,
+      "volatility": 0.0111,
+      "icon_key": "hex",
+      "accent_key": "default",
+      "category": "Materials"
+    },
+    {
+      "id": "switchgear",
+      "name": "Switchgear",
+      "default_capacity": 100,
+      "base_market_price": 86.13,
+      "volatility": 0.0111,
+      "icon_key": "gear",
+      "accent_key": "default",
+      "category": "Materials"
+    },
+    {
+      "id": "industrial_relay",
+      "name": "Industrial Relay",
+      "default_capacity": 100,
+      "base_market_price": 77.65,
+      "volatility": 0.0111,
+      "icon_key": "hex",
+      "accent_key": "default",
+      "category": "Materials"
+    },
+    {
+      "id": "high_voltage_equipment",
+      "name": "High-Voltage Equipment",
+      "default_capacity": 100,
+      "base_market_price": 86.68,
+      "volatility": 0.0111,
+      "icon_key": "hex",
+      "accent_key": "default",
+      "category": "Components"
+    },
+    {
+      "id": "industrial_generator",
+      "name": "Industrial Generator",
+      "default_capacity": 100,
+      "base_market_price": 67.37,
+      "volatility": 0.0111,
+      "icon_key": "hex",
+      "accent_key": "default",
+      "category": "Materials"
+    },
+    {
+      "id": "industrial_inverter",
+      "name": "Industrial Inverter",
+      "default_capacity": 100,
+      "base_market_price": 194.08,
+      "volatility": 0.0111,
+      "icon_key": "hex",
+      "accent_key": "default",
+      "category": "Materials"
+    },
+    {
+      "id": "solar_array",
+      "name": "Solar Array",
+      "default_capacity": 100,
+      "base_market_price": 111.02,
+      "volatility": 0.0111,
+      "icon_key": "hex",
+      "accent_key": "default",
+      "category": "Energy"
+    },
+    {
+      "id": "wind_turbine",
+      "name": "Wind Turbine",
+      "default_capacity": 100,
+      "base_market_price": 179.16,
+      "volatility": 0.0111,
+      "icon_key": "gear",
+      "accent_key": "default",
+      "category": "Energy"
+    },
+    {
+      "id": "gas_turbine",
+      "name": "Gas Turbine",
+      "default_capacity": 100,
+      "base_market_price": 71.22,
+      "volatility": 0.0111,
+      "icon_key": "flame",
+      "accent_key": "gas",
+      "category": "Chemicals"
+    },
+    {
+      "id": "steam_turbine",
+      "name": "Steam Turbine",
+      "default_capacity": 100,
+      "base_market_price": 54.94,
+      "volatility": 0.0111,
+      "icon_key": "gear",
+      "accent_key": "default",
+      "category": "Energy"
+    },
+    {
+      "id": "grid_battery",
+      "name": "Grid Battery",
+      "default_capacity": 100,
+      "base_market_price": 117.91,
+      "volatility": 0.0111,
+      "icon_key": "battery",
+      "accent_key": "battery",
+      "category": "Energy"
+    },
+    {
+      "id": "grid_storage_system",
+      "name": "Grid Storage System",
+      "default_capacity": 100,
+      "base_market_price": 194.96,
+      "volatility": 0.0111,
+      "icon_key": "battery",
+      "accent_key": "battery",
+      "category": "Energy"
+    },
+    {
+      "id": "hydrogen_electrolyzer",
+      "name": "Hydrogen Electrolyzer",
+      "default_capacity": 100,
+      "base_market_price": 187.37,
+      "volatility": 0.0111,
+      "icon_key": "flame",
+      "accent_key": "gas",
+      "category": "Chemicals"
+    },
+    {
+      "id": "nuclear_fuel_assembly",
+      "name": "Nuclear Fuel Assembly",
+      "default_capacity": 100,
+      "base_market_price": 47.79,
+      "volatility": 0.0111,
+      "icon_key": "hex",
+      "accent_key": "default",
+      "category": "Energy"
+    },
+    {
+      "id": "nuclear_reactor",
+      "name": "Nuclear Reactor",
+      "default_capacity": 100,
+      "base_market_price": 131.51,
+      "volatility": 0.0111,
+      "icon_key": "hex",
+      "accent_key": "default",
+      "category": "Energy"
+    },
+    {
+      "id": "basic_chip",
+      "name": "Basic Chip",
+      "default_capacity": 100,
+      "base_market_price": 69.68,
+      "volatility": 0.0111,
+      "icon_key": "chip",
+      "accent_key": "electronics",
+      "category": "Electronics"
+    },
+    {
+      "id": "microcontroller",
+      "name": "Microcontroller",
+      "default_capacity": 100,
+      "base_market_price": 134.84,
+      "volatility": 0.0111,
+      "icon_key": "chip",
+      "accent_key": "electronics",
+      "category": "Materials"
+    },
+    {
+      "id": "microchip",
+      "name": "Microchip",
+      "default_capacity": 100,
+      "base_market_price": 118.04,
+      "volatility": 0.0111,
+      "icon_key": "chip",
+      "accent_key": "electronics",
+      "category": "Electronics"
+    },
+    {
+      "id": "cpu",
+      "name": "CPU",
+      "default_capacity": 100,
+      "base_market_price": 246.59,
+      "volatility": 0.0111,
+      "icon_key": "chip",
+      "accent_key": "electronics",
+      "category": "Electronics"
+    },
+    {
+      "id": "memory_module",
+      "name": "Memory Module",
+      "default_capacity": 100,
+      "base_market_price": 231.79,
+      "volatility": 0.0111,
+      "icon_key": "chip",
+      "accent_key": "default",
+      "category": "Materials"
+    },
+    {
+      "id": "industrial_sensor",
+      "name": "Industrial Sensor",
+      "default_capacity": 100,
+      "base_market_price": 200.51,
+      "volatility": 0.0111,
+      "icon_key": "chip",
+      "accent_key": "electronics",
+      "category": "Electronics"
+    },
+    {
+      "id": "industrial_controller",
+      "name": "Industrial Controller",
+      "default_capacity": 100,
+      "base_market_price": 204.01,
+      "volatility": 0.0111,
+      "icon_key": "chip",
+      "accent_key": "electronics",
+      "category": "Materials"
+    },
+    {
+      "id": "industrial_display",
+      "name": "Industrial Display",
+      "default_capacity": 100,
+      "base_market_price": 74.3,
+      "volatility": 0.0111,
+      "icon_key": "chip",
+      "accent_key": "default",
+      "category": "Materials"
+    },
+    {
+      "id": "industrial_computer",
+      "name": "Industrial Computer",
+      "default_capacity": 100,
+      "base_market_price": 295.6,
+      "volatility": 0.0111,
+      "icon_key": "hex",
+      "accent_key": "default",
+      "category": "Materials"
+    },
+    {
+      "id": "server",
+      "name": "Server",
+      "default_capacity": 100,
+      "base_market_price": 350.99,
+      "volatility": 0.0111,
+      "icon_key": "hex",
+      "accent_key": "default",
+      "category": "Materials"
+    },
+    {
+      "id": "server_rack",
+      "name": "Server Rack",
+      "default_capacity": 100,
+      "base_market_price": 251.03,
+      "volatility": 0.0111,
+      "icon_key": "hex",
+      "accent_key": "default",
+      "category": "Materials"
+    },
+    {
+      "id": "compute_node",
+      "name": "Compute Node",
+      "default_capacity": 100,
+      "base_market_price": 377.09,
+      "volatility": 0.0111,
+      "icon_key": "hex",
+      "accent_key": "default",
+      "category": "Materials"
+    },
+    {
+      "id": "ai_accelerator",
+      "name": "AI Accelerator",
+      "default_capacity": 100,
+      "base_market_price": 180.93,
+      "volatility": 0.0111,
+      "icon_key": "hex",
+      "accent_key": "default",
+      "category": "Materials"
+    },
+    {
+      "id": "ai_server",
+      "name": "AI Server",
+      "default_capacity": 100,
+      "base_market_price": 239.31,
+      "volatility": 0.0111,
+      "icon_key": "hex",
+      "accent_key": "default",
+      "category": "Materials"
+    },
+    {
+      "id": "data_center_module",
+      "name": "Data Center Module",
+      "default_capacity": 100,
+      "base_market_price": 144.61,
+      "volatility": 0.0111,
+      "icon_key": "hex",
+      "accent_key": "default",
+      "category": "Materials"
+    },
+    {
+      "id": "supercomputer",
+      "name": "Supercomputer",
+      "default_capacity": 100,
+      "base_market_price": 325.22,
+      "volatility": 0.0111,
+      "icon_key": "hex",
+      "accent_key": "default",
+      "category": "Materials"
+    },
+    {
+      "id": "robotic_actuator",
+      "name": "Robotic Actuator",
+      "default_capacity": 100,
+      "base_market_price": 47.83,
+      "volatility": 0.0111,
+      "icon_key": "hex",
+      "accent_key": "default",
+      "category": "Materials"
+    },
+    {
+      "id": "servo_motor",
+      "name": "Servo Motor",
+      "default_capacity": 100,
+      "base_market_price": 119.42,
+      "volatility": 0.0111,
+      "icon_key": "gear",
+      "accent_key": "default",
+      "category": "Materials"
+    },
+    {
+      "id": "robotic_arm",
+      "name": "Robotic Arm",
+      "default_capacity": 100,
+      "base_market_price": 144.62,
+      "volatility": 0.0111,
+      "icon_key": "hex",
+      "accent_key": "default",
+      "category": "Materials"
+    },
+    {
+      "id": "industrial_robot",
+      "name": "Industrial Robot",
+      "default_capacity": 100,
+      "base_market_price": 215.96,
+      "volatility": 0.0111,
+      "icon_key": "hex",
+      "accent_key": "default",
+      "category": "Materials"
+    },
+    {
+      "id": "industrial_drone",
+      "name": "Industrial Drone",
+      "default_capacity": 100,
+      "base_market_price": 117.59,
+      "volatility": 0.0111,
+      "icon_key": "hex",
+      "accent_key": "default",
+      "category": "Materials"
+    },
+    {
+      "id": "autonomous_mobile_robot",
+      "name": "Autonomous Mobile Robot",
+      "default_capacity": 100,
+      "base_market_price": 157.28,
+      "volatility": 0.0111,
+      "icon_key": "hex",
+      "accent_key": "default",
+      "category": "Materials"
+    },
+    {
+      "id": "advanced_industrial_robot",
+      "name": "Advanced Industrial Robot",
+      "default_capacity": 100,
+      "base_market_price": 193.65,
+      "volatility": 0.0111,
+      "icon_key": "hex",
+      "accent_key": "default",
+      "category": "Materials"
+    },
+    {
+      "id": "utility_vehicle",
+      "name": "Utility Vehicle",
+      "default_capacity": 100,
+      "base_market_price": 247.53,
+      "volatility": 0.0111,
+      "icon_key": "vehicle",
+      "accent_key": "default",
+      "category": "Transport"
+    },
+    {
+      "id": "combustion_vehicle",
+      "name": "Combustion Vehicle",
+      "default_capacity": 100,
+      "base_market_price": 59.59,
+      "volatility": 0.0111,
+      "icon_key": "vehicle",
+      "accent_key": "default",
+      "category": "Transport"
+    },
+    {
+      "id": "electric_vehicle",
+      "name": "Electric Vehicle",
+      "default_capacity": 100,
+      "base_market_price": 82.15,
+      "volatility": 0.0111,
+      "icon_key": "vehicle",
+      "accent_key": "default",
+      "category": "Transport"
+    },
+    {
+      "id": "premium_electric_vehicle",
+      "name": "Premium Electric Vehicle",
+      "default_capacity": 100,
+      "base_market_price": 66.51,
+      "volatility": 0.0111,
+      "icon_key": "vehicle",
+      "accent_key": "default",
+      "category": "Transport"
+    },
+    {
+      "id": "autonomous_vehicle",
+      "name": "Autonomous Vehicle",
+      "default_capacity": 100,
+      "base_market_price": 183.88,
+      "volatility": 0.0111,
+      "icon_key": "vehicle",
+      "accent_key": "default",
+      "category": "Transport"
+    },
+    {
+      "id": "commercial_truck",
+      "name": "Commercial Truck",
+      "default_capacity": 100,
+      "base_market_price": 333.65,
+      "volatility": 0.0111,
+      "icon_key": "vehicle",
+      "accent_key": "default",
+      "category": "Materials"
+    },
+    {
+      "id": "industrial_tires",
+      "name": "Industrial Tires",
+      "default_capacity": 100,
+      "base_market_price": 76.25,
+      "volatility": 0.0111,
+      "icon_key": "vehicle",
+      "accent_key": "default",
+      "category": "Materials"
+    },
+    {
+      "id": "railway_track",
+      "name": "Railway Track",
+      "default_capacity": 100,
+      "base_market_price": 65.67,
+      "volatility": 0.0111,
+      "icon_key": "rail",
+      "accent_key": "rail",
+      "category": "Transport"
+    },
+    {
+      "id": "freight_railcar",
+      "name": "Freight Railcar",
+      "default_capacity": 100,
+      "base_market_price": 72.84,
+      "volatility": 0.0111,
+      "icon_key": "rail",
+      "accent_key": "rail",
+      "category": "Transport"
+    },
+    {
+      "id": "diesel_locomotive",
+      "name": "Diesel Locomotive",
+      "default_capacity": 100,
+      "base_market_price": 75.59,
+      "volatility": 0.0111,
+      "icon_key": "rail",
+      "accent_key": "default",
+      "category": "Materials"
+    },
+    {
+      "id": "electric_locomotive",
+      "name": "Electric Locomotive",
+      "default_capacity": 100,
+      "base_market_price": 142.99,
+      "volatility": 0.0111,
+      "icon_key": "rail",
+      "accent_key": "default",
+      "category": "Materials"
+    },
+    {
+      "id": "high_speed_train",
+      "name": "High-Speed Train",
+      "default_capacity": 100,
+      "base_market_price": 150.48,
+      "volatility": 0.0111,
+      "icon_key": "rail",
+      "accent_key": "rail",
+      "category": "Materials"
+    },
+    {
+      "id": "autonomous_freight_train",
+      "name": "Autonomous Freight Train",
+      "default_capacity": 100,
+      "base_market_price": 214.08,
+      "volatility": 0.0111,
+      "icon_key": "rail",
+      "accent_key": "rail",
+      "category": "Materials"
+    },
+    {
+      "id": "workboat",
+      "name": "Workboat",
+      "default_capacity": 100,
+      "base_market_price": 78.67,
+      "volatility": 0.0111,
+      "icon_key": "ship",
+      "accent_key": "default",
+      "category": "Materials"
+    },
+    {
+      "id": "cargo_vessel",
+      "name": "Cargo Vessel",
+      "default_capacity": 100,
+      "base_market_price": 97.54,
+      "volatility": 0.0111,
+      "icon_key": "ship",
+      "accent_key": "ship",
+      "category": "Materials"
+    },
+    {
+      "id": "container_ship",
+      "name": "Container Ship",
+      "default_capacity": 100,
+      "base_market_price": 177.49,
+      "volatility": 0.0111,
+      "icon_key": "ship",
+      "accent_key": "ship",
+      "category": "Transport"
+    },
+    {
+      "id": "tanker",
+      "name": "Tanker",
+      "default_capacity": 100,
+      "base_market_price": 98.99,
+      "volatility": 0.0111,
+      "icon_key": "ship",
+      "accent_key": "default",
+      "category": "Materials"
+    },
+    {
+      "id": "autonomous_cargo_ship",
+      "name": "Autonomous Cargo Ship",
+      "default_capacity": 100,
+      "base_market_price": 290.04,
+      "volatility": 0.0111,
+      "icon_key": "ship",
+      "accent_key": "ship",
+      "category": "Transport"
+    },
+    {
+      "id": "high_speed_vessel",
+      "name": "High-Speed Vessel",
+      "default_capacity": 100,
+      "base_market_price": 75.76,
+      "volatility": 0.0111,
+      "icon_key": "ship",
+      "accent_key": "ship",
+      "category": "Materials"
+    },
+    {
+      "id": "light_aircraft",
+      "name": "Light Aircraft",
+      "default_capacity": 100,
+      "base_market_price": 175.15,
+      "volatility": 0.0111,
+      "icon_key": "aircraft",
+      "accent_key": "aircraft",
+      "category": "Transport"
+    },
+    {
+      "id": "cargo_aircraft",
+      "name": "Cargo Aircraft",
+      "default_capacity": 100,
+      "base_market_price": 205.62,
+      "volatility": 0.0111,
+      "icon_key": "aircraft",
+      "accent_key": "aircraft",
+      "category": "Transport"
+    },
+    {
+      "id": "commercial_aircraft",
+      "name": "Commercial Aircraft",
+      "default_capacity": 100,
+      "base_market_price": 231.42,
+      "volatility": 0.0111,
+      "icon_key": "aircraft",
+      "accent_key": "aircraft",
+      "category": "Transport"
+    },
+    {
+      "id": "jet_engine",
+      "name": "Jet Engine",
+      "default_capacity": 100,
+      "base_market_price": 61.99,
+      "volatility": 0.0111,
+      "icon_key": "aircraft",
+      "accent_key": "default",
+      "category": "Materials"
+    },
+    {
+      "id": "advanced_aircraft",
+      "name": "Advanced Aircraft",
+      "default_capacity": 100,
+      "base_market_price": 200.32,
+      "volatility": 0.0111,
+      "icon_key": "aircraft",
+      "accent_key": "aircraft",
+      "category": "Transport"
+    },
+    {
+      "id": "autonomous_aircraft",
+      "name": "Autonomous Aircraft",
+      "default_capacity": 100,
+      "base_market_price": 284.56,
+      "volatility": 0.0111,
+      "icon_key": "aircraft",
+      "accent_key": "aircraft",
+      "category": "Transport"
+    },
+    {
+      "id": "satellite",
+      "name": "Satellite",
+      "default_capacity": 100,
+      "base_market_price": 130.0,
+      "volatility": 0.0111,
+      "icon_key": "satellite",
+      "accent_key": "space",
+      "category": "Transport"
+    },
+    {
+      "id": "communication_satellite",
+      "name": "Communication Satellite",
+      "default_capacity": 100,
+      "base_market_price": 260.58,
+      "volatility": 0.0111,
+      "icon_key": "satellite",
+      "accent_key": "space",
+      "category": "Transport"
+    },
+    {
+      "id": "navigation_satellite",
+      "name": "Navigation Satellite",
+      "default_capacity": 100,
+      "base_market_price": 172.25,
+      "volatility": 0.0111,
+      "icon_key": "satellite",
+      "accent_key": "space",
+      "category": "Transport"
+    },
+    {
+      "id": "rocket_engine",
+      "name": "Rocket Engine",
+      "default_capacity": 100,
+      "base_market_price": 49.85,
+      "volatility": 0.0111,
+      "icon_key": "satellite",
+      "accent_key": "space",
+      "category": "Transport"
+    },
+    {
+      "id": "launch_vehicle",
+      "name": "Launch Vehicle",
+      "default_capacity": 100,
+      "base_market_price": 154.35,
+      "volatility": 0.0111,
+      "icon_key": "vehicle",
+      "accent_key": "default",
+      "category": "Transport"
+    },
+    {
+      "id": "orbital_vehicle",
+      "name": "Orbital Vehicle",
+      "default_capacity": 100,
+      "base_market_price": 249.38,
+      "volatility": 0.0111,
+      "icon_key": "vehicle",
+      "accent_key": "space",
+      "category": "Transport"
+    },
+    {
+      "id": "packaged_food",
+      "name": "Packaged Food",
+      "default_capacity": 100,
+      "base_market_price": 22.55,
+      "volatility": 0.0097,
+      "icon_key": "package",
+      "accent_key": "crop",
+      "category": "Food & Agriculture"
+    },
+    {
+      "id": "processed_food",
+      "name": "Processed Food",
+      "default_capacity": 100,
+      "base_market_price": 16.09,
+      "volatility": 0.00919,
+      "icon_key": "package",
+      "accent_key": "crop",
+      "category": "Food & Agriculture"
+    },
+    {
+      "id": "packaged_nutrition",
+      "name": "Packaged Nutrition",
+      "default_capacity": 100,
+      "base_market_price": 28.2,
+      "volatility": 0.01016,
+      "icon_key": "package",
+      "accent_key": "crop",
+      "category": "Food & Agriculture"
+    },
+    {
+      "id": "bakery_products",
+      "name": "Bakery Products",
+      "default_capacity": 100,
+      "base_market_price": 12.44,
+      "volatility": 0.0089,
+      "icon_key": "package",
+      "accent_key": "default",
+      "category": "Food & Agriculture"
+    },
+    {
+      "id": "packaged_meals",
+      "name": "Packaged Meals",
+      "default_capacity": 100,
+      "base_market_price": 34.37,
+      "volatility": 0.01065,
+      "icon_key": "package",
+      "accent_key": "default",
+      "category": "Materials"
+    },
+    {
+      "id": "packaged_beverages",
+      "name": "Packaged Beverages",
+      "default_capacity": 100,
+      "base_market_price": 17.58,
+      "volatility": 0.00931,
+      "icon_key": "package",
+      "accent_key": "default",
+      "category": "Food & Agriculture"
+    },
+    {
+      "id": "soft_drinks",
+      "name": "Soft Drinks",
+      "default_capacity": 100,
+      "base_market_price": 28.2,
+      "volatility": 0.01016,
+      "icon_key": "hex",
+      "accent_key": "default",
+      "category": "Materials"
+    },
+    {
+      "id": "animal_feed",
+      "name": "Animal Feed",
+      "default_capacity": 100,
+      "base_market_price": 16.09,
+      "volatility": 0.00919,
+      "icon_key": "hex",
+      "accent_key": "default",
+      "category": "Materials"
+    },
+    {
+      "id": "fertilizer",
+      "name": "Fertilizer",
+      "default_capacity": 100,
+      "base_market_price": 23.17,
+      "volatility": 0.00975,
+      "icon_key": "hex",
+      "accent_key": "default",
+      "category": "Materials"
+    },
+    {
+      "id": "advanced_fertilizer",
+      "name": "Advanced Fertilizer",
+      "default_capacity": 100,
+      "base_market_price": 22.82,
+      "volatility": 0.00973,
+      "icon_key": "hex",
+      "accent_key": "default",
+      "category": "Materials"
+    },
+    {
+      "id": "construction_frames",
+      "name": "Construction Frames",
+      "default_capacity": 100,
+      "base_market_price": 26.38,
+      "volatility": 0.01001,
+      "icon_key": "hex",
+      "accent_key": "default",
+      "category": "Materials"
+    },
+    {
+      "id": "packaging_materials",
+      "name": "Packaging Materials",
+      "default_capacity": 100,
+      "base_market_price": 13.64,
+      "volatility": 0.00899,
+      "icon_key": "hex",
+      "accent_key": "default",
+      "category": "Materials"
+    },
+    {
+      "id": "industrial_packaging",
+      "name": "Industrial Packaging",
+      "default_capacity": 100,
+      "base_market_price": 17.94,
+      "volatility": 0.00934,
+      "icon_key": "hex",
+      "accent_key": "default",
+      "category": "Materials"
+    },
+    {
+      "id": "protective_packaging",
+      "name": "Protective Packaging",
+      "default_capacity": 100,
+      "base_market_price": 11.35,
+      "volatility": 0.00881,
+      "icon_key": "hex",
+      "accent_key": "default",
+      "category": "Materials"
+    },
+    {
+      "id": "cargo_pallets",
+      "name": "Cargo Pallets",
+      "default_capacity": 100,
+      "base_market_price": 7.86,
+      "volatility": 0.00853,
+      "icon_key": "hex",
+      "accent_key": "default",
+      "category": "Materials"
+    },
+    {
+      "id": "commercial_furniture",
+      "name": "Commercial Furniture",
+      "default_capacity": 100,
+      "base_market_price": 16.63,
+      "volatility": 0.00923,
+      "icon_key": "hex",
+      "accent_key": "default",
+      "category": "Materials"
+    },
+    {
+      "id": "sustainable_packaging",
+      "name": "Sustainable Packaging",
+      "default_capacity": 100,
+      "base_market_price": 16.3,
+      "volatility": 0.0092,
+      "icon_key": "hex",
+      "accent_key": "default",
+      "category": "Materials"
+    },
+    {
+      "id": "clothing",
+      "name": "Clothing",
+      "default_capacity": 100,
+      "base_market_price": 9.09,
+      "volatility": 0.00863,
+      "icon_key": "hex",
+      "accent_key": "default",
+      "category": "Materials"
+    },
+    {
+      "id": "workwear",
+      "name": "Workwear",
+      "default_capacity": 100,
+      "base_market_price": 13.24,
+      "volatility": 0.00896,
+      "icon_key": "hex",
+      "accent_key": "default",
+      "category": "Materials"
+    },
+    {
+      "id": "protective_clothing",
+      "name": "Protective Clothing",
+      "default_capacity": 100,
+      "base_market_price": 43.16,
+      "volatility": 0.0111,
+      "icon_key": "hex",
+      "accent_key": "default",
+      "category": "Materials"
+    },
+    {
+      "id": "industrial_clothing",
+      "name": "Industrial Clothing",
+      "default_capacity": 100,
+      "base_market_price": 21.85,
+      "volatility": 0.00965,
+      "icon_key": "hex",
+      "accent_key": "default",
+      "category": "Materials"
+    },
+    {
+      "id": "safety_equipment",
+      "name": "Safety Equipment",
+      "default_capacity": 100,
+      "base_market_price": 40.52,
+      "volatility": 0.0111,
+      "icon_key": "hex",
+      "accent_key": "default",
+      "category": "Components"
+    },
+    {
+      "id": "advanced_protective_equipment",
+      "name": "Advanced Protective Equipment",
+      "default_capacity": 100,
+      "base_market_price": 109.43,
+      "volatility": 0.0111,
+      "icon_key": "hex",
+      "accent_key": "default",
+      "category": "Components"
+    },
+    {
+      "id": "industrial_plastics",
+      "name": "Industrial Plastics",
+      "default_capacity": 100,
+      "base_market_price": 38.26,
+      "volatility": 0.01096,
+      "icon_key": "hex",
+      "accent_key": "default",
+      "category": "Materials"
+    },
+    {
+      "id": "industrial_rubber_products",
+      "name": "Industrial Rubber Products",
+      "default_capacity": 100,
+      "base_market_price": 82.61,
+      "volatility": 0.0111,
+      "icon_key": "flask",
+      "accent_key": "chemical",
+      "category": "Chemicals"
+    },
+    {
+      "id": "industrial_seals",
+      "name": "Industrial Seals",
+      "default_capacity": 100,
+      "base_market_price": 50.65,
+      "volatility": 0.0111,
+      "icon_key": "hex",
+      "accent_key": "default",
+      "category": "Materials"
+    },
+    {
+      "id": "industrial_chemicals",
+      "name": "Industrial Chemicals",
+      "default_capacity": 100,
+      "base_market_price": 33.02,
+      "volatility": 0.01054,
+      "icon_key": "flask",
+      "accent_key": "chemical",
+      "category": "Chemicals"
+    },
+    {
+      "id": "bio_based_chemicals",
+      "name": "Bio-Based Chemicals",
+      "default_capacity": 100,
+      "base_market_price": 25.96,
+      "volatility": 0.00998,
+      "icon_key": "flask",
+      "accent_key": "chemical",
+      "category": "Chemicals"
+    },
+    {
+      "id": "bioplastic",
+      "name": "Bioplastic",
+      "default_capacity": 100,
+      "base_market_price": 23.53,
+      "volatility": 0.00978,
+      "icon_key": "hex",
+      "accent_key": "default",
+      "category": "Materials"
+    },
+    {
+      "id": "biofuel",
+      "name": "Biofuel",
+      "default_capacity": 100,
+      "base_market_price": 21.91,
+      "volatility": 0.00965,
+      "icon_key": "hex",
+      "accent_key": "default",
+      "category": "Energy"
+    },
+    {
+      "id": "biodiesel",
+      "name": "Biodiesel",
+      "default_capacity": 100,
+      "base_market_price": 22.33,
+      "volatility": 0.00969,
+      "icon_key": "hex",
+      "accent_key": "default",
+      "category": "Materials"
+    },
+    {
+      "id": "crop_protection_products",
+      "name": "Crop Protection Products",
+      "default_capacity": 100,
+      "base_market_price": 33.31,
+      "volatility": 0.01056,
+      "icon_key": "hex",
+      "accent_key": "default",
+      "category": "Materials"
+    },
+    {
+      "id": "laboratory_equipment",
+      "name": "Laboratory Equipment",
+      "default_capacity": 100,
+      "base_market_price": 101.04,
+      "volatility": 0.0111,
+      "icon_key": "hex",
+      "accent_key": "default",
+      "category": "Components"
+    },
+    {
+      "id": "medical_monitor",
+      "name": "Medical Monitor",
+      "default_capacity": 100,
+      "base_market_price": 135.1,
+      "volatility": 0.0111,
+      "icon_key": "medical",
+      "accent_key": "medical",
+      "category": "Medical"
+    },
+    {
+      "id": "surgical_equipment",
+      "name": "Surgical Equipment",
+      "default_capacity": 100,
+      "base_market_price": 62.12,
+      "volatility": 0.0111,
+      "icon_key": "medical",
+      "accent_key": "default",
+      "category": "Medical"
+    },
+    {
+      "id": "diagnostic_system",
+      "name": "Diagnostic System",
+      "default_capacity": 100,
+      "base_market_price": 246.28,
+      "volatility": 0.0111,
+      "icon_key": "medical",
+      "accent_key": "medical",
+      "category": "Medical"
+    },
+    {
+      "id": "advanced_medical_equipment",
+      "name": "Advanced Medical Equipment",
+      "default_capacity": 100,
+      "base_market_price": 251.06,
+      "volatility": 0.0111,
+      "icon_key": "medical",
+      "accent_key": "medical",
+      "category": "Medical"
+    },
+    {
+      "id": "communication_cable",
+      "name": "Communication Cable",
+      "default_capacity": 100,
+      "base_market_price": 86.31,
+      "volatility": 0.0111,
+      "icon_key": "hex",
+      "accent_key": "default",
+      "category": "Materials"
+    },
+    {
+      "id": "network_switch",
+      "name": "Network Switch",
+      "default_capacity": 100,
+      "base_market_price": 314.84,
+      "volatility": 0.0111,
+      "icon_key": "signal",
+      "accent_key": "telecom",
+      "category": "Electronics"
+    },
+    {
+      "id": "router",
+      "name": "Router",
+      "default_capacity": 100,
+      "base_market_price": 195.44,
+      "volatility": 0.0111,
+      "icon_key": "signal",
+      "accent_key": "default",
+      "category": "Materials"
+    },
+    {
+      "id": "radio_transceiver",
+      "name": "Radio Transceiver",
+      "default_capacity": 100,
+      "base_market_price": 161.2,
+      "volatility": 0.0111,
+      "icon_key": "signal",
+      "accent_key": "telecom",
+      "category": "Materials"
+    },
+    {
+      "id": "cellular_base_station",
+      "name": "Cellular Base Station",
+      "default_capacity": 100,
+      "base_market_price": 230.7,
+      "volatility": 0.0111,
+      "icon_key": "battery",
+      "accent_key": "battery",
+      "category": "Materials"
+    },
+    {
+      "id": "high_speed_network_system",
+      "name": "High-Speed Network System",
+      "default_capacity": 100,
+      "base_market_price": 437.68,
+      "volatility": 0.0111,
+      "icon_key": "signal",
+      "accent_key": "telecom",
+      "category": "Electronics"
+    },
+    {
+      "id": "semiconductor_equipment",
+      "name": "Semiconductor Equipment",
+      "default_capacity": 100,
+      "base_market_price": 123.68,
+      "volatility": 0.0111,
+      "icon_key": "chip",
+      "accent_key": "electronics",
+      "category": "Electronics"
+    },
+    {
+      "id": "industrial_laser",
+      "name": "Industrial Laser",
+      "default_capacity": 100,
+      "base_market_price": 94.99,
+      "volatility": 0.0111,
+      "icon_key": "hex",
+      "accent_key": "default",
+      "category": "Materials"
+    },
+    {
+      "id": "machine_vision_system",
+      "name": "Machine Vision System",
+      "default_capacity": 100,
+      "base_market_price": 266.18,
+      "volatility": 0.0111,
+      "icon_key": "hex",
+      "accent_key": "default",
+      "category": "Components"
+    },
+    {
+      "id": "autonomous_control_system",
+      "name": "Autonomous Control System",
+      "default_capacity": 100,
+      "base_market_price": 397.92,
+      "volatility": 0.0111,
+      "icon_key": "chip",
+      "accent_key": "electronics",
+      "category": "Materials"
+    },
+    {
+      "id": "advanced_semiconductor_equipment",
+      "name": "Advanced Semiconductor Equipment",
+      "default_capacity": 100,
+      "base_market_price": 194.59,
+      "volatility": 0.0111,
+      "icon_key": "chip",
+      "accent_key": "electronics",
+      "category": "Electronics"
+    },
+    {
+      "id": "carbon_capture_plant",
+      "name": "Carbon Capture Plant",
+      "default_capacity": 100,
+      "base_market_price": 57.99,
+      "volatility": 0.0111,
+      "icon_key": "hex",
+      "accent_key": "default",
+      "category": "Materials"
+    },
+    {
+      "id": "desalination_plant",
+      "name": "Desalination Plant",
+      "default_capacity": 100,
+      "base_market_price": 107.63,
+      "volatility": 0.0111,
+      "icon_key": "hex",
+      "accent_key": "default",
+      "category": "Materials"
+    },
+    {
+      "id": "synthetic_fuel_plant",
+      "name": "Synthetic Fuel Plant",
+      "default_capacity": 100,
+      "base_market_price": 117.7,
+      "volatility": 0.0111,
+      "icon_key": "hex",
+      "accent_key": "default",
+      "category": "Energy"
+    },
+    {
+      "id": "quantum_computing_module",
+      "name": "Quantum Computing Module",
+      "default_capacity": 100,
+      "base_market_price": 190.4,
+      "volatility": 0.0111,
+      "icon_key": "chip",
+      "accent_key": "electronics",
+      "category": "Electronics"
+    },
+    {
+      "id": "superconducting_magnet_system",
+      "name": "Superconducting Magnet System",
+      "default_capacity": 100,
+      "base_market_price": 131.91,
+      "volatility": 0.0111,
+      "icon_key": "hex",
+      "accent_key": "default",
+      "category": "Materials"
+    },
+    {
+      "id": "fusion_reactor_module",
+      "name": "Fusion Reactor Module",
+      "default_capacity": 100,
+      "base_market_price": 132.47,
+      "volatility": 0.0111,
+      "icon_key": "hex",
+      "accent_key": "default",
+      "category": "Energy"
+    }
+  ]
+}

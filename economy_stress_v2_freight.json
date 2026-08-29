@@ -1,0 +1,4158 @@
+{
+  "by_profile": {
+    "casual": {
+      "cards_consumed_through_rarity_crafting": 10090,
+      "cards_created_total": 4428184,
+      "cards_per_player": {
+        "avg": 92.411,
+        "max": 135,
+        "min": 53,
+        "p50": 92,
+        "p90": 106,
+        "p99": 117
+      },
+      "cards_recycled_total": 3159910,
+      "cards_remaining": 1257529,
+      "crafting_consumed_by_rarity": {
+        "common": 0,
+        "epic": 35,
+        "legendary": 0,
+        "rare": 3805,
+        "uncommon": 6250
+      },
+      "crafting_outputs_by_rarity": {
+        "common": 0,
+        "epic": 761,
+        "legendary": 7,
+        "rare": 1250,
+        "uncommon": 0
+      },
+      "crafts_total": 2018,
+      "created_cards_by_rarity": {
+        "common": 2448093,
+        "epic": 21527,
+        "legendary": 6862,
+        "rare": 138189,
+        "uncommon": 1813513
+      },
+      "freight": {
+        "cards_per_player": {
+          "avg": 30.709,
+          "max": 55,
+          "min": 12,
+          "p50": 31,
+          "p90": 38,
+          "p99": 45
+        },
+        "consumed_through_crafting_total": 3362,
+        "crafting_consumed_by_rarity": {
+          "common": 0,
+          "epic": 19,
+          "legendary": 0,
+          "rare": 1334,
+          "uncommon": 2009
+        },
+        "created_by_family": {
+          "aircraft": 394006,
+          "ship": 323896,
+          "train": 365573,
+          "truck": 388849
+        },
+        "created_by_family_rarity": {
+          "aircraft": {
+            "common": 208123,
+            "epic": 1872,
+            "legendary": 513,
+            "rare": 11843,
+            "uncommon": 171655
+          },
+          "ship": {
+            "common": 197927,
+            "epic": 1888,
+            "legendary": 562,
+            "rare": 11808,
+            "uncommon": 111711
+          },
+          "train": {
+            "common": 205295,
+            "epic": 1892,
+            "legendary": 582,
+            "rare": 11839,
+            "uncommon": 145965
+          },
+          "truck": {
+            "common": 207066,
+            "epic": 1903,
+            "legendary": 571,
+            "rare": 12022,
+            "uncommon": 167287
+          }
+        },
+        "created_by_rarity": {
+          "common": 818411,
+          "epic": 7555,
+          "legendary": 2228,
+          "rare": 47512,
+          "uncommon": 596618
+        },
+        "created_total": 1472324,
+        "daily_freight_rotation_by_rarity": {
+          "common": 0,
+          "epic": 0,
+          "legendary": 0,
+          "rare": 0,
+          "uncommon": 372573
+        },
+        "daily_freight_rotation_total": 372573,
+        "epic_per_player_year": 0.555,
+        "legendary_per_player_year": 0.164,
+        "legendary_players_at_least_1": 0.1509,
+        "legendary_players_at_least_2": 0.0122,
+        "legendary_players_at_least_3": 0.0006,
+        "rare_per_player_year": 3.491,
+        "recycled_by_rarity": {
+          "common": 776878,
+          "epic": 0,
+          "legendary": 0,
+          "rare": 3676,
+          "uncommon": 270515
+        },
+        "recycled_total": 1051069,
+        "remaining_by_family": {
+          "aircraft": 117223,
+          "ship": 83402,
+          "train": 102564,
+          "truck": 114704
+        },
+        "remaining_by_family_rarity": {
+          "aircraft": {
+            "common": 10803,
+            "epic": 1869,
+            "legendary": 513,
+            "rare": 10647,
+            "uncommon": 93391
+          },
+          "ship": {
+            "common": 9836,
+            "epic": 1882,
+            "legendary": 562,
+            "rare": 10606,
+            "uncommon": 60516
+          },
+          "train": {
+            "common": 10339,
+            "epic": 1886,
+            "legendary": 582,
+            "rare": 10557,
+            "uncommon": 79200
+          },
+          "truck": {
+            "common": 10555,
+            "epic": 1899,
+            "legendary": 571,
+            "rare": 10692,
+            "uncommon": 90987
+          }
+        },
+        "remaining_by_rarity": {
+          "common": 41533,
+          "epic": 7536,
+          "legendary": 2228,
+          "rare": 42502,
+          "uncommon": 324094
+        },
+        "remaining_total": 417893
+      },
+      "legendarys_per_player": {
+        "avg": 0.504,
+        "max": 5,
+        "min": 0,
+        "p50": 0,
+        "p90": 1,
+        "p99": 3
+      },
+      "mk_upgrade_consumed_by_rarity": {
+        "common": 118,
+        "epic": 9,
+        "legendary": 0,
+        "rare": 50,
+        "uncommon": 478
+      },
+      "mk_upgrade_outputs_by_rarity": {
+        "common": 118,
+        "epic": 9,
+        "legendary": 0,
+        "rare": 50,
+        "uncommon": 478
+      },
+      "mk_upgrades_total": 655,
+      "net_supply_growth": 1257529,
+      "net_supply_growth_per_player": 92.411,
+      "perfect_legendarys_created": 147,
+      "perfect_legendarys_remaining": 147,
+      "players": 13608,
+      "recycled_cards_by_rarity": {
+        "common": 2324875,
+        "epic": 0,
+        "legendary": 0,
+        "rare": 10846,
+        "uncommon": 824189
+      },
+      "remaining_cards_by_rarity": {
+        "common": 123100,
+        "epic": 21483,
+        "legendary": 6862,
+        "rare": 123488,
+        "uncommon": 982596
+      },
+      "scrap_consumed": 45480,
+      "scrap_generated": 4905902,
+      "scrap_surplus": 4860422
+    },
+    "collector": {
+      "cards_consumed_through_rarity_crafting": 47040,
+      "cards_created_total": 5570040,
+      "cards_per_player": {
+        "avg": 235.068,
+        "max": 304,
+        "min": 172,
+        "p50": 235,
+        "p90": 257,
+        "p99": 276
+      },
+      "cards_recycled_total": 4258623,
+      "cards_remaining": 1260433,
+      "crafting_consumed_by_rarity": {
+        "common": 0,
+        "epic": 2370,
+        "legendary": 0,
+        "rare": 20215,
+        "uncommon": 24455
+      },
+      "crafting_outputs_by_rarity": {
+        "common": 0,
+        "epic": 4043,
+        "legendary": 474,
+        "rare": 4891,
+        "uncommon": 0
+      },
+      "crafts_total": 9408,
+      "created_cards_by_rarity": {
+        "common": 3481118,
+        "epic": 22345,
+        "legendary": 7080,
+        "rare": 129786,
+        "uncommon": 1929711
+      },
+      "freight": {
+        "cards_per_player": {
+          "avg": 85.051,
+          "max": 120,
+          "min": 53,
+          "p50": 85,
+          "p90": 97,
+          "p99": 108
+        },
+        "consumed_through_crafting_total": 17095,
+        "crafting_consumed_by_rarity": {
+          "common": 0,
+          "epic": 804,
+          "legendary": 0,
+          "rare": 7186,
+          "uncommon": 9105
+        },
+        "created_by_family": {
+          "aircraft": 518071,
+          "ship": 289538,
+          "train": 372816,
+          "truck": 481290
+        },
+        "created_by_family_rarity": {
+          "aircraft": {
+            "common": 250272,
+            "epic": 2037,
+            "legendary": 585,
+            "rare": 11216,
+            "uncommon": 253961
+          },
+          "ship": {
+            "common": 183254,
+            "epic": 1988,
+            "legendary": 605,
+            "rare": 11323,
+            "uncommon": 92368
+          },
+          "train": {
+            "common": 216959,
+            "epic": 1951,
+            "legendary": 558,
+            "rare": 11510,
+            "uncommon": 141838
+          },
+          "truck": {
+            "common": 241252,
+            "epic": 2142,
+            "legendary": 600,
+            "rare": 11415,
+            "uncommon": 225881
+          }
+        },
+        "created_by_rarity": {
+          "common": 891737,
+          "epic": 8118,
+          "legendary": 2348,
+          "rare": 45464,
+          "uncommon": 714048
+        },
+        "created_total": 1661715,
+        "daily_freight_rotation_by_rarity": {
+          "common": 0,
+          "epic": 0,
+          "legendary": 0,
+          "rare": 0,
+          "uncommon": 473749
+        },
+        "daily_freight_rotation_total": 473749,
+        "epic_per_player_year": 1.514,
+        "legendary_per_player_year": 0.438,
+        "legendary_players_at_least_1": 0.3611,
+        "legendary_players_at_least_2": 0.0671,
+        "legendary_players_at_least_3": 0.0086,
+        "rare_per_player_year": 8.479,
+        "recycled_by_rarity": {
+          "common": 874108,
+          "epic": 0,
+          "legendary": 0,
+          "rare": 0,
+          "uncommon": 314470
+        },
+        "recycled_total": 1188578,
+        "remaining_by_family": {
+          "aircraft": 157232,
+          "ship": 64378,
+          "train": 93019,
+          "truck": 141413
+        },
+        "remaining_by_family_rarity": {
+          "aircraft": {
+            "common": 5128,
+            "epic": 1859,
+            "legendary": 585,
+            "rare": 9416,
+            "uncommon": 140244
+          },
+          "ship": {
+            "common": 3373,
+            "epic": 1771,
+            "legendary": 605,
+            "rare": 9527,
+            "uncommon": 49102
+          },
+          "train": {
+            "common": 4241,
+            "epic": 1760,
+            "legendary": 558,
+            "rare": 9674,
+            "uncommon": 76786
+          },
+          "truck": {
+            "common": 4887,
+            "epic": 1924,
+            "legendary": 600,
+            "rare": 9661,
+            "uncommon": 124341
+          }
+        },
+        "remaining_by_rarity": {
+          "common": 17629,
+          "epic": 7314,
+          "legendary": 2348,
+          "rare": 38278,
+          "uncommon": 390473
+        },
+        "remaining_total": 456042
+      },
+      "legendarys_per_player": {
+        "avg": 1.317,
+        "max": 6,
+        "min": 0,
+        "p50": 1,
+        "p90": 3,
+        "p99": 5
+      },
+      "mk_upgrade_consumed_by_rarity": {
+        "common": 722,
+        "epic": 47,
+        "legendary": 19,
+        "rare": 291,
+        "uncommon": 2865
+      },
+      "mk_upgrade_outputs_by_rarity": {
+        "common": 722,
+        "epic": 47,
+        "legendary": 19,
+        "rare": 291,
+        "uncommon": 2865
+      },
+      "mk_upgrades_total": 3944,
+      "net_supply_growth": 1260433,
+      "net_supply_growth_per_player": 235.068,
+      "perfect_legendarys_created": 158,
+      "perfect_legendarys_remaining": 158,
+      "players": 5362,
+      "recycled_cards_by_rarity": {
+        "common": 3406807,
+        "epic": 0,
+        "legendary": 0,
+        "rare": 0,
+        "uncommon": 851816
+      },
+      "remaining_cards_by_rarity": {
+        "common": 73589,
+        "epic": 19928,
+        "legendary": 7061,
+        "rare": 109280,
+        "uncommon": 1050575
+      },
+      "scrap_consumed": 290400,
+      "scrap_generated": 5962255,
+      "scrap_surplus": 5671855
+    },
+    "daily_optimizer": {
+      "cards_consumed_through_rarity_crafting": 223865,
+      "cards_created_total": 8835632,
+      "cards_per_player": {
+        "avg": 74.607,
+        "max": 108,
+        "min": 42,
+        "p50": 75,
+        "p90": 86,
+        "p99": 95
+      },
+      "cards_recycled_total": 7921260,
+      "cards_remaining": 668630,
+      "crafting_consumed_by_rarity": {
+        "common": 0,
+        "epic": 14825,
+        "legendary": 0,
+        "rare": 83845,
+        "uncommon": 125195
+      },
+      "crafting_outputs_by_rarity": {
+        "common": 0,
+        "epic": 16769,
+        "legendary": 2965,
+        "rare": 25039,
+        "uncommon": 0
+      },
+      "crafts_total": 44773,
+      "created_cards_by_rarity": {
+        "common": 4825999,
+        "epic": 51627,
+        "legendary": 14843,
+        "rare": 257085,
+        "uncommon": 3686078
+      },
+      "freight": {
+        "cards_per_player": {
+          "avg": 30.401,
+          "max": 52,
+          "min": 13,
+          "p50": 30,
+          "p90": 37,
+          "p99": 43
+        },
+        "consumed_through_crafting_total": 86945,
+        "crafting_consumed_by_rarity": {
+          "common": 0,
+          "epic": 5254,
+          "legendary": 0,
+          "rare": 28428,
+          "uncommon": 53263
+        },
+        "created_by_family": {
+          "aircraft": 1036618,
+          "ship": 527346,
+          "train": 727807,
+          "truck": 969800
+        },
+        "created_by_family_rarity": {
+          "aircraft": {
+            "common": 436822,
+            "epic": 4627,
+            "legendary": 1204,
+            "rare": 21774,
+            "uncommon": 572191
+          },
+          "ship": {
+            "common": 327796,
+            "epic": 4664,
+            "legendary": 1180,
+            "rare": 21568,
+            "uncommon": 172138
+          },
+          "train": {
+            "common": 388573,
+            "epic": 4656,
+            "legendary": 1232,
+            "rare": 21718,
+            "uncommon": 311628
+          },
+          "truck": {
+            "common": 424370,
+            "epic": 4573,
+            "legendary": 1193,
+            "rare": 21376,
+            "uncommon": 518288
+          }
+        },
+        "created_by_rarity": {
+          "common": 1577561,
+          "epic": 18520,
+          "legendary": 4809,
+          "rare": 86436,
+          "uncommon": 1574245
+        },
+        "created_total": 3261571,
+        "daily_freight_rotation_by_rarity": {
+          "common": 0,
+          "epic": 0,
+          "legendary": 0,
+          "rare": 0,
+          "uncommon": 1218868
+        },
+        "daily_freight_rotation_total": 1218868,
+        "epic_per_player_year": 2.067,
+        "legendary_per_player_year": 0.537,
+        "legendary_players_at_least_1": 0.4198,
+        "legendary_players_at_least_2": 0.0984,
+        "legendary_players_at_least_3": 0.0164,
+        "rare_per_player_year": 9.645,
+        "recycled_by_rarity": {
+          "common": 1556297,
+          "epic": 0,
+          "legendary": 0,
+          "rare": 21936,
+          "uncommon": 1323942
+        },
+        "recycled_total": 2902175,
+        "remaining_by_family": {
+          "aircraft": 91855,
+          "ship": 38427,
+          "train": 57168,
+          "truck": 85001
+        },
+        "remaining_by_family_rarity": {
+          "aircraft": {
+            "common": 5861,
+            "epic": 3294,
+            "legendary": 1204,
+            "rare": 9143,
+            "uncommon": 72353
+          },
+          "ship": {
+            "common": 4490,
+            "epic": 3361,
+            "legendary": 1180,
+            "rare": 8972,
+            "uncommon": 20424
+          },
+          "train": {
+            "common": 5209,
+            "epic": 3347,
+            "legendary": 1232,
+            "rare": 8978,
+            "uncommon": 38402
+          },
+          "truck": {
+            "common": 5704,
+            "epic": 3264,
+            "legendary": 1193,
+            "rare": 8979,
+            "uncommon": 65861
+          }
+        },
+        "remaining_by_rarity": {
+          "common": 21264,
+          "epic": 13266,
+          "legendary": 4809,
+          "rare": 36072,
+          "uncommon": 197040
+        },
+        "remaining_total": 272451
+      },
+      "legendarys_per_player": {
+        "avg": 1.622,
+        "max": 8,
+        "min": 0,
+        "p50": 1,
+        "p90": 3,
+        "p99": 5
+      },
+      "mk_upgrade_consumed_by_rarity": {
+        "common": 3025,
+        "epic": 904,
+        "legendary": 308,
+        "rare": 3189,
+        "uncommon": 14451
+      },
+      "mk_upgrade_outputs_by_rarity": {
+        "common": 3025,
+        "epic": 904,
+        "legendary": 308,
+        "rare": 3189,
+        "uncommon": 14451
+      },
+      "mk_upgrades_total": 21877,
+      "net_supply_growth": 668630,
+      "net_supply_growth_per_player": 74.607,
+      "perfect_legendarys_created": 270,
+      "perfect_legendarys_remaining": 262,
+      "players": 8962,
+      "recycled_cards_by_rarity": {
+        "common": 4759537,
+        "epic": 0,
+        "legendary": 0,
+        "rare": 64014,
+        "uncommon": 3097709
+      },
+      "remaining_cards_by_rarity": {
+        "common": 63437,
+        "epic": 35898,
+        "legendary": 14535,
+        "rare": 106037,
+        "uncommon": 448723
+      },
+      "scrap_consumed": 1619480,
+      "scrap_generated": 14692804,
+      "scrap_surplus": 13073324
+    },
+    "power_user": {
+      "cards_consumed_through_rarity_crafting": 397755,
+      "cards_created_total": 4118395,
+      "cards_per_player": {
+        "avg": 30.105,
+        "max": 52,
+        "min": 11,
+        "p50": 30,
+        "p90": 39,
+        "p99": 45
+      },
+      "cards_recycled_total": 3622601,
+      "cards_remaining": 62257,
+      "crafting_consumed_by_rarity": {
+        "common": 0,
+        "epic": 25940,
+        "legendary": 0,
+        "rare": 101835,
+        "uncommon": 269980
+      },
+      "crafting_outputs_by_rarity": {
+        "common": 0,
+        "epic": 20367,
+        "legendary": 5188,
+        "rare": 53996,
+        "uncommon": 0
+      },
+      "crafts_total": 79551,
+      "created_cards_by_rarity": {
+        "common": 2704878,
+        "epic": 38167,
+        "legendary": 11595,
+        "rare": 156255,
+        "uncommon": 1207500
+      },
+      "freight": {
+        "cards_per_player": {
+          "avg": 10.772,
+          "max": 24,
+          "min": 1,
+          "p50": 11,
+          "p90": 16,
+          "p99": 20
+        },
+        "consumed_through_crafting_total": 152465,
+        "crafting_consumed_by_rarity": {
+          "common": 0,
+          "epic": 9649,
+          "legendary": 0,
+          "rare": 36827,
+          "uncommon": 105989
+        },
+        "created_by_family": {
+          "aircraft": 370458,
+          "ship": 214465,
+          "train": 257711,
+          "truck": 345508
+        },
+        "created_by_family_rarity": {
+          "aircraft": {
+            "common": 177388,
+            "epic": 3337,
+            "legendary": 884,
+            "rare": 13416,
+            "uncommon": 175433
+          },
+          "ship": {
+            "common": 140304,
+            "epic": 3204,
+            "legendary": 921,
+            "rare": 13487,
+            "uncommon": 56549
+          },
+          "train": {
+            "common": 159710,
+            "epic": 3259,
+            "legendary": 889,
+            "rare": 13510,
+            "uncommon": 80343
+          },
+          "truck": {
+            "common": 172517,
+            "epic": 3156,
+            "legendary": 911,
+            "rare": 13404,
+            "uncommon": 155520
+          }
+        },
+        "created_by_rarity": {
+          "common": 649919,
+          "epic": 12956,
+          "legendary": 3605,
+          "rare": 53817,
+          "uncommon": 467845
+        },
+        "created_total": 1188142,
+        "daily_freight_rotation_by_rarity": {
+          "common": 0,
+          "epic": 0,
+          "legendary": 0,
+          "rare": 0,
+          "uncommon": 317717
+        },
+        "daily_freight_rotation_total": 317717,
+        "epic_per_player_year": 6.265,
+        "legendary_per_player_year": 1.743,
+        "legendary_players_at_least_1": 0.8598,
+        "legendary_players_at_least_2": 0.5493,
+        "legendary_players_at_least_3": 0.2398,
+        "rare_per_player_year": 26.024,
+        "recycled_by_rarity": {
+          "common": 647258,
+          "epic": 1072,
+          "legendary": 0,
+          "rare": 13282,
+          "uncommon": 351789
+        },
+        "recycled_total": 1013401,
+        "remaining_by_family": {
+          "aircraft": 6907,
+          "ship": 4167,
+          "train": 4730,
+          "truck": 6472
+        },
+        "remaining_by_family_rarity": {
+          "aircraft": {
+            "common": 736,
+            "epic": 543,
+            "legendary": 884,
+            "rare": 975,
+            "uncommon": 3769
+          },
+          "ship": {
+            "common": 611,
+            "epic": 585,
+            "legendary": 921,
+            "rare": 927,
+            "uncommon": 1123
+          },
+          "train": {
+            "common": 626,
+            "epic": 565,
+            "legendary": 889,
+            "rare": 918,
+            "uncommon": 1732
+          },
+          "truck": {
+            "common": 688,
+            "epic": 542,
+            "legendary": 911,
+            "rare": 888,
+            "uncommon": 3443
+          }
+        },
+        "remaining_by_rarity": {
+          "common": 2661,
+          "epic": 2235,
+          "legendary": 3605,
+          "rare": 3708,
+          "uncommon": 10067
+        },
+        "remaining_total": 22276
+      },
+      "legendarys_per_player": {
+        "avg": 4.696,
+        "max": 13,
+        "min": 1,
+        "p50": 5,
+        "p90": 7,
+        "p99": 9
+      },
+      "mk_upgrade_consumed_by_rarity": {
+        "common": 9040,
+        "epic": 3481,
+        "legendary": 1883,
+        "rare": 7154,
+        "uncommon": 14224
+      },
+      "mk_upgrade_outputs_by_rarity": {
+        "common": 9040,
+        "epic": 3481,
+        "legendary": 1883,
+        "rare": 7154,
+        "uncommon": 14224
+      },
+      "mk_upgrades_total": 35782,
+      "net_supply_growth": 62257,
+      "net_supply_growth_per_player": 30.105,
+      "perfect_legendarys_created": 137,
+      "perfect_legendarys_remaining": 117,
+      "players": 2068,
+      "recycled_cards_by_rarity": {
+        "common": 2684957,
+        "epic": 2851,
+        "legendary": 0,
+        "rare": 36941,
+        "uncommon": 897852
+      },
+      "remaining_cards_by_rarity": {
+        "common": 10881,
+        "epic": 5895,
+        "legendary": 9712,
+        "rare": 10325,
+        "uncommon": 25444
+      },
+      "scrap_consumed": 2790720,
+      "scrap_generated": 5847708,
+      "scrap_surplus": 3056988
+    }
+  },
+  "cards_consumed_through_rarity_crafting": 678750,
+  "cards_created_total": 22952251,
+  "cards_per_player": {
+    "avg": 108.295,
+    "max": 304,
+    "min": 11,
+    "p50": 88,
+    "p90": 232,
+    "p99": 262
+  },
+  "cards_recycled_total": 18962394,
+  "cards_remaining": 3248849,
+  "crafting_consumed_by_rarity": {
+    "common": 0,
+    "epic": 43170,
+    "legendary": 0,
+    "rare": 209700,
+    "uncommon": 425880
+  },
+  "crafting_outputs_by_rarity": {
+    "common": 0,
+    "epic": 41940,
+    "legendary": 8634,
+    "rare": 85176,
+    "uncommon": 0
+  },
+  "crafts_total": 135750,
+  "created_cards_by_rarity": {
+    "common": 13460088,
+    "epic": 133666,
+    "legendary": 40380,
+    "rare": 681315,
+    "uncommon": 8636802
+  },
+  "days": 365,
+  "freight": {
+    "cards_per_player": {
+      "avg": 38.955,
+      "max": 120,
+      "min": 1,
+      "p50": 31,
+      "p90": 83,
+      "p99": 100
+    },
+    "consumed_through_crafting_total": 259867,
+    "crafting_consumed_by_rarity": {
+      "common": 0,
+      "epic": 15726,
+      "legendary": 0,
+      "rare": 73775,
+      "uncommon": 170366
+    },
+    "created_by_family": {
+      "aircraft": 2319153,
+      "ship": 1355245,
+      "train": 1723907,
+      "truck": 2185447
+    },
+    "created_by_family_rarity": {
+      "aircraft": {
+        "common": 1072605,
+        "epic": 11873,
+        "legendary": 3186,
+        "rare": 58249,
+        "uncommon": 1173240
+      },
+      "ship": {
+        "common": 849281,
+        "epic": 11744,
+        "legendary": 3268,
+        "rare": 58186,
+        "uncommon": 432766
+      },
+      "train": {
+        "common": 970537,
+        "epic": 11758,
+        "legendary": 3261,
+        "rare": 58577,
+        "uncommon": 679774
+      },
+      "truck": {
+        "common": 1045205,
+        "epic": 11774,
+        "legendary": 3275,
+        "rare": 58217,
+        "uncommon": 1066976
+      }
+    },
+    "created_by_rarity": {
+      "common": 3937628,
+      "epic": 47149,
+      "legendary": 12990,
+      "rare": 233229,
+      "uncommon": 3352756
+    },
+    "created_total": 7583752,
+    "daily_freight_rotation_by_rarity": {
+      "common": 0,
+      "epic": 0,
+      "legendary": 0,
+      "rare": 0,
+      "uncommon": 2382907
+    },
+    "daily_freight_rotation_total": 2382907,
+    "epic_per_player_year": 1.572,
+    "legendary_per_player_year": 0.433,
+    "legendary_players_at_least_1": 0.3177,
+    "legendary_players_at_least_2": 0.0848,
+    "legendary_players_at_least_3": 0.0232,
+    "rare_per_player_year": 7.774,
+    "recycled_by_rarity": {
+      "common": 3854541,
+      "epic": 1072,
+      "legendary": 0,
+      "rare": 38894,
+      "uncommon": 2260716
+    },
+    "recycled_total": 6155223,
+    "remaining_by_family": {
+      "aircraft": 373217,
+      "ship": 190374,
+      "train": 257481,
+      "truck": 347590
+    },
+    "remaining_by_family_rarity": {
+      "aircraft": {
+        "common": 22528,
+        "epic": 7565,
+        "legendary": 3186,
+        "rare": 30181,
+        "uncommon": 309757
+      },
+      "ship": {
+        "common": 18310,
+        "epic": 7599,
+        "legendary": 3268,
+        "rare": 30032,
+        "uncommon": 131165
+      },
+      "train": {
+        "common": 20415,
+        "epic": 7558,
+        "legendary": 3261,
+        "rare": 30127,
+        "uncommon": 196120
+      },
+      "truck": {
+        "common": 21834,
+        "epic": 7629,
+        "legendary": 3275,
+        "rare": 30220,
+        "uncommon": 284632
+      }
+    },
+    "remaining_by_rarity": {
+      "common": 83087,
+      "epic": 30351,
+      "legendary": 12990,
+      "rare": 120560,
+      "uncommon": 921674
+    },
+    "remaining_total": 1168662
+  },
+  "legendarys_per_player": {
+    "avg": 1.272,
+    "max": 13,
+    "min": 0,
+    "p50": 1,
+    "p90": 3,
+    "p99": 6
+  },
+  "mk_upgrade_consumed_by_rarity": {
+    "common": 12905,
+    "epic": 4441,
+    "legendary": 2210,
+    "rare": 10684,
+    "uncommon": 32018
+  },
+  "mk_upgrade_outputs_by_rarity": {
+    "common": 12905,
+    "epic": 4441,
+    "legendary": 2210,
+    "rare": 10684,
+    "uncommon": 32018
+  },
+  "mk_upgrades_total": 62258,
+  "net_supply_growth": 3248849,
+  "net_supply_growth_per_player": 108.295,
+  "per_player_year": {
+    "cards_created": 765.075,
+    "cards_recycled": 632.08,
+    "crafting_consumed": 22.625,
+    "crafts": 4.525,
+    "mk_upgrades": 2.075,
+    "net_supply_growth": 108.295,
+    "scrap_consumed": 158.203,
+    "scrap_generated": 1046.956
+  },
+  "per_seed": [
+    {
+      "by_profile": {
+        "casual": {
+          "cards_consumed_through_rarity_crafting": 3555,
+          "cards_created_total": 1485337,
+          "cards_per_player": {
+            "avg": 92.573,
+            "max": 130,
+            "min": 59,
+            "p50": 92,
+            "p90": 106,
+            "p99": 117
+          },
+          "cards_recycled_total": 1059432,
+          "cards_remaining": 422131,
+          "crafting_consumed_by_rarity": {
+            "common": 0,
+            "epic": 15,
+            "legendary": 0,
+            "rare": 1330,
+            "uncommon": 2210
+          },
+          "crafting_outputs_by_rarity": {
+            "common": 0,
+            "epic": 266,
+            "legendary": 3,
+            "rare": 442,
+            "uncommon": 0
+          },
+          "crafts_total": 711,
+          "created_cards_by_rarity": {
+            "common": 820549,
+            "epic": 7288,
+            "legendary": 2359,
+            "rare": 46701,
+            "uncommon": 608440
+          },
+          "freight": {
+            "cards_per_player": {
+              "avg": 30.791,
+              "max": 53,
+              "min": 13,
+              "p50": 31,
+              "p90": 38,
+              "p99": 45
+            },
+            "consumed_through_crafting_total": 1152,
+            "crafting_consumed_by_rarity": {
+              "common": 0,
+              "epic": 9,
+              "legendary": 0,
+              "rare": 460,
+              "uncommon": 683
+            },
+            "created_by_family": {
+              "aircraft": 132157,
+              "ship": 108692,
+              "train": 122588,
+              "truck": 130604
+            },
+            "created_by_family_rarity": {
+              "aircraft": {
+                "common": 69379,
+                "epic": 662,
+                "legendary": 196,
+                "rare": 4096,
+                "uncommon": 57824
+              },
+              "ship": {
+                "common": 66433,
+                "epic": 616,
+                "legendary": 205,
+                "rare": 4032,
+                "uncommon": 37406
+              },
+              "train": {
+                "common": 68732,
+                "epic": 646,
+                "legendary": 205,
+                "rare": 4047,
+                "uncommon": 48958
+              },
+              "truck": {
+                "common": 69575,
+                "epic": 647,
+                "legendary": 190,
+                "rare": 4068,
+                "uncommon": 56124
+              }
+            },
+            "created_by_rarity": {
+              "common": 274119,
+              "epic": 2571,
+              "legendary": 796,
+              "rare": 16243,
+              "uncommon": 200312
+            },
+            "created_total": 494041,
+            "daily_freight_rotation_by_rarity": {
+              "common": 0,
+              "epic": 0,
+              "legendary": 0,
+              "rare": 0,
+              "uncommon": 125088
+            },
+            "daily_freight_rotation_total": 125088,
+            "epic_per_player_year": 0.564,
+            "legendary_per_player_year": 0.175,
+            "legendary_players_at_least_1": 0.1612,
+            "legendary_players_at_least_2": 0.0129,
+            "legendary_players_at_least_3": 0.0004,
+            "rare_per_player_year": 3.562,
+            "recycled_by_rarity": {
+              "common": 260336,
+              "epic": 0,
+              "legendary": 0,
+              "rare": 1259,
+              "uncommon": 90886
+            },
+            "recycled_total": 352481,
+            "remaining_by_family": {
+              "aircraft": 39713,
+              "ship": 27960,
+              "train": 34300,
+              "truck": 38435
+            },
+            "remaining_by_family_rarity": {
+              "aircraft": {
+                "common": 3566,
+                "epic": 660,
+                "legendary": 196,
+                "rare": 3666,
+                "uncommon": 31625
+              },
+              "ship": {
+                "common": 3262,
+                "epic": 613,
+                "legendary": 205,
+                "rare": 3643,
+                "uncommon": 20237
+              },
+              "train": {
+                "common": 3476,
+                "epic": 643,
+                "legendary": 205,
+                "rare": 3616,
+                "uncommon": 26360
+              },
+              "truck": {
+                "common": 3479,
+                "epic": 646,
+                "legendary": 190,
+                "rare": 3599,
+                "uncommon": 30521
+              }
+            },
+            "remaining_by_rarity": {
+              "common": 13783,
+              "epic": 2562,
+              "legendary": 796,
+              "rare": 14524,
+              "uncommon": 108743
+            },
+            "remaining_total": 140408
+          },
+          "legendarys_per_player": {
+            "avg": 0.517,
+            "max": 5,
+            "min": 0,
+            "p50": 0,
+            "p90": 1,
+            "p99": 3
+          },
+          "mk_upgrade_consumed_by_rarity": {
+            "common": 37,
+            "epic": 3,
+            "legendary": 0,
+            "rare": 15,
+            "uncommon": 164
+          },
+          "mk_upgrade_outputs_by_rarity": {
+            "common": 37,
+            "epic": 3,
+            "legendary": 0,
+            "rare": 15,
+            "uncommon": 164
+          },
+          "mk_upgrades_total": 219,
+          "net_supply_growth": 422131,
+          "net_supply_growth_per_player": 92.573,
+          "perfect_legendarys_created": 48,
+          "perfect_legendarys_remaining": 48,
+          "players": 4560,
+          "recycled_cards_by_rarity": {
+            "common": 779509,
+            "epic": 0,
+            "legendary": 0,
+            "rare": 3687,
+            "uncommon": 276236
+          },
+          "remaining_cards_by_rarity": {
+            "common": 41003,
+            "epic": 7270,
+            "legendary": 2359,
+            "rare": 41669,
+            "uncommon": 329830
+          },
+          "scrap_consumed": 14920,
+          "scrap_generated": 1645087,
+          "scrap_surplus": 1630167
+        },
+        "collector": {
+          "cards_consumed_through_rarity_crafting": 15430,
+          "cards_created_total": 1821983,
+          "cards_per_player": {
+            "avg": 235.831,
+            "max": 286,
+            "min": 172,
+            "p50": 236,
+            "p90": 258,
+            "p99": 277
+          },
+          "cards_recycled_total": 1392049,
+          "cards_remaining": 413176,
+          "crafting_consumed_by_rarity": {
+            "common": 0,
+            "epic": 755,
+            "legendary": 0,
+            "rare": 6595,
+            "uncommon": 8080
+          },
+          "crafting_outputs_by_rarity": {
+            "common": 0,
+            "epic": 1319,
+            "legendary": 151,
+            "rare": 1616,
+            "uncommon": 0
+          },
+          "crafts_total": 3086,
+          "created_cards_by_rarity": {
+            "common": 1138634,
+            "epic": 7253,
+            "legendary": 2336,
+            "rare": 42447,
+            "uncommon": 631313
+          },
+          "freight": {
+            "cards_per_player": {
+              "avg": 85.557,
+              "max": 120,
+              "min": 53,
+              "p50": 85,
+              "p90": 98,
+              "p99": 110
+            },
+            "consumed_through_crafting_total": 5603,
+            "crafting_consumed_by_rarity": {
+              "common": 0,
+              "epic": 276,
+              "legendary": 0,
+              "rare": 2335,
+              "uncommon": 2992
+            },
+            "created_by_family": {
+              "aircraft": 169614,
+              "ship": 95139,
+              "train": 121994,
+              "truck": 157351
+            },
+            "created_by_family_rarity": {
+              "aircraft": {
+                "common": 81699,
+                "epic": 663,
+                "legendary": 191,
+                "rare": 3633,
+                "uncommon": 83428
+              },
+              "ship": {
+                "common": 60053,
+                "epic": 692,
+                "legendary": 184,
+                "rare": 3691,
+                "uncommon": 30519
+              },
+              "train": {
+                "common": 71030,
+                "epic": 619,
+                "legendary": 188,
+                "rare": 3798,
+                "uncommon": 46359
+              },
+              "truck": {
+                "common": 78954,
+                "epic": 693,
+                "legendary": 189,
+                "rare": 3741,
+                "uncommon": 73774
+              }
+            },
+            "created_by_rarity": {
+              "common": 291736,
+              "epic": 2667,
+              "legendary": 752,
+              "rare": 14863,
+              "uncommon": 234080
+            },
+            "created_total": 544098,
+            "daily_freight_rotation_by_rarity": {
+              "common": 0,
+              "epic": 0,
+              "legendary": 0,
+              "rare": 0,
+              "uncommon": 155179
+            },
+            "daily_freight_rotation_total": 155179,
+            "epic_per_player_year": 1.522,
+            "legendary_per_player_year": 0.429,
+            "legendary_players_at_least_1": 0.3567,
+            "legendary_players_at_least_2": 0.0622,
+            "legendary_players_at_least_3": 0.0086,
+            "rare_per_player_year": 8.483,
+            "recycled_by_rarity": {
+              "common": 286010,
+              "epic": 0,
+              "legendary": 0,
+              "rare": 0,
+              "uncommon": 102590
+            },
+            "recycled_total": 388600,
+            "remaining_by_family": {
+              "aircraft": 51677,
+              "ship": 21233,
+              "train": 30523,
+              "truck": 46462
+            },
+            "remaining_by_family_rarity": {
+              "aircraft": {
+                "common": 1683,
+                "epic": 604,
+                "legendary": 191,
+                "rare": 3071,
+                "uncommon": 46128
+              },
+              "ship": {
+                "common": 1081,
+                "epic": 604,
+                "legendary": 184,
+                "rare": 3077,
+                "uncommon": 16287
+              },
+              "train": {
+                "common": 1377,
+                "epic": 569,
+                "legendary": 188,
+                "rare": 3207,
+                "uncommon": 25182
+              },
+              "truck": {
+                "common": 1585,
+                "epic": 614,
+                "legendary": 189,
+                "rare": 3173,
+                "uncommon": 40901
+              }
+            },
+            "remaining_by_rarity": {
+              "common": 5726,
+              "epic": 2391,
+              "legendary": 752,
+              "rare": 12528,
+              "uncommon": 128498
+            },
+            "remaining_total": 149895
+          },
+          "legendarys_per_player": {
+            "avg": 1.33,
+            "max": 6,
+            "min": 0,
+            "p50": 1,
+            "p90": 3,
+            "p99": 5
+          },
+          "mk_upgrade_consumed_by_rarity": {
+            "common": 252,
+            "epic": 14,
+            "legendary": 6,
+            "rare": 111,
+            "uncommon": 945
+          },
+          "mk_upgrade_outputs_by_rarity": {
+            "common": 252,
+            "epic": 14,
+            "legendary": 6,
+            "rare": 111,
+            "uncommon": 945
+          },
+          "mk_upgrades_total": 1328,
+          "net_supply_growth": 413176,
+          "net_supply_growth_per_player": 235.831,
+          "perfect_legendarys_created": 51,
+          "perfect_legendarys_remaining": 51,
+          "players": 1752,
+          "recycled_cards_by_rarity": {
+            "common": 1114380,
+            "epic": 0,
+            "legendary": 0,
+            "rare": 0,
+            "uncommon": 277669
+          },
+          "remaining_cards_by_rarity": {
+            "common": 24002,
+            "epic": 6484,
+            "legendary": 2330,
+            "rare": 35741,
+            "uncommon": 344619
+          },
+          "scrap_consumed": 98640,
+          "scrap_generated": 1947387,
+          "scrap_surplus": 1848747
+        },
+        "daily_optimizer": {
+          "cards_consumed_through_rarity_crafting": 74900,
+          "cards_created_total": 2946626,
+          "cards_per_player": {
+            "avg": 74.613,
+            "max": 108,
+            "min": 48,
+            "p50": 74,
+            "p90": 86,
+            "p99": 95
+          },
+          "cards_recycled_total": 2641675,
+          "cards_remaining": 222868,
+          "crafting_consumed_by_rarity": {
+            "common": 0,
+            "epic": 5005,
+            "legendary": 0,
+            "rare": 28045,
+            "uncommon": 41850
+          },
+          "crafting_outputs_by_rarity": {
+            "common": 0,
+            "epic": 5609,
+            "legendary": 1001,
+            "rare": 8370,
+            "uncommon": 0
+          },
+          "crafts_total": 14980,
+          "created_cards_by_rarity": {
+            "common": 1608859,
+            "epic": 17276,
+            "legendary": 4876,
+            "rare": 85641,
+            "uncommon": 1229974
+          },
+          "freight": {
+            "cards_per_player": {
+              "avg": 30.34,
+              "max": 52,
+              "min": 15,
+              "p50": 30,
+              "p90": 37,
+              "p99": 43
+            },
+            "consumed_through_crafting_total": 29045,
+            "crafting_consumed_by_rarity": {
+              "common": 0,
+              "epic": 1748,
+              "legendary": 0,
+              "rare": 9506,
+              "uncommon": 17791
+            },
+            "created_by_family": {
+              "aircraft": 345527,
+              "ship": 176312,
+              "train": 242862,
+              "truck": 323280
+            },
+            "created_by_family_rarity": {
+              "aircraft": {
+                "common": 145503,
+                "epic": 1533,
+                "legendary": 421,
+                "rare": 7461,
+                "uncommon": 190609
+              },
+              "ship": {
+                "common": 109754,
+                "epic": 1570,
+                "legendary": 376,
+                "rare": 7120,
+                "uncommon": 57492
+              },
+              "train": {
+                "common": 130110,
+                "epic": 1515,
+                "legendary": 417,
+                "rare": 7196,
+                "uncommon": 103624
+              },
+              "truck": {
+                "common": 140979,
+                "epic": 1520,
+                "legendary": 375,
+                "rare": 7006,
+                "uncommon": 173400
+              }
+            },
+            "created_by_rarity": {
+              "common": 526346,
+              "epic": 6138,
+              "legendary": 1589,
+              "rare": 28783,
+              "uncommon": 525125
+            },
+            "created_total": 1087981,
+            "daily_freight_rotation_by_rarity": {
+              "common": 0,
+              "epic": 0,
+              "legendary": 0,
+              "rare": 0,
+              "uncommon": 406498
+            },
+            "daily_freight_rotation_total": 406498,
+            "epic_per_player_year": 2.055,
+            "legendary_per_player_year": 0.532,
+            "legendary_players_at_least_1": 0.4185,
+            "legendary_players_at_least_2": 0.0964,
+            "legendary_players_at_least_3": 0.0161,
+            "rare_per_player_year": 9.636,
+            "recycled_by_rarity": {
+              "common": 519286,
+              "epic": 0,
+              "legendary": 0,
+              "rare": 7255,
+              "uncommon": 441769
+            },
+            "recycled_total": 968310,
+            "remaining_by_family": {
+              "aircraft": 30648,
+              "ship": 12812,
+              "train": 18933,
+              "truck": 28233
+            },
+            "remaining_by_family_rarity": {
+              "aircraft": {
+                "common": 1964,
+                "epic": 1083,
+                "legendary": 421,
+                "rare": 3156,
+                "uncommon": 24024
+              },
+              "ship": {
+                "common": 1490,
+                "epic": 1122,
+                "legendary": 376,
+                "rare": 3020,
+                "uncommon": 6804
+              },
+              "train": {
+                "common": 1766,
+                "epic": 1093,
+                "legendary": 417,
+                "rare": 2942,
+                "uncommon": 12715
+              },
+              "truck": {
+                "common": 1840,
+                "epic": 1092,
+                "legendary": 375,
+                "rare": 2904,
+                "uncommon": 22022
+              }
+            },
+            "remaining_by_rarity": {
+              "common": 7060,
+              "epic": 4390,
+              "legendary": 1589,
+              "rare": 12022,
+              "uncommon": 65565
+            },
+            "remaining_total": 90626
+          },
+          "legendarys_per_player": {
+            "avg": 1.605,
+            "max": 7,
+            "min": 0,
+            "p50": 1,
+            "p90": 3,
+            "p99": 5
+          },
+          "mk_upgrade_consumed_by_rarity": {
+            "common": 1017,
+            "epic": 311,
+            "legendary": 83,
+            "rare": 1061,
+            "uncommon": 4711
+          },
+          "mk_upgrade_outputs_by_rarity": {
+            "common": 1017,
+            "epic": 311,
+            "legendary": 83,
+            "rare": 1061,
+            "uncommon": 4711
+          },
+          "mk_upgrades_total": 7183,
+          "net_supply_growth": 222868,
+          "net_supply_growth_per_player": 74.613,
+          "perfect_legendarys_created": 86,
+          "perfect_legendarys_remaining": 84,
+          "players": 2987,
+          "recycled_cards_by_rarity": {
+            "common": 1586737,
+            "epic": 0,
+            "legendary": 0,
+            "rare": 21072,
+            "uncommon": 1033866
+          },
+          "remaining_cards_by_rarity": {
+            "common": 21105,
+            "epic": 11960,
+            "legendary": 4793,
+            "rare": 35463,
+            "uncommon": 149547
+          },
+          "scrap_consumed": 535480,
+          "scrap_generated": 4899055,
+          "scrap_surplus": 4363575
+        },
+        "power_user": {
+          "cards_consumed_through_rarity_crafting": 133745,
+          "cards_created_total": 1395046,
+          "cards_per_player": {
+            "avg": 29.887,
+            "max": 52,
+            "min": 11,
+            "p50": 30,
+            "p90": 38,
+            "p99": 45
+          },
+          "cards_recycled_total": 1228225,
+          "cards_remaining": 20951,
+          "crafting_consumed_by_rarity": {
+            "common": 0,
+            "epic": 8780,
+            "legendary": 0,
+            "rare": 34190,
+            "uncommon": 90775
+          },
+          "crafting_outputs_by_rarity": {
+            "common": 0,
+            "epic": 6838,
+            "legendary": 1756,
+            "rare": 18155,
+            "uncommon": 0
+          },
+          "crafts_total": 26749,
+          "created_cards_by_rarity": {
+            "common": 915857,
+            "epic": 12837,
+            "legendary": 3897,
+            "rare": 52590,
+            "uncommon": 409865
+          },
+          "freight": {
+            "cards_per_player": {
+              "avg": 10.612,
+              "max": 22,
+              "min": 2,
+              "p50": 10,
+              "p90": 15,
+              "p99": 19
+            },
+            "consumed_through_crafting_total": 51191,
+            "crafting_consumed_by_rarity": {
+              "common": 0,
+              "epic": 3236,
+              "legendary": 0,
+              "rare": 12415,
+              "uncommon": 35540
+            },
+            "created_by_family": {
+              "aircraft": 125559,
+              "ship": 73079,
+              "train": 87407,
+              "truck": 117133
+            },
+            "created_by_family_rarity": {
+              "aircraft": {
+                "common": 60104,
+                "epic": 1130,
+                "legendary": 310,
+                "rare": 4523,
+                "uncommon": 59492
+              },
+              "ship": {
+                "common": 48124,
+                "epic": 1067,
+                "legendary": 299,
+                "rare": 4567,
+                "uncommon": 19022
+              },
+              "train": {
+                "common": 54149,
+                "epic": 1052,
+                "legendary": 301,
+                "rare": 4462,
+                "uncommon": 27443
+              },
+              "truck": {
+                "common": 58582,
+                "epic": 1058,
+                "legendary": 304,
+                "rare": 4531,
+                "uncommon": 52658
+              }
+            },
+            "created_by_rarity": {
+              "common": 220959,
+              "epic": 4307,
+              "legendary": 1214,
+              "rare": 18083,
+              "uncommon": 158615
+            },
+            "created_total": 403178,
+            "daily_freight_rotation_by_rarity": {
+              "common": 0,
+              "epic": 0,
+              "legendary": 0,
+              "rare": 0,
+              "uncommon": 107732
+            },
+            "daily_freight_rotation_total": 107732,
+            "epic_per_player_year": 6.144,
+            "legendary_per_player_year": 1.732,
+            "legendary_players_at_least_1": 0.8616,
+            "legendary_players_at_least_2": 0.5478,
+            "legendary_players_at_least_3": 0.234,
+            "rare_per_player_year": 25.796,
+            "recycled_by_rarity": {
+              "common": 220075,
+              "epic": 347,
+              "legendary": 0,
+              "rare": 4437,
+              "uncommon": 119689
+            },
+            "recycled_total": 344548,
+            "remaining_by_family": {
+              "aircraft": 2303,
+              "ship": 1333,
+              "train": 1644,
+              "truck": 2159
+            },
+            "remaining_by_family_rarity": {
+              "aircraft": {
+                "common": 247,
+                "epic": 194,
+                "legendary": 310,
+                "rare": 322,
+                "uncommon": 1230
+              },
+              "ship": {
+                "common": 200,
+                "epic": 168,
+                "legendary": 299,
+                "rare": 301,
+                "uncommon": 365
+              },
+              "train": {
+                "common": 221,
+                "epic": 191,
+                "legendary": 301,
+                "rare": 317,
+                "uncommon": 614
+              },
+              "truck": {
+                "common": 216,
+                "epic": 171,
+                "legendary": 304,
+                "rare": 291,
+                "uncommon": 1177
+              }
+            },
+            "remaining_by_rarity": {
+              "common": 884,
+              "epic": 724,
+              "legendary": 1214,
+              "rare": 1231,
+              "uncommon": 3386
+            },
+            "remaining_total": 7439
+          },
+          "legendarys_per_player": {
+            "avg": 4.642,
+            "max": 13,
+            "min": 1,
+            "p50": 5,
+            "p90": 7,
+            "p99": 8
+          },
+          "mk_upgrade_consumed_by_rarity": {
+            "common": 3045,
+            "epic": 1183,
+            "legendary": 643,
+            "rare": 2422,
+            "uncommon": 4832
+          },
+          "mk_upgrade_outputs_by_rarity": {
+            "common": 3045,
+            "epic": 1183,
+            "legendary": 643,
+            "rare": 2422,
+            "uncommon": 4832
+          },
+          "mk_upgrades_total": 12125,
+          "net_supply_growth": 20951,
+          "net_supply_growth_per_player": 29.887,
+          "perfect_legendarys_created": 53,
+          "perfect_legendarys_remaining": 44,
+          "players": 701,
+          "recycled_cards_by_rarity": {
+            "common": 909151,
+            "epic": 921,
+            "legendary": 0,
+            "rare": 12511,
+            "uncommon": 305642
+          },
+          "remaining_cards_by_rarity": {
+            "common": 3661,
+            "epic": 1953,
+            "legendary": 3254,
+            "rare": 3467,
+            "uncommon": 8616
+          },
+          "scrap_consumed": 949960,
+          "scrap_generated": 1983422,
+          "scrap_surplus": 1033462
+        }
+      },
+      "cards_consumed_through_rarity_crafting": 227630,
+      "cards_created_total": 7648992,
+      "cards_per_player": {
+        "avg": 107.913,
+        "max": 286,
+        "min": 11,
+        "p50": 88,
+        "p90": 233,
+        "p99": 264
+      },
+      "cards_recycled_total": 6321381,
+      "crafting_consumed_by_rarity": {
+        "common": 0,
+        "epic": 14555,
+        "legendary": 0,
+        "rare": 70160,
+        "uncommon": 142915
+      },
+      "crafting_outputs_by_rarity": {
+        "common": 0,
+        "epic": 14032,
+        "legendary": 2911,
+        "rare": 28583,
+        "uncommon": 0
+      },
+      "crafts_total": 45526,
+      "created_cards_by_rarity": {
+        "common": 4483899,
+        "epic": 44654,
+        "legendary": 13468,
+        "rare": 227379,
+        "uncommon": 2879592
+      },
+      "freight": {
+        "cards_per_player": {
+          "avg": 38.837,
+          "max": 120,
+          "min": 2,
+          "p50": 31,
+          "p90": 84,
+          "p99": 101
+        },
+        "consumed_through_crafting_total": 86991,
+        "crafting_consumed_by_rarity": {
+          "common": 0,
+          "epic": 5269,
+          "legendary": 0,
+          "rare": 24716,
+          "uncommon": 57006
+        },
+        "created_by_family": {
+          "aircraft": 772857,
+          "ship": 453222,
+          "train": 574851,
+          "truck": 728368
+        },
+        "created_by_family_rarity": {
+          "aircraft": {
+            "common": 356685,
+            "epic": 3988,
+            "legendary": 1118,
+            "rare": 19713,
+            "uncommon": 391353
+          },
+          "ship": {
+            "common": 284364,
+            "epic": 3945,
+            "legendary": 1064,
+            "rare": 19410,
+            "uncommon": 144439
+          },
+          "train": {
+            "common": 324021,
+            "epic": 3832,
+            "legendary": 1111,
+            "rare": 19503,
+            "uncommon": 226384
+          },
+          "truck": {
+            "common": 348090,
+            "epic": 3918,
+            "legendary": 1058,
+            "rare": 19346,
+            "uncommon": 355956
+          }
+        },
+        "created_by_rarity": {
+          "common": 1313160,
+          "epic": 15683,
+          "legendary": 4351,
+          "rare": 77972,
+          "uncommon": 1118132
+        },
+        "created_total": 2529298,
+        "daily_freight_rotation_by_rarity": {
+          "common": 0,
+          "epic": 0,
+          "legendary": 0,
+          "rare": 0,
+          "uncommon": 794497
+        },
+        "daily_freight_rotation_total": 794497,
+        "epic_per_player_year": 1.568,
+        "legendary_per_player_year": 0.435,
+        "legendary_players_at_least_1": 0.3214,
+        "legendary_players_at_least_2": 0.084,
+        "legendary_players_at_least_3": 0.0229,
+        "rare_per_player_year": 7.797,
+        "recycled_by_rarity": {
+          "common": 1285707,
+          "epic": 347,
+          "legendary": 0,
+          "rare": 12951,
+          "uncommon": 754934
+        },
+        "recycled_total": 2053939,
+        "remaining_by_family": {
+          "aircraft": 124341,
+          "ship": 63338,
+          "train": 85400,
+          "truck": 115289
+        },
+        "remaining_by_family_rarity": {
+          "aircraft": {
+            "common": 7460,
+            "epic": 2541,
+            "legendary": 1118,
+            "rare": 10215,
+            "uncommon": 103007
+          },
+          "ship": {
+            "common": 6033,
+            "epic": 2507,
+            "legendary": 1064,
+            "rare": 10041,
+            "uncommon": 43693
+          },
+          "train": {
+            "common": 6840,
+            "epic": 2496,
+            "legendary": 1111,
+            "rare": 10082,
+            "uncommon": 64871
+          },
+          "truck": {
+            "common": 7120,
+            "epic": 2523,
+            "legendary": 1058,
+            "rare": 9967,
+            "uncommon": 94621
+          }
+        },
+        "remaining_by_rarity": {
+          "common": 27453,
+          "epic": 10067,
+          "legendary": 4351,
+          "rare": 40305,
+          "uncommon": 306192
+        },
+        "remaining_total": 388368
+      },
+      "legendarys_per_player": {
+        "avg": 1.274,
+        "max": 13,
+        "min": 0,
+        "p50": 1,
+        "p90": 3,
+        "p99": 6
+      },
+      "mk_upgrades_total": 20855,
+      "net_supply_growth": 1079126,
+      "recycled_cards_by_rarity": {
+        "common": 4389777,
+        "epic": 921,
+        "legendary": 0,
+        "rare": 37270,
+        "uncommon": 1893413
+      },
+      "remaining_cards_by_rarity": {
+        "common": 89771,
+        "epic": 27667,
+        "legendary": 12736,
+        "rare": 116340,
+        "uncommon": 832612
+      },
+      "scrap_consumed": 1599000,
+      "scrap_generated": 10474951,
+      "scrap_surplus": 8875951,
+      "seed": 101
+    },
+    {
+      "by_profile": {
+        "casual": {
+          "cards_consumed_through_rarity_crafting": 3200,
+          "cards_created_total": 1466645,
+          "cards_per_player": {
+            "avg": 92.21,
+            "max": 135,
+            "min": 53,
+            "p50": 92,
+            "p90": 105,
+            "p99": 117
+          },
+          "cards_recycled_total": 1047081,
+          "cards_remaining": 416145,
+          "crafting_consumed_by_rarity": {
+            "common": 0,
+            "epic": 15,
+            "legendary": 0,
+            "rare": 1300,
+            "uncommon": 1885
+          },
+          "crafting_outputs_by_rarity": {
+            "common": 0,
+            "epic": 260,
+            "legendary": 3,
+            "rare": 377,
+            "uncommon": 0
+          },
+          "crafts_total": 640,
+          "created_cards_by_rarity": {
+            "common": 811625,
+            "epic": 6976,
+            "legendary": 2287,
+            "rare": 45366,
+            "uncommon": 600391
+          },
+          "freight": {
+            "cards_per_player": {
+              "avg": 30.606,
+              "max": 55,
+              "min": 12,
+              "p50": 31,
+              "p90": 38,
+              "p99": 45
+            },
+            "consumed_through_crafting_total": 1118,
+            "crafting_consumed_by_rarity": {
+              "common": 0,
+              "epic": 7,
+              "legendary": 0,
+              "rare": 464,
+              "uncommon": 647
+            },
+            "created_by_family": {
+              "aircraft": 130480,
+              "ship": 107185,
+              "train": 121112,
+              "truck": 129201
+            },
+            "created_by_family_rarity": {
+              "aircraft": {
+                "common": 69193,
+                "epic": 611,
+                "legendary": 160,
+                "rare": 3857,
+                "uncommon": 56659
+              },
+              "ship": {
+                "common": 65601,
+                "epic": 622,
+                "legendary": 190,
+                "rare": 3843,
+                "uncommon": 36929
+              },
+              "train": {
+                "common": 68301,
+                "epic": 633,
+                "legendary": 190,
+                "rare": 3869,
+                "uncommon": 48119
+              },
+              "truck": {
+                "common": 68953,
+                "epic": 612,
+                "legendary": 195,
+                "rare": 3914,
+                "uncommon": 55527
+              }
+            },
+            "created_by_rarity": {
+              "common": 272048,
+              "epic": 2478,
+              "legendary": 735,
+              "rare": 15483,
+              "uncommon": 197234
+            },
+            "created_total": 487978,
+            "daily_freight_rotation_by_rarity": {
+              "common": 0,
+              "epic": 0,
+              "legendary": 0,
+              "rare": 0,
+              "uncommon": 123095
+            },
+            "daily_freight_rotation_total": 123095,
+            "epic_per_player_year": 0.549,
+            "legendary_per_player_year": 0.163,
+            "legendary_players_at_least_1": 0.1485,
+            "legendary_players_at_least_2": 0.0137,
+            "legendary_players_at_least_3": 0.0007,
+            "rare_per_player_year": 3.431,
+            "recycled_by_rarity": {
+              "common": 258158,
+              "epic": 0,
+              "legendary": 0,
+              "rare": 1197,
+              "uncommon": 89379
+            },
+            "recycled_total": 348734,
+            "remaining_by_family": {
+              "aircraft": 38534,
+              "ship": 27549,
+              "train": 33871,
+              "truck": 38172
+            },
+            "remaining_by_family_rarity": {
+              "aircraft": {
+                "common": 3627,
+                "epic": 610,
+                "legendary": 160,
+                "rare": 3462,
+                "uncommon": 30675
+              },
+              "ship": {
+                "common": 3254,
+                "epic": 620,
+                "legendary": 190,
+                "rare": 3441,
+                "uncommon": 20044
+              },
+              "train": {
+                "common": 3377,
+                "epic": 630,
+                "legendary": 190,
+                "rare": 3421,
+                "uncommon": 26253
+              },
+              "truck": {
+                "common": 3632,
+                "epic": 611,
+                "legendary": 195,
+                "rare": 3498,
+                "uncommon": 30236
+              }
+            },
+            "remaining_by_rarity": {
+              "common": 13890,
+              "epic": 2471,
+              "legendary": 735,
+              "rare": 13822,
+              "uncommon": 107208
+            },
+            "remaining_total": 138126
+          },
+          "legendarys_per_player": {
+            "avg": 0.507,
+            "max": 5,
+            "min": 0,
+            "p50": 0,
+            "p90": 1,
+            "p99": 3
+          },
+          "mk_upgrade_consumed_by_rarity": {
+            "common": 42,
+            "epic": 4,
+            "legendary": 0,
+            "rare": 22,
+            "uncommon": 151
+          },
+          "mk_upgrade_outputs_by_rarity": {
+            "common": 42,
+            "epic": 4,
+            "legendary": 0,
+            "rare": 22,
+            "uncommon": 151
+          },
+          "mk_upgrades_total": 219,
+          "net_supply_growth": 416145,
+          "net_supply_growth_per_player": 92.21,
+          "perfect_legendarys_created": 50,
+          "perfect_legendarys_remaining": 50,
+          "players": 4513,
+          "recycled_cards_by_rarity": {
+            "common": 770551,
+            "epic": 0,
+            "legendary": 0,
+            "rare": 3634,
+            "uncommon": 272896
+          },
+          "remaining_cards_by_rarity": {
+            "common": 41032,
+            "epic": 6957,
+            "legendary": 2287,
+            "rare": 40410,
+            "uncommon": 325459
+          },
+          "scrap_consumed": 15160,
+          "scrap_generated": 1625579,
+          "scrap_surplus": 1610419
+        },
+        "collector": {
+          "cards_consumed_through_rarity_crafting": 15780,
+          "cards_created_total": 1872934,
+          "cards_per_player": {
+            "avg": 234.457,
+            "max": 295,
+            "min": 183,
+            "p50": 234,
+            "p90": 255,
+            "p99": 274
+          },
+          "cards_recycled_total": 1432627,
+          "cards_remaining": 423194,
+          "crafting_consumed_by_rarity": {
+            "common": 0,
+            "epic": 815,
+            "legendary": 0,
+            "rare": 6760,
+            "uncommon": 8205
+          },
+          "crafting_outputs_by_rarity": {
+            "common": 0,
+            "epic": 1352,
+            "legendary": 163,
+            "rare": 1641,
+            "uncommon": 0
+          },
+          "crafts_total": 3156,
+          "created_cards_by_rarity": {
+            "common": 1170621,
+            "epic": 7432,
+            "legendary": 2341,
+            "rare": 43772,
+            "uncommon": 648768
+          },
+          "freight": {
+            "cards_per_player": {
+              "avg": 84.837,
+              "max": 116,
+              "min": 55,
+              "p50": 85,
+              "p90": 97,
+              "p99": 108
+            },
+            "consumed_through_crafting_total": 5744,
+            "crafting_consumed_by_rarity": {
+              "common": 0,
+              "epic": 262,
+              "legendary": 0,
+              "rare": 2386,
+              "uncommon": 3096
+            },
+            "created_by_family": {
+              "aircraft": 174405,
+              "ship": 96849,
+              "train": 124955,
+              "truck": 162369
+            },
+            "created_by_family_rarity": {
+              "aircraft": {
+                "common": 84284,
+                "epic": 695,
+                "legendary": 184,
+                "rare": 3851,
+                "uncommon": 85391
+              },
+              "ship": {
+                "common": 61222,
+                "epic": 655,
+                "legendary": 207,
+                "rare": 3847,
+                "uncommon": 30918
+              },
+              "train": {
+                "common": 72773,
+                "epic": 664,
+                "legendary": 182,
+                "rare": 3813,
+                "uncommon": 47523
+              },
+              "truck": {
+                "common": 81341,
+                "epic": 724,
+                "legendary": 195,
+                "rare": 3836,
+                "uncommon": 76273
+              }
+            },
+            "created_by_rarity": {
+              "common": 299620,
+              "epic": 2738,
+              "legendary": 768,
+              "rare": 15347,
+              "uncommon": 240105
+            },
+            "created_total": 558578,
+            "daily_freight_rotation_by_rarity": {
+              "common": 0,
+              "epic": 0,
+              "legendary": 0,
+              "rare": 0,
+              "uncommon": 159251
+            },
+            "daily_freight_rotation_total": 159251,
+            "epic_per_player_year": 1.517,
+            "legendary_per_player_year": 0.425,
+            "legendary_players_at_least_1": 0.3512,
+            "legendary_players_at_least_2": 0.0665,
+            "legendary_players_at_least_3": 0.0072,
+            "rare_per_player_year": 8.502,
+            "recycled_by_rarity": {
+              "common": 293676,
+              "epic": 0,
+              "legendary": 0,
+              "rare": 0,
+              "uncommon": 106027
+            },
+            "recycled_total": 399703,
+            "remaining_by_family": {
+              "aircraft": 52815,
+              "ship": 21694,
+              "train": 31096,
+              "truck": 47526
+            },
+            "remaining_by_family_rarity": {
+              "aircraft": {
+                "common": 1696,
+                "epic": 642,
+                "legendary": 184,
+                "rare": 3241,
+                "uncommon": 47052
+              },
+              "ship": {
+                "common": 1135,
+                "epic": 585,
+                "legendary": 207,
+                "rare": 3270,
+                "uncommon": 16497
+              },
+              "train": {
+                "common": 1440,
+                "epic": 595,
+                "legendary": 182,
+                "rare": 3205,
+                "uncommon": 25674
+              },
+              "truck": {
+                "common": 1673,
+                "epic": 654,
+                "legendary": 195,
+                "rare": 3245,
+                "uncommon": 41759
+              }
+            },
+            "remaining_by_rarity": {
+              "common": 5944,
+              "epic": 2476,
+              "legendary": 768,
+              "rare": 12961,
+              "uncommon": 130982
+            },
+            "remaining_total": 153131
+          },
+          "legendarys_per_player": {
+            "avg": 1.293,
+            "max": 6,
+            "min": 0,
+            "p50": 1,
+            "p90": 3,
+            "p99": 4
+          },
+          "mk_upgrade_consumed_by_rarity": {
+            "common": 234,
+            "epic": 19,
+            "legendary": 7,
+            "rare": 91,
+            "uncommon": 982
+          },
+          "mk_upgrade_outputs_by_rarity": {
+            "common": 234,
+            "epic": 19,
+            "legendary": 7,
+            "rare": 91,
+            "uncommon": 982
+          },
+          "mk_upgrades_total": 1333,
+          "net_supply_growth": 423194,
+          "net_supply_growth_per_player": 234.457,
+          "perfect_legendarys_created": 59,
+          "perfect_legendarys_remaining": 59,
+          "players": 1805,
+          "recycled_cards_by_rarity": {
+            "common": 1145574,
+            "epic": 0,
+            "legendary": 0,
+            "rare": 0,
+            "uncommon": 287053
+          },
+          "remaining_cards_by_rarity": {
+            "common": 24813,
+            "epic": 6598,
+            "legendary": 2334,
+            "rare": 36921,
+            "uncommon": 352528
+          },
+          "scrap_consumed": 96680,
+          "scrap_generated": 2006733,
+          "scrap_surplus": 1910053
+        },
+        "daily_optimizer": {
+          "cards_consumed_through_rarity_crafting": 73520,
+          "cards_created_total": 2923600,
+          "cards_per_player": {
+            "avg": 74.424,
+            "max": 108,
+            "min": 42,
+            "p50": 74,
+            "p90": 86,
+            "p99": 95
+          },
+          "cards_recycled_total": 2621960,
+          "cards_remaining": 220890,
+          "crafting_consumed_by_rarity": {
+            "common": 0,
+            "epic": 4950,
+            "legendary": 0,
+            "rare": 27615,
+            "uncommon": 40955
+          },
+          "crafting_outputs_by_rarity": {
+            "common": 0,
+            "epic": 5523,
+            "legendary": 990,
+            "rare": 8191,
+            "uncommon": 0
+          },
+          "crafts_total": 14704,
+          "created_cards_by_rarity": {
+            "common": 1597261,
+            "epic": 17012,
+            "legendary": 5003,
+            "rare": 85051,
+            "uncommon": 1219273
+          },
+          "freight": {
+            "cards_per_player": {
+              "avg": 30.417,
+              "max": 51,
+              "min": 13,
+              "p50": 30,
+              "p90": 37,
+              "p99": 43
+            },
+            "consumed_through_crafting_total": 28640,
+            "crafting_consumed_by_rarity": {
+              "common": 0,
+              "epic": 1774,
+              "legendary": 0,
+              "rare": 9423,
+              "uncommon": 17443
+            },
+            "created_by_family": {
+              "aircraft": 342762,
+              "ship": 173568,
+              "train": 241222,
+              "truck": 321447
+            },
+            "created_by_family_rarity": {
+              "aircraft": {
+                "common": 144766,
+                "epic": 1531,
+                "legendary": 389,
+                "rare": 7148,
+                "uncommon": 188928
+              },
+              "ship": {
+                "common": 107624,
+                "epic": 1552,
+                "legendary": 417,
+                "rare": 7114,
+                "uncommon": 56861
+              },
+              "train": {
+                "common": 128292,
+                "epic": 1521,
+                "legendary": 442,
+                "rare": 7345,
+                "uncommon": 103622
+              },
+              "truck": {
+                "common": 140786,
+                "epic": 1482,
+                "legendary": 408,
+                "rare": 7180,
+                "uncommon": 171591
+              }
+            },
+            "created_by_rarity": {
+              "common": 521468,
+              "epic": 6086,
+              "legendary": 1656,
+              "rare": 28787,
+              "uncommon": 521002
+            },
+            "created_total": 1078999,
+            "daily_freight_rotation_by_rarity": {
+              "common": 0,
+              "epic": 0,
+              "legendary": 0,
+              "rare": 0,
+              "uncommon": 403417
+            },
+            "daily_freight_rotation_total": 403417,
+            "epic_per_player_year": 2.051,
+            "legendary_per_player_year": 0.558,
+            "legendary_players_at_least_1": 0.4353,
+            "legendary_players_at_least_2": 0.1041,
+            "legendary_players_at_least_3": 0.0165,
+            "rare_per_player_year": 9.699,
+            "recycled_by_rarity": {
+              "common": 514473,
+              "epic": 0,
+              "legendary": 0,
+              "rare": 7364,
+              "uncommon": 438245
+            },
+            "recycled_total": 960082,
+            "remaining_by_family": {
+              "aircraft": 30394,
+              "ship": 12659,
+              "train": 19055,
+              "truck": 28169
+            },
+            "remaining_by_family_rarity": {
+              "aircraft": {
+                "common": 1934,
+                "epic": 1074,
+                "legendary": 389,
+                "rare": 2975,
+                "uncommon": 24022
+              },
+              "ship": {
+                "common": 1509,
+                "epic": 1119,
+                "legendary": 417,
+                "rare": 2954,
+                "uncommon": 6660
+              },
+              "train": {
+                "common": 1675,
+                "epic": 1077,
+                "legendary": 442,
+                "rare": 3027,
+                "uncommon": 12834
+              },
+              "truck": {
+                "common": 1877,
+                "epic": 1042,
+                "legendary": 408,
+                "rare": 3044,
+                "uncommon": 21798
+              }
+            },
+            "remaining_by_rarity": {
+              "common": 6995,
+              "epic": 4312,
+              "legendary": 1656,
+              "rare": 12000,
+              "uncommon": 65314
+            },
+            "remaining_total": 90277
+          },
+          "legendarys_per_player": {
+            "avg": 1.649,
+            "max": 7,
+            "min": 0,
+            "p50": 1,
+            "p90": 3,
+            "p99": 5
+          },
+          "mk_upgrade_consumed_by_rarity": {
+            "common": 971,
+            "epic": 313,
+            "legendary": 108,
+            "rare": 1006,
+            "uncommon": 4832
+          },
+          "mk_upgrade_outputs_by_rarity": {
+            "common": 971,
+            "epic": 313,
+            "legendary": 108,
+            "rare": 1006,
+            "uncommon": 4832
+          },
+          "mk_upgrades_total": 7230,
+          "net_supply_growth": 220890,
+          "net_supply_growth_per_player": 74.424,
+          "perfect_legendarys_created": 98,
+          "perfect_legendarys_remaining": 94,
+          "players": 2968,
+          "recycled_cards_by_rarity": {
+            "common": 1575362,
+            "epic": 0,
+            "legendary": 0,
+            "rare": 21496,
+            "uncommon": 1025102
+          },
+          "remaining_cards_by_rarity": {
+            "common": 20928,
+            "epic": 11749,
+            "legendary": 4895,
+            "rare": 34934,
+            "uncommon": 148384
+          },
+          "scrap_consumed": 533760,
+          "scrap_generated": 4865628,
+          "scrap_surplus": 4331868
+        },
+        "power_user": {
+          "cards_consumed_through_rarity_crafting": 137505,
+          "cards_created_total": 1422801,
+          "cards_per_player": {
+            "avg": 30.251,
+            "max": 51,
+            "min": 14,
+            "p50": 30,
+            "p90": 39,
+            "p99": 46
+          },
+          "cards_recycled_total": 1251321,
+          "cards_remaining": 21599,
+          "crafting_consumed_by_rarity": {
+            "common": 0,
+            "epic": 8910,
+            "legendary": 0,
+            "rare": 35450,
+            "uncommon": 93145
+          },
+          "crafting_outputs_by_rarity": {
+            "common": 0,
+            "epic": 7090,
+            "legendary": 1782,
+            "rare": 18629,
+            "uncommon": 0
+          },
+          "crafts_total": 27501,
+          "created_cards_by_rarity": {
+            "common": 934885,
+            "epic": 13195,
+            "legendary": 3993,
+            "rare": 54258,
+            "uncommon": 416470
+          },
+          "freight": {
+            "cards_per_player": {
+              "avg": 10.849,
+              "max": 22,
+              "min": 2,
+              "p50": 11,
+              "p90": 16,
+              "p99": 20
+            },
+            "consumed_through_crafting_total": 52470,
+            "crafting_consumed_by_rarity": {
+              "common": 0,
+              "epic": 3228,
+              "legendary": 0,
+              "rare": 12833,
+              "uncommon": 36409
+            },
+            "created_by_family": {
+              "aircraft": 127419,
+              "ship": 73935,
+              "train": 89161,
+              "truck": 119309
+            },
+            "created_by_family_rarity": {
+              "aircraft": {
+                "common": 60990,
+                "epic": 1110,
+                "legendary": 285,
+                "rare": 4747,
+                "uncommon": 60287
+              },
+              "ship": {
+                "common": 48251,
+                "epic": 1121,
+                "legendary": 315,
+                "rare": 4657,
+                "uncommon": 19591
+              },
+              "train": {
+                "common": 55217,
+                "epic": 1104,
+                "legendary": 289,
+                "rare": 4763,
+                "uncommon": 27788
+              },
+              "truck": {
+                "common": 59517,
+                "epic": 1064,
+                "legendary": 326,
+                "rare": 4665,
+                "uncommon": 53737
+              }
+            },
+            "created_by_rarity": {
+              "common": 223975,
+              "epic": 4399,
+              "legendary": 1215,
+              "rare": 18832,
+              "uncommon": 161403
+            },
+            "created_total": 409824,
+            "daily_freight_rotation_by_rarity": {
+              "common": 0,
+              "epic": 0,
+              "legendary": 0,
+              "rare": 0,
+              "uncommon": 109553
+            },
+            "daily_freight_rotation_total": 109553,
+            "epic_per_player_year": 6.161,
+            "legendary_per_player_year": 1.702,
+            "legendary_players_at_least_1": 0.8501,
+            "legendary_players_at_least_2": 0.5294,
+            "legendary_players_at_least_3": 0.2409,
+            "rare_per_player_year": 26.375,
+            "recycled_by_rarity": {
+              "common": 223058,
+              "epic": 368,
+              "legendary": 0,
+              "rare": 4687,
+              "uncommon": 121495
+            },
+            "recycled_total": 349608,
+            "remaining_by_family": {
+              "aircraft": 2384,
+              "ship": 1486,
+              "train": 1616,
+              "truck": 2260
+            },
+            "remaining_by_family_rarity": {
+              "aircraft": {
+                "common": 249,
+                "epic": 187,
+                "legendary": 285,
+                "rare": 343,
+                "uncommon": 1320
+              },
+              "ship": {
+                "common": 205,
+                "epic": 238,
+                "legendary": 315,
+                "rare": 330,
+                "uncommon": 398
+              },
+              "train": {
+                "common": 205,
+                "epic": 201,
+                "legendary": 289,
+                "rare": 321,
+                "uncommon": 600
+              },
+              "truck": {
+                "common": 258,
+                "epic": 177,
+                "legendary": 326,
+                "rare": 318,
+                "uncommon": 1181
+              }
+            },
+            "remaining_by_rarity": {
+              "common": 917,
+              "epic": 803,
+              "legendary": 1215,
+              "rare": 1312,
+              "uncommon": 3499
+            },
+            "remaining_total": 7746
+          },
+          "legendarys_per_player": {
+            "avg": 4.69,
+            "max": 11,
+            "min": 1,
+            "p50": 5,
+            "p90": 7,
+            "p99": 9
+          },
+          "mk_upgrade_consumed_by_rarity": {
+            "common": 3096,
+            "epic": 1175,
+            "legendary": 644,
+            "rare": 2484,
+            "uncommon": 4977
+          },
+          "mk_upgrade_outputs_by_rarity": {
+            "common": 3096,
+            "epic": 1175,
+            "legendary": 644,
+            "rare": 2484,
+            "uncommon": 4977
+          },
+          "mk_upgrades_total": 12376,
+          "net_supply_growth": 21599,
+          "net_supply_growth_per_player": 30.251,
+          "perfect_legendarys_created": 50,
+          "perfect_legendarys_remaining": 42,
+          "players": 714,
+          "recycled_cards_by_rarity": {
+            "common": 927987,
+            "epic": 1004,
+            "legendary": 0,
+            "rare": 12801,
+            "uncommon": 309529
+          },
+          "remaining_cards_by_rarity": {
+            "common": 3802,
+            "epic": 2106,
+            "legendary": 3349,
+            "rare": 3523,
+            "uncommon": 8819
+          },
+          "scrap_consumed": 959920,
+          "scrap_generated": 2019724,
+          "scrap_surplus": 1059804
+        }
+      },
+      "cards_consumed_through_rarity_crafting": 230005,
+      "cards_created_total": 7685980,
+      "cards_per_player": {
+        "avg": 108.183,
+        "max": 295,
+        "min": 14,
+        "p50": 88,
+        "p90": 232,
+        "p99": 261
+      },
+      "cards_recycled_total": 6352989,
+      "crafting_consumed_by_rarity": {
+        "common": 0,
+        "epic": 14690,
+        "legendary": 0,
+        "rare": 71125,
+        "uncommon": 144190
+      },
+      "crafting_outputs_by_rarity": {
+        "common": 0,
+        "epic": 14225,
+        "legendary": 2938,
+        "rare": 28838,
+        "uncommon": 0
+      },
+      "crafts_total": 46001,
+      "created_cards_by_rarity": {
+        "common": 4514392,
+        "epic": 44615,
+        "legendary": 13624,
+        "rare": 228447,
+        "uncommon": 2884902
+      },
+      "freight": {
+        "cards_per_player": {
+          "avg": 38.928,
+          "max": 116,
+          "min": 2,
+          "p50": 32,
+          "p90": 83,
+          "p99": 99
+        },
+        "consumed_through_crafting_total": 87972,
+        "crafting_consumed_by_rarity": {
+          "common": 0,
+          "epic": 5271,
+          "legendary": 0,
+          "rare": 25106,
+          "uncommon": 57595
+        },
+        "created_by_family": {
+          "aircraft": 775066,
+          "ship": 451537,
+          "train": 576450,
+          "truck": 732326
+        },
+        "created_by_family_rarity": {
+          "aircraft": {
+            "common": 359233,
+            "epic": 3947,
+            "legendary": 1018,
+            "rare": 19603,
+            "uncommon": 391265
+          },
+          "ship": {
+            "common": 282698,
+            "epic": 3950,
+            "legendary": 1129,
+            "rare": 19461,
+            "uncommon": 144299
+          },
+          "train": {
+            "common": 324583,
+            "epic": 3922,
+            "legendary": 1103,
+            "rare": 19790,
+            "uncommon": 227052
+          },
+          "truck": {
+            "common": 350597,
+            "epic": 3882,
+            "legendary": 1124,
+            "rare": 19595,
+            "uncommon": 357128
+          }
+        },
+        "created_by_rarity": {
+          "common": 1317111,
+          "epic": 15701,
+          "legendary": 4374,
+          "rare": 78449,
+          "uncommon": 1119744
+        },
+        "created_total": 2535379,
+        "daily_freight_rotation_by_rarity": {
+          "common": 0,
+          "epic": 0,
+          "legendary": 0,
+          "rare": 0,
+          "uncommon": 795316
+        },
+        "daily_freight_rotation_total": 795316,
+        "epic_per_player_year": 1.57,
+        "legendary_per_player_year": 0.437,
+        "legendary_players_at_least_1": 0.3203,
+        "legendary_players_at_least_2": 0.0869,
+        "legendary_players_at_least_3": 0.0237,
+        "rare_per_player_year": 7.845,
+        "recycled_by_rarity": {
+          "common": 1289365,
+          "epic": 368,
+          "legendary": 0,
+          "rare": 13248,
+          "uncommon": 755146
+        },
+        "recycled_total": 2058127,
+        "remaining_by_family": {
+          "aircraft": 124127,
+          "ship": 63388,
+          "train": 85638,
+          "truck": 116127
+        },
+        "remaining_by_family_rarity": {
+          "aircraft": {
+            "common": 7506,
+            "epic": 2513,
+            "legendary": 1018,
+            "rare": 10021,
+            "uncommon": 103069
+          },
+          "ship": {
+            "common": 6103,
+            "epic": 2562,
+            "legendary": 1129,
+            "rare": 9995,
+            "uncommon": 43599
+          },
+          "train": {
+            "common": 6697,
+            "epic": 2503,
+            "legendary": 1103,
+            "rare": 9974,
+            "uncommon": 65361
+          },
+          "truck": {
+            "common": 7440,
+            "epic": 2484,
+            "legendary": 1124,
+            "rare": 10105,
+            "uncommon": 94974
+          }
+        },
+        "remaining_by_rarity": {
+          "common": 27746,
+          "epic": 10062,
+          "legendary": 4374,
+          "rare": 40095,
+          "uncommon": 307003
+        },
+        "remaining_total": 389280
+      },
+      "legendarys_per_player": {
+        "avg": 1.286,
+        "max": 11,
+        "min": 0,
+        "p50": 1,
+        "p90": 3,
+        "p99": 6
+      },
+      "mk_upgrades_total": 21158,
+      "net_supply_growth": 1081828,
+      "recycled_cards_by_rarity": {
+        "common": 4419474,
+        "epic": 1004,
+        "legendary": 0,
+        "rare": 37931,
+        "uncommon": 1894580
+      },
+      "remaining_cards_by_rarity": {
+        "common": 90575,
+        "epic": 27410,
+        "legendary": 12865,
+        "rare": 115788,
+        "uncommon": 835190
+      },
+      "scrap_consumed": 1605520,
+      "scrap_generated": 10517664,
+      "scrap_surplus": 8912144,
+      "seed": 202
+    },
+    {
+      "by_profile": {
+        "casual": {
+          "cards_consumed_through_rarity_crafting": 3335,
+          "cards_created_total": 1476202,
+          "cards_per_player": {
+            "avg": 92.448,
+            "max": 134,
+            "min": 62,
+            "p50": 92,
+            "p90": 106,
+            "p99": 118
+          },
+          "cards_recycled_total": 1053397,
+          "cards_remaining": 419253,
+          "crafting_consumed_by_rarity": {
+            "common": 0,
+            "epic": 5,
+            "legendary": 0,
+            "rare": 1175,
+            "uncommon": 2155
+          },
+          "crafting_outputs_by_rarity": {
+            "common": 0,
+            "epic": 235,
+            "legendary": 1,
+            "rare": 431,
+            "uncommon": 0
+          },
+          "crafts_total": 667,
+          "created_cards_by_rarity": {
+            "common": 815919,
+            "epic": 7263,
+            "legendary": 2216,
+            "rare": 46122,
+            "uncommon": 604682
+          },
+          "freight": {
+            "cards_per_player": {
+              "avg": 30.73,
+              "max": 55,
+              "min": 12,
+              "p50": 31,
+              "p90": 38,
+              "p99": 45
+            },
+            "consumed_through_crafting_total": 1092,
+            "crafting_consumed_by_rarity": {
+              "common": 0,
+              "epic": 3,
+              "legendary": 0,
+              "rare": 410,
+              "uncommon": 679
+            },
+            "created_by_family": {
+              "aircraft": 131369,
+              "ship": 108019,
+              "train": 121873,
+              "truck": 129044
+            },
+            "created_by_family_rarity": {
+              "aircraft": {
+                "common": 69551,
+                "epic": 599,
+                "legendary": 157,
+                "rare": 3890,
+                "uncommon": 57172
+              },
+              "ship": {
+                "common": 65893,
+                "epic": 650,
+                "legendary": 167,
+                "rare": 3933,
+                "uncommon": 37376
+              },
+              "train": {
+                "common": 68262,
+                "epic": 613,
+                "legendary": 187,
+                "rare": 3923,
+                "uncommon": 48888
+              },
+              "truck": {
+                "common": 68538,
+                "epic": 644,
+                "legendary": 186,
+                "rare": 4040,
+                "uncommon": 55636
+              }
+            },
+            "created_by_rarity": {
+              "common": 272244,
+              "epic": 2506,
+              "legendary": 697,
+              "rare": 15786,
+              "uncommon": 199072
+            },
+            "created_total": 490305,
+            "daily_freight_rotation_by_rarity": {
+              "common": 0,
+              "epic": 0,
+              "legendary": 0,
+              "rare": 0,
+              "uncommon": 124390
+            },
+            "daily_freight_rotation_total": 124390,
+            "epic_per_player_year": 0.553,
+            "legendary_per_player_year": 0.154,
+            "legendary_players_at_least_1": 0.1431,
+            "legendary_players_at_least_2": 0.0099,
+            "legendary_players_at_least_3": 0.0007,
+            "rare_per_player_year": 3.481,
+            "recycled_by_rarity": {
+              "common": 258384,
+              "epic": 0,
+              "legendary": 0,
+              "rare": 1220,
+              "uncommon": 90250
+            },
+            "recycled_total": 349854,
+            "remaining_by_family": {
+              "aircraft": 38976,
+              "ship": 27893,
+              "train": 34393,
+              "truck": 38097
+            },
+            "remaining_by_family_rarity": {
+              "aircraft": {
+                "common": 3610,
+                "epic": 599,
+                "legendary": 157,
+                "rare": 3519,
+                "uncommon": 31091
+              },
+              "ship": {
+                "common": 3320,
+                "epic": 649,
+                "legendary": 167,
+                "rare": 3522,
+                "uncommon": 20235
+              },
+              "train": {
+                "common": 3486,
+                "epic": 613,
+                "legendary": 187,
+                "rare": 3520,
+                "uncommon": 26587
+              },
+              "truck": {
+                "common": 3444,
+                "epic": 642,
+                "legendary": 186,
+                "rare": 3595,
+                "uncommon": 30230
+              }
+            },
+            "remaining_by_rarity": {
+              "common": 13860,
+              "epic": 2503,
+              "legendary": 697,
+              "rare": 14156,
+              "uncommon": 108143
+            },
+            "remaining_total": 139359
+          },
+          "legendarys_per_player": {
+            "avg": 0.489,
+            "max": 4,
+            "min": 0,
+            "p50": 0,
+            "p90": 1,
+            "p99": 3
+          },
+          "mk_upgrade_consumed_by_rarity": {
+            "common": 39,
+            "epic": 2,
+            "legendary": 0,
+            "rare": 13,
+            "uncommon": 163
+          },
+          "mk_upgrade_outputs_by_rarity": {
+            "common": 39,
+            "epic": 2,
+            "legendary": 0,
+            "rare": 13,
+            "uncommon": 163
+          },
+          "mk_upgrades_total": 217,
+          "net_supply_growth": 419253,
+          "net_supply_growth_per_player": 92.448,
+          "perfect_legendarys_created": 49,
+          "perfect_legendarys_remaining": 49,
+          "players": 4535,
+          "recycled_cards_by_rarity": {
+            "common": 774815,
+            "epic": 0,
+            "legendary": 0,
+            "rare": 3525,
+            "uncommon": 275057
+          },
+          "remaining_cards_by_rarity": {
+            "common": 41065,
+            "epic": 7256,
+            "legendary": 2216,
+            "rare": 41409,
+            "uncommon": 327307
+          },
+          "scrap_consumed": 15400,
+          "scrap_generated": 1635236,
+          "scrap_surplus": 1619836
+        },
+        "collector": {
+          "cards_consumed_through_rarity_crafting": 15830,
+          "cards_created_total": 1875123,
+          "cards_per_player": {
+            "avg": 234.938,
+            "max": 304,
+            "min": 177,
+            "p50": 234,
+            "p90": 257,
+            "p99": 274
+          },
+          "cards_recycled_total": 1433947,
+          "cards_remaining": 424063,
+          "crafting_consumed_by_rarity": {
+            "common": 0,
+            "epic": 800,
+            "legendary": 0,
+            "rare": 6860,
+            "uncommon": 8170
+          },
+          "crafting_outputs_by_rarity": {
+            "common": 0,
+            "epic": 1372,
+            "legendary": 160,
+            "rare": 1634,
+            "uncommon": 0
+          },
+          "crafts_total": 3166,
+          "created_cards_by_rarity": {
+            "common": 1171863,
+            "epic": 7660,
+            "legendary": 2403,
+            "rare": 43567,
+            "uncommon": 649630
+          },
+          "freight": {
+            "cards_per_player": {
+              "avg": 84.773,
+              "max": 113,
+              "min": 53,
+              "p50": 85,
+              "p90": 97,
+              "p99": 107
+            },
+            "consumed_through_crafting_total": 5748,
+            "crafting_consumed_by_rarity": {
+              "common": 0,
+              "epic": 266,
+              "legendary": 0,
+              "rare": 2465,
+              "uncommon": 3017
+            },
+            "created_by_family": {
+              "aircraft": 174052,
+              "ship": 97550,
+              "train": 125867,
+              "truck": 161570
+            },
+            "created_by_family_rarity": {
+              "aircraft": {
+                "common": 84289,
+                "epic": 679,
+                "legendary": 210,
+                "rare": 3732,
+                "uncommon": 85142
+              },
+              "ship": {
+                "common": 61979,
+                "epic": 641,
+                "legendary": 214,
+                "rare": 3785,
+                "uncommon": 30931
+              },
+              "train": {
+                "common": 73156,
+                "epic": 668,
+                "legendary": 188,
+                "rare": 3899,
+                "uncommon": 47956
+              },
+              "truck": {
+                "common": 80957,
+                "epic": 725,
+                "legendary": 216,
+                "rare": 3838,
+                "uncommon": 75834
+              }
+            },
+            "created_by_rarity": {
+              "common": 300381,
+              "epic": 2713,
+              "legendary": 828,
+              "rare": 15254,
+              "uncommon": 239863
+            },
+            "created_total": 559039,
+            "daily_freight_rotation_by_rarity": {
+              "common": 0,
+              "epic": 0,
+              "legendary": 0,
+              "rare": 0,
+              "uncommon": 159319
+            },
+            "daily_freight_rotation_total": 159319,
+            "epic_per_player_year": 1.503,
+            "legendary_per_player_year": 0.459,
+            "legendary_players_at_least_1": 0.3751,
+            "legendary_players_at_least_2": 0.0726,
+            "legendary_players_at_least_3": 0.01,
+            "rare_per_player_year": 8.451,
+            "recycled_by_rarity": {
+              "common": 294422,
+              "epic": 0,
+              "legendary": 0,
+              "rare": 0,
+              "uncommon": 105853
+            },
+            "recycled_total": 400275,
+            "remaining_by_family": {
+              "aircraft": 52740,
+              "ship": 21451,
+              "train": 31400,
+              "truck": 47425
+            },
+            "remaining_by_family_rarity": {
+              "aircraft": {
+                "common": 1749,
+                "epic": 613,
+                "legendary": 210,
+                "rare": 3104,
+                "uncommon": 47064
+              },
+              "ship": {
+                "common": 1157,
+                "epic": 582,
+                "legendary": 214,
+                "rare": 3180,
+                "uncommon": 16318
+              },
+              "train": {
+                "common": 1424,
+                "epic": 596,
+                "legendary": 188,
+                "rare": 3262,
+                "uncommon": 25930
+              },
+              "truck": {
+                "common": 1629,
+                "epic": 656,
+                "legendary": 216,
+                "rare": 3243,
+                "uncommon": 41681
+              }
+            },
+            "remaining_by_rarity": {
+              "common": 5959,
+              "epic": 2447,
+              "legendary": 828,
+              "rare": 12789,
+              "uncommon": 130993
+            },
+            "remaining_total": 153016
+          },
+          "legendarys_per_player": {
+            "avg": 1.328,
+            "max": 6,
+            "min": 0,
+            "p50": 1,
+            "p90": 3,
+            "p99": 5
+          },
+          "mk_upgrade_consumed_by_rarity": {
+            "common": 236,
+            "epic": 14,
+            "legendary": 6,
+            "rare": 89,
+            "uncommon": 938
+          },
+          "mk_upgrade_outputs_by_rarity": {
+            "common": 236,
+            "epic": 14,
+            "legendary": 6,
+            "rare": 89,
+            "uncommon": 938
+          },
+          "mk_upgrades_total": 1283,
+          "net_supply_growth": 424063,
+          "net_supply_growth_per_player": 234.938,
+          "perfect_legendarys_created": 48,
+          "perfect_legendarys_remaining": 48,
+          "players": 1805,
+          "recycled_cards_by_rarity": {
+            "common": 1146853,
+            "epic": 0,
+            "legendary": 0,
+            "rare": 0,
+            "uncommon": 287094
+          },
+          "remaining_cards_by_rarity": {
+            "common": 24774,
+            "epic": 6846,
+            "legendary": 2397,
+            "rare": 36618,
+            "uncommon": 353428
+          },
+          "scrap_consumed": 95080,
+          "scrap_generated": 2008135,
+          "scrap_surplus": 1913055
+        },
+        "daily_optimizer": {
+          "cards_consumed_through_rarity_crafting": 75445,
+          "cards_created_total": 2965406,
+          "cards_per_player": {
+            "avg": 74.783,
+            "max": 105,
+            "min": 42,
+            "p50": 75,
+            "p90": 86,
+            "p99": 94
+          },
+          "cards_recycled_total": 2657625,
+          "cards_remaining": 224872,
+          "crafting_consumed_by_rarity": {
+            "common": 0,
+            "epic": 4870,
+            "legendary": 0,
+            "rare": 28185,
+            "uncommon": 42390
+          },
+          "crafting_outputs_by_rarity": {
+            "common": 0,
+            "epic": 5637,
+            "legendary": 974,
+            "rare": 8478,
+            "uncommon": 0
+          },
+          "crafts_total": 15089,
+          "created_cards_by_rarity": {
+            "common": 1619879,
+            "epic": 17339,
+            "legendary": 4964,
+            "rare": 86393,
+            "uncommon": 1236831
+          },
+          "freight": {
+            "cards_per_player": {
+              "avg": 30.445,
+              "max": 52,
+              "min": 13,
+              "p50": 30,
+              "p90": 37,
+              "p99": 43
+            },
+            "consumed_through_crafting_total": 29260,
+            "crafting_consumed_by_rarity": {
+              "common": 0,
+              "epic": 1732,
+              "legendary": 0,
+              "rare": 9499,
+              "uncommon": 18029
+            },
+            "created_by_family": {
+              "aircraft": 348329,
+              "ship": 177466,
+              "train": 243723,
+              "truck": 325073
+            },
+            "created_by_family_rarity": {
+              "aircraft": {
+                "common": 146553,
+                "epic": 1563,
+                "legendary": 394,
+                "rare": 7165,
+                "uncommon": 192654
+              },
+              "ship": {
+                "common": 110418,
+                "epic": 1542,
+                "legendary": 387,
+                "rare": 7334,
+                "uncommon": 57785
+              },
+              "train": {
+                "common": 130171,
+                "epic": 1620,
+                "legendary": 373,
+                "rare": 7177,
+                "uncommon": 104382
+              },
+              "truck": {
+                "common": 142605,
+                "epic": 1571,
+                "legendary": 410,
+                "rare": 7190,
+                "uncommon": 173297
+              }
+            },
+            "created_by_rarity": {
+              "common": 529747,
+              "epic": 6296,
+              "legendary": 1564,
+              "rare": 28866,
+              "uncommon": 528118
+            },
+            "created_total": 1094591,
+            "daily_freight_rotation_by_rarity": {
+              "common": 0,
+              "epic": 0,
+              "legendary": 0,
+              "rare": 0,
+              "uncommon": 408953
+            },
+            "daily_freight_rotation_total": 408953,
+            "epic_per_player_year": 2.094,
+            "legendary_per_player_year": 0.52,
+            "legendary_players_at_least_1": 0.4057,
+            "legendary_players_at_least_2": 0.0948,
+            "legendary_players_at_least_3": 0.0166,
+            "rare_per_player_year": 9.6,
+            "recycled_by_rarity": {
+              "common": 522538,
+              "epic": 0,
+              "legendary": 0,
+              "rare": 7317,
+              "uncommon": 443928
+            },
+            "recycled_total": 973783,
+            "remaining_by_family": {
+              "aircraft": 30813,
+              "ship": 12956,
+              "train": 19180,
+              "truck": 28599
+            },
+            "remaining_by_family_rarity": {
+              "aircraft": {
+                "common": 1963,
+                "epic": 1137,
+                "legendary": 394,
+                "rare": 3012,
+                "uncommon": 24307
+              },
+              "ship": {
+                "common": 1491,
+                "epic": 1120,
+                "legendary": 387,
+                "rare": 2998,
+                "uncommon": 6960
+              },
+              "train": {
+                "common": 1768,
+                "epic": 1177,
+                "legendary": 373,
+                "rare": 3009,
+                "uncommon": 12853
+              },
+              "truck": {
+                "common": 1987,
+                "epic": 1130,
+                "legendary": 410,
+                "rare": 3031,
+                "uncommon": 22041
+              }
+            },
+            "remaining_by_rarity": {
+              "common": 7209,
+              "epic": 4564,
+              "legendary": 1564,
+              "rare": 12050,
+              "uncommon": 66161
+            },
+            "remaining_total": 91548
+          },
+          "legendarys_per_player": {
+            "avg": 1.612,
+            "max": 8,
+            "min": 0,
+            "p50": 1,
+            "p90": 3,
+            "p99": 5
+          },
+          "mk_upgrade_consumed_by_rarity": {
+            "common": 1037,
+            "epic": 280,
+            "legendary": 117,
+            "rare": 1122,
+            "uncommon": 4908
+          },
+          "mk_upgrade_outputs_by_rarity": {
+            "common": 1037,
+            "epic": 280,
+            "legendary": 117,
+            "rare": 1122,
+            "uncommon": 4908
+          },
+          "mk_upgrades_total": 7464,
+          "net_supply_growth": 224872,
+          "net_supply_growth_per_player": 74.783,
+          "perfect_legendarys_created": 86,
+          "perfect_legendarys_remaining": 84,
+          "players": 3007,
+          "recycled_cards_by_rarity": {
+            "common": 1597438,
+            "epic": 0,
+            "legendary": 0,
+            "rare": 21446,
+            "uncommon": 1038741
+          },
+          "remaining_cards_by_rarity": {
+            "common": 21404,
+            "epic": 12189,
+            "legendary": 4847,
+            "rare": 35640,
+            "uncommon": 150792
+          },
+          "scrap_consumed": 550240,
+          "scrap_generated": 4928121,
+          "scrap_surplus": 4377881
+        },
+        "power_user": {
+          "cards_consumed_through_rarity_crafting": 126505,
+          "cards_created_total": 1300548,
+          "cards_per_player": {
+            "avg": 30.179,
+            "max": 48,
+            "min": 12,
+            "p50": 30,
+            "p90": 38,
+            "p99": 44
+          },
+          "cards_recycled_total": 1143055,
+          "cards_remaining": 19707,
+          "crafting_consumed_by_rarity": {
+            "common": 0,
+            "epic": 8250,
+            "legendary": 0,
+            "rare": 32195,
+            "uncommon": 86060
+          },
+          "crafting_outputs_by_rarity": {
+            "common": 0,
+            "epic": 6439,
+            "legendary": 1650,
+            "rare": 17212,
+            "uncommon": 0
+          },
+          "crafts_total": 25301,
+          "created_cards_by_rarity": {
+            "common": 854136,
+            "epic": 12135,
+            "legendary": 3705,
+            "rare": 49407,
+            "uncommon": 381165
+          },
+          "freight": {
+            "cards_per_player": {
+              "avg": 10.859,
+              "max": 24,
+              "min": 1,
+              "p50": 11,
+              "p90": 16,
+              "p99": 20
+            },
+            "consumed_through_crafting_total": 48804,
+            "crafting_consumed_by_rarity": {
+              "common": 0,
+              "epic": 3185,
+              "legendary": 0,
+              "rare": 11579,
+              "uncommon": 34040
+            },
+            "created_by_family": {
+              "aircraft": 117480,
+              "ship": 67451,
+              "train": 81143,
+              "truck": 109066
+            },
+            "created_by_family_rarity": {
+              "aircraft": {
+                "common": 56294,
+                "epic": 1097,
+                "legendary": 289,
+                "rare": 4146,
+                "uncommon": 55654
+              },
+              "ship": {
+                "common": 43929,
+                "epic": 1016,
+                "legendary": 307,
+                "rare": 4263,
+                "uncommon": 17936
+              },
+              "train": {
+                "common": 50344,
+                "epic": 1103,
+                "legendary": 299,
+                "rare": 4285,
+                "uncommon": 25112
+              },
+              "truck": {
+                "common": 54418,
+                "epic": 1034,
+                "legendary": 281,
+                "rare": 4208,
+                "uncommon": 49125
+              }
+            },
+            "created_by_rarity": {
+              "common": 204985,
+              "epic": 4250,
+              "legendary": 1176,
+              "rare": 16902,
+              "uncommon": 147827
+            },
+            "created_total": 375140,
+            "daily_freight_rotation_by_rarity": {
+              "common": 0,
+              "epic": 0,
+              "legendary": 0,
+              "rare": 0,
+              "uncommon": 100432
+            },
+            "daily_freight_rotation_total": 100432,
+            "epic_per_player_year": 6.508,
+            "legendary_per_player_year": 1.801,
+            "legendary_players_at_least_1": 0.8683,
+            "legendary_players_at_least_2": 0.5727,
+            "legendary_players_at_least_3": 0.245,
+            "rare_per_player_year": 25.884,
+            "recycled_by_rarity": {
+              "common": 204125,
+              "epic": 357,
+              "legendary": 0,
+              "rare": 4158,
+              "uncommon": 110605
+            },
+            "recycled_total": 319245,
+            "remaining_by_family": {
+              "aircraft": 2220,
+              "ship": 1348,
+              "train": 1470,
+              "truck": 2053
+            },
+            "remaining_by_family_rarity": {
+              "aircraft": {
+                "common": 240,
+                "epic": 162,
+                "legendary": 289,
+                "rare": 310,
+                "uncommon": 1219
+              },
+              "ship": {
+                "common": 206,
+                "epic": 179,
+                "legendary": 307,
+                "rare": 296,
+                "uncommon": 360
+              },
+              "train": {
+                "common": 200,
+                "epic": 173,
+                "legendary": 299,
+                "rare": 280,
+                "uncommon": 518
+              },
+              "truck": {
+                "common": 214,
+                "epic": 194,
+                "legendary": 281,
+                "rare": 279,
+                "uncommon": 1085
+              }
+            },
+            "remaining_by_rarity": {
+              "common": 860,
+              "epic": 708,
+              "legendary": 1176,
+              "rare": 1165,
+              "uncommon": 3182
+            },
+            "remaining_total": 7091
+          },
+          "legendarys_per_player": {
+            "avg": 4.761,
+            "max": 11,
+            "min": 1,
+            "p50": 5,
+            "p90": 7,
+            "p99": 9
+          },
+          "mk_upgrade_consumed_by_rarity": {
+            "common": 2899,
+            "epic": 1123,
+            "legendary": 596,
+            "rare": 2248,
+            "uncommon": 4415
+          },
+          "mk_upgrade_outputs_by_rarity": {
+            "common": 2899,
+            "epic": 1123,
+            "legendary": 596,
+            "rare": 2248,
+            "uncommon": 4415
+          },
+          "mk_upgrades_total": 11281,
+          "net_supply_growth": 19707,
+          "net_supply_growth_per_player": 30.179,
+          "perfect_legendarys_created": 34,
+          "perfect_legendarys_remaining": 31,
+          "players": 653,
+          "recycled_cards_by_rarity": {
+            "common": 847819,
+            "epic": 926,
+            "legendary": 0,
+            "rare": 11629,
+            "uncommon": 282681
+          },
+          "remaining_cards_by_rarity": {
+            "common": 3418,
+            "epic": 1836,
+            "legendary": 3109,
+            "rare": 3335,
+            "uncommon": 8009
+          },
+          "scrap_consumed": 880840,
+          "scrap_generated": 1844562,
+          "scrap_surplus": 963722
+        }
+      },
+      "cards_consumed_through_rarity_crafting": 221115,
+      "cards_created_total": 7617279,
+      "cards_per_player": {
+        "avg": 108.79,
+        "max": 304,
+        "min": 12,
+        "p50": 88,
+        "p90": 232,
+        "p99": 262
+      },
+      "cards_recycled_total": 6288024,
+      "crafting_consumed_by_rarity": {
+        "common": 0,
+        "epic": 13925,
+        "legendary": 0,
+        "rare": 68415,
+        "uncommon": 138775
+      },
+      "crafting_outputs_by_rarity": {
+        "common": 0,
+        "epic": 13683,
+        "legendary": 2785,
+        "rare": 27755,
+        "uncommon": 0
+      },
+      "crafts_total": 44223,
+      "created_cards_by_rarity": {
+        "common": 4461797,
+        "epic": 44397,
+        "legendary": 13288,
+        "rare": 225489,
+        "uncommon": 2872308
+      },
+      "freight": {
+        "cards_per_player": {
+          "avg": 39.101,
+          "max": 113,
+          "min": 1,
+          "p50": 31,
+          "p90": 83,
+          "p99": 99
+        },
+        "consumed_through_crafting_total": 84904,
+        "crafting_consumed_by_rarity": {
+          "common": 0,
+          "epic": 5186,
+          "legendary": 0,
+          "rare": 23953,
+          "uncommon": 55765
+        },
+        "created_by_family": {
+          "aircraft": 771230,
+          "ship": 450486,
+          "train": 572606,
+          "truck": 724753
+        },
+        "created_by_family_rarity": {
+          "aircraft": {
+            "common": 356687,
+            "epic": 3938,
+            "legendary": 1050,
+            "rare": 18933,
+            "uncommon": 390622
+          },
+          "ship": {
+            "common": 282219,
+            "epic": 3849,
+            "legendary": 1075,
+            "rare": 19315,
+            "uncommon": 144028
+          },
+          "train": {
+            "common": 321933,
+            "epic": 4004,
+            "legendary": 1047,
+            "rare": 19284,
+            "uncommon": 226338
+          },
+          "truck": {
+            "common": 346518,
+            "epic": 3974,
+            "legendary": 1093,
+            "rare": 19276,
+            "uncommon": 353892
+          }
+        },
+        "created_by_rarity": {
+          "common": 1307357,
+          "epic": 15765,
+          "legendary": 4265,
+          "rare": 76808,
+          "uncommon": 1114880
+        },
+        "created_total": 2519075,
+        "daily_freight_rotation_by_rarity": {
+          "common": 0,
+          "epic": 0,
+          "legendary": 0,
+          "rare": 0,
+          "uncommon": 793094
+        },
+        "daily_freight_rotation_total": 793094,
+        "epic_per_player_year": 1.577,
+        "legendary_per_player_year": 0.426,
+        "legendary_players_at_least_1": 0.3113,
+        "legendary_players_at_least_2": 0.0835,
+        "legendary_players_at_least_3": 0.0231,
+        "rare_per_player_year": 7.681,
+        "recycled_by_rarity": {
+          "common": 1279469,
+          "epic": 357,
+          "legendary": 0,
+          "rare": 12695,
+          "uncommon": 750636
+        },
+        "recycled_total": 2043157,
+        "remaining_by_family": {
+          "aircraft": 124749,
+          "ship": 63648,
+          "train": 86443,
+          "truck": 116174
+        },
+        "remaining_by_family_rarity": {
+          "aircraft": {
+            "common": 7562,
+            "epic": 2511,
+            "legendary": 1050,
+            "rare": 9945,
+            "uncommon": 103681
+          },
+          "ship": {
+            "common": 6174,
+            "epic": 2530,
+            "legendary": 1075,
+            "rare": 9996,
+            "uncommon": 43873
+          },
+          "train": {
+            "common": 6878,
+            "epic": 2559,
+            "legendary": 1047,
+            "rare": 10071,
+            "uncommon": 65888
+          },
+          "truck": {
+            "common": 7274,
+            "epic": 2622,
+            "legendary": 1093,
+            "rare": 10148,
+            "uncommon": 95037
+          }
+        },
+        "remaining_by_rarity": {
+          "common": 27888,
+          "epic": 10222,
+          "legendary": 4265,
+          "rare": 40160,
+          "uncommon": 308479
+        },
+        "remaining_total": 391014
+      },
+      "legendarys_per_player": {
+        "avg": 1.257,
+        "max": 11,
+        "min": 0,
+        "p50": 1,
+        "p90": 3,
+        "p99": 6
+      },
+      "mk_upgrades_total": 20245,
+      "net_supply_growth": 1087895,
+      "recycled_cards_by_rarity": {
+        "common": 4366925,
+        "epic": 926,
+        "legendary": 0,
+        "rare": 36600,
+        "uncommon": 1883573
+      },
+      "remaining_cards_by_rarity": {
+        "common": 90661,
+        "epic": 28127,
+        "legendary": 12569,
+        "rare": 117002,
+        "uncommon": 839536
+      },
+      "scrap_consumed": 1541560,
+      "scrap_generated": 10416054,
+      "scrap_surplus": 8874494,
+      "seed": 303
+    }
+  ],
+  "perfect_legendarys_created": 712,
+  "perfect_legendarys_remaining": 684,
+  "players_per_seed": 10000,
+  "profiles": {
+    "casual": 13608,
+    "collector": 5362,
+    "daily_optimizer": 8962,
+    "power_user": 2068
+  },
+  "recycled_cards_by_rarity": {
+    "common": 13176176,
+    "epic": 2851,
+    "legendary": 0,
+    "rare": 111801,
+    "uncommon": 5671566
+  },
+  "remaining_cards_by_rarity": {
+    "common": 271007,
+    "epic": 83204,
+    "legendary": 38170,
+    "rare": 349130,
+    "uncommon": 2507338
+  },
+  "scrap_consumed": 4746080,
+  "scrap_generated": 31408669,
+  "scrap_surplus": 26662589,
+  "seeds": [
+    101,
+    202,
+    303
+  ]
+}

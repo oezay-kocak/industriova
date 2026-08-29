@@ -1,0 +1,20 @@
+[project]
+name = "production-zero"
+version = "0.1.0"
+description = "A modular PySide6 factory tycoon/deckbuilding game prototype."
+requires-python = ">=3.11"
+dependencies = [
+    "PySide6>=6.7",
+]
+
+[project.scripts]
+pz-economy-stress = "production_zero.tools.economy_stress_test:main"
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.0",
+]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"]
