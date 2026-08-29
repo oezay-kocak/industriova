@@ -40,3 +40,6 @@ desktop.ini
 
 # Generated visual/test artifacts
 artifacts/
+
+# Local developer saves
+saves/

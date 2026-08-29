@@ -23,6 +23,7 @@ from production_zero.core.packs import DAILY_MINI_PACK, FULL_PACK
 from production_zero.core.resources import ResourceDefinition
 from production_zero.core.simulation import SimulationEngine
 from production_zero.core.state import GameState
+from production_zero.persistence.dev_save_store import DevJsonSaveStore, DevSaveError, IncompatibleSaveVersionError, InvalidSaveError, SaveNotFoundError
 
 
 CARD_OPTIONS = {
@@ -52,6 +53,8 @@ class DevToolsView(QWidget):
         resume_callback: Callable[[], None],
         is_paused: Callable[[], bool],
         reset_callback: Callable[[], None],
+        load_state_callback: Callable[[GameState], None],
+        save_store: DevJsonSaveStore | None = None,
     ) -> None:
         super().__init__()
         self._state = state
@@ -64,6 +67,8 @@ class DevToolsView(QWidget):
         self._resume_callback = resume_callback
         self._is_paused = is_paused
         self._reset_callback = reset_callback
+        self._load_state_callback = load_state_callback
+        self._save_store = save_store or DevJsonSaveStore()
 
         layout = QVBoxLayout(self)
         layout.setContentsMargins(0, 0, 0, 0)
@@ -72,6 +77,7 @@ class DevToolsView(QWidget):
         layout.addWidget(self._panel("Time Controls", self._build_time_controls()))
         layout.addWidget(self._panel("Economy / Resources", self._build_economy_controls()))
         layout.addWidget(self._panel("Cards / Progression", self._build_card_controls()))
+        layout.addWidget(self._panel("Persistence", self._build_persistence_controls()))
         layout.addStretch(1)
 
     def _panel(self, title: str, content: QWidget) -> QFrame:
@@ -172,6 +178,47 @@ class DevToolsView(QWidget):
         button.setObjectName("devButton")
         button.clicked.connect(callback)
         return button
+
+    def _build_persistence_controls(self) -> QWidget:
+        widget = QWidget()
+        layout = QHBoxLayout(widget)
+        layout.setContentsMargins(0, 0, 0, 0)
+        layout.addWidget(self._button("SAVE GAME", lambda: self._save_game()))
+        layout.addWidget(self._button("LOAD GAME", lambda: self._load_game()))
+        self._save_status = QLabel(f"Slot: {self._save_store.path.as_posix()}")
+        self._save_status.setObjectName("devSaveStatus")
+        layout.addWidget(self._save_status, 1)
+        return widget
+
+    def _set_save_status(self, text: str) -> None:
+        self._save_status.setText(text)
+
+    def _save_game(self) -> None:
+        try:
+            path = self._save_store.save(self._state)
+        except DevSaveError:
+            self._set_save_status("Save failed")
+            return
+        except OSError:
+            self._set_save_status("Save failed")
+            return
+        self._set_save_status(f"Saved: {path.as_posix()}")
+
+    def _load_game(self) -> None:
+        try:
+            loaded_state = self._save_store.load()
+        except SaveNotFoundError:
+            self._set_save_status("No save found")
+            return
+        except IncompatibleSaveVersionError:
+            self._set_save_status("Load failed: incompatible save")
+            return
+        except (InvalidSaveError, DevSaveError, OSError):
+            self._set_save_status("Load failed")
+            return
+        self._load_state_callback(loaded_state)
+        self._refresh_callback()
+        self._set_save_status(f"Loaded: {self._save_store.path.as_posix()}")
 
     def _advance_time(self, seconds: float) -> None:
         self._simulation.advance_time(self._state, seconds)

@@ -37,7 +37,7 @@ class SQLiteSaveStore:
             )
 
     def save(self, slot: str, state: GameState) -> None:
-        payload = json.dumps(_state_to_dict(state), sort_keys=True)
+        payload = json.dumps(serialize_game_state(state), sort_keys=True)
         with sqlite3.connect(self._path) as connection:
             connection.execute(
                 "INSERT OR REPLACE INTO saves (slot, state_json) VALUES (?, ?)",
@@ -49,10 +49,10 @@ class SQLiteSaveStore:
             row = connection.execute("SELECT state_json FROM saves WHERE slot = ?", (slot,)).fetchone()
         if row is None:
             raise KeyError(f"Unknown save slot: {slot}")
-        return _state_from_dict(json.loads(row[0]))
+        return deserialize_game_state(json.loads(row[0]))
 
 
-def _state_to_dict(state: GameState) -> dict[str, object]:
+def serialize_game_state(state: GameState) -> dict[str, object]:
     return {
         "rng_seed": state.rng_seed,
         "tick": state.tick,
@@ -170,7 +170,7 @@ def _state_to_dict(state: GameState) -> dict[str, object]:
     }
 
 
-def _state_from_dict(payload: dict[str, object]) -> GameState:
+def deserialize_game_state(payload: dict[str, object]) -> GameState:
     cards = {
         card_id: CardInstance(
             card_id=card_data["card_id"],

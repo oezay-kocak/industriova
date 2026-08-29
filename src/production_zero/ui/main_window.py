@@ -367,6 +367,7 @@ class MainWindow(QMainWindow):
                     factory_view.resume_simulation,
                     factory_view.is_simulation_paused,
                     lambda: _copy_state(state, _create_initial_state(resource_definitions, definitions)),
+                    lambda loaded_state: _copy_state(state, loaded_state),
                 ),
                 "Dev",
             )
