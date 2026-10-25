@@ -8,6 +8,47 @@ This case study addresses recruiters, Business Analysts, Product Owners, Require
 
 The review date is 25 October 2026. Fresh checks and their limitations are recorded in [PORTFOLIO_RELEASE_REPORT.md](PORTFOLIO_RELEASE_REPORT.md). Older reports describe earlier checkpoints and sometimes superseded rules.
 
+## Application screenshots
+
+The screenshots in this case study were supplied by the project initiator and show the actual application with development controls visible. They are used unchanged; the [capture manifest](images/playtest/captures.json) records the original filenames and exact hashes. These session views illustrate implemented interfaces and do not replace the documented acceptance checks.
+
+**Factory production and configuration states**
+
+![Factory board with running processors and fabricators awaiting recipe selection](images/playtest/factory.png)
+
+**Freight routing and shipment progress**
+
+![Freight board showing two fleets of trucks with active routes and shipment progress](images/playtest/freight.png)
+
+**Research prerequisites**
+
+![Forestry and Wood research tree with available and locked nodes](images/playtest/research.png)
+
+<details>
+<summary>More application views — five additional owner-supplied screenshots</summary>
+
+**Primary resource production**
+
+![Resources board with two sectors of configured extraction machines](images/playtest/resources.png)
+
+**Energy supply**
+
+![Energy board with solar arrays and fuel-based power plants](images/playtest/energy.png)
+
+**Industrial Supply**
+
+![Industrial Supply catalog with aircraft, ship, train and truck purchase options](images/playtest/industrial-supply.png)
+
+**Production unlock dependencies**
+
+![Unlock tree highlighting Nuclear Material and its downstream production dependencies](images/playtest/unlock-tree.png)
+
+**Chain inspection**
+
+![Semiconductor Die chain inspector showing primary resources, processing and manufacturing inputs](images/playtest/chain-inspector.png)
+
+</details>
+
 ## The analysis problem
 
 A production chain has more constraints than its visible recipe. A machine needs a valid location, a selected unlocked product, ingredients, power and shared storage. Goods committed to a shipment cannot remain available for another sale. A contract needs a consistent quantity, reward and settlement lifecycle. Research modifies applicable values without silently rewriting committed transactions.

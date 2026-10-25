@@ -2,6 +2,8 @@
 
 Date: 25 October 2026. Scope: README presentation and screenshot documentation only.
 
+**Historical presentation checkpoint:** its selection of three synthetic main images was subsequently replaced at the owner's request. The current README and case study use only the eight owner-supplied screenshots. See the [current screenshot and description update](README_OWNER_SCREENSHOTS_REPORT.md).
+
 ## Changes
 
 - Verified the canonical repository through GitHub's API: `oezay-kocak/industriova`, default branch `main`. The existing portfolio commit has already been merged into `main`; that merge was fast-forwarded into the local review branch before editing, with no content differences to overwrite.

@@ -50,11 +50,11 @@ A fresh wheel was built from the final application source and installed to a sep
 
 This checks local package creation and installation/startup. It is not a clean online dependency download, a packaged Windows acceptance test or cross-platform certification.
 
-The three portfolio screenshots were regenerated after the UI correction, visually reviewed and recorded in [captures.json](images/captures.json). They are actual 1600 × 980 offscreen application renders from a synthetic company, without a save store. Their exact hashes are in the provenance record. The Factory image retains visible power constraints instead of concealing real application behavior.
+The README and case study now use only the eight owner-supplied application screenshots, copied byte-for-byte and recorded in the [owner screenshot manifest](images/playtest/captures.json). They show an owner-provided session with development controls visible. The earlier three 1600 × 980 offscreen QA renders and their [capture manifest](images/captures.json) remain historical test evidence; they are no longer embedded in either presentation. Screenshot selection does not create a new gameplay-acceptance claim.
 
 ## Asset provenance and publication eligibility
 
-The owner explicitly confirmed on 25 October 2026 that **all game artwork was created with GPT and no external templates were used**. [ASSET_PROVENANCE.json](ASSET_PROVENANCE.json) binds this declaration to the exact reviewed SHA-256 hashes of **370 application images and three screenshots**. All 373 reviewed files are eligible for the owner's project publication on that recorded basis. This is not a general asset license for repository visitors.
+The owner explicitly confirmed on 25 October 2026 that **all game artwork was created with GPT and no external templates were used**. [ASSET_PROVENANCE.json](ASSET_PROVENANCE.json) binds this declaration to the reviewed SHA-256 hashes. The original technical checkpoint covered 370 application images and three QA screenshots; eight owner-supplied screenshots were subsequently recorded, bringing the stored inventory to 381 images. Only those eight owner-supplied captures are used in the current README and case study. The reviewed files are eligible for the owner's project publication on the recorded basis; this is not a general asset license for repository visitors.
 
 Technical records were also inspected:
 
@@ -62,7 +62,7 @@ Technical records were also inspected:
 - 164 historical digest comparisons match their current target files; the atlas's source hashes independently match all 353 current resource images.
 - Machine/energy integration reports, freight byte-identity reports and Research mask evidence provide additional processing provenance.
 - One older Harvester source digest belongs to a superseded opaque image. The current transparent revision is separately identified by later visual evidence and the primary-card tests; it is not mislabeled as byte-identical to that old source.
-- All portfolio screenshots are derived from the reviewed application artwork and synthetic state.
+- The original QA captures use synthetic state; the eight owner-supplied session screenshots are separately identified and do not claim a new formal acceptance result.
 
 The creator declaration is distinct from an independently retrieved generation receipt for each file. Individual prompts/receipts were not available for every image, and no exclusive copyright guarantee is asserted. The provider terms and scope are documented in [RIGHTS_REVIEW.md](RIGHTS_REVIEW.md). No unresolved foreign-template exception was identified after the owner's clarification.
 
@@ -78,7 +78,7 @@ Per the owner's instruction, original code and documentation remain **without a 
 
 The candidate is checked for recognizable private-key/service-token formats, credential assignments, personal workstation paths, email patterns, broken portfolio links, Python syntax errors and oversized files. Existing reachable textual Git blobs are checked too. The review is heuristic, not a vulnerability or security certification. Git author identity matches the historical repository author and uses a GitHub no-reply address.
 
-Personal workstation paths previously found in 19 documents/helper scripts were sanitized. `.gitignore` excludes personal saves and database formats, credentials, local environments, diagnostics, backup archives, build directories and wheels. Screenshots and package startup do not load personal saves. Build/test outputs and raw asset evidence remain local under ignored `artifacts/`.
+Personal workstation paths previously found in 19 documents/helper scripts were sanitized. `.gitignore` excludes personal saves and database formats, credentials, local environments, diagnostics, backup archives, build directories and wheels. Documentation preparation and package startup do not read personal saves; the owner's supplied screenshots are copied as provided. Build/test outputs and raw asset evidence remain local under ignored `artifacts/`.
 
 Before the first portfolio pass, candidate contents were backed up under `artifacts/portfolio-release/`. Before finalization, a fresh source archive and SHA-256 baseline were saved under `artifacts/portfolio-finalization/`. Neither is part of the commit.
 

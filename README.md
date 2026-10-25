@@ -1,8 +1,12 @@
 # Industriova
 
-**A business analysis and product-design portfolio demonstrated through a working industrial simulation.**
+**Industrial Production Simulation | Business Analysis & AI-Assisted Development**
 
-Industriova, formerly Production Zero, is a Python desktop application in which a player builds production chains, manages shared storage and energy, and transports goods to markets and contracts. For recruiters and Business Analysts, it offers an inspectable example of turning complex requirements into working software: modeling dependencies, defining consistent rules, directing AI-assisted implementation and checking the results through tests and playtest feedback.
+Industriova, formerly Production Zero, is a Python/PySide6 desktop simulation connecting production chains, energy, shared storage, logistics and an in-game economy. Build and configure facilities, inspect resource dependencies, and transport goods to markets and contracts.
+
+**A portfolio project by Özay Kocak**, focused on product conception, requirements analysis, domain architecture and the direction of AI-assisted software development. The working application, case study and QA records make those decisions and their results available for review.
+
+[Case study](docs/CASE_STUDY.md) · [My role](#my-role) · [Run the application](#install-and-run-from-source) · [Portfolio descriptions](docs/portfolio_profile.md)
 
 ## My Role
 
@@ -14,30 +18,11 @@ This is a development playtest, not a finished commercial release. Distribution 
 
 ## Screenshots
 
-The three images below are actual application renders from synthetic QA data at 1600 × 980, captured without loading a personal save. They illustrate configured production, logistics and research, not a naturally played progression or native usability acceptance.
-
-![Factory board with installed machines, production status and expansion controls](docs/images/factory.png)
-![Freight board with a configured truck route](docs/images/freight.png)
-![Research tree with prerequisites and research point costs](docs/images/research.png)
-
-Capture provenance: [manifest](docs/images/captures.json). Reproduce with `python scripts/capture_portfolio.py` after installation.
-
-<details>
-<summary>More application views — eight owner-supplied screenshots</summary>
-
-These additional screenshots show an owner-provided session with development controls visible. They are kept separately from the synthetic QA captures and do not establish formal native acceptance. The original files were copied without changing their pixels; see the [screenshot manifest](docs/images/playtest/captures.json).
-
-**Primary resource production**
-
-![Resources board with two sectors of configured extraction machines](docs/images/playtest/resources.png)
+The screenshots in this README were supplied by the project initiator and show the actual application with development controls visible. They are used unchanged; the [capture manifest](docs/images/playtest/captures.json) records the original filenames and exact hashes. These session views illustrate implemented interfaces and do not replace the documented acceptance checks.
 
 **Factory production and configuration states**
 
 ![Factory board with running processors and fabricators awaiting recipe selection](docs/images/playtest/factory.png)
-
-**Energy supply**
-
-![Energy board with solar arrays and fuel-based power plants](docs/images/playtest/energy.png)
 
 **Freight routing and shipment progress**
 
@@ -46,6 +31,17 @@ These additional screenshots show an owner-provided session with development con
 **Research prerequisites**
 
 ![Forestry and Wood research tree with available and locked nodes](docs/images/playtest/research.png)
+
+<details>
+<summary>More application views — five additional owner-supplied screenshots</summary>
+
+**Primary resource production**
+
+![Resources board with two sectors of configured extraction machines](docs/images/playtest/resources.png)
+
+**Energy supply**
+
+![Energy board with solar arrays and fuel-based power plants](docs/images/playtest/energy.png)
 
 **Industrial Supply**
 
@@ -78,7 +74,7 @@ Retained legacy modules and compatibility tests are not a list of active navigat
 
 The data-driven catalog describes primary resources, intermediate processing, components and assembled products. Runtime definitions split extraction, drilling and agriculture into primary machine families. Recipes, base prices and progression data live in [the data package](src/production_zero/data); loading applies additional runtime normalization in [definitions.py](src/production_zero/data/definitions.py) and [release_balance.py](src/production_zero/core/release_balance.py).
 
-Production consumes ingredients and creates output subject to power and available shared storage. MK upgrades, rarity and research affect applicable quantities or modifiers. The Production Guide exposes recipe dependencies. A configured chain can still be blocked by inputs, power or storage, as the Factory screenshot illustrates.
+Production consumes ingredients and creates output subject to power and available shared storage. MK upgrades, rarity and research affect applicable quantities or modifiers. The Production Guide exposes recipe dependencies. A configured chain can still be blocked by inputs, power or storage.
 
 Goods leave stock at freight dispatch and settle after transit. Market settlement uses a dispatch price snapshot. Contract routing accounts for outstanding deliveries, allocates by priority (2, then 1, then Even) and shares a priority group's cargo subject to each contract's remaining need. Regular renewal obtains a new quote rather than reusing a completed order's reward.
 
