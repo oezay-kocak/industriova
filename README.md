@@ -146,7 +146,7 @@ The project initiator designed the game concept, architecture, gameplay loop and
 - Evaluate long-run progression using documented human feedback alongside simulations.
 - Consolidate version metadata and superseded build/QA scripts into a versioned release process.
 - Decide whether local service interfaces should become network services; deployment is not implemented evidence.
-- Keep asset provenance and third-party notices current, and obtain owner approval before publication.
+- Keep asset provenance and third-party notices current, and obtain owner approval for future releases.
 
 These are proposed steps, not delivered features or dated commitments.
 

@@ -1,19 +1,20 @@
 # Portfolio finalization and validation report
 
-Review date: 25 October 2026. **Technical QA passed; local review commit prepared. No push or visibility change authorized or performed.**
+Review date: 25 October 2026. **Technical QA passed; portfolio published. The owner explicitly approved the final integration into the default `main` branch. Repository visibility is unchanged.**
 
 ## Repository and release basis
 
 | Item | Verified state |
 | --- | --- |
-| Existing repository | [oezay-kocak/production-zero](https://github.com/oezay-kocak/production-zero) |
+| Existing repository | [oezay-kocak/industriova](https://github.com/oezay-kocak/industriova) |
 | Fetch and push remote | `origin`, same repository URL |
-| Local review branch | `codex/industriova-portfolio-finalization` |
-| Original branch | `main`, tracking `origin/main`; retained at the original baseline |
-| Baseline and freshly queried remote main | `0e4a9e0c7f80d74916bfeeae39a150374e2d8ebd` |
+| Portfolio source branch | `codex/industriova-portfolio-finalization` |
+| Published default branch | `main`, tracking `origin/main` |
+| Original source baseline | `0e4a9e0c7f80d74916bfeeae39a150374e2d8ebd` |
+| Included README polish | `97b51659447c855eaf3f3476515cadbe7b89b686` |
 | Existing historical tag | `v0.1.0-alpha`, pointing to `8b4159dbe311571150da9dcfe2f25f75d3a4e55a` |
 
-No repository was created or renamed. Remote refs were rechecked read-only. The review branch has no published upstream; no remote main update, release tag, executable upload or visibility mutation was made. The current source is the existing local Industriova development state with the corrections described below, now verified by a complete passing regression run.
+No repository was created or renamed by the portfolio integration. Remote refs were rechecked before the authorized main update. The original source portfolio was published as `aafff3f` and merged into `main` as `f465276`; README polish `97b5165` is included in the final main integration. No release tag, executable upload or visibility mutation was made. The application source and the complete passing regression results below are unchanged by the final presentation-only integration.
 
 The existing local work substantially exceeds the 94-file committed baseline. It is included so the proposed repository update contains the application source, tests, data and artwork, not just presentation documents. This does not imply that the finalization authored all those development changes. [PORTFOLIO_CHANGES.csv](PORTFOLIO_CHANGES.csv) distinguishes the preserved work from portfolio preparation relative to the baseline at review time.
 
@@ -89,4 +90,4 @@ The local review commit groups the preserved Industriova source, complete releva
 
 Native Windows drag-and-drop, subjective responsiveness, broader DPI/OS combinations and extended human balancing acceptance remain outside this offscreen regression. Local Consortium/leaderboard services are not proof of deployed multiplayer. Version metadata and older build recipes still need consolidation for a future product release. These limits are recorded in the README and case study.
 
-The owner must review the final local commit and explicitly authorize any push. No visibility change is part of this preparation; such a change would require separate explicit authorization. No new license decision is needed to retain the current unlicensed-source position. New assets, third-party exceptions or executable bundles need their own review before inclusion.
+The owner explicitly authorized the regular merge and push of the verified portfolio changes into `main`. No publication approval remains pending for this portfolio version. No visibility change is included; such a change would require separate explicit authorization. No new license decision is needed to retain the current unlicensed-source position. New assets, third-party exceptions or executable bundles need their own review before inclusion.

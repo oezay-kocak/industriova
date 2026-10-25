@@ -1,6 +1,6 @@
 # Rights and dependency review
 
-Review date: 25 October 2026. Status: **owner-confirmed asset origin; no general open-source license; publication approval pending**.
+Review date: 25 October 2026. Status: **owner-confirmed asset origin; no general open-source license; portfolio publication and integration into `main` explicitly approved by the owner**.
 
 ## Source and documentation decision
 

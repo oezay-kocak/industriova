@@ -16,4 +16,4 @@ Original source and documentation retain no general open-source license. Reviewe
 
 Excluded: `.git` metadata exports, `.venv`, personal saves/databases, credentials, raw generation/session directories, ignored `artifacts`, `build`, `dist`, wheels, backup archives, the duplicate legacy build spec and the root generated stress output. These exclusions do not delete local files.
 
-This is a local review commit. It must not be pushed without explicit owner approval. Repository visibility is unchanged and is not part of the approved operation.
+This document records the original local review scope. The owner subsequently authorized its push and the integration of the final portfolio, including README polish commit `97b5165`, into the default `main` branch. Repository visibility is unchanged; no visibility change was included in that authorization.
