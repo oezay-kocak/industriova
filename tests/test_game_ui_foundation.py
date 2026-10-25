@@ -31,6 +31,7 @@ from production_zero.ui.game_ui import (
     draw_track_surface,
     draw_upgrade_surface,
 )
+from production_zero.ui.theme import APP_STYLESHEET, Theme
 
 
 def _app() -> QApplication:
@@ -108,6 +109,47 @@ def test_game_ui_tokens_cover_core_design_language() -> None:
     assert tokens.colors.qcolor(tokens.colors.neutral_edge) != tokens.colors.accent(Accent.ENERGY)
     assert tokens.colors.qcolor(tokens.colors.neutral_edge) != tokens.colors.accent(Accent.BUILD)
     assert tokens.colors.qcolor(tokens.colors.neutral_edge).blue() >= tokens.colors.qcolor(tokens.colors.neutral_edge).red()
+
+
+def test_legacy_tabs_use_light_chassis_and_dark_recessed_materials() -> None:
+    stylesheet = APP_STYLESHEET
+    for selector in (
+        "QWidget#chartsOverviewPage",
+        "QWidget#marketOverviewPage",
+        "QScrollArea#contractsBoardScroll",
+        "QWidget#supplyDailyPage",
+        "QWidget#packsPage",
+        "QWidget#leaderboardRankingPage",
+    ):
+        assert selector in stylesheet
+
+    assert "#d9ddd5" in stylesheet
+    assert "#ece9dc" in stylesheet
+    assert "rgba(6, 9, 9, 246)" in stylesheet
+    assert "QTableView#marketTableView" in stylesheet
+    assert "QFrame#contractCard" in stylesheet
+    assert all(selector in stylesheet for selector in ("QLabel#chartsHeroTitle", "QLabel#marketHeroTitle", "QLabel#leaderboardHeroTitle"))
+
+
+def test_charts_light_surfaces_use_dark_text_and_readable_filter_states() -> None:
+    stylesheet = APP_STYLESHEET
+    assert "QLabel#chartResourceName" in stylesheet
+    assert "color: #18201d;" in stylesheet
+    assert "QWidget#chartFilterDeck QLabel#sectionLabel" in stylesheet
+    assert "color: #222a26;" in stylesheet
+
+    chip_start = stylesheet.index("QPushButton#chartFilterChip {")
+    chip_end = stylesheet.index("QPushButton#chartFilterChip:hover", chip_start)
+    inactive_chip = stylesheet[chip_start:chip_end]
+    assert f"color: {Theme.FILTER_INACTIVE_TEXT};" in inactive_chip
+    assert "border: 1px solid rgba(45, 54, 50, 132);" in inactive_chip
+
+    active_start = stylesheet.index('QPushButton#chartFilterChip[active="true"]')
+    active_end = stylesheet.index("QPushButton#marketFilterChip", active_start)
+    active_chip = stylesheet[active_start:active_end]
+    assert "background: qlineargradient" in active_chip
+    assert f"color: {Theme.FILTER_ACTIVE_TEXT};" in active_chip
+    assert "rgba(37, 185, 232, 190)" in active_chip
 
 
 def test_material_primitives_render_offscreen_without_pixel_perfect_assertions() -> None:

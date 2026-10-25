@@ -1,0 +1,11 @@
+VSVersionInfo(
+  ffi=FixedFileInfo(filevers=(0, 3, 0, 2), prodvers=(0, 3, 0, 2), mask=0x3f, flags=0x1, OS=0x40004, fileType=0x1, subtype=0x0, date=(0, 0)),
+  kids=[StringFileInfo([StringTable('040904B0', [
+    StringStruct('FileDescription', 'Industriova Performance Playtest'),
+    StringStruct('FileVersion', '0.3.0.2'),
+    StringStruct('InternalName', 'Industriova_Performance_Test'),
+    StringStruct('OriginalFilename', 'Industriova_Performance_Test.exe'),
+    StringStruct('ProductName', 'Industriova'),
+    StringStruct('ProductVersion', '0.3.0.performance-test-20261025')
+  ])]), VarFileInfo([VarStruct('Translation', [1033, 1200])])]
+)

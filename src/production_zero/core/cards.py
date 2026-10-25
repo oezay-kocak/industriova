@@ -32,6 +32,22 @@ class CardInstance:
     power_bonus_percent: float
     trade_state: TradeState = TradeState.BOUND
     collectible_token_id: str | None = None
+    mk_level: int = 1
+    acquisition_cost: float | None = None
+    upgrade_investment: float = 0.0
+    paused: bool = False
+
+    def __post_init__(self) -> None:
+        from math import isfinite
+        if type(self.mk_level) is not int or not 1 <= self.mk_level <= 99:
+            raise ValueError("MK level must be an integer from 1 to 99.")
+        for value in (self.acquisition_cost, self.upgrade_investment, self.output_bonus_percent, self.power_bonus_percent):
+            if value is not None and (not isfinite(value) or value < 0):
+                raise ValueError("Machine investment must be finite and non-negative.")
+
+    @property
+    def mk_multiplier(self) -> float:
+        return 1.0 + .25 * (self.mk_level - 1)
 
     @property
     def output_bonus_tenths(self) -> int:
@@ -51,13 +67,13 @@ class CardInstance:
 
     @property
     def output_multiplier(self) -> float:
-        return 1.0 + self.output_bonus_percent / 100.0
+        return self.mk_multiplier * (1.0 + self.output_bonus_percent / 100.0)
 
     @property
     def power_multiplier(self) -> float:
         if self.card_kind is CardKind.MACHINE:
-            return 1.0 + self.output_bonus_percent * 0.5 / 100.0
-        return 1.0 + self.power_bonus_percent / 100.0
+            return self.mk_multiplier * (1.0 + self.output_bonus_percent * 0.5 / 100.0)
+        return self.mk_multiplier * (1.0 + self.power_bonus_percent / 100.0)
 
     @property
     def freight_capacity_multiplier(self) -> float:
@@ -71,11 +87,6 @@ class CardInstance:
             return 1.0
         return 1.0 + self.output_bonus_percent * 0.5 / 100.0
 
-    @property
-    def recipe_input_multiplier(self) -> float:
-        if self.card_kind is CardKind.RECIPE:
-            return 1.0 + self.output_bonus_percent * 0.5 / 100.0
-        return 1.0
 
 
 def bonus_percent_from_tenths(tenths: int) -> float:
@@ -107,6 +118,8 @@ def create_card_instance(
     seed: int = 0,
     salt: str | None = None,
 ) -> CardInstance:
+    if not isinstance(card_kind, CardKind):
+        raise ValueError(f"Unsupported collectible card kind: {card_kind}")
     rolled_bonus = (
         roll_rarity_bonus_tenths(rarity, seed, salt or card_id)
         if bonus_tenths is None
@@ -125,22 +138,8 @@ def create_card_instance(
     )
 
 
-def effective_recipe_outputs(card: CardInstance, output_resources: dict[str, float]) -> dict[str, float]:
-    if card.card_kind is not CardKind.RECIPE:
-        raise ValueError("Recipe effects require a recipe card.")
-    return {
-        resource_id: amount * card.output_multiplier
-        for resource_id, amount in output_resources.items()
-    }
 
 
-def effective_recipe_inputs(card: CardInstance, input_resources: dict[str, float]) -> dict[str, float]:
-    if card.card_kind is not CardKind.RECIPE:
-        raise ValueError("Recipe effects require a recipe card.")
-    return {
-        resource_id: amount * card.recipe_input_multiplier
-        for resource_id, amount in input_resources.items()
-    }
 
 
 @dataclass(frozen=True, slots=True)
@@ -150,6 +149,10 @@ class CardStackKey:
     rarity: Rarity
     output_bonus_tenths: int
     power_bonus_tenths: int
+    mk_level: int = 1
+    acquisition_cost: float | None = None
+    upgrade_investment: float = 0.0
+    paused: bool = False
 
     @classmethod
     def from_card(cls, card: CardInstance) -> CardStackKey:
@@ -159,6 +162,10 @@ class CardStackKey:
             rarity=card.rarity,
             output_bonus_tenths=card.output_bonus_tenths,
             power_bonus_tenths=card.power_bonus_tenths,
+            mk_level=card.mk_level,
+            acquisition_cost=card.acquisition_cost,
+            upgrade_investment=card.upgrade_investment,
+            paused=card.paused,
         )
 
 

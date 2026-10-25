@@ -6,12 +6,13 @@ from enum import StrEnum
 class CardKind(StrEnum):
     MACHINE = "machine"
     ENERGY = "energy"
-    RECIPE = "recipe"
     FREIGHT = "freight"
 
 
 class MachineType(StrEnum):
     EXTRACTOR = "extractor"
+    DRILLING = "drilling"
+    AGRICULTURE = "agriculture"
     PROCESSOR = "processor"
     FABRICATOR = "fabricator"
     ASSEMBLER = "assembler"

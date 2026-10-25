@@ -1,6 +1,10 @@
 from __future__ import annotations
 
-from PySide6.QtCore import QAbstractTableModel, QModelIndex, QPoint, QPointF, QRectF, QSize, QSortFilterProxyModel, Qt
+from production_zero.ui.resource_prices import price_number
+
+from html import escape
+
+from PySide6.QtCore import QAbstractTableModel, QEvent, QModelIndex, QPoint, QPointF, QRectF, QSize, QSortFilterProxyModel, Qt
 from PySide6.QtGui import QColor, QFont, QFontMetrics, QLinearGradient, QPainter, QPen, QPixmap
 from PySide6.QtWidgets import (
     QAbstractItemView,
@@ -24,9 +28,12 @@ from PySide6.QtWidgets import (
 )
 
 from production_zero.core.market import active_market_event, remaining_event_seconds
+from production_zero.core.enums import MachineType
+from production_zero.core.progression import progression_resources
 from production_zero.core.resources import ResourceDefinition
 from production_zero.core.state import GameState
-from production_zero.ui.game_ui import Accent, GAME_UI_TOKENS, MaterialLevel, draw_game_panel, draw_inset_surface, draw_track_surface
+from production_zero.ui.game_ui import Accent, GAME_UI_TOKENS
+from production_zero.ui.main_tab_header import MainTabHeader
 from production_zero.ui.resource_icons import ResourceIconWidget, resource_accent_color, resource_accent_key, resource_icon_key
 from production_zero.ui.theme import Theme
 from production_zero.ui.widget_lifecycle import clear_layout_safely
@@ -41,6 +48,24 @@ MARKET_PERIOD_SAMPLES: dict[str, int | None] = {
 }
 
 MARKET_COLUMNS = ("RESOURCE", "PRICE", "24H", "7D", "30D", "TREND", "ANCHOR", "EVENT")
+
+MARKET_STAGE_LABELS = {
+    MachineType.EXTRACTOR.value: "Primary Production",
+    MachineType.DRILLING.value: "Primary Production",
+    MachineType.AGRICULTURE.value: "Primary Production",
+    MachineType.PROCESSOR.value: "Processing",
+    MachineType.FABRICATOR.value: "Manufacturing",
+    MachineType.ASSEMBLER.value: "Assembly",
+}
+
+
+def market_stage_for_resource(definition: ResourceDefinition) -> str:
+    metadata = progression_resources().get(definition.resource_id)
+    if metadata is not None:
+        stage = MARKET_STAGE_LABELS.get(str(metadata.get("stage", "")))
+        if stage is not None:
+            return stage
+    return "Processing"
 
 
 class PriceSparkline(QWidget):
@@ -86,11 +111,7 @@ class PriceSparkline(QWidget):
         return minimum - padding, maximum + padding
 
     def _x_label(self, index: int, count: int) -> str:
-        if self._range_id == "24H":
-            return "Now" if index == count - 1 else f"-{count - index - 1}t"
-        if self._range_id in ("7D", "30D", "90D"):
-            return "Now" if index == count - 1 else f"-{count - index - 1}"
-        return "Now" if index == count - 1 else "Past"
+        return "Now" if index == count - 1 else str(count - index - 1)
 
     def paintEvent(self, event) -> None:  # noqa: N802
         painter = QPainter(self)
@@ -99,37 +120,42 @@ class PriceSparkline(QWidget):
             rect = QRectF(0, 0, self.width(), self.height()).adjusted(2, 2, -2, -2)
             detailed = self.objectName() == "marketDetailChart"
             if detailed:
-                draw_game_panel(painter, rect, accent=Accent.CASH, level=MaterialLevel.INSET, radius=10)
+                painter.setPen(QPen(QColor("#85817a"), 1))
+                painter.setBrush(QColor("#eceae2"))
+                painter.drawRoundedRect(rect, 10, 10)
             values = self._visible_values()
             y_min, y_max = self._scaled_y_range(values)
             self._last_y_range = (y_min, y_max)
             span = y_max - y_min or 1.0
-            plot = rect.adjusted(58 if detailed else 0, 34 if self._title else 0, -14 if detailed else 0, -32 if detailed else 0)
+            plot = rect.adjusted(72 if detailed else 0, 40 if self._title else 0, -20 if detailed else 0, -48 if detailed else 0)
             if detailed:
-                draw_inset_surface(painter, plot.adjusted(-8, -7, 8, 8), accent=Accent.CASH, radius=7)
+                painter.setPen(Qt.PenStyle.NoPen)
+                painter.setBrush(QColor("#242629"))
+                painter.drawRoundedRect(plot.adjusted(-5, -5, 5, 5), 7, 7)
             if self._title:
-                painter.setPen(GAME_UI_TOKENS.colors.qcolor(GAME_UI_TOKENS.colors.text_secondary))
-                painter.setFont(GAME_UI_TOKENS.typography.industrial_label())
+                painter.setPen(QColor("#252522"))
+                painter.setFont(QFont("Segoe UI", 13, QFont.Weight.Bold))
                 painter.drawText(rect.adjusted(8, 4, -8, -4), Qt.AlignmentFlag.AlignTop | Qt.AlignmentFlag.AlignLeft, self._title.upper())
             if detailed:
                 self._axes_drawn = True
-                painter.setPen(QPen(QColor(Theme.GRID), 1))
+                painter.setPen(QPen(QColor("#55575a"), 1))
                 for step in range(5):
                     y = plot.top() + plot.height() * step / 4
                     painter.drawLine(QPointF(plot.left(), y), QPointF(plot.right(), y))
                     value = y_max - (span * step / 4)
-                    painter.setPen(QColor(Theme.MUTED))
-                    painter.setFont(QFont("Segoe UI", 8))
-                    painter.drawText(QRectF(rect.left(), y - 8, 50, 16), Qt.AlignmentFlag.AlignRight | Qt.AlignmentFlag.AlignVCenter, f"${value:.2f}")
-                    painter.setPen(QPen(QColor(Theme.GRID), 1))
-                for step in range(4):
-                    x = plot.left() + plot.width() * step / 3
+                    painter.setPen(QColor("#242421"))
+                    painter.setFont(QFont("Segoe UI", 9, QFont.Weight.DemiBold))
+                    painter.drawText(QRectF(rect.left() + 2, y - 9, 62, 18), Qt.AlignmentFlag.AlignRight | Qt.AlignmentFlag.AlignVCenter, f"${value:.2f}")
+                    painter.setPen(QPen(QColor("#55575a"), 1))
+                for value_index in sorted({round((len(values) - 1) * step / 3) for step in range(4)}):
+                    x = plot.left() + plot.width() * value_index / (len(values) - 1)
                     painter.drawLine(QPointF(x, plot.top()), QPointF(x, plot.bottom()))
-                    value_index = round((len(values) - 1) * step / 3)
-                    painter.setPen(QColor(Theme.MUTED))
-                    painter.setFont(QFont("Segoe UI", 8))
+                    painter.setPen(QColor("#242421"))
+                    painter.setFont(QFont("Segoe UI", 9, QFont.Weight.DemiBold))
                     painter.drawText(QRectF(x - 30, plot.bottom() + 6, 60, 16), Qt.AlignmentFlag.AlignCenter, self._x_label(value_index, len(values)))
-                    painter.setPen(QPen(QColor(Theme.GRID), 1))
+                    painter.setPen(QPen(QColor("#55575a"), 1))
+                painter.setPen(QColor("#242421"))
+                painter.drawText(QRectF(plot.left(), rect.bottom() - 20, plot.width(), 18), Qt.AlignmentFlag.AlignCenter, f"SAMPLES AGO / {self._range_id}")
                 painter.setPen(QPen(QColor(Theme.BORDER), 1.2))
                 painter.drawLine(QPointF(plot.left(), plot.bottom()), QPointF(plot.right(), plot.bottom()))
                 painter.drawLine(QPointF(plot.left(), plot.top()), QPointF(plot.left(), plot.bottom()))
@@ -211,7 +237,7 @@ class MarketTableModel(QAbstractTableModel):
         if column == 0:
             return definition.name
         if column == 1:
-            return f"${market.current_price:.2f}"
+            return f"${price_number(market.current_price)}"
         if column == 2:
             return self.format_change(resource_id, "24H")
         if column == 3:
@@ -221,7 +247,7 @@ class MarketTableModel(QAbstractTableModel):
         if column == 5:
             return self.trend_label(self._change_status(self.period_change(resource_id, self._timeframe)))
         if column == 6:
-            return f"${market.anchor_price:.2f}"
+            return f"${price_number(market.anchor_price)}"
         if column == 7:
             return active_market_event(self._state.market).name if resource_id in active_market_event(self._state.market).affected_resources else ""
         return ""
@@ -296,16 +322,7 @@ class MarketTableModel(QAbstractTableModel):
         return "neutral"
 
     def _stage_for_resource(self, definition: ResourceDefinition) -> str:
-        category = definition.category.lower()
-        if any(token in category for token in ("ore", "mineral", "oil", "gas", "agriculture", "forestry")):
-            return "Extraction"
-        if any(token in category for token in ("processed", "metal", "chemical", "material")):
-            return "Processing"
-        if any(token in category for token in ("component", "electronics", "vehicle", "medical")):
-            return "Manufacturing"
-        if any(token in category for token in ("assembly", "aerospace", "space", "telecom")):
-            return "Assembly"
-        return "Processing"
+        return market_stage_for_resource(definition)
 
 
 class MarketFilterProxyModel(QSortFilterProxyModel):
@@ -358,6 +375,54 @@ class MarketFilterProxyModel(QSortFilterProxyModel):
         return self._model._resources[left_resource].name < self._model._resources[right_resource].name
 
 
+class MarketLaneModel(QAbstractTableModel):
+    """Pair the filtered, sorted resources in one shared table viewport."""
+
+    def __init__(self, source: MarketFilterProxyModel, parent: QWidget) -> None:
+        super().__init__(parent)
+        self.source = source
+        for signal in (source.modelReset, source.layoutChanged, source.rowsInserted, source.rowsRemoved):
+            signal.connect(self._reset)
+        source.dataChanged.connect(self._data_changed)
+
+    def _reset(self, *args) -> None:
+        self.beginResetModel()
+        self.endResetModel()
+
+    def _data_changed(self, *args) -> None:
+        if self.rowCount():
+            self.dataChanged.emit(self.index(0, 0), self.index(self.rowCount() - 1, 1))
+
+    def rowCount(self, parent=QModelIndex()) -> int:
+        return 0 if parent.isValid() else (self.source.rowCount() + 1) // 2
+
+    def columnCount(self, parent=QModelIndex()) -> int:
+        return 0 if parent.isValid() else 2
+
+    def resource_index(self, index: QModelIndex) -> QModelIndex:
+        if not index.isValid() or index.model() is not self:
+            return QModelIndex()
+        return self.source.index(index.row() * 2 + index.column(), 0)
+
+    def flags(self, index):
+        return (Qt.ItemFlag.ItemIsEnabled | Qt.ItemFlag.ItemIsSelectable
+                if self.resource_index(index).isValid() else Qt.ItemFlag.NoItemFlags)
+
+    def data(self, index, role=Qt.ItemDataRole.DisplayRole):
+        source = self.resource_index(index)
+        if not source.isValid():
+            return None
+        if role == Qt.ItemDataRole.ToolTipRole:
+            return "\n".join(f"{label}: {source.siblingAtColumn(column).data()}"
+                             for column, label in enumerate(MARKET_COLUMNS))
+        return source.data(role)
+
+    def headerData(self, section, orientation, role=Qt.ItemDataRole.DisplayRole):
+        if orientation == Qt.Orientation.Horizontal and role == Qt.ItemDataRole.DisplayRole:
+            return "RESOURCE EXCHANGE"
+        return None
+
+
 class MarketTableDelegate(QStyledItemDelegate):
     def __init__(self, model: MarketTableModel, parent: QWidget | None = None) -> None:
         super().__init__(parent)
@@ -365,7 +430,7 @@ class MarketTableDelegate(QStyledItemDelegate):
         self._icon_cache: dict[str, QPixmap] = {}
 
     def sizeHint(self, option: QStyleOptionViewItem, index: QModelIndex) -> QSize:  # noqa: N802
-        return QSize(96, 64)
+        return QSize(550, 64)
 
     def _resource_icon(self, resource_id: str) -> QPixmap:
         pixmap = self._icon_cache.get(resource_id)
@@ -382,112 +447,124 @@ class MarketTableDelegate(QStyledItemDelegate):
         return QFontMetrics(painter.font()).elidedText(text, Qt.TextElideMode.ElideRight, max(12, width))
 
     def paint(self, painter: QPainter, option: QStyleOptionViewItem, index: QModelIndex) -> None:
+        source = index.model().resource_index(index)
+        if not source.isValid():
+            return
+        resource_id = source.data(Qt.ItemDataRole.UserRole)
         painter.save()
         try:
-            source_index = index.model().mapToSource(index) if hasattr(index.model(), "mapToSource") else index
-            resource_id = self._model.data(source_index, Qt.ItemDataRole.UserRole)
-            rect = QRectF(option.rect)
-            hovered = bool(option.state & QStyle.StateFlag.State_MouseOver)
-            selected = bool(option.state & QStyle.StateFlag.State_Selected)
-            row_rect = rect.adjusted(4, 4, -4, -4)
-            if source_index.column() == 0:
-                row_fill = QLinearGradient(row_rect.topLeft(), row_rect.bottomLeft())
-                row_fill.setColorAt(0.0, QColor(35, 42, 41, 226 if not hovered else 242))
-                row_fill.setColorAt(0.54, QColor(13, 19, 19, 236 if not hovered else 250))
-                row_fill.setColorAt(1.0, QColor(5, 8, 8, 248))
-                painter.setPen(QPen(QColor(142, 154, 150, 84 if not selected else 132), 1))
-                painter.setBrush(row_fill)
-                painter.drawRoundedRect(row_rect.adjusted(0, 0, len(MARKET_COLUMNS) * 120, 0), 7, 7)
-            if source_index.column() == 0:
-                icon_shell = QRectF(rect.left() + 11, rect.center().y() - 22, 44, 44)
-                painter.setPen(QPen(QColor(255, 210, 31, 70), 1))
-                painter.setBrush(QColor(255, 255, 255, 9))
-                painter.drawRoundedRect(icon_shell, 6, 6)
-                icon_rect = QRectF(icon_shell.left() + 7, icon_shell.top() + 7, 30, 30)
-                painter.drawPixmap(icon_rect.toRect(), self._resource_icon(resource_id))
-                name_rect = rect.adjusted(66, 9, -8, -32)
-                meta_rect = rect.adjusted(66, 32, -8, -7)
-                painter.setPen(QColor(Theme.TEXT))
-                painter.setFont(GAME_UI_TOKENS.typography.card_title())
-                painter.drawText(name_rect, Qt.AlignmentFlag.AlignLeft | Qt.AlignmentFlag.AlignVCenter, self._elided(painter, str(self._model.data(source_index, Qt.ItemDataRole.DisplayRole) or ""), int(name_rect.width())))
-                category = self._model.data(source_index, Qt.ItemDataRole.UserRole + 2) or self._model.data(source_index, Qt.ItemDataRole.UserRole + 1)
-                painter.setPen(QColor(Theme.MUTED))
-                painter.setFont(GAME_UI_TOKENS.typography.micro_label())
-                painter.drawText(meta_rect, Qt.AlignmentFlag.AlignLeft | Qt.AlignmentFlag.AlignVCenter, self._elided(painter, str(category), int(meta_rect.width())))
-                painter.setPen(QPen(QColor(132, 151, 145, 38), 1))
-                painter.drawLine(QPointF(rect.left(), rect.bottom()), QPointF(rect.right(), rect.bottom()))
-                return
-            else:
-                text_rect = rect.adjusted(10, 0, -10, 0)
-            text = str(self._model.data(source_index, Qt.ItemDataRole.DisplayRole) or "")
-            color = Theme.TEXT if source_index.column() in (0, 1) else Theme.MUTED
-            if source_index.column() in (2, 3, 4):
-                period = ("24H", "7D", "30D")[source_index.column() - 2]
-                status = self._model._change_status(self._model.period_change(resource_id, period))
-                color = Theme.GOOD if status == "positive" else Theme.BAD if status == "negative" else Theme.MUTED
-            if source_index.column() == 5:
-                status = self._model.data(source_index, Qt.ItemDataRole.UserRole + 4)
-                color = Theme.GOOD if status == "positive" else Theme.BAD if status == "negative" else Theme.MUTED
-            if source_index.column() == 7 and text:
-                color = Theme.ENERGY
-            if source_index.column() == 5:
-                pill_rect = rect.adjusted(12, 13, -10, -13)
-                status = self._model.data(source_index, Qt.ItemDataRole.UserRole + 4)
-                base = QColor(Theme.GOOD if status == "positive" else Theme.BAD if status == "negative" else Theme.MUTED)
-                painter.setPen(QPen(QColor(base.red(), base.green(), base.blue(), 130), 1))
-                painter.setBrush(QColor(base.red(), base.green(), base.blue(), 30))
-                painter.drawRoundedRect(pill_rect, 7, 7)
-                painter.setPen(base)
-                painter.setFont(GAME_UI_TOKENS.typography.status_label())
-                painter.drawText(pill_rect.adjusted(6, 0, -6, 0), Qt.AlignmentFlag.AlignCenter, self._elided(painter, text, int(pill_rect.width() - 12)))
-                painter.setPen(QPen(QColor(132, 151, 145, 38), 1))
-                painter.drawLine(QPointF(rect.left(), rect.bottom()), QPointF(rect.right(), rect.bottom()))
-                return
-            painter.setPen(QColor(color))
-            painter.setFont(GAME_UI_TOKENS.typography.status_label() if source_index.column() != 1 else GAME_UI_TOKENS.typography.section_title())
-            alignment = Qt.AlignmentFlag.AlignVCenter | (Qt.AlignmentFlag.AlignLeft if source_index.column() == 0 else Qt.AlignmentFlag.AlignRight)
-            painter.drawText(text_rect, alignment, self._elided(painter, text, int(text_rect.width())))
-            painter.setPen(QPen(QColor(132, 151, 145, 38), 1))
-            painter.drawLine(QPointF(rect.left(), rect.bottom()), QPointF(rect.right(), rect.bottom()))
+            painter.setClipRect(option.rect)
+            painter.setRenderHint(QPainter.RenderHint.Antialiasing)
+            rect = QRectF(option.rect).adjusted(4, 3, -4, -3)
+            highlighted = bool(option.state & (QStyle.StateFlag.State_MouseOver | QStyle.StateFlag.State_Selected))
+            fill = QLinearGradient(rect.topLeft(), rect.bottomLeft())
+            fill.setColorAt(0, QColor("#353a3d" if highlighted else "#292e31"))
+            fill.setColorAt(1, QColor("#15191c"))
+            painter.setBrush(fill)
+            painter.setPen(QPen(QColor("#ffd21f" if highlighted else "#555b5e"), 1))
+            painter.drawRoundedRect(rect, 6, 6)
+            icon_well = QRectF(rect.left() + 8, rect.center().y() - 21, 42, 42)
+            painter.setBrush(QColor("#d2d4ce"))
+            painter.setPen(QPen(QColor("#6d7471"), 1))
+            painter.drawRoundedRect(icon_well, 6, 6)
+            icon_recess = icon_well.adjusted(4, 4, -4, -4)
+            painter.setBrush(QColor("#202629"))
+            painter.setPen(QPen(QColor("#4e5756"), 1))
+            painter.drawRoundedRect(icon_recess, 4, 4)
+            painter.drawPixmap(
+                QRectF(icon_recess.center().x() - 15, icon_recess.center().y() - 15, 30, 30).toRect(),
+                self._resource_icon(resource_id),
+            )
+            left = rect.left() + 58
+            right = rect.right() - 12
+
+            def text(x, y, width, value, color, size=9, weight=QFont.Weight.Normal, align=Qt.AlignmentFlag.AlignLeft):
+                painter.setFont(QFont("Segoe UI", size, weight))
+                painter.setPen(QColor(color))
+                painter.drawText(QRectF(x, y, width, 18), align | Qt.AlignmentFlag.AlignVCenter,
+                                 self._elided(painter, str(value), int(width)))
+
+            price = str(source.siblingAtColumn(1).data())
+            price_width = max(90, QFontMetrics(QFont("Segoe UI", 10, QFont.Weight.Bold)).horizontalAdvance(price) + 8)
+            text(left, rect.top() + 4, right - left - price_width - 8, source.data(), Theme.TEXT, 10, QFont.Weight.Bold)
+            text(right - price_width, rect.top() + 4, price_width, price, Theme.TEXT, 10, QFont.Weight.Bold, Qt.AlignmentFlag.AlignRight)
+            category = source.data(Qt.ItemDataRole.UserRole + 2)
+            event = str(source.siblingAtColumn(7).data() or "")
+            meta = str(category) + ("  /  " + event if event else "")
+            text(left, rect.top() + 21, right - left, meta, "#ffd21f" if event else "#b7bdc0", 8)
+            # Aligned metrics keep both lanes comparable without repeated wide columns.
+            widths = (right - left) / 5
+            for slot, column in enumerate((2, 3, 4, 5, 6)):
+                value = source.siblingAtColumn(column).data()
+                color = "#cbd0d2"
+                if column in (2, 3, 4, 5):
+                    period = ("24H", "7D", "30D")[column - 2] if column < 5 else self._model._timeframe
+                    change = self._model.period_change(resource_id, period)
+                    color = Theme.GOOD if change > 0 else Theme.BAD if change < 0 else "#cbd0d2"
+                label = f"{MARKET_COLUMNS[column]} {value}" if column != 5 else str(value)
+                text(left + slot * widths, rect.top() + 38, widths - 5, label, color, 8, QFont.Weight.DemiBold)
         finally:
             painter.restore()
 
 
-class MarketHeader(QFrame):
-    def __init__(self, state: GameState) -> None:
-        super().__init__()
+class MarketEventHover(QFrame):
+    """Embedded event information, styled like the game's card hover panels."""
+
+    def __init__(self, parent: QWidget) -> None:
+        super().__init__(parent)
+        self.setObjectName("marketEventHover")
+        self.setAttribute(Qt.WidgetAttribute.WA_TransparentForMouseEvents, True)
+        self.setAttribute(Qt.WidgetAttribute.WA_ShowWithoutActivating, True)
+        layout = QVBoxLayout(self)
+        layout.setContentsMargins(18, 14, 18, 16)
+        layout.setSpacing(10)
+        self.title = QLabel()
+        self.title.setObjectName("marketEventHoverTitle")
+        self.title.setTextFormat(Qt.TextFormat.PlainText)
+        self.remaining = QLabel()
+        self.remaining.setObjectName("marketEventHoverMeta")
+        caption = QLabel("AFFECTED RESOURCES")
+        caption.setObjectName("marketEventHoverCaption")
+        self.resources = QLabel()
+        self.resources.setTextFormat(Qt.TextFormat.RichText)
+        self.resources.setWordWrap(True)
+        for widget in (self.title, self.remaining, caption, self.resources):
+            layout.addWidget(widget)
+        self.hide()
+
+    def show_for(self, anchor: QWidget, host: QWidget) -> None:
+        if self.parentWidget() is not host:
+            self.setParent(host)
+        self.setFixedWidth(min(660, host.width() - 24))
+        self.adjustSize()
+        point = anchor.mapTo(host, QPoint(anchor.width(), anchor.height() + 8))
+        x = max(12, min(point.x() - self.width(), host.width() - self.width() - 12))
+        y = max(12, min(point.y(), host.height() - self.height() - 12))
+        self.move(x, y)
+        self.show()
+        self.raise_()
+
+
+class MarketHeader(MainTabHeader):
+    def __init__(self, state: GameState, resources: dict[str, ResourceDefinition] | None = None) -> None:
+        super().__init__(
+            object_name="marketHeader",
+            title="MARKET",
+            subtitle="RESOURCE EXCHANGE / PRICING",
+            title_object_name="marketHeroTitle",
+            subtitle_object_name="marketHeroSubtitle",
+            accent=Accent.NEUTRAL,
+        )
         self._state = state
-        self.setObjectName("marketHeader")
-        self.setMinimumHeight(116)
-        self.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Fixed)
-        layout = QHBoxLayout(self)
-        layout.setContentsMargins(32, 25, 32, 24)
-        layout.setSpacing(18)
-        title_column = QVBoxLayout()
-        title_column.setContentsMargins(0, 0, 0, 0)
-        title_column.setSpacing(1)
-        title = QLabel("MARKET")
-        title.setObjectName("marketHeroTitle")
-        subtitle = QLabel("RESOURCE EXCHANGE / PRICING")
-        subtitle.setObjectName("marketHeroSubtitle")
-        title_column.addWidget(title)
-        title_column.addWidget(subtitle)
-        layout.addLayout(title_column, 1)
+        self._resources = resources or {}
         self._event_value = self._metric("ACTIVE EVENT", "")
         self._remaining_value = self._metric("REMAINING", "")
-        layout.addWidget(self._event_value[0])
-        layout.addWidget(self._remaining_value[0])
+        self.add_status_module(self._event_value[0])
+        self.add_status_module(self._remaining_value[0])
+        self._event_popup = MarketEventHover(self)
+        for widget in (self._event_value[0], *self._event_value[0].findChildren(QLabel)):
+            widget.installEventFilter(self)
         self.refresh()
-
-    def paintEvent(self, event) -> None:  # noqa: N802
-        painter = QPainter(self)
-        painter.setRenderHint(QPainter.RenderHint.Antialiasing)
-        rect = QRectF(self.rect()).adjusted(1, 1, -1, -1)
-        draw_game_panel(painter, rect, accent=Accent.NEUTRAL, level=MaterialLevel.ELEVATED, radius=16)
-        inset = rect.adjusted(14, 13, -14, -13)
-        draw_track_surface(painter, inset, accent=Accent.CASH, radius=11)
-        painter.end()
-        super().paintEvent(event)
 
     def refresh(self) -> None:
         event = active_market_event(self._state.market)
@@ -496,6 +573,34 @@ class MarketHeader(QFrame):
         hours = int((remaining % 86_400) // 3_600)
         self._event_value[1].setText(event.name.upper())
         self._remaining_value[1].setText(f"{days}D {hours}H")
+        names = sorted(self._resources[key].name if key in self._resources else key.replace("_", " ").title()
+                       for key in event.affected_resources)
+        rows = "".join("<tr>" + "".join(f"<td style='padding:3px 12px 3px 0'>{escape(name)}</td>" for name in names[index:index + 3]) + "</tr>"
+                       for index in range(0, len(names), 3))
+        info = f"<b>{escape(event.name)}</b><br>Remaining: {days}d {hours}h<br><br><b>Affected resources</b><table>{rows}</table>"
+        self._event_info = info
+        self._event_popup.title.setText(event.name.upper())
+        self._event_popup.remaining.setText(f"Remaining: {days}d {hours}h")
+        self._event_popup.resources.setText(f"<table width=\"100%\" cellspacing=\"0\">{rows}</table>")
+        if self._event_popup.isVisible():
+            self._event_popup.show_for(self._event_value[0], self.parentWidget() or self)
+        for widget in (self._event_value[0], *self._event_value[0].findChildren(QLabel)):
+            widget.setToolTip("")
+            widget.setAccessibleDescription(f"{event.name}. Affected resources: {', '.join(names)}")
+
+    def eventFilter(self, watched, event) -> bool:
+        if event.type() == QEvent.Type.ToolTip:
+            return True
+        if watched is self._event_value[0]:
+            if event.type() == QEvent.Type.Enter:
+                self._event_popup.show_for(watched, self.parentWidget() or self)
+            elif event.type() in (QEvent.Type.Leave, QEvent.Type.Hide):
+                self._event_popup.hide()
+        return super().eventFilter(watched, event)
+
+    def hideEvent(self, event) -> None:
+        self._event_popup.hide()
+        super().hideEvent(event)
 
     def _metric(self, label_text: str, value_text: str) -> tuple[QFrame, QLabel]:
         tile = QFrame()
@@ -555,6 +660,7 @@ class MarketFilterScroll(QScrollArea):
 class MarketView(QWidget):
     def __init__(self, state: GameState, resources: dict[str, ResourceDefinition]) -> None:
         super().__init__()
+        self.setObjectName("marketView")
         self._state = state
         self._resources = resources
         self._selected_resource_id: str | None = None
@@ -568,7 +674,7 @@ class MarketView(QWidget):
         layout.setContentsMargins(0, 0, 0, 0)
         layout.setSpacing(12)
 
-        self._header = MarketHeader(state)
+        self._header = MarketHeader(state, resources)
         layout.addWidget(self._header)
 
         self._stack = QStackedWidget()
@@ -581,29 +687,23 @@ class MarketView(QWidget):
 
     def _build_overview_page(self) -> QWidget:
         page = QWidget()
+        page.setObjectName("marketOverviewPage")
         layout = QVBoxLayout(page)
-        layout.setContentsMargins(0, 0, 0, 0)
+        layout.setContentsMargins(12, 12, 12, 12)
         layout.setSpacing(12)
-
-        self._event_panel = QFrame()
-        self._event_panel.setObjectName("marketEventPanel")
-        self._event_layout = QHBoxLayout(self._event_panel)
-        self._event_layout.setContentsMargins(14, 12, 14, 12)
-        self._event_layout.setSpacing(14)
-        layout.addWidget(self._event_panel)
 
         controls = QWidget()
         controls.setObjectName("marketFilterDeck")
         control_layout = QHBoxLayout(controls)
-        control_layout.setContentsMargins(14, 12, 14, 12)
-        control_layout.setSpacing(12)
+        control_layout.setContentsMargins(10, 7, 10, 7)
+        control_layout.setSpacing(8)
         self._search = QLineEdit()
         self._search.setObjectName("marketSearch")
         self._search.setPlaceholderText("Search market...")
         self._search.textChanged.connect(self._refresh_market_rows)
         self._stage_filter = QComboBox(controls)
         self._stage_filter.setObjectName("marketStageFilter")
-        self._stage_filter.addItems(["All", "Extraction", "Processing", "Manufacturing", "Assembly"])
+        self._stage_filter.addItems(["Primary Production", "Processing", "Manufacturing", "Assembly", "All"])
         self._stage_filter.currentTextChanged.connect(self._refresh_market_rows)
         self._category_filter = QComboBox(controls)
         self._category_filter.setObjectName("marketCategoryFilter")
@@ -627,12 +727,12 @@ class MarketView(QWidget):
         self._timeframe.currentTextChanged.connect(self._refresh_market_rows)
         for combo in (self._stage_filter, self._category_filter, self._event_filter, self._trend_filter, self._sort, self._timeframe):
             combo.hide()
-        self._search.setFixedWidth(220)
+        self._search.setFixedWidth(172)
         control_layout.addWidget(self._labeled_control("SEARCH", self._search), 0)
         self._stage_chip_layout = self._add_chip_group(control_layout, "STAGE", self._stage_filter)
         self._add_selector_group(control_layout, "CATEGORY", self._category_filter, "marketCategorySelectorButton")
-        self._event_chip_layout = self._add_chip_group(control_layout, "EVENT", self._event_filter)
-        self._trend_chip_layout = self._add_chip_group(control_layout, "TREND", self._trend_filter)
+        self._add_selector_group(control_layout, "EVENT", self._event_filter, "marketEventSelectorButton")
+        self._add_selector_group(control_layout, "TREND", self._trend_filter, "marketTrendSelectorButton")
         control_layout.addStretch(1)
         self._add_selector_group(control_layout, "SORT", self._sort, "marketSortSelectorButton")
         self._timeframe_chip_layout = self._add_chip_group(control_layout, "RANGE", self._timeframe)
@@ -641,9 +741,10 @@ class MarketView(QWidget):
 
         self._market_table = QTableView()
         self._market_table.setObjectName("marketTableView")
-        self._market_table.setModel(self._proxy_model)
+        self._lane_model = MarketLaneModel(self._proxy_model, self)
+        self._market_table.setModel(self._lane_model)
         self._market_table.setItemDelegate(MarketTableDelegate(self._table_model, self._market_table))
-        self._market_table.setSelectionBehavior(QAbstractItemView.SelectionBehavior.SelectRows)
+        self._market_table.setSelectionBehavior(QAbstractItemView.SelectionBehavior.SelectItems)
         self._market_table.setSelectionMode(QAbstractItemView.SelectionMode.SingleSelection)
         self._market_table.setEditTriggers(QAbstractItemView.EditTrigger.NoEditTriggers)
         self._market_table.setShowGrid(False)
@@ -652,12 +753,12 @@ class MarketView(QWidget):
         self._market_table.setSortingEnabled(False)
         self._market_table.setWordWrap(False)
         self._market_table.verticalHeader().hide()
-        self._market_table.verticalHeader().setDefaultSectionSize(50)
+        self._market_table.verticalHeader().setDefaultSectionSize(64)
         self._market_table.horizontalHeader().setFixedHeight(34)
         self._market_table.horizontalHeader().setStretchLastSection(False)
         self._market_table.horizontalHeader().setSectionResizeMode(0, QHeaderView.ResizeMode.Stretch)
-        for column in range(1, len(MARKET_COLUMNS)):
-            self._market_table.horizontalHeader().setSectionResizeMode(column, QHeaderView.ResizeMode.ResizeToContents)
+        for column in range(1, 2):
+            self._market_table.horizontalHeader().setSectionResizeMode(column, QHeaderView.ResizeMode.Stretch)
         self._market_table.setHorizontalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAlwaysOff)
         self._market_table.setMouseTracking(True)
         self._market_table.clicked.connect(self._on_table_row_clicked)
@@ -666,15 +767,16 @@ class MarketView(QWidget):
 
     def _build_detail_page(self) -> QWidget:
         page = QWidget()
+        page.setObjectName("marketDetailPage")
         layout = QVBoxLayout(page)
-        layout.setContentsMargins(0, 0, 0, 0)
+        layout.setContentsMargins(12, 12, 12, 12)
         layout.setSpacing(10)
 
         header = QFrame()
         header.setObjectName("marketDetailHeader")
         header_layout = QHBoxLayout(header)
-        header_layout.setContentsMargins(14, 12, 14, 12)
-        header_layout.setSpacing(12)
+        header_layout.setContentsMargins(12, 7, 12, 7)
+        header_layout.setSpacing(10)
         self._back_button = QPushButton("BACK")
         self._back_button.setObjectName("marketBackButton")
         self._back_button.clicked.connect(self._show_overview)
@@ -684,6 +786,7 @@ class MarketView(QWidget):
         self._detail_icon_layout.setContentsMargins(0, 0, 0, 0)
         self._detail_title = QLabel("Resource Market Detail")
         self._detail_title.setObjectName("marketDetailTitle")
+        self._detail_title.setAlignment(Qt.AlignmentFlag.AlignVCenter)
         self._detail_price = QLabel()
         self._detail_price.setObjectName("marketDetailPrice")
         self._detail_change = QLabel()
@@ -704,28 +807,31 @@ class MarketView(QWidget):
         layout.addWidget(header)
 
         self._detail_summary = QFrame()
+        self._research_sale = QLabel()
+        self._research_sale.setObjectName("marketResearchSale")
+        self._research_sale.setStyleSheet("color: #33413b; font: 13px Bahnschrift; padding: 4px 10px;")
+        layout.addWidget(self._research_sale)
         self._detail_summary.setObjectName("marketDetailSummary")
         self._detail_summary_layout = QGridLayout(self._detail_summary)
-        self._detail_summary_layout.setContentsMargins(12, 12, 12, 12)
-        self._detail_summary_layout.setHorizontalSpacing(18)
-        self._detail_summary_layout.setVerticalSpacing(6)
+        self._detail_summary_layout.setContentsMargins(10, 7, 10, 7)
+        self._detail_summary_layout.setHorizontalSpacing(14)
+        self._detail_summary_layout.setVerticalSpacing(2)
         self._detail_stats: dict[str, QLabel] = {}
         for index, key in enumerate(("ANCHOR PRICE", "ACTIVE EVENT", "PERIOD HIGH", "PERIOD LOW", "PERIOD AVERAGE", "PERIOD CHANGE")):
             label = QLabel(key)
             label.setObjectName("marketDetailMetricLabel")
             value = QLabel()
             value.setObjectName("marketDetailMetric")
-            row = index // 3
-            column = (index % 3) * 2
-            self._detail_summary_layout.addWidget(label, row, column)
-            self._detail_summary_layout.addWidget(value, row, column + 1)
+            self._detail_summary_layout.addWidget(label, 0, index)
+            self._detail_summary_layout.addWidget(value, 1, index)
+            self._detail_summary_layout.setColumnStretch(index, 1)
             self._detail_stats[key] = value
         layout.addWidget(self._detail_summary)
 
         self._detail_chart_panel = QFrame()
         self._detail_chart_panel.setObjectName("marketChartPanel")
         chart_layout = QVBoxLayout(self._detail_chart_panel)
-        chart_layout.setContentsMargins(12, 12, 12, 12)
+        chart_layout.setContentsMargins(4, 4, 4, 4)
         chart_layout.setSpacing(8)
         self._detail_chart = PriceSparkline(self._state, "iron_ore", "Price History")
         self._detail_chart.setObjectName("marketDetailChart")
@@ -736,29 +842,9 @@ class MarketView(QWidget):
 
     def refresh(self) -> None:
         self._header.refresh()
-        self._refresh_event_panel()
         self._refresh_market_rows()
         if self._selected_resource_id is not None:
             self._refresh_detail()
-
-    def _refresh_event_panel(self) -> None:
-        if not hasattr(self, "_event_layout"):
-            return
-        self._clear_layout(self._event_layout)
-        event = active_market_event(self._state.market)
-        remaining = remaining_event_seconds(self._state.market)
-        days = int(remaining // 86_400)
-        hours = int((remaining % 86_400) // 3_600)
-        affected = " · ".join(resource.replace("_", " ").title() for resource in event.affected_resources)
-        name = QLabel(event.name)
-        name.setObjectName("marketEventName")
-        affected_label = QLabel(f"Affected: {affected}")
-        affected_label.setObjectName("marketEventAffected")
-        remaining_label = QLabel(f"Remaining: {days}d {hours}h")
-        remaining_label.setObjectName("marketEventRemaining")
-        self._event_layout.addWidget(name)
-        self._event_layout.addWidget(affected_label, 1)
-        self._event_layout.addWidget(remaining_label)
 
     def _refresh_market_rows(self, *args) -> None:
         if not hasattr(self, "_market_table"):
@@ -886,17 +972,28 @@ class MarketView(QWidget):
             self._refresh_selector_flyout(combo)
 
     def _refresh_chip_group(self, layout: QHBoxLayout, combo: QComboBox, group: str) -> None:
-        self._clear_layout(layout)
+        options = [combo.itemText(index) for index in range(combo.count())]
+        chips = [layout.itemAt(index).widget() for index in range(layout.count())]
+        if [chip.property("filterValue") for chip in chips] != options:
+            self._clear_layout(layout)
+            chips = []
+            for option in options:
+                chip = QPushButton(option.upper())
+                chip.setObjectName("marketFilterChip")
+                chip.setProperty("filterGroup", group)
+                chip.setProperty("filterValue", option)
+                chip.setCursor(Qt.CursorShape.PointingHandCursor)
+                chip.clicked.connect(lambda checked=False, value=option, target=combo: self._set_chip_filter_value(target, value))
+                layout.addWidget(chip)
+                chips.append(chip)
         current = combo.currentText() or "All"
-        for option in [combo.itemText(index) for index in range(combo.count())]:
-            chip = QPushButton(option.upper())
-            chip.setObjectName("marketFilterChip")
-            chip.setProperty("filterGroup", group)
-            chip.setProperty("filterValue", option)
-            chip.setProperty("active", option == current)
-            chip.setCursor(Qt.CursorShape.PointingHandCursor)
-            chip.clicked.connect(lambda checked=False, value=option, target=combo: self._set_chip_filter_value(target, value))
-            layout.addWidget(chip)
+        for chip, option in zip(chips, options):
+            active = option == current
+            if chip.property("active") != active:
+                chip.setProperty("active", active)
+                chip.style().unpolish(chip)
+                chip.style().polish(chip)
+                chip.update()
 
     def _set_chip_filter_value(self, combo: QComboBox, value: str) -> None:
         if combo.currentText() == value:
@@ -911,8 +1008,6 @@ class MarketView(QWidget):
         if not hasattr(self, "_stage_chip_layout"):
             return
         self._refresh_chip_group(self._stage_chip_layout, self._stage_filter, self._stage_filter.objectName())
-        self._refresh_chip_group(self._event_chip_layout, self._event_filter, self._event_filter.objectName())
-        self._refresh_chip_group(self._trend_chip_layout, self._trend_filter, self._trend_filter.objectName())
         self._refresh_chip_group(self._timeframe_chip_layout, self._timeframe, self._timeframe.objectName())
         self._refresh_selector_buttons()
 
@@ -926,12 +1021,15 @@ class MarketView(QWidget):
         sort = self._sort.currentText()
         column = {"Price": 1, "24h Change": 2, "7d Change": 3, "30d Change": 4}.get(sort, 0)
         order = Qt.SortOrder.DescendingOrder if column else Qt.SortOrder.AscendingOrder
-        self._market_table.sortByColumn(column, order)
+        self._proxy_model.sort(column, order)
 
     def _on_table_row_clicked(self, index: QModelIndex) -> None:
         if not index.isValid():
             return
-        source_index = self._proxy_model.mapToSource(index)
+        resource_index = self._lane_model.resource_index(index)
+        if not resource_index.isValid():
+            return
+        source_index = self._proxy_model.mapToSource(resource_index)
         self._show_detail(self._table_model.resource_id_at(source_index.row()))
 
     def _refresh_detail(self, *args) -> None:
@@ -947,9 +1045,16 @@ class MarketView(QWidget):
         delta = self._period_change(resource_id, range_id)
         percent = self._change_percent_for_delta(resource_id, delta)
         self._detail_title.setText(definition.name)
-        self._detail_price.setText(f"${market.current_price:.2f}")
+        self._detail_price.setText(f"${price_number(market.current_price)}")
+        from production_zero.core.modifiers import market_sale_price, modifier_bonus
+        bonus = modifier_bonus(self._state.research, "value", resource_id)
+        self._research_sale.setText(f"YOUR SALE VALUE  ${price_number(market_sale_price(self._state, resource_id))} / unit  ·  Research +{bonus * 100:g}%  ·  Locked when dispatched")
+        self._research_sale.setToolTip('Unit display rounds up to cents; shipments settle from precise locked unit prices.')
         self._detail_change.setText(f"{delta:+.2f} ({percent:+.2f}%)")
         self._detail_change.setProperty("change", self._change_status(delta))
+        self._detail_price.setProperty("change", self._change_status(delta))
+        self._detail_price.style().unpolish(self._detail_price)
+        self._detail_price.style().polish(self._detail_price)
         self._detail_change.style().unpolish(self._detail_change)
         self._detail_change.style().polish(self._detail_change)
         self._clear_layout(self._detail_icon_layout)
@@ -977,6 +1082,7 @@ class MarketView(QWidget):
 
     def _labeled_control(self, label_text: str, control: QWidget) -> QWidget:
         wrapper = QWidget()
+        wrapper.setObjectName("marketControlGroup")
         layout = QVBoxLayout(wrapper)
         layout.setContentsMargins(0, 0, 0, 0)
         layout.setSpacing(4)
@@ -1078,16 +1184,7 @@ class MarketView(QWidget):
         return "24H"
 
     def _stage_for_resource(self, definition: ResourceDefinition) -> str:
-        category = definition.category.lower()
-        if any(token in category for token in ("ore", "mineral", "oil", "gas", "agriculture", "forestry")):
-            return "Extraction"
-        if any(token in category for token in ("processed", "metal", "chemical", "material")):
-            return "Processing"
-        if any(token in category for token in ("component", "electronics", "vehicle", "medical")):
-            return "Manufacturing"
-        if any(token in category for token in ("assembly", "aerospace", "space", "telecom")):
-            return "Assembly"
-        return "Processing"
+        return market_stage_for_resource(definition)
 
     def _is_event_affected(self, resource_id: str) -> bool:
         return resource_id in active_market_event(self._state.market).affected_resources

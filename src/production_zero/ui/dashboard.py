@@ -99,7 +99,7 @@ class DashboardWidget(QWidget):
             self._draw_bar(painter, QRectF(row.left() + 138, row.top() + 3, row.width() - 238, 12), stock.fill_ratio, Theme.RESOURCE)
             painter.setPen(QColor(Theme.MUTED))
             painter.setFont(QFont("Segoe UI", 9))
-            painter.drawText(QRectF(row.right() - 92, row.top() - 1, 92, row.height()), Qt.AlignmentFlag.AlignRight, f"{stock.amount:.0f}/{stock.capacity:.0f}")
+            painter.drawText(QRectF(row.right() - 92, row.top() - 1, 92, row.height()), Qt.AlignmentFlag.AlignRight, f"{stock.amount:.0f} STORED")
 
     def _draw_chart_panel(self, painter: QPainter, rect: QRectF) -> None:
         self._draw_panel(painter, rect, "Trend Lines")

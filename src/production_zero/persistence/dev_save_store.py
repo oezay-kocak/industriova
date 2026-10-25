@@ -1,16 +1,21 @@
 from __future__ import annotations
 
 import json
+import os
 from pathlib import Path
 from tempfile import NamedTemporaryFile
 
 from production_zero.core.state import GameState
 from production_zero.persistence.sqlite_store import deserialize_game_state, serialize_game_state
+from production_zero.persistence.paths import APP_SAVE_DIRECTORY_NAME, default_save_directory
 
 
 SAVE_VERSION = 1
-DEV_SAVE_DIRECTORY = Path("saves") / "dev"
 DEV_SAVE_FILENAME = "dev_save.json"
+
+
+def default_dev_save_directory() -> Path:
+    return default_save_directory() / "dev"
 
 
 class DevSaveError(Exception):
@@ -30,8 +35,8 @@ class IncompatibleSaveVersionError(DevSaveError):
 
 
 class DevJsonSaveStore:
-    def __init__(self, save_directory: Path = DEV_SAVE_DIRECTORY, filename: str = DEV_SAVE_FILENAME) -> None:
-        self._save_directory = save_directory
+    def __init__(self, save_directory: Path | None = None, filename: str = DEV_SAVE_FILENAME) -> None:
+        self._save_directory = save_directory or default_dev_save_directory()
         self._filename = filename
 
     @property

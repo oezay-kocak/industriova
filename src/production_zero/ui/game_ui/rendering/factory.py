@@ -5,6 +5,8 @@ from PySide6.QtGui import QColor, QLinearGradient, QPainter, QPainterPath, QPen,
 
 from production_zero.ui.game_ui.icons import GameIcon, MachineIcon, draw_game_icon, draw_machine_icon
 from production_zero.ui.game_ui.tokens import Accent, GAME_UI_TOKENS
+from production_zero.ui.freight_art import FREIGHT_ASSETS, draw_freight_art
+from production_zero.ui.machine_art import MACHINE_RASTER_ASSETS, draw_machine_art
 
 
 def _accent(accent: Accent, alpha: int) -> QColor:
@@ -512,14 +514,15 @@ def draw_utility_chassis(
     accent: Accent = Accent.ENERGY,
     active: bool = False,
     warning: bool = False,
+    opacity_boost: int = 0,
 ) -> QRectF:
     panel = rect.adjusted(0.5, 0.5, -0.5, -0.5)
     cut = 4 if panel.height() < 78 else 6
     path = _dock_path(panel, cut)
     body = QLinearGradient(panel.topLeft(), panel.bottomRight())
-    body.setColorAt(0.0, QColor(38, 45, 45, 168 if active else 146))
-    body.setColorAt(0.48, QColor(17, 24, 24, 222))
-    body.setColorAt(1.0, QColor(7, 10, 10, 244))
+    body.setColorAt(0.0, QColor(38, 45, 45, min(255, (168 if active else 146) + opacity_boost)))
+    body.setColorAt(0.48, QColor(17, 24, 24, min(255, 222 + opacity_boost)))
+    body.setColorAt(1.0, QColor(7, 10, 10, min(255, 244 + opacity_boost)))
     edge = Accent.WARNING if warning else accent
     painter.setPen(QPen(_neutral_edge_highlight(88 if active or warning else 56), 1.15))
     painter.setBrush(body)
@@ -830,14 +833,54 @@ def draw_machine_icon_stage(
 
 _PROTOTYPE_FAMILY_COLORS: dict[str, QColor] = {
     "extractor": QColor("#d8a642"),
-    "processor": QColor("#df6b2f"),
+    "drilling": QColor("#d8a642"),
+    "agriculture": QColor("#d8a642"),
+    "processor": QColor("#5d94aa"),
+    "fabricator": QColor("#df6b2f"),
     "assembly": QColor("#c83a2b"),
+    "assembler": QColor("#c83a2b"),
     "energy": QColor("#ffd21f"),
+    "solar": QColor("#ffd21f"),
+    "wind": QColor("#d8e2e8"),
+    "coal": QColor("#727d82"),
+    "gas": QColor("#4db6ac"),
+    "nuclear": QColor("#b9f05a"),
     "transport": QColor("#25b9e8"),
     "truck": QColor("#ffd21f"),
-    "train": QColor("#5d94aa"),
+    "train": QColor(GAME_UI_TOKENS.colors.train),
     "ship": QColor("#25b9e8"),
     "aircraft": QColor("#9bb8ef"),
+}
+
+
+_PROTOTYPE_RARITY_COLORS: dict[str, QColor] = {
+    "COMMON": QColor("#9ca8a4"),
+    "UNCOMMON": QColor("#65d88f"),
+    "RARE": QColor("#ffd21f"),
+    "EPIC": QColor("#b187ff"),
+    "LEGENDARY": QColor("#df6b2f"),
+}
+
+
+_PROTOTYPE_FAMILY_LABELS: dict[str, str] = {
+    "extractor": "EXTRACT",
+    "drilling": "DRILL",
+    "agriculture": "GROW",
+    "processor": "PROCESS",
+    "fabricator": "FABRICATE",
+    "assembly": "ASSEMBLE",
+    "assembler": "ASSEMBLE",
+    "energy": "ENERGY",
+    "solar": "SOLAR",
+    "wind": "WIND",
+    "coal": "COAL",
+    "gas": "GAS",
+    "nuclear": "NUCLEAR",
+    "transport": "FREIGHT",
+    "truck": "TRUCK",
+    "train": "RAIL",
+    "ship": "SHIP",
+    "aircraft": "AIR",
 }
 
 
@@ -851,12 +894,14 @@ _BLOCK_GLYPHS: dict[str, tuple[str, ...]] = {
     "G": ("01111", "10000", "10000", "10011", "10001", "10001", "01111"),
     "H": ("10001", "10001", "10001", "11111", "10001", "10001", "10001"),
     "I": ("11111", "00100", "00100", "00100", "00100", "00100", "11111"),
+    "J": ("00111", "00010", "00010", "00010", "10010", "10010", "01100"),
     "K": ("10001", "10010", "10100", "11000", "10100", "10010", "10001"),
     "L": ("10000", "10000", "10000", "10000", "10000", "10000", "11111"),
     "M": ("10001", "11011", "10101", "10101", "10001", "10001", "10001"),
     "N": ("10001", "11001", "10101", "10011", "10001", "10001", "10001"),
     "O": ("01110", "10001", "10001", "10001", "10001", "10001", "01110"),
     "P": ("11110", "10001", "10001", "11110", "10000", "10000", "10000"),
+    "Q": ("01110", "10001", "10001", "10001", "10101", "10010", "01101"),
     "R": ("11110", "10001", "10001", "11110", "10100", "10010", "10001"),
     "S": ("01111", "10000", "10000", "01110", "00001", "00001", "11110"),
     "T": ("11111", "00100", "00100", "00100", "00100", "00100", "00100"),
@@ -865,15 +910,27 @@ _BLOCK_GLYPHS: dict[str, tuple[str, ...]] = {
     "W": ("10001", "10001", "10001", "10101", "10101", "11011", "10001"),
     "X": ("10001", "10001", "01010", "00100", "01010", "10001", "10001"),
     "Y": ("10001", "10001", "01010", "00100", "00100", "00100", "00100"),
+    "Z": ("11111", "00001", "00010", "00100", "01000", "10000", "11111"),
     "1": ("00100", "01100", "00100", "00100", "00100", "00100", "01110"),
     "2": ("01110", "10001", "00001", "00010", "00100", "01000", "11111"),
+    "3": ("11110", "00001", "00001", "01110", "00001", "00001", "11110"),
+    "4": ("10010", "10010", "10010", "11111", "00010", "00010", "00010"),
     "5": ("11111", "10000", "11110", "00001", "00001", "10001", "01110"),
     "6": ("00110", "01000", "10000", "11110", "10001", "10001", "01110"),
+    "7": ("11111", "00001", "00010", "00100", "01000", "01000", "01000"),
+    "8": ("01110", "10001", "10001", "01110", "10001", "10001", "01110"),
+    "9": ("01110", "10001", "10001", "01111", "00001", "00010", "01100"),
     "0": ("01110", "10001", "10011", "10101", "11001", "10001", "01110"),
     "+": ("00000", "00100", "00100", "11111", "00100", "00100", "00000"),
     "/": ("00001", "00010", "00010", "00100", "01000", "01000", "10000"),
     ".": ("00000", "00000", "00000", "00000", "00000", "01100", "01100"),
+    ",": ("00000", "00000", "00000", "00000", "00000", "01100", "01000"),
+    ":": ("00000", "01100", "01100", "00000", "01100", "01100", "00000"),
+    "%": ("11001", "11010", "00010", "00100", "01000", "01011", "10011"),
+    "$": ("01111", "10100", "10100", "01110", "00101", "00101", "11110"),
     "-": ("00000", "00000", "00000", "11111", "00000", "00000", "00000"),
+    "·": ("00000", "00000", "00000", "01100", "01100", "00000", "00000"),
+    "…": ("00000", "00000", "00000", "00000", "00000", "10101", "10101"),
     ">": ("10000", "01000", "00100", "00010", "00100", "01000", "10000"),
 }
 
@@ -925,7 +982,29 @@ def _prototype_family_color(family: str, disabled: bool) -> QColor:
     return color
 
 
+def _prototype_rarity_color(meta: str, disabled: bool) -> QColor:
+    normalized = meta.upper()
+    rarity = next((name for name in ("LEGENDARY", "UNCOMMON", "COMMON", "RARE", "EPIC") if name in normalized), "COMMON")
+    color = QColor(_PROTOTYPE_RARITY_COLORS[rarity])
+    if disabled:
+        color = color.darker(160)
+        color.setAlpha(132)
+    return color
+
+
+def _prototype_family_label(family: str) -> str:
+    return _PROTOTYPE_FAMILY_LABELS.get(family.lower(), family.replace("_", " ").upper()[:9])
+
+
+
+
 def _draw_prototype_pictogram(painter: QPainter, rect: QRectF, *, family: str, disabled: bool = False) -> None:
+    if family.lower() in FREIGHT_ASSETS:
+        draw_freight_art(painter, rect, family=family.lower(), disabled=disabled)
+        return
+    if family.lower() in MACHINE_RASTER_ASSETS:
+        draw_machine_art(painter, rect, family=family.lower(), disabled=disabled)
+        return
     ink = QColor(8, 10, 10, 220 if not disabled else 136)
     accent_ink = QColor(255, 255, 246, 96 if not disabled else 42)
     stroke = max(3.0, min(rect.width(), rect.height()) * 0.055)
@@ -933,38 +1012,66 @@ def _draw_prototype_pictogram(painter: QPainter, rect: QRectF, *, family: str, d
     painter.setPen(QPen(ink, stroke, Qt.PenStyle.SolidLine, Qt.PenCapStyle.RoundCap, Qt.PenJoinStyle.RoundJoin))
     painter.setBrush(Qt.BrushStyle.NoBrush)
     family = family.lower()
-    if family == "extractor":
-        painter.drawLine(_point(rect, 0.22, 0.72), _point(rect, 0.50, 0.22))
-        painter.drawLine(_point(rect, 0.50, 0.22), _point(rect, 0.78, 0.72))
-        painter.drawLine(_point(rect, 0.30, 0.58), _point(rect, 0.70, 0.58))
-        painter.drawPolygon(QPolygonF([_point(rect, 0.42, 0.72), _point(rect, 0.58, 0.72), _point(rect, 0.50, 0.90)]))
+    energy_icon = {
+        "solar": MachineIcon.SOLAR_ARRAY,
+        "wind": MachineIcon.WIND_TURBINE,
+        "coal": MachineIcon.COAL_POWER,
+        "gas": MachineIcon.GAS_POWER,
+        "nuclear": MachineIcon.NUCLEAR_POWER,
+    }.get(family)
+    if energy_icon is not None:
+        accent = Accent.LEGENDARY if family == "nuclear" else Accent.WARNING if family in {"coal", "gas"} else Accent.ENERGY
+        draw_machine_icon(painter, energy_icon, rect, accent=accent, disabled=disabled)
+    elif family == "extractor":
+        painter.setPen(QPen(ink, stroke * 1.08, Qt.PenStyle.SolidLine, Qt.PenCapStyle.RoundCap, Qt.PenJoinStyle.RoundJoin))
+        painter.drawLine(_point(rect, 0.23, 0.78), _point(rect, 0.50, 0.20))
+        painter.drawLine(_point(rect, 0.50, 0.20), _point(rect, 0.77, 0.78))
+        painter.drawLine(_point(rect, 0.33, 0.55), _point(rect, 0.67, 0.55))
+        scoop = QPolygonF([_point(rect, 0.38, 0.76), _point(rect, 0.62, 0.76), _point(rect, 0.54, 0.92), _point(rect, 0.46, 0.92)])
+        painter.setBrush(ink)
+        painter.drawPolygon(scoop)
+        painter.setBrush(Qt.BrushStyle.NoBrush)
+        painter.setPen(QPen(accent_ink, max(1.2, stroke * 0.45), Qt.PenStyle.SolidLine, Qt.PenCapStyle.RoundCap))
+        painter.drawLine(_point(rect, 0.18, 0.86), _point(rect, 0.36, 0.86))
+        painter.drawLine(_point(rect, 0.64, 0.86), _point(rect, 0.82, 0.86))
     elif family == "processor":
-        chamber = rect.adjusted(rect.width() * 0.20, rect.height() * 0.24, -rect.width() * 0.20, -rect.height() * 0.20)
+        chamber = rect.adjusted(rect.width() * 0.17, rect.height() * 0.20, -rect.width() * 0.17, -rect.height() * 0.18)
         painter.drawRoundedRect(chamber, 5, 5)
-        painter.drawLine(_point(rect, 0.31, 0.42), _point(rect, 0.69, 0.42))
-        painter.drawLine(_point(rect, 0.31, 0.62), _point(rect, 0.69, 0.62))
-        painter.drawEllipse(QRectF(rect.center().x() - rect.width() * 0.09, rect.center().y() - rect.height() * 0.09, rect.width() * 0.18, rect.height() * 0.18))
+        painter.drawLine(_point(rect, 0.23, 0.40), _point(rect, 0.77, 0.40))
+        painter.drawLine(_point(rect, 0.23, 0.63), _point(rect, 0.77, 0.63))
+        painter.drawEllipse(QRectF(rect.center().x() - rect.width() * 0.12, rect.center().y() - rect.height() * 0.12, rect.width() * 0.24, rect.height() * 0.24))
+        painter.setPen(QPen(accent_ink, max(1.2, stroke * 0.45), Qt.PenStyle.SolidLine, Qt.PenCapStyle.RoundCap))
+        painter.drawLine(_point(rect, 0.12, 0.52), _point(rect, 0.26, 0.52))
+        painter.drawLine(_point(rect, 0.74, 0.52), _point(rect, 0.88, 0.52))
     elif family == "assembly" or family == "assembler":
-        painter.drawLine(_point(rect, 0.24, 0.28), _point(rect, 0.54, 0.52))
-        painter.drawLine(_point(rect, 0.54, 0.52), _point(rect, 0.76, 0.34))
-        painter.drawEllipse(QRectF(rect.left() + rect.width() * 0.14, rect.top() + rect.height() * 0.18, rect.width() * 0.20, rect.height() * 0.20))
-        painter.drawRoundedRect(QRectF(rect.left() + rect.width() * 0.48, rect.top() + rect.height() * 0.48, rect.width() * 0.28, rect.height() * 0.24), 4, 4)
-        painter.drawLine(_point(rect, 0.34, 0.78), _point(rect, 0.72, 0.78))
+        left = QRectF(rect.left() + rect.width() * 0.14, rect.top() + rect.height() * 0.34, rect.width() * 0.25, rect.height() * 0.25)
+        right = QRectF(rect.left() + rect.width() * 0.61, rect.top() + rect.height() * 0.34, rect.width() * 0.25, rect.height() * 0.25)
+        core = QRectF(rect.left() + rect.width() * 0.39, rect.top() + rect.height() * 0.52, rect.width() * 0.22, rect.height() * 0.22)
+        painter.drawEllipse(left)
+        painter.drawRoundedRect(right, 4, 4)
+        painter.drawRoundedRect(core, 4, 4)
+        painter.drawLine(_point(left, 0.80, 0.50), _point(core, 0.05, 0.36))
+        painter.drawLine(_point(right, 0.20, 0.50), _point(core, 0.95, 0.36))
+        painter.setPen(QPen(accent_ink, max(1.2, stroke * 0.45), Qt.PenStyle.SolidLine, Qt.PenCapStyle.RoundCap))
+        painter.drawLine(_point(rect, 0.28, 0.82), _point(rect, 0.72, 0.82))
+        painter.drawLine(_point(rect, 0.50, 0.22), _point(rect, 0.50, 0.52))
     elif family == "fabricator":
-        frame = QRectF(rect.left() + rect.width() * 0.20, rect.top() + rect.height() * 0.22, rect.width() * 0.60, rect.height() * 0.52)
-        bed = QRectF(rect.left() + rect.width() * 0.24, rect.top() + rect.height() * 0.72, rect.width() * 0.52, rect.height() * 0.10)
+        frame = QRectF(rect.left() + rect.width() * 0.16, rect.top() + rect.height() * 0.19, rect.width() * 0.68, rect.height() * 0.56)
+        bed = QRectF(rect.left() + rect.width() * 0.22, rect.top() + rect.height() * 0.74, rect.width() * 0.56, rect.height() * 0.11)
         cutter = QPolygonF([
-            _point(rect, 0.42, 0.36),
-            _point(rect, 0.58, 0.36),
-            _point(rect, 0.50, 0.58),
+            _point(rect, 0.39, 0.35),
+            _point(rect, 0.61, 0.35),
+            _point(rect, 0.50, 0.61),
         ])
         painter.drawRoundedRect(frame, 4, 4)
-        painter.drawLine(_point(rect, 0.30, 0.30), _point(rect, 0.70, 0.30))
+        painter.drawLine(_point(rect, 0.25, 0.30), _point(rect, 0.75, 0.30))
+        painter.setBrush(ink)
         painter.drawPolygon(cutter)
+        painter.setBrush(Qt.BrushStyle.NoBrush)
         painter.drawRoundedRect(bed, 3, 3)
         painter.setPen(QPen(accent_ink, max(1.0, stroke * 0.42), Qt.PenStyle.SolidLine, Qt.PenCapStyle.RoundCap, Qt.PenJoinStyle.RoundJoin))
-        painter.drawLine(_point(rect, 0.34, 0.65), _point(rect, 0.66, 0.65))
-        painter.drawLine(_point(rect, 0.50, 0.58), _point(rect, 0.50, 0.70))
+        painter.drawLine(_point(rect, 0.31, 0.66), _point(rect, 0.69, 0.66))
+        painter.drawLine(_point(rect, 0.50, 0.61), _point(rect, 0.50, 0.72))
     elif family == "energy":
         bolt = QPolygonF([
             _point(rect, 0.56, 0.16),
@@ -977,7 +1084,7 @@ def _draw_prototype_pictogram(painter: QPainter, rect: QRectF, *, family: str, d
         painter.setBrush(ink)
         painter.drawPolygon(bolt)
         painter.setBrush(Qt.BrushStyle.NoBrush)
-    elif family == "transport" or family == "truck":
+    elif family == "transport":
         chassis = QRectF(rect.left() + rect.width() * 0.14, rect.top() + rect.height() * 0.48, rect.width() * 0.70, rect.height() * 0.16)
         cargo = QRectF(rect.left() + rect.width() * 0.16, rect.top() + rect.height() * 0.30, rect.width() * 0.40, rect.height() * 0.26)
         cab = QRectF(rect.left() + rect.width() * 0.56, rect.top() + rect.height() * 0.36, rect.width() * 0.22, rect.height() * 0.27)
@@ -997,70 +1104,6 @@ def _draw_prototype_pictogram(painter: QPainter, rect: QRectF, *, family: str, d
         painter.drawEllipse(right_wheel)
         painter.drawEllipse(left_wheel.adjusted(wheel_size * 0.28, wheel_size * 0.28, -wheel_size * 0.28, -wheel_size * 0.28))
         painter.drawEllipse(right_wheel.adjusted(wheel_size * 0.28, wheel_size * 0.28, -wheel_size * 0.28, -wheel_size * 0.28))
-    elif family == "train":
-        base = QRectF(rect.left() + rect.width() * 0.14, rect.top() + rect.height() * 0.50, rect.width() * 0.72, rect.height() * 0.18)
-        cab = QRectF(rect.left() + rect.width() * 0.16, rect.top() + rect.height() * 0.34, rect.width() * 0.18, rect.height() * 0.31)
-        car = QRectF(rect.left() + rect.width() * 0.36, rect.top() + rect.height() * 0.38, rect.width() * 0.34, rect.height() * 0.25)
-        nose = QPolygonF([
-            _point(rect, 0.70, 0.40),
-            _point(rect, 0.84, 0.52),
-            _point(rect, 0.84, 0.63),
-            _point(rect, 0.70, 0.63),
-        ])
-        painter.setPen(QPen(ink, stroke * 1.05, Qt.PenStyle.SolidLine, Qt.PenCapStyle.RoundCap, Qt.PenJoinStyle.RoundJoin))
-        painter.drawRoundedRect(cab, 3, 3)
-        painter.drawRoundedRect(car, 3, 3)
-        painter.drawPolygon(nose)
-        painter.drawLine(_point(base, 0.0, 0.92), _point(base, 1.0, 0.92))
-        painter.setPen(QPen(accent_ink, max(1.0, stroke * 0.42), Qt.PenStyle.SolidLine, Qt.PenCapStyle.RoundCap, Qt.PenJoinStyle.RoundJoin))
-        for x in (0.22, 0.43, 0.62):
-            painter.drawLine(_point(rect, x, 0.46), _point(rect, x + 0.08, 0.46))
-        painter.setPen(QPen(ink, stroke * 0.72, Qt.PenStyle.SolidLine, Qt.PenCapStyle.RoundCap, Qt.PenJoinStyle.RoundJoin))
-        for x in (0.25, 0.45, 0.65):
-            wheel = QRectF(rect.left() + rect.width() * x, rect.top() + rect.height() * 0.66, rect.width() * 0.10, rect.width() * 0.10)
-            painter.drawEllipse(wheel)
-    elif family == "ship":
-        hull = QPolygonF([
-            _point(rect, 0.13, 0.54),
-            _point(rect, 0.83, 0.54),
-            _point(rect, 0.72, 0.75),
-            _point(rect, 0.25, 0.75),
-        ])
-        bridge = QRectF(rect.left() + rect.width() * 0.54, rect.top() + rect.height() * 0.32, rect.width() * 0.18, rect.height() * 0.18)
-        stack = QRectF(rect.left() + rect.width() * 0.28, rect.top() + rect.height() * 0.38, rect.width() * 0.20, rect.height() * 0.13)
-        painter.setPen(QPen(ink, stroke * 1.05, Qt.PenStyle.SolidLine, Qt.PenCapStyle.RoundCap, Qt.PenJoinStyle.RoundJoin))
-        painter.drawPolygon(hull)
-        painter.drawRoundedRect(bridge, 2, 2)
-        painter.drawRoundedRect(stack, 2, 2)
-        painter.setPen(QPen(accent_ink, max(1.0, stroke * 0.42), Qt.PenStyle.SolidLine, Qt.PenCapStyle.RoundCap, Qt.PenJoinStyle.RoundJoin))
-        painter.drawLine(_point(rect, 0.21, 0.62), _point(rect, 0.72, 0.62))
-        painter.drawLine(_point(rect, 0.22, 0.84), _point(rect, 0.38, 0.80))
-        painter.drawLine(_point(rect, 0.48, 0.84), _point(rect, 0.64, 0.80))
-    elif family == "aircraft":
-        fuselage = QPolygonF([
-            _point(rect, 0.13, 0.53),
-            _point(rect, 0.80, 0.45),
-            _point(rect, 0.88, 0.53),
-            _point(rect, 0.80, 0.61),
-        ])
-        wing = QPolygonF([
-            _point(rect, 0.42, 0.52),
-            _point(rect, 0.23, 0.30),
-            _point(rect, 0.56, 0.49),
-            _point(rect, 0.59, 0.55),
-        ])
-        tail = QPolygonF([
-            _point(rect, 0.20, 0.52),
-            _point(rect, 0.12, 0.36),
-            _point(rect, 0.30, 0.50),
-        ])
-        painter.setPen(QPen(ink, stroke * 1.05, Qt.PenStyle.SolidLine, Qt.PenCapStyle.RoundCap, Qt.PenJoinStyle.RoundJoin))
-        painter.drawPolygon(fuselage)
-        painter.drawPolygon(wing)
-        painter.drawPolygon(tail)
-        painter.setPen(QPen(accent_ink, max(1.0, stroke * 0.42), Qt.PenStyle.SolidLine, Qt.PenCapStyle.RoundCap, Qt.PenJoinStyle.RoundJoin))
-        painter.drawLine(_point(rect, 0.39, 0.59), _point(rect, 0.25, 0.76))
-        painter.drawLine(_point(rect, 0.61, 0.50), _point(rect, 0.74, 0.49))
     painter.restore()
 
 
@@ -1097,7 +1140,7 @@ def draw_machine_card_prototype(
     body.setColorAt(1.0, QColor(5, 7, 7, 255 if not disabled else 224))
     edge_color = QColor(family_color)
     edge_color.setAlpha(min(255, edge_color.alpha() + int(lift * 34)))
-    painter.setPen(QPen(edge_color, 1.8 if not disabled else 1.2))
+    painter.setPen(QPen(edge_color, 1.6 if not disabled else 1.1))
     painter.setBrush(body)
     painter.drawPath(path)
 
@@ -1107,20 +1150,22 @@ def draw_machine_card_prototype(
     draw_surface_wear(painter, rect.adjusted(12, 12, -12, -12), seed=len(title) * 19, density=2, dark=True)
     draw_panel_bolts(painter, rect, inset=10, radius=2.3, dark=True)
 
-    sign = QRectF(rect.left() + 14, rect.top() + 54, rect.width() - 28, rect.height() * 0.43)
+    sign = QRectF(rect.left() + 18, rect.top() + 55, rect.width() - 36, rect.height() * 0.42)
     sign_body = QLinearGradient(sign.topLeft(), sign.bottomRight())
-    sign_body.setColorAt(0.0, family_color.lighter(132 if hover and not disabled else 128 if not disabled else 112))
-    sign_body.setColorAt(0.62, family_color)
-    sign_body.setColorAt(1.0, family_color.darker(155))
+    sign_body.setColorAt(0.0, family_color.lighter(118 if hover and not disabled else 114 if not disabled else 104))
+    sign_body.setColorAt(0.58, family_color.darker(104))
+    sign_body.setColorAt(1.0, family_color.darker(178))
     painter.setPen(QPen(QColor(4, 5, 5, 228), 2))
     painter.setBrush(sign_body)
     painter.drawRoundedRect(sign, 7, 7)
-    _draw_prototype_pictogram(painter, sign.adjusted(15, 13, -15, -13), family=family, disabled=disabled)
+    painter.setPen(QPen(QColor(255, 255, 246, 44 if not disabled else 20), 1))
+    painter.drawLine(QPointF(sign.left() + 11, sign.top() + 9), QPointF(sign.right() - 11, sign.top() + 9))
+    _draw_prototype_pictogram(painter, sign.adjusted(10, 12, -10, -10), family=family, disabled=disabled)
 
-    header_title = QRectF(rect.left() + 14, rect.top() + 13, rect.width() - 28, 18)
-    header_meta = QRectF(rect.left() + 14, rect.top() + 37, rect.width() - 28, 10)
-    main_info = QRectF(rect.left() + 14, sign.bottom() + 7, rect.width() - 28, 15)
-    secondary_info = QRectF(rect.left() + 14, sign.bottom() + 24, rect.width() - 28, 11)
+    header_title = QRectF(rect.left() + 20, rect.top() + 13, rect.width() - 40, 18)
+    header_meta = QRectF(rect.left() + 20, rect.top() + 37, rect.width() - 40, 10)
+    main_info = QRectF(rect.left() + 16, sign.bottom() + 7, rect.width() - 32, 15)
+    secondary_info = QRectF(rect.left() + 16, sign.bottom() + 24, rect.width() - 32, 11)
     detail_color = QColor("#87928e") if detail.upper() == "SELECT" else QColor("#eff8f4")
     if disabled:
         detail_color = QColor("#59645f")

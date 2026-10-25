@@ -17,6 +17,7 @@ from production_zero.persistence.dev_save_store import (
     IncompatibleSaveVersionError,
     InvalidSaveError,
     SaveNotFoundError,
+    default_dev_save_directory,
 )
 from production_zero.ui.dev_tools_view import DevToolsView
 
@@ -52,6 +53,7 @@ def _copy_state(target: GameState, source: GameState) -> None:
     target.company = source.company
     target.supply = source.supply
     target.packs = source.packs
+    target.production_progress = source.production_progress
     target.scrap = source.scrap
     target.statistics = source.statistics
     target.freight = source.freight
@@ -69,6 +71,12 @@ def test_dev_json_save_creates_versioned_file(tmp_path: Path) -> None:
     assert payload["save_version"] == SAVE_VERSION
     assert payload["state"]["cash"]["amount"] == 500
     assert payload["state"]["resources"]["iron_ore"]["amount"] == 75
+
+
+def test_default_dev_save_directory_uses_local_app_data(tmp_path: Path, monkeypatch) -> None:
+    monkeypatch.setenv("LOCALAPPDATA", str(tmp_path))
+
+    assert default_dev_save_directory() == tmp_path / "Industriova" / "playtests" / "contract-auto-test" / "saves" / "dev"
 
 
 def test_dev_json_save_loads_saved_state(tmp_path: Path) -> None:

@@ -11,16 +11,17 @@ from pathlib import Path
 from statistics import mean
 
 from production_zero.core.cards import create_card_instance
-from production_zero.core.contracts import DAILY, REGULAR, WEEKLY, accept_contract, deliver_available_to_contract, initialize_contracts, receive_contract_delivery, refresh_contracts
+from production_zero.core.contracts import CONTRACT_REQUIREMENT_COUNTS, CONTRACT_RESOURCES, DAILY, REGULAR, WEEKLY, accept_contract, contract_requirements_for_selection, deliver_available_to_contract, initialize_contracts, receive_contract_delivery, refresh_contracts
 from production_zero.core.crafting import CRAFT_INPUT_COUNT, RARITY_CRAFT_UPGRADES, craft_rarity_card
-from production_zero.core.definitions import CardDefinition, FreightDefinition, MachineDefinition, RecipeDefinition
+from production_zero.core.definitions import CardDefinition, FreightDefinition, MachineDefinition
 from production_zero.core.enums import CardKind, Rarity
 from production_zero.core.freight import FreightSlot, advance_outbound_shipments, assign_freight_card, build_freight_facility, expand_freight_facility
-from production_zero.core.mk_upgrades import next_mk_definition, upgrade_mk_card
 from production_zero.core.packs import DAILY_MINI_PACK, FULL_PACK, open_pack
+from production_zero.core.production_values import contract_required_amount, production_value_for_resource
+from production_zero.core.progression import initialize_production_progress, production_options
 from production_zero.core.recycling import recycle_cards, scrap_value_for_card
 from production_zero.core.state import GameState
-from production_zero.core.supply import buy_common_supply_card, buy_daily_freight_supply_card, buy_daily_uncommon_supply_card, common_supply_offers, refresh_supply
+from production_zero.core.supply import buy_common_supply_card, buy_daily_freight_supply_card, buy_daily_machine_supply_card, common_supply_offers, refresh_supply
 from production_zero.data.definitions import load_card_definitions
 
 
@@ -46,7 +47,6 @@ class PlayerProfile:
     pack_open_chance: float
     recycle_chance_by_rarity: dict[Rarity, float]
     craft_attempt_chance: float
-    mk_upgrade_attempt_chance: float
     inventory_maintenance_interval_days: int
     full_pack_category_weights: dict[str, float]
 
@@ -73,9 +73,8 @@ PLAYER_PROFILES: tuple[PlayerProfile, ...] = (
             Rarity.LEGENDARY: 0.0,
         },
         craft_attempt_chance=0.08,
-        mk_upgrade_attempt_chance=0.04,
         inventory_maintenance_interval_days=30,
-        full_pack_category_weights={"general": 0.52, "extraction": 0.14, "processing": 0.14, "energy": 0.09, "recipes": 0.05, "freight": 0.06},
+        full_pack_category_weights={"general": 0.52, "extraction": 0.14, "processing": 0.14, "energy": 0.09, "freight": 0.06},
     ),
     PlayerProfile(
         profile_id="daily_optimizer",
@@ -98,9 +97,8 @@ PLAYER_PROFILES: tuple[PlayerProfile, ...] = (
             Rarity.LEGENDARY: 0.0,
         },
         craft_attempt_chance=0.28,
-        mk_upgrade_attempt_chance=0.18,
         inventory_maintenance_interval_days=14,
-        full_pack_category_weights={"general": 0.25, "extraction": 0.25, "processing": 0.22, "energy": 0.11, "recipes": 0.07, "freight": 0.10},
+        full_pack_category_weights={"general": 0.25, "extraction": 0.25, "processing": 0.22, "energy": 0.11, "freight": 0.10},
     ),
     PlayerProfile(
         profile_id="collector",
@@ -123,9 +121,8 @@ PLAYER_PROFILES: tuple[PlayerProfile, ...] = (
             Rarity.LEGENDARY: 0.0,
         },
         craft_attempt_chance=0.2,
-        mk_upgrade_attempt_chance=0.12,
         inventory_maintenance_interval_days=21,
-        full_pack_category_weights={"general": 0.6, "extraction": 0.09, "processing": 0.09, "energy": 0.09, "recipes": 0.05, "freight": 0.08},
+        full_pack_category_weights={"general": 0.6, "extraction": 0.09, "processing": 0.09, "energy": 0.09, "freight": 0.08},
     ),
     PlayerProfile(
         profile_id="power_user",
@@ -148,9 +145,8 @@ PLAYER_PROFILES: tuple[PlayerProfile, ...] = (
             Rarity.LEGENDARY: 0.0,
         },
         craft_attempt_chance=0.55,
-        mk_upgrade_attempt_chance=0.36,
         inventory_maintenance_interval_days=7,
-        full_pack_category_weights={"general": 0.16, "extraction": 0.28, "processing": 0.23, "energy": 0.12, "recipes": 0.09, "freight": 0.12},
+        full_pack_category_weights={"general": 0.16, "extraction": 0.28, "processing": 0.23, "energy": 0.12, "freight": 0.12},
     ),
 )
 
@@ -165,8 +161,6 @@ class StressStats:
     recycled_by_rarity: Counter[Rarity] = field(default_factory=Counter)
     crafting_consumed_by_rarity: Counter[Rarity] = field(default_factory=Counter)
     crafting_outputs_by_rarity: Counter[Rarity] = field(default_factory=Counter)
-    mk_upgrade_consumed_by_rarity: Counter[Rarity] = field(default_factory=Counter)
-    mk_upgrade_outputs_by_rarity: Counter[Rarity] = field(default_factory=Counter)
     remaining_by_rarity: Counter[Rarity] = field(default_factory=Counter)
     freight_created_by_rarity: Counter[Rarity] = field(default_factory=Counter)
     freight_recycled_by_rarity: Counter[Rarity] = field(default_factory=Counter)
@@ -189,7 +183,7 @@ class StressStats:
 
     @property
     def destroyed_cards(self) -> int:
-        return sum(self.recycled_by_rarity.values()) + sum(self.crafting_consumed_by_rarity.values()) + sum(self.mk_upgrade_consumed_by_rarity.values())
+        return sum(self.recycled_by_rarity.values()) + sum(self.crafting_consumed_by_rarity.values())
 
     @property
     def total_created_cards(self) -> int:
@@ -274,24 +268,22 @@ def _simulate_player(
     rng = random.Random(f"{player_seed}:economy-stress")
     state = GameState(rng_seed=player_seed)
     state.cash.add(profile.starting_cash)
-    initialize_contracts(state)
+    initialize_production_progress(state, definitions)
+    initialize_contracts(state, definitions)
     _install_stress_contract_freight_fleet(state)
     common_offers = common_supply_offers(definitions)
 
     for day in range(days):
         state.market.elapsed_seconds = day * 86_400.0
-        refresh_contracts(state)
+        refresh_contracts(state, definitions)
         refresh_supply(state, definitions)
         _complete_regular_contracts(state, rng, profile, definitions, stats)
         _maybe_complete_contract(state, rng, DAILY, profile.daily_completion_chance, definitions, stats)
         if day % 7 == 0:
             _maybe_complete_contract(state, rng, WEEKLY, profile.weekly_completion_chance, definitions, stats)
         _maybe_buy_supply(state, rng, profile, definitions, common_offers, stats)
-        _open_available_packs(state, rng, profile, definitions, stats)
-        if _runs_inventory_maintenance(day, days, profile):
-            _maybe_recycle_cards(state, rng, profile, stats)
-            _maybe_craft_cards(state, rng, profile, definitions, stats)
-            _maybe_upgrade_mk(state, rng, profile, definitions, stats)
+        # The release economy buys installed machines. Pack opening, fusion and
+        # recycling no longer form part of the active stochastic simulation.
 
     _record_remaining_player_state(state, definitions, stats)
 
@@ -324,16 +316,50 @@ def _maybe_complete_contract(
 ) -> None:
     if rng.random() > chance:
         return
-    refresh_contracts(state)
+    refresh_contracts(state, definitions)
+    active = state.contracts.active.get(kind)
+    if active is not None:
+        if active.status == "active":
+            for resource_id, amount in active.offer.requirements.items():
+                stock = state.ensure_resource(resource_id)
+                stock.capacity = max(stock.capacity, amount)
+                stock.amount = max(stock.amount, amount)
+            _deliver_contract_with_stress_freight(state, kind, definitions)
+        return
     offers = state.contracts.offers.get(kind, [])
     if not offers or kind in state.contracts.active:
         return
     offer = offers[rng.randrange(len(offers))]
-    for resource_id, amount in offer.requirements.items():
+    # This legacy stochastic tool supplies goods and never builds production
+    # chains. It cannot complete a P8 offer without proven production/Freight;
+    # the dedicated P8 engine scenarios measure actual contract feasibility.
+    if offer.balance_version and not offer.capacity_rates:
+        return
+    selected_resource_id = None
+    if offer.requirements:
+        requirements = offer.requirements
+    else:
+        selected_resource_id = rng.choice(CONTRACT_RESOURCES)
+        value = production_value_for_resource(definitions, selected_resource_id)
+        if value is None:
+            return
+        selected_ids = [selected_resource_id, *(
+            resource_id for resource_id in CONTRACT_RESOURCES if resource_id != selected_resource_id
+        )][:CONTRACT_REQUIREMENT_COUNTS[kind]]
+        for resource_id in selected_ids:
+            for option in production_options(definitions):
+                if option.output_resource == resource_id:
+                    state.production_progress.unlocked_production_ids.add(option.production_id)
+                    state.ensure_resource(resource_id).amount = max(1.0, state.ensure_resource(resource_id).amount)
+                    break
+        requirements = contract_requirements_for_selection(
+            state, offer, definitions, selected_resource_id
+        )
+    for resource_id, amount in requirements.items():
         stock = state.ensure_resource(resource_id)
         stock.capacity = max(stock.capacity, amount)
-        stock.add(amount)
-    accept_contract(state, kind, offer.contract_id)
+        stock.amount = max(stock.amount, amount)
+    accept_contract(state, kind, offer.contract_id, definitions, selected_resource_id)
     _deliver_contract_with_stress_freight(state, kind, definitions)
 
 
@@ -342,12 +368,12 @@ def _install_stress_contract_freight_fleet(state: GameState) -> None:
         if not any(facility.facility_type == facility_type for facility in state.freight.facilities.values()):
             build_freight_facility(state.freight, facility_type)
     assignments = (
-        ("harbor", "freight.ship.class1", "iron_ore"),
-        ("harbor", "freight.ship.class1", "coal"),
-        ("harbor", "freight.ship.class1", "copper_ore"),
-        ("rail_station", "freight.train.class1", "iron"),
-        ("rail_station", "freight.train.class1", "copper"),
-        ("rail_station", "freight.train.class1", "steel"),
+        ("harbor", "freight.ship", "iron_ore"),
+        ("harbor", "freight.ship", "coal"),
+        ("harbor", "freight.ship", "copper_ore"),
+        ("rail_station", "freight.train", "iron"),
+        ("rail_station", "freight.train", "copper"),
+        ("rail_station", "freight.train", "steel"),
     )
     for index, (facility_type, definition_id, resource_id) in enumerate(assignments):
         slot = _available_stress_freight_slot(state, facility_type)
@@ -397,9 +423,8 @@ def _deliver_contract_with_stress_freight(
         if not state.freight.outbound_shipments:
             return
         completed_shipments = advance_outbound_shipments(state.freight, 420)
-        for shipment in completed_shipments:
-            if shipment.destination_kind == "contract" and shipment.target_id and shipment.resource_id:
-                receive_contract_delivery(state, shipment.target_id, shipment.resource_id, shipment.quantity)
+        from production_zero.core.simulation import SimulationEngine
+        SimulationEngine(definitions)._complete_outbound_shipments(state, completed_shipments)
 
 
 def _maybe_buy_supply(
@@ -410,9 +435,9 @@ def _maybe_buy_supply(
     common_offers,
     stats: StressStats,
 ) -> None:
-    if state.supply.daily_offers and rng.random() < profile.daily_supply_purchase_chance:
-        offer = max(state.supply.daily_offers, key=lambda item: (item.bonus_tenths, -item.price_cash))
-        _capture_new_cards(stats, state, definitions, lambda: buy_daily_uncommon_supply_card(state, definitions, offer.offer_id))
+    if state.supply.machine_daily_offers and rng.random() < profile.daily_supply_purchase_chance:
+        offer = max(state.supply.machine_daily_offers, key=lambda item: (item.bonus_tenths, -item.price_cash))
+        _capture_new_cards(stats, state, definitions, lambda: buy_daily_machine_supply_card(state, definitions, offer.offer_id))
 
     if state.supply.freight_daily_offers and rng.random() < profile.daily_freight_supply_purchase_chance:
         offer = max(state.supply.freight_daily_offers, key=lambda item: (item.bonus_tenths, -item.price_cash))
@@ -496,7 +521,7 @@ def _maybe_craft_cards(
     target_definitions = tuple(
         definition
         for definition in definitions.values()
-        if isinstance(definition, (MachineDefinition, RecipeDefinition, FreightDefinition))
+        if isinstance(definition, (MachineDefinition, FreightDefinition))
     )
     for rarity in (Rarity.EPIC, Rarity.RARE, Rarity.UNCOMMON):
         cards = [
@@ -527,42 +552,6 @@ def _maybe_craft_cards(
             seen = set()
             cards = [card for card in cards if not (card.card_id in seen or seen.add(card.card_id))]
             rng.shuffle(cards)
-
-
-def _maybe_upgrade_mk(
-    state: GameState,
-    rng: random.Random,
-    profile: PlayerProfile,
-    definitions: dict[str, CardDefinition],
-    stats: StressStats,
-) -> None:
-    if rng.random() > profile.mk_upgrade_attempt_chance:
-        return
-    candidates = []
-    for card in state.cards.values():
-        if _is_stress_freight_card(card.card_id):
-            continue
-        try:
-            if next_mk_definition(card, definitions) is not None:
-                candidates.append(card)
-        except ValueError:
-            continue
-    rng.shuffle(candidates)
-    for card in candidates[:3]:
-        if rng.random() > profile.mk_upgrade_attempt_chance:
-            continue
-        before_scrap = state.scrap.amount
-        try:
-            upgraded = upgrade_mk_card(state, definitions, card.card_id)
-        except ValueError:
-            continue
-        stats.scrap_consumed += before_scrap - state.scrap.amount
-        stats.mk_upgrade_consumed_by_rarity[card.rarity] += 1
-        stats.mk_upgrade_outputs_by_rarity[upgraded.rarity] += 1
-        stats.created_by_rarity[upgraded.rarity] += 1
-        _record_freight_created(stats, upgraded, definitions)
-        if upgraded.rarity is Rarity.LEGENDARY and upgraded.output_bonus_tenths == PERFECT_LEGENDARY_BONUS_TENTHS:
-            stats.perfect_legendary_created += 1
 
 
 def _record_remaining_player_state(state: GameState, definitions: dict[str, CardDefinition], stats: StressStats) -> None:
@@ -669,13 +658,10 @@ def summarize(stats_by_seed: list[StressStats]) -> dict[str, object]:
         "cards_recycled_total": sum(aggregate.recycled_by_rarity.values()),
         "cards_consumed_through_rarity_crafting": sum(aggregate.crafting_consumed_by_rarity.values()),
         "crafts_total": sum(aggregate.crafting_outputs_by_rarity.values()),
-        "mk_upgrades_total": sum(aggregate.mk_upgrade_outputs_by_rarity.values()),
         "created_cards_by_rarity": _rarity_dict(aggregate.created_by_rarity),
         "recycled_cards_by_rarity": _rarity_dict(aggregate.recycled_by_rarity),
         "crafting_consumed_by_rarity": _rarity_dict(aggregate.crafting_consumed_by_rarity),
         "crafting_outputs_by_rarity": _rarity_dict(aggregate.crafting_outputs_by_rarity),
-        "mk_upgrade_consumed_by_rarity": _rarity_dict(aggregate.mk_upgrade_consumed_by_rarity),
-        "mk_upgrade_outputs_by_rarity": _rarity_dict(aggregate.mk_upgrade_outputs_by_rarity),
         "scrap_generated": aggregate.scrap_generated,
         "scrap_consumed": aggregate.scrap_consumed,
         "scrap_surplus": aggregate.scrap_generated - aggregate.scrap_consumed,
@@ -699,7 +685,7 @@ def summarize(stats_by_seed: list[StressStats]) -> dict[str, object]:
 
 def format_summary(summary: dict[str, object]) -> str:
     lines = [
-        "Production Zero Economy Stress Test",
+        "Industriova Economy Stress Test",
         f"Seeds: {', '.join(str(seed) for seed in summary['seeds'])}",
         f"Players per seed: {summary['players_per_seed']:,}",
         f"Days: {summary['days']}",
@@ -710,9 +696,7 @@ def format_summary(summary: dict[str, object]) -> str:
         f"Recycled cards by rarity: {summary['recycled_cards_by_rarity']}",
         f"Crafting consumed by rarity: {summary['crafting_consumed_by_rarity']}",
         f"Crafting outputs by rarity: {summary['crafting_outputs_by_rarity']}",
-        f"Crafts total / MK upgrades total: {summary['crafts_total']:,} / {summary['mk_upgrades_total']:,}",
-        f"MK upgrade consumed by rarity: {summary['mk_upgrade_consumed_by_rarity']}",
-        f"MK upgrade outputs by rarity: {summary['mk_upgrade_outputs_by_rarity']}",
+        f"Rarity crafts total: {summary['crafts_total']:,}",
         f"Scrap generated / consumed / surplus: {summary['scrap_generated']:,} / {summary['scrap_consumed']:,} / {summary['scrap_surplus']:,}",
         f"Remaining cards by rarity: {summary['remaining_cards_by_rarity']}",
         f"Legendarys per player: {summary['legendarys_per_player']}",
@@ -733,7 +717,6 @@ def format_summary(summary: dict[str, object]) -> str:
                 f"  Recycled: {profile_summary['recycled_cards_by_rarity']}",
                 f"  Crafting consumed: {profile_summary['crafting_consumed_by_rarity']}",
                 f"  Crafting outputs: {profile_summary['crafting_outputs_by_rarity']}",
-                f"  MK upgrade consumed: {profile_summary['mk_upgrade_consumed_by_rarity']}",
                 f"  Scrap generated / consumed: {profile_summary['scrap_generated']:,} / {profile_summary['scrap_consumed']:,}",
                 f"  Remaining: {profile_summary['remaining_cards_by_rarity']}",
                 f"  Cards/player: {profile_summary['cards_per_player']}",
@@ -762,7 +745,6 @@ def _seed_summary(stats: StressStats) -> dict[str, object]:
         "cards_recycled_total": sum(stats.recycled_by_rarity.values()),
         "cards_consumed_through_rarity_crafting": sum(stats.crafting_consumed_by_rarity.values()),
         "crafts_total": sum(stats.crafting_outputs_by_rarity.values()),
-        "mk_upgrades_total": sum(stats.mk_upgrade_outputs_by_rarity.values()),
         "created_cards_by_rarity": _rarity_dict(stats.created_by_rarity),
         "recycled_cards_by_rarity": _rarity_dict(stats.recycled_by_rarity),
         "crafting_consumed_by_rarity": _rarity_dict(stats.crafting_consumed_by_rarity),
@@ -790,13 +772,10 @@ def _profile_summary(stats: StressStats) -> dict[str, object]:
         "cards_recycled_total": sum(stats.recycled_by_rarity.values()),
         "cards_consumed_through_rarity_crafting": sum(stats.crafting_consumed_by_rarity.values()),
         "crafts_total": sum(stats.crafting_outputs_by_rarity.values()),
-        "mk_upgrades_total": sum(stats.mk_upgrade_outputs_by_rarity.values()),
         "created_cards_by_rarity": _rarity_dict(stats.created_by_rarity),
         "recycled_cards_by_rarity": _rarity_dict(stats.recycled_by_rarity),
         "crafting_consumed_by_rarity": _rarity_dict(stats.crafting_consumed_by_rarity),
         "crafting_outputs_by_rarity": _rarity_dict(stats.crafting_outputs_by_rarity),
-        "mk_upgrade_consumed_by_rarity": _rarity_dict(stats.mk_upgrade_consumed_by_rarity),
-        "mk_upgrade_outputs_by_rarity": _rarity_dict(stats.mk_upgrade_outputs_by_rarity),
         "scrap_generated": stats.scrap_generated,
         "scrap_consumed": stats.scrap_consumed,
         "scrap_surplus": stats.scrap_generated - stats.scrap_consumed,
@@ -847,7 +826,6 @@ def _per_player_year_summary(stats: StressStats, player_years: float) -> dict[st
         "cards_recycled": round(sum(stats.recycled_by_rarity.values()) / divisor, 3),
         "crafting_consumed": round(sum(stats.crafting_consumed_by_rarity.values()) / divisor, 3),
         "crafts": round(sum(stats.crafting_outputs_by_rarity.values()) / divisor, 3),
-        "mk_upgrades": round(sum(stats.mk_upgrade_outputs_by_rarity.values()) / divisor, 3),
         "scrap_generated": round(stats.scrap_generated / divisor, 3),
         "scrap_consumed": round(stats.scrap_consumed / divisor, 3),
         "net_supply_growth": round(stats.net_supply_growth / divisor, 3),
@@ -860,8 +838,6 @@ def _merge_stats(target: StressStats, source: StressStats, include_profile_break
     target.recycled_by_rarity.update(source.recycled_by_rarity)
     target.crafting_consumed_by_rarity.update(source.crafting_consumed_by_rarity)
     target.crafting_outputs_by_rarity.update(source.crafting_outputs_by_rarity)
-    target.mk_upgrade_consumed_by_rarity.update(source.mk_upgrade_consumed_by_rarity)
-    target.mk_upgrade_outputs_by_rarity.update(source.mk_upgrade_outputs_by_rarity)
     target.remaining_by_rarity.update(source.remaining_by_rarity)
     target.freight_created_by_rarity.update(source.freight_created_by_rarity)
     target.freight_recycled_by_rarity.update(source.freight_recycled_by_rarity)
@@ -932,7 +908,7 @@ def _parse_seeds(value: str) -> tuple[int, ...]:
 
 
 def main(argv: list[str] | None = None) -> int:
-    parser = argparse.ArgumentParser(description="Run the internal Production Zero economy stress test.")
+    parser = argparse.ArgumentParser(description="Run the internal Industriova economy stress test.")
     parser.add_argument("--players", type=int, default=SIMULATION_PLAYERS)
     parser.add_argument("--days", type=int, default=SIMULATION_DAYS)
     parser.add_argument("--seeds", type=_parse_seeds, default=DEFAULT_SEEDS)

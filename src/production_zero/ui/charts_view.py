@@ -23,7 +23,8 @@ from PySide6.QtWidgets import (
 from production_zero.core.history import TIME_RANGE_SAMPLES
 from production_zero.core.resources import ResourceDefinition
 from production_zero.core.state import GameState
-from production_zero.ui.game_ui import Accent, GAME_UI_TOKENS, MaterialLevel, draw_game_panel, draw_inset_surface, draw_track_surface
+from production_zero.ui.game_ui import Accent, GAME_UI_TOKENS, MaterialLevel, draw_game_panel, draw_inset_surface
+from production_zero.ui.main_tab_header import MainTabHeader
 from production_zero.ui.resource_icons import ResourceIconWidget, resource_accent_key, resource_icon_key
 from production_zero.ui.theme import Theme
 from production_zero.ui.widget_lifecycle import clear_layout_safely
@@ -45,6 +46,7 @@ class LineChartWidget(QWidget):
         self.setObjectName("lineChart")
         self.setMinimumHeight(150)
         self.setProperty("chartRole", self._chart_role())
+        self.setToolTip("Up to 24 hours of simulation time. Production and consumption are averages over ten-second intervals. ALL shows the retained history.")
 
     def set_series(self, series: ChartSeries) -> None:
         self._series = series
@@ -55,49 +57,111 @@ class LineChartWidget(QWidget):
         self._range_id = range_id
         self.update()
 
+    def _axis_unit(self) -> str:
+        return "units/min" if self._series.metric_id.startswith("rate.") else "units"
+
+    @staticmethod
+    def _sample_ticks(count: int) -> tuple[tuple[float, str], ...]:
+        if count <= 1:
+            return ((1.0, "0"),)
+        indices = sorted({0, (count - 1) // 2, count - 1})
+        return tuple((index / (count - 1), str(count - 1 - index)) for index in indices)
+
+    @staticmethod
+    def _time_ticks(start: float, end: float) -> tuple[tuple[float, str], ...]:
+        span = max(0.0, end - start)
+        def label(seconds):
+            if seconds >= 3600:
+                return f'{seconds / 3600:.1f}h'
+            if seconds >= 60:
+                return f'{seconds / 60:.1f}m'
+            return f'{seconds:.0f}s'
+        return tuple((fraction, label(span * (1 - fraction))) for fraction in (0.0, .5, 1.0))
+
+    @staticmethod
+    def _format_axis_value(value: float) -> str:
+        if 0 < abs(value) < 0.01:
+            return f"{value:.2g}"
+        if abs(value) >= 1_000_000:
+            return f"{value / 1_000_000:.2f}M"
+        if abs(value) >= 1_000:
+            return f"{value / 1_000:.2f}k"
+        return f"{value:.2f}".rstrip("0").rstrip(".")
+
     def paintEvent(self, event) -> None:  # noqa: N802
         painter = QPainter(self)
-        painter.setRenderHint(QPainter.RenderHint.Antialiasing)
-        rect = QRectF(0, 0, self.width(), self.height()).adjusted(1, 1, -1, -1)
-        accent = self._chart_accent()
-        draw_game_panel(painter, rect, accent=accent, level=MaterialLevel.INSET, radius=10)
-        plot_shell = rect.adjusted(12, 42, -12, -14)
-        draw_inset_surface(painter, plot_shell, accent=accent, radius=7)
+        try:
+            painter.setRenderHint(QPainter.RenderHint.Antialiasing)
+            rect = QRectF(self.rect()).adjusted(1, 1, -1, -1)
+            accent = self._chart_accent()
+            draw_game_panel(painter, rect, accent=accent, level=MaterialLevel.INSET, radius=10)
+            header = QRectF(rect.left() + 8, rect.top() + 6, rect.width() - 16, 36)
+            painter.setPen(Qt.PenStyle.NoPen)
+            painter.setBrush(QColor("#e8e7dc"))
+            painter.drawRoundedRect(header, 5, 5)
+            history_points = self._state.history.points_for_range(self._series.metric_id, self._range_id)
+            values = tuple(value for _, value in history_points)
+            latest = f"{values[-1]:,.1f}" if values else "--"
+            value_font = QFont("Segoe UI", 12, QFont.Weight.Bold)
+            painter.setFont(value_font)
+            value_width = min(header.width() * 0.42, painter.fontMetrics().horizontalAdvance(latest) + 12)
+            value_rect = QRectF(header.right() - value_width - 8, header.top(), value_width, header.height())
+            painter.setPen(QColor(Theme.TEXT_ON_LIGHT_PRIMARY))
+            latest = painter.fontMetrics().elidedText(latest, Qt.TextElideMode.ElideRight, int(value_rect.width()))
+            painter.drawText(value_rect, Qt.AlignmentFlag.AlignRight | Qt.AlignmentFlag.AlignVCenter, latest)
+            painter.setFont(QFont("Segoe UI", 10, QFont.Weight.Bold))
+            title_rect = header.adjusted(8, 0, -value_width - 20, 0)
+            heading = {"stock": "STOCK", "production": "PRODUCTION RATE", "consumption": "CONSUMPTION RATE"}[self._chart_role()]
+            title = painter.fontMetrics().elidedText(heading, Qt.TextElideMode.ElideRight, max(1, int(title_rect.width())))
+            painter.drawText(title_rect, Qt.AlignmentFlag.AlignLeft | Qt.AlignmentFlag.AlignVCenter, title)
 
-        painter.setPen(GAME_UI_TOKENS.colors.qcolor(GAME_UI_TOKENS.colors.text_secondary))
-        painter.setFont(GAME_UI_TOKENS.typography.industrial_label())
-        painter.drawText(rect.adjusted(12, 8, -12, -8), Qt.AlignmentFlag.AlignTop | Qt.AlignmentFlag.AlignLeft, self._series.title.upper())
-
-        values = self._state.history.values_for_range(self._series.metric_id, self._range_id)
-        if len(values) < 2:
-            painter.setPen(GAME_UI_TOKENS.colors.qcolor(GAME_UI_TOKENS.colors.text_muted))
-            painter.setFont(GAME_UI_TOKENS.typography.status_label())
-            painter.drawText(plot_shell, Qt.AlignmentFlag.AlignCenter, "NO DATA YET")
-            return
-
-        minimum = min(values)
-        maximum = max(values)
-        span = maximum - minimum or 1.0
-        plot = plot_shell.adjusted(10, 10, -10, -10)
-        painter.setPen(QPen(QColor(Theme.GRID), 1))
-        for step in range(1, 4):
-            y = plot.top() + plot.height() * step / 4
-            painter.drawLine(QPointF(plot.left(), y), QPointF(plot.right(), y))
-
-        points = [
-            QPointF(
-                plot.left() + plot.width() * index / (len(values) - 1),
-                plot.bottom() - ((value - minimum) / span * plot.height()),
-            )
-            for index, value in enumerate(values)
-        ]
-        painter.setPen(QPen(QColor(self._series.color), 2.2))
-        for start, end in zip(points, points[1:]):
-            painter.drawLine(start, end)
-
-        painter.setPen(QColor(self._series.color))
-        painter.setFont(GAME_UI_TOKENS.typography.status_label())
-        painter.drawText(rect.adjusted(12, 8, -12, -8), Qt.AlignmentFlag.AlignTop | Qt.AlignmentFlag.AlignRight, f"{values[-1]:.1f}")
+            shell = rect.adjusted(8, 48, -8, -8)
+            draw_inset_surface(painter, shell, accent=accent, radius=7)
+            plot = shell.adjusted(60, 26, -16, -46)
+            painter.setFont(QFont("Segoe UI", 9))
+            painter.setPen(QColor("#e8eee8"))
+            painter.drawText(QRectF(shell.left() + 10, shell.top() + 3, shell.width() - 20, 20),
+                             Qt.AlignmentFlag.AlignLeft | Qt.AlignmentFlag.AlignVCenter, self._axis_unit().upper())
+            painter.drawText(QRectF(plot.left() - 20, shell.bottom() - 21, plot.width() + 40, 19),
+                             Qt.AlignmentFlag.AlignCenter, f"PLAY TIME AGO / {self._range_id} · MAX 24H")
+            if not values:
+                painter.drawText(plot, Qt.AlignmentFlag.AlignCenter, "NO DATA YET")
+                return
+            minimum, maximum = min(values), max(values)
+            padding = (maximum - minimum) * 0.08 if maximum != minimum else max(abs(maximum) * 0.1, 1.0)
+            minimum, maximum = minimum - padding, maximum + padding
+            if min(values) >= 0:
+                minimum = max(0.0, minimum)
+            span = maximum - minimum
+            for step in range(5):
+                y = plot.bottom() - plot.height() * step / 4
+                painter.setPen(QPen(QColor("#536460"), 1, Qt.PenStyle.DotLine))
+                painter.drawLine(QPointF(plot.left(), y), QPointF(plot.right(), y))
+                painter.setPen(QColor("#e8eee8"))
+                painter.drawText(QRectF(shell.left() + 3, y - 9, 51, 18), Qt.AlignmentFlag.AlignRight | Qt.AlignmentFlag.AlignVCenter,
+                                 self._format_axis_value(minimum + span * step / 4))
+            painter.setPen(QPen(QColor("#9aaca5"), 1))
+            painter.drawLine(plot.bottomLeft(), plot.topLeft())
+            painter.drawLine(plot.bottomLeft(), plot.bottomRight())
+            start_time = history_points[0][0]
+            end_time = max(start_time, self._state.history.elapsed_seconds)
+            time_span = max(1.0, end_time - start_time)
+            for fraction, label in self._time_ticks(start_time, end_time):
+                x = plot.left() + plot.width() * fraction
+                painter.drawLine(QPointF(x, plot.bottom()), QPointF(x, plot.bottom() + 4))
+                painter.drawText(QRectF(x - 29, plot.bottom() + 5, 58, 18), Qt.AlignmentFlag.AlignCenter,
+                                 label)
+            points = [QPointF(plot.right() - plot.width() * (end_time - timestamp) / time_span,
+                              plot.bottom() - (value - minimum) / span * plot.height()) for timestamp, value in history_points]
+            if len(points) == 1:
+                points[0].setX(plot.right())
+            painter.setPen(QPen(QColor(self._series.color), 2.6))
+            for start, end in zip(points, points[1:]):
+                painter.drawLine(start, end)
+            painter.setBrush(QColor(self._series.color))
+            painter.drawEllipse(points[-1], 3, 3)
+        finally:
+            painter.end()
 
     def _chart_role(self) -> str:
         title = self._series.title.lower()
@@ -140,13 +204,12 @@ class SparklineWidget(QWidget):
         center_y = rect.center().y()
         painter.drawLine(QPointF(rect.left(), center_y), QPointF(rect.right(), center_y))
 
-        values = self._state.history.values_for_range(self._metric_id, "ALL")
+        values = self._state.history.recent_values_for(self._metric_id, 32)
         if len(values) < 2:
             painter.setPen(QPen(QColor(Theme.DIM), 1))
             painter.drawLine(QPointF(rect.left(), center_y), QPointF(rect.right(), center_y))
             return
 
-        values = values[-32:]
         minimum = min(values)
         maximum = max(values)
         span = maximum - minimum or 1.0
@@ -162,47 +225,22 @@ class SparklineWidget(QWidget):
             painter.drawLine(start, end)
 
 
-class ChartsHeader(QFrame):
+class ChartsHeader(MainTabHeader):
     def __init__(self, state: GameState, resources: dict[str, ResourceDefinition]) -> None:
-        super().__init__()
+        super().__init__(
+            object_name="chartsHeader",
+            title="CHARTS",
+            subtitle="RESOURCE FLOW / ANALYTICS",
+            title_object_name="chartsHeroTitle",
+            subtitle_object_name="chartsHeroSubtitle",
+            accent=Accent.STORAGE,
+        )
         self._state = state
         self._resources = resources
-        self.setObjectName("chartsHeader")
-        self.setMinimumHeight(116)
-        self.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Fixed)
-        layout = QHBoxLayout(self)
-        layout.setContentsMargins(32, 25, 32, 24)
-        layout.setSpacing(18)
-        title_column = QVBoxLayout()
-        title_column.setContentsMargins(0, 0, 0, 0)
-        title_column.setSpacing(1)
-        title = QLabel("CHARTS")
-        title.setObjectName("chartsHeroTitle")
-        subtitle = QLabel("RESOURCE FLOW / ANALYTICS")
-        subtitle.setObjectName("chartsHeroSubtitle")
-        title_column.addWidget(title)
-        title_column.addWidget(subtitle)
-        layout.addLayout(title_column, 1)
-        self._tracked_value = self._metric("TRACKED", "0")
-        self._active_value = self._metric("ACTIVE", "0")
-        layout.addWidget(self._tracked_value[0])
-        layout.addWidget(self._active_value[0])
         self.refresh()
 
-    def paintEvent(self, event) -> None:  # noqa: N802
-        painter = QPainter(self)
-        painter.setRenderHint(QPainter.RenderHint.Antialiasing)
-        rect = QRectF(self.rect()).adjusted(1, 1, -1, -1)
-        draw_game_panel(painter, rect, accent=Accent.NEUTRAL, level=MaterialLevel.ELEVATED, radius=16)
-        inset = rect.adjusted(14, 13, -14, -13)
-        draw_track_surface(painter, inset, accent=Accent.STORAGE, radius=11)
-        painter.end()
-        super().paintEvent(event)
-
     def refresh(self) -> None:
-        self._tracked_value[1].setText(str(len(self._resources)))
-        active = sum(1 for resource_id, stock in self._state.resources.items() if resource_id in self._resources and stock.amount > 0)
-        self._active_value[1].setText(str(active))
+        return None
 
     def _metric(self, label_text: str, value_text: str) -> tuple[QFrame, QLabel]:
         tile = QFrame()
@@ -222,7 +260,7 @@ class ChartsHeader(QFrame):
 
 
 class ChartFilterScroll(QScrollArea):
-    def __init__(self, content: QWidget, object_name: str, preferred_width: int = 1180) -> None:
+    def __init__(self, content: QWidget, object_name: str, preferred_width: int = 980) -> None:
         super().__init__()
         self._content = content
         self._preferred_width = preferred_width
@@ -240,11 +278,11 @@ class ChartFilterScroll(QScrollArea):
 
     def minimumSizeHint(self) -> QSize:  # noqa: N802
         hint = self.widget().minimumSizeHint() if self.widget() is not None else super().minimumSizeHint()
-        return QSize(160, hint.height() + 2)
+        return QSize(160, hint.height())
 
     def sizeHint(self) -> QSize:  # noqa: N802
         hint = self.widget().sizeHint() if self.widget() is not None else super().sizeHint()
-        return QSize(min(self._preferred_width, hint.width()), hint.height() + 2)
+        return QSize(min(self._preferred_width, hint.width()), hint.height())
 
     def resizeEvent(self, event) -> None:  # noqa: N802
         super().resizeEvent(event)
@@ -262,6 +300,7 @@ class ChartFilterScroll(QScrollArea):
 class ChartsView(QWidget):
     def __init__(self, state: GameState, resources: dict[str, ResourceDefinition]) -> None:
         super().__init__()
+        self.setObjectName("chartsView")
         self._state = state
         self._resources = resources
         self._selected_resource_id: str | None = None
@@ -269,6 +308,8 @@ class ChartsView(QWidget):
         self._resource_tiles: dict[str, QFrame] = {}
         self._overview_signature: tuple | None = None
         self._overview_reflow_count = 0
+        self._chip_group_signatures: dict[str, tuple[str, tuple[str, ...]]] = {}
+        self._filter_chip_rebuild_count = 0
         self._detail_layout_signature: tuple[int] | None = None
         self._detail_reflow_count = 0
 
@@ -318,15 +359,16 @@ class ChartsView(QWidget):
 
     def _build_overview_page(self) -> QWidget:
         page = QWidget()
+        page.setObjectName("chartsOverviewPage")
         layout = QVBoxLayout(page)
-        layout.setContentsMargins(0, 0, 0, 0)
+        layout.setContentsMargins(12, 12, 12, 12)
         layout.setSpacing(10)
 
         controls = QWidget()
         controls.setObjectName("chartFilterDeck")
         control_layout = QHBoxLayout(controls)
-        control_layout.setContentsMargins(14, 12, 14, 12)
-        control_layout.setSpacing(12)
+        control_layout.setContentsMargins(10, 7, 10, 7)
+        control_layout.setSpacing(8)
         self._resource_search = QLineEdit()
         self._resource_search.setObjectName("chartResourceSearch")
         self._resource_search.setPlaceholderText("Search resources...")
@@ -337,7 +379,7 @@ class ChartsView(QWidget):
         self._sort_select.currentTextChanged.connect(self._refresh_overview)
         self._stage_filter = QComboBox(controls)
         self._stage_filter.setObjectName("chartStageFilter")
-        self._stage_filter.addItems(["All", "Extraction", "Processing", "Manufacturing", "Assembly"])
+        self._stage_filter.addItems(["All", "Primary Production", "Processing", "Manufacturing", "Assembly"])
         self._stage_filter.currentTextChanged.connect(self._refresh_overview)
         self._category_filter = QComboBox(controls)
         self._category_filter.setObjectName("chartCategoryFilter")
@@ -347,15 +389,15 @@ class ChartsView(QWidget):
         self._activity_filter.setObjectName("chartActivityFilter")
         self._activity_filter.addItems(["All", "Active", "In Stock", "Producing", "Consuming"])
         self._activity_filter.currentTextChanged.connect(self._refresh_overview)
-        for combo in (self._stage_filter, self._category_filter, self._activity_filter, self._sort_select):
-            combo.hide()
-        control_layout.addWidget(self._labeled_control("SEARCH", self._resource_search), 0)
+        self._stage_filter.hide()
+        control_layout.addWidget(self._labeled_control("SEARCH", self._resource_search), 2)
         self._stage_chip_layout = self._add_chip_group(control_layout, "STAGE", self._stage_filter)
-        self._category_chip_layout = self._add_chip_group(control_layout, "CATEGORY", self._category_filter)
-        self._activity_chip_layout = self._add_chip_group(control_layout, "ACTIVITY", self._activity_filter)
-        self._sort_chip_layout = self._add_chip_group(control_layout, "SORT", self._sort_select)
+        for label, combo in (("CATEGORY", self._category_filter), ("ACTIVITY", self._activity_filter), ("SORT", self._sort_select)):
+            combo.setMinimumWidth(100)
+            combo.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Fixed)
+            control_layout.addWidget(self._labeled_control(label, combo), 1)
         self._refresh_overview_chip_groups()
-        layout.addWidget(ChartFilterScroll(controls, "chartFilterScroll", 1180))
+        layout.addWidget(ChartFilterScroll(controls, "chartFilterScroll", 980))
 
         self._resource_scroll = QScrollArea()
         self._resource_scroll.setObjectName("chartResourceScroll")
@@ -380,8 +422,9 @@ class ChartsView(QWidget):
 
     def _build_resource_detail_page(self) -> QWidget:
         page = QWidget()
+        page.setObjectName("chartsDetailPage")
         layout = QVBoxLayout(page)
-        layout.setContentsMargins(0, 0, 0, 0)
+        layout.setContentsMargins(12, 12, 12, 12)
         layout.setSpacing(10)
         controls = QFrame()
         controls.setObjectName("chartDetailHeader")
@@ -426,9 +469,10 @@ class ChartsView(QWidget):
 
     def _labeled_control(self, label_text: str, control: QWidget) -> QWidget:
         wrapper = QWidget()
+        wrapper.setObjectName("chartControlGroup")
         layout = QVBoxLayout(wrapper)
         layout.setContentsMargins(0, 0, 0, 0)
-        layout.setSpacing(4)
+        layout.setSpacing(2)
         label = QLabel(label_text)
         label.setObjectName("sectionLabel")
         layout.addWidget(label)
@@ -440,21 +484,27 @@ class ChartsView(QWidget):
         wrapper.setObjectName("chartChipGroup")
         layout = QVBoxLayout(wrapper)
         layout.setContentsMargins(0, 0, 0, 0)
-        layout.setSpacing(5)
+        layout.setSpacing(3)
         label = QLabel(label_text)
         label.setObjectName("sectionLabel")
         chips = QHBoxLayout()
         chips.setContentsMargins(0, 0, 0, 0)
-        chips.setSpacing(5)
+        chips.setSpacing(4)
         layout.addWidget(label)
         layout.addLayout(chips)
         parent_layout.addWidget(wrapper)
         return chips
 
     def _refresh_chip_group(self, layout: QHBoxLayout, combo: QComboBox, group: str) -> None:
-        self._clear_layout(layout)
         current = combo.currentText() or "All"
-        for option in [combo.itemText(index) for index in range(combo.count())]:
+        options = tuple(combo.itemText(index) for index in range(combo.count()))
+        signature = (current, options)
+        if self._chip_group_signatures.get(group) == signature:
+            return
+        self._chip_group_signatures[group] = signature
+        self._filter_chip_rebuild_count += 1
+        self._clear_layout(layout)
+        for option in options:
             chip = QPushButton(option.upper())
             chip.setObjectName("chartFilterChip")
             chip.setProperty("filterGroup", group)
@@ -476,9 +526,6 @@ class ChartsView(QWidget):
         if not hasattr(self, "_stage_chip_layout"):
             return
         self._refresh_chip_group(self._stage_chip_layout, self._stage_filter, self._stage_filter.objectName())
-        self._refresh_chip_group(self._category_chip_layout, self._category_filter, self._category_filter.objectName())
-        self._refresh_chip_group(self._activity_chip_layout, self._activity_filter, self._activity_filter.objectName())
-        self._refresh_chip_group(self._sort_chip_layout, self._sort_select, self._sort_select.objectName())
 
     def _refresh_range_chip_group(self) -> None:
         if hasattr(self, "_range_chip_layout"):
@@ -551,30 +598,32 @@ class ChartsView(QWidget):
         card.setCursor(Qt.CursorShape.PointingHandCursor)
         card.mousePressEvent = lambda event, selected_resource_id=resource_id: self._show_resource_detail(selected_resource_id)
         card.setFixedWidth(tile_width)
-        card.setMinimumHeight(166)
+        card.setFixedHeight(146)
         card.setSizePolicy(QSizePolicy.Policy.Fixed, QSizePolicy.Policy.Fixed)
         layout = QVBoxLayout(card)
-        layout.setContentsMargins(12, 11, 12, 11)
-        layout.setSpacing(7)
+        layout.setContentsMargins(10, 8, 10, 8)
+        layout.setSpacing(5)
         top = QHBoxLayout()
         top.setSpacing(10)
         icon_host = QFrame()
         icon_host.setObjectName("chartResourceIconHost")
-        icon_host.setFixedSize(58, 58)
+        icon_host.setFixedSize(50, 50)
         icon_layout = QHBoxLayout(icon_host)
         icon_layout.setContentsMargins(5, 5, 5, 5)
         icon = ResourceIconWidget(
             resource_id,
             definition.icon_key or resource_icon_key(resource_id),
             definition.accent_key or resource_accent_key(resource_id),
-            size=48,
+            size=40,
         )
         icon.setObjectName("resourceIcon")
         icon_layout.addWidget(icon)
         name = QLabel(definition.name)
         name.setObjectName("chartResourceName")
         name.setWordWrap(True)
-        name.setMinimumHeight(42)
+        name.setMinimumHeight(28)
+        name.setMaximumHeight(34)
+        name.setAlignment(Qt.AlignmentFlag.AlignLeft | Qt.AlignmentFlag.AlignTop)
         top.addWidget(icon_host)
         top.addWidget(name, 1)
         layout.addLayout(top)
@@ -612,7 +661,7 @@ class ChartsView(QWidget):
         sparkline = card.findChild(SparklineWidget, "chartResourceSparkline")
         progress = card.findChild(QProgressBar, "chartResourceStorageProgress")
         if amount is not None:
-            amount.setText(f"{stock.amount:g} / {stock.capacity:g}")
+            amount.setText(f"{stock.amount:g} stored")
         if net is not None:
             net.setText(self._format_signed(net_change))
             net.setProperty("status", status)
@@ -657,7 +706,7 @@ class ChartsView(QWidget):
     def _stage_for_resource(self, definition: ResourceDefinition) -> str:
         category = definition.category.lower()
         if any(token in category for token in ("ore", "mineral", "oil", "gas", "agriculture", "forestry")):
-            return "Extraction"
+            return "Primary Production"
         if any(token in category for token in ("processed", "metal", "chemical", "material")):
             return "Processing"
         if any(token in category for token in ("component", "electronics", "vehicle", "medical")):
@@ -745,8 +794,7 @@ class ChartsView(QWidget):
         return production - consumption
 
     def _last_value(self, metric_id: str) -> float:
-        values = self._state.history.values_for(metric_id)
-        return values[-1] if values else 0.0
+        return self._state.history.latest_value_for(metric_id)
 
     def _status_for_net_change(self, value: float) -> str:
         if value > 0.01:
@@ -794,7 +842,7 @@ class ChartsView(QWidget):
         definition = self._resources.get(resource_id)
         stock = self._state.resources[resource_id]
         net_change = self._net_change(resource_id)
-        self._detail_amount.setText(f"{stock.amount:g} / {stock.capacity:g}")
+        self._detail_amount.setText(f"{stock.amount:g} stored")
         self._detail_net.setText(f"{self._format_signed(net_change)} / min")
         self._detail_net.setProperty("status", self._status_for_net_change(net_change))
         self._detail_net.style().unpolish(self._detail_net)

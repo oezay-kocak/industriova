@@ -1,4 +1,4 @@
-"""Production Zero package."""
+"""Industriova package."""
 
 __all__ = ["__version__"]
 

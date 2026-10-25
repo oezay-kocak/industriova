@@ -1,0 +1,8733 @@
+{
+  "iron_ore": {
+    "old": {
+      "inputs": {},
+      "output": 12.0,
+      "seconds": 6.0,
+      "power": 6.0,
+      "machine": "machine.extractor",
+      "stage": "Primary Production"
+    },
+    "new": {
+      "inputs": {},
+      "output": 12.0,
+      "seconds": 6.0,
+      "power": 6.0,
+      "machine": "machine.extractor",
+      "stage": "Primary Production"
+    },
+    "price": 1.0
+  },
+  "copper_ore": {
+    "old": {
+      "inputs": {},
+      "output": 12.0,
+      "seconds": 6.0,
+      "power": 6.0,
+      "machine": "machine.extractor",
+      "stage": "Primary Production"
+    },
+    "new": {
+      "inputs": {},
+      "output": 12.0,
+      "seconds": 6.0,
+      "power": 6.0,
+      "machine": "machine.extractor",
+      "stage": "Primary Production"
+    },
+    "price": 1.0
+  },
+  "bauxite": {
+    "old": {
+      "inputs": {},
+      "output": 12.0,
+      "seconds": 6.0,
+      "power": 6.0,
+      "machine": "machine.extractor",
+      "stage": "Primary Production"
+    },
+    "new": {
+      "inputs": {},
+      "output": 12.0,
+      "seconds": 6.0,
+      "power": 6.0,
+      "machine": "machine.extractor",
+      "stage": "Primary Production"
+    },
+    "price": 1.0
+  },
+  "nickel_ore": {
+    "old": {
+      "inputs": {},
+      "output": 12.0,
+      "seconds": 6.0,
+      "power": 6.0,
+      "machine": "machine.extractor",
+      "stage": "Primary Production"
+    },
+    "new": {
+      "inputs": {},
+      "output": 12.0,
+      "seconds": 6.0,
+      "power": 6.0,
+      "machine": "machine.extractor",
+      "stage": "Primary Production"
+    },
+    "price": 1.0
+  },
+  "zinc_ore": {
+    "old": {
+      "inputs": {},
+      "output": 12.0,
+      "seconds": 6.0,
+      "power": 6.0,
+      "machine": "machine.extractor",
+      "stage": "Primary Production"
+    },
+    "new": {
+      "inputs": {},
+      "output": 12.0,
+      "seconds": 6.0,
+      "power": 6.0,
+      "machine": "machine.extractor",
+      "stage": "Primary Production"
+    },
+    "price": 1.0
+  },
+  "lead_ore": {
+    "old": {
+      "inputs": {},
+      "output": 12.0,
+      "seconds": 6.0,
+      "power": 6.0,
+      "machine": "machine.extractor",
+      "stage": "Primary Production"
+    },
+    "new": {
+      "inputs": {},
+      "output": 12.0,
+      "seconds": 6.0,
+      "power": 6.0,
+      "machine": "machine.extractor",
+      "stage": "Primary Production"
+    },
+    "price": 1.0
+  },
+  "tin_ore": {
+    "old": {
+      "inputs": {},
+      "output": 12.0,
+      "seconds": 6.0,
+      "power": 6.0,
+      "machine": "machine.extractor",
+      "stage": "Primary Production"
+    },
+    "new": {
+      "inputs": {},
+      "output": 12.0,
+      "seconds": 6.0,
+      "power": 6.0,
+      "machine": "machine.extractor",
+      "stage": "Primary Production"
+    },
+    "price": 1.0
+  },
+  "manganese_ore": {
+    "old": {
+      "inputs": {},
+      "output": 12.0,
+      "seconds": 6.0,
+      "power": 6.0,
+      "machine": "machine.extractor",
+      "stage": "Primary Production"
+    },
+    "new": {
+      "inputs": {},
+      "output": 12.0,
+      "seconds": 6.0,
+      "power": 6.0,
+      "machine": "machine.extractor",
+      "stage": "Primary Production"
+    },
+    "price": 1.0
+  },
+  "chromium_ore": {
+    "old": {
+      "inputs": {},
+      "output": 12.0,
+      "seconds": 6.0,
+      "power": 6.0,
+      "machine": "machine.extractor",
+      "stage": "Primary Production"
+    },
+    "new": {
+      "inputs": {},
+      "output": 12.0,
+      "seconds": 6.0,
+      "power": 6.0,
+      "machine": "machine.extractor",
+      "stage": "Primary Production"
+    },
+    "price": 1.0
+  },
+  "titanium_ore": {
+    "old": {
+      "inputs": {},
+      "output": 12.0,
+      "seconds": 6.0,
+      "power": 6.0,
+      "machine": "machine.extractor",
+      "stage": "Primary Production"
+    },
+    "new": {
+      "inputs": {},
+      "output": 12.0,
+      "seconds": 6.0,
+      "power": 6.0,
+      "machine": "machine.extractor",
+      "stage": "Primary Production"
+    },
+    "price": 1.0
+  },
+  "tungsten_ore": {
+    "old": {
+      "inputs": {},
+      "output": 12.0,
+      "seconds": 6.0,
+      "power": 6.0,
+      "machine": "machine.extractor",
+      "stage": "Primary Production"
+    },
+    "new": {
+      "inputs": {},
+      "output": 12.0,
+      "seconds": 6.0,
+      "power": 6.0,
+      "machine": "machine.extractor",
+      "stage": "Primary Production"
+    },
+    "price": 1.0
+  },
+  "cobalt_ore": {
+    "old": {
+      "inputs": {},
+      "output": 12.0,
+      "seconds": 6.0,
+      "power": 6.0,
+      "machine": "machine.extractor",
+      "stage": "Primary Production"
+    },
+    "new": {
+      "inputs": {},
+      "output": 12.0,
+      "seconds": 6.0,
+      "power": 6.0,
+      "machine": "machine.extractor",
+      "stage": "Primary Production"
+    },
+    "price": 1.0
+  },
+  "molybdenum_ore": {
+    "old": {
+      "inputs": {},
+      "output": 12.0,
+      "seconds": 6.0,
+      "power": 6.0,
+      "machine": "machine.extractor",
+      "stage": "Primary Production"
+    },
+    "new": {
+      "inputs": {},
+      "output": 12.0,
+      "seconds": 6.0,
+      "power": 6.0,
+      "machine": "machine.extractor",
+      "stage": "Primary Production"
+    },
+    "price": 1.0
+  },
+  "vanadium_ore": {
+    "old": {
+      "inputs": {},
+      "output": 12.0,
+      "seconds": 6.0,
+      "power": 6.0,
+      "machine": "machine.extractor",
+      "stage": "Primary Production"
+    },
+    "new": {
+      "inputs": {},
+      "output": 12.0,
+      "seconds": 6.0,
+      "power": 6.0,
+      "machine": "machine.extractor",
+      "stage": "Primary Production"
+    },
+    "price": 1.0
+  },
+  "silver_ore": {
+    "old": {
+      "inputs": {},
+      "output": 12.0,
+      "seconds": 6.0,
+      "power": 6.0,
+      "machine": "machine.extractor",
+      "stage": "Primary Production"
+    },
+    "new": {
+      "inputs": {},
+      "output": 12.0,
+      "seconds": 6.0,
+      "power": 6.0,
+      "machine": "machine.extractor",
+      "stage": "Primary Production"
+    },
+    "price": 1.0
+  },
+  "gold_ore": {
+    "old": {
+      "inputs": {},
+      "output": 12.0,
+      "seconds": 6.0,
+      "power": 6.0,
+      "machine": "machine.extractor",
+      "stage": "Primary Production"
+    },
+    "new": {
+      "inputs": {},
+      "output": 12.0,
+      "seconds": 6.0,
+      "power": 6.0,
+      "machine": "machine.extractor",
+      "stage": "Primary Production"
+    },
+    "price": 1.0
+  },
+  "platinum_ore": {
+    "old": {
+      "inputs": {},
+      "output": 12.0,
+      "seconds": 6.0,
+      "power": 6.0,
+      "machine": "machine.extractor",
+      "stage": "Primary Production"
+    },
+    "new": {
+      "inputs": {},
+      "output": 12.0,
+      "seconds": 6.0,
+      "power": 6.0,
+      "machine": "machine.extractor",
+      "stage": "Primary Production"
+    },
+    "price": 1.0
+  },
+  "palladium_ore": {
+    "old": {
+      "inputs": {},
+      "output": 12.0,
+      "seconds": 6.0,
+      "power": 6.0,
+      "machine": "machine.extractor",
+      "stage": "Primary Production"
+    },
+    "new": {
+      "inputs": {},
+      "output": 12.0,
+      "seconds": 6.0,
+      "power": 6.0,
+      "machine": "machine.extractor",
+      "stage": "Primary Production"
+    },
+    "price": 1.0
+  },
+  "lithium_ore": {
+    "old": {
+      "inputs": {},
+      "output": 12.0,
+      "seconds": 6.0,
+      "power": 6.0,
+      "machine": "machine.extractor",
+      "stage": "Primary Production"
+    },
+    "new": {
+      "inputs": {},
+      "output": 12.0,
+      "seconds": 6.0,
+      "power": 6.0,
+      "machine": "machine.extractor",
+      "stage": "Primary Production"
+    },
+    "price": 1.0
+  },
+  "uranium_ore": {
+    "old": {
+      "inputs": {},
+      "output": 12.0,
+      "seconds": 6.0,
+      "power": 6.0,
+      "machine": "machine.extractor",
+      "stage": "Primary Production"
+    },
+    "new": {
+      "inputs": {},
+      "output": 12.0,
+      "seconds": 6.0,
+      "power": 6.0,
+      "machine": "machine.extractor",
+      "stage": "Primary Production"
+    },
+    "price": 1.0
+  },
+  "rare_earth_ore": {
+    "old": {
+      "inputs": {},
+      "output": 12.0,
+      "seconds": 6.0,
+      "power": 6.0,
+      "machine": "machine.extractor",
+      "stage": "Primary Production"
+    },
+    "new": {
+      "inputs": {},
+      "output": 12.0,
+      "seconds": 6.0,
+      "power": 6.0,
+      "machine": "machine.extractor",
+      "stage": "Primary Production"
+    },
+    "price": 1.0
+  },
+  "niobium_ore": {
+    "old": {
+      "inputs": {},
+      "output": 12.0,
+      "seconds": 6.0,
+      "power": 6.0,
+      "machine": "machine.extractor",
+      "stage": "Primary Production"
+    },
+    "new": {
+      "inputs": {},
+      "output": 12.0,
+      "seconds": 6.0,
+      "power": 6.0,
+      "machine": "machine.extractor",
+      "stage": "Primary Production"
+    },
+    "price": 1.0
+  },
+  "coal": {
+    "old": {
+      "inputs": {},
+      "output": 12.0,
+      "seconds": 6.0,
+      "power": 6.0,
+      "machine": "machine.extractor",
+      "stage": "Primary Production"
+    },
+    "new": {
+      "inputs": {},
+      "output": 12.0,
+      "seconds": 6.0,
+      "power": 6.0,
+      "machine": "machine.extractor",
+      "stage": "Primary Production"
+    },
+    "price": 1.0
+  },
+  "quartz": {
+    "old": {
+      "inputs": {},
+      "output": 12.0,
+      "seconds": 6.0,
+      "power": 6.0,
+      "machine": "machine.extractor",
+      "stage": "Primary Production"
+    },
+    "new": {
+      "inputs": {},
+      "output": 12.0,
+      "seconds": 6.0,
+      "power": 6.0,
+      "machine": "machine.extractor",
+      "stage": "Primary Production"
+    },
+    "price": 1.0
+  },
+  "silica_sand": {
+    "old": {
+      "inputs": {},
+      "output": 12.0,
+      "seconds": 6.0,
+      "power": 6.0,
+      "machine": "machine.extractor",
+      "stage": "Primary Production"
+    },
+    "new": {
+      "inputs": {},
+      "output": 12.0,
+      "seconds": 6.0,
+      "power": 6.0,
+      "machine": "machine.extractor",
+      "stage": "Primary Production"
+    },
+    "price": 1.0
+  },
+  "limestone": {
+    "old": {
+      "inputs": {},
+      "output": 12.0,
+      "seconds": 6.0,
+      "power": 6.0,
+      "machine": "machine.extractor",
+      "stage": "Primary Production"
+    },
+    "new": {
+      "inputs": {},
+      "output": 12.0,
+      "seconds": 6.0,
+      "power": 6.0,
+      "machine": "machine.extractor",
+      "stage": "Primary Production"
+    },
+    "price": 1.0
+  },
+  "gypsum": {
+    "old": {
+      "inputs": {},
+      "output": 12.0,
+      "seconds": 6.0,
+      "power": 6.0,
+      "machine": "machine.extractor",
+      "stage": "Primary Production"
+    },
+    "new": {
+      "inputs": {},
+      "output": 12.0,
+      "seconds": 6.0,
+      "power": 6.0,
+      "machine": "machine.extractor",
+      "stage": "Primary Production"
+    },
+    "price": 1.0
+  },
+  "clay": {
+    "old": {
+      "inputs": {},
+      "output": 12.0,
+      "seconds": 6.0,
+      "power": 6.0,
+      "machine": "machine.extractor",
+      "stage": "Primary Production"
+    },
+    "new": {
+      "inputs": {},
+      "output": 12.0,
+      "seconds": 6.0,
+      "power": 6.0,
+      "machine": "machine.extractor",
+      "stage": "Primary Production"
+    },
+    "price": 1.0
+  },
+  "kaolin": {
+    "old": {
+      "inputs": {},
+      "output": 12.0,
+      "seconds": 6.0,
+      "power": 6.0,
+      "machine": "machine.extractor",
+      "stage": "Primary Production"
+    },
+    "new": {
+      "inputs": {},
+      "output": 12.0,
+      "seconds": 6.0,
+      "power": 6.0,
+      "machine": "machine.extractor",
+      "stage": "Primary Production"
+    },
+    "price": 1.0
+  },
+  "phosphate_rock": {
+    "old": {
+      "inputs": {},
+      "output": 12.0,
+      "seconds": 6.0,
+      "power": 6.0,
+      "machine": "machine.extractor",
+      "stage": "Primary Production"
+    },
+    "new": {
+      "inputs": {},
+      "output": 12.0,
+      "seconds": 6.0,
+      "power": 6.0,
+      "machine": "machine.extractor",
+      "stage": "Primary Production"
+    },
+    "price": 1.0
+  },
+  "potash": {
+    "old": {
+      "inputs": {},
+      "output": 12.0,
+      "seconds": 6.0,
+      "power": 6.0,
+      "machine": "machine.extractor",
+      "stage": "Primary Production"
+    },
+    "new": {
+      "inputs": {},
+      "output": 12.0,
+      "seconds": 6.0,
+      "power": 6.0,
+      "machine": "machine.extractor",
+      "stage": "Primary Production"
+    },
+    "price": 1.0
+  },
+  "salt": {
+    "old": {
+      "inputs": {},
+      "output": 12.0,
+      "seconds": 6.0,
+      "power": 6.0,
+      "machine": "machine.extractor",
+      "stage": "Primary Production"
+    },
+    "new": {
+      "inputs": {},
+      "output": 12.0,
+      "seconds": 6.0,
+      "power": 6.0,
+      "machine": "machine.extractor",
+      "stage": "Primary Production"
+    },
+    "price": 1.0
+  },
+  "sulfur": {
+    "old": {
+      "inputs": {},
+      "output": 12.0,
+      "seconds": 6.0,
+      "power": 6.0,
+      "machine": "machine.extractor",
+      "stage": "Primary Production"
+    },
+    "new": {
+      "inputs": {},
+      "output": 12.0,
+      "seconds": 6.0,
+      "power": 6.0,
+      "machine": "machine.extractor",
+      "stage": "Primary Production"
+    },
+    "price": 1.0
+  },
+  "graphite": {
+    "old": {
+      "inputs": {},
+      "output": 12.0,
+      "seconds": 6.0,
+      "power": 6.0,
+      "machine": "machine.extractor",
+      "stage": "Primary Production"
+    },
+    "new": {
+      "inputs": {},
+      "output": 12.0,
+      "seconds": 6.0,
+      "power": 6.0,
+      "machine": "machine.extractor",
+      "stage": "Primary Production"
+    },
+    "price": 1.0
+  },
+  "fluorspar": {
+    "old": {
+      "inputs": {},
+      "output": 12.0,
+      "seconds": 6.0,
+      "power": 6.0,
+      "machine": "machine.extractor",
+      "stage": "Primary Production"
+    },
+    "new": {
+      "inputs": {},
+      "output": 12.0,
+      "seconds": 6.0,
+      "power": 6.0,
+      "machine": "machine.extractor",
+      "stage": "Primary Production"
+    },
+    "price": 1.0
+  },
+  "magnesite": {
+    "old": {
+      "inputs": {},
+      "output": 12.0,
+      "seconds": 6.0,
+      "power": 6.0,
+      "machine": "machine.extractor",
+      "stage": "Primary Production"
+    },
+    "new": {
+      "inputs": {},
+      "output": 12.0,
+      "seconds": 6.0,
+      "power": 6.0,
+      "machine": "machine.extractor",
+      "stage": "Primary Production"
+    },
+    "price": 1.0
+  },
+  "borate_ore": {
+    "old": {
+      "inputs": {},
+      "output": 12.0,
+      "seconds": 6.0,
+      "power": 6.0,
+      "machine": "machine.extractor",
+      "stage": "Primary Production"
+    },
+    "new": {
+      "inputs": {},
+      "output": 12.0,
+      "seconds": 6.0,
+      "power": 6.0,
+      "machine": "machine.extractor",
+      "stage": "Primary Production"
+    },
+    "price": 1.0
+  },
+  "crude_oil": {
+    "old": {
+      "inputs": {},
+      "output": 12.0,
+      "seconds": 6.0,
+      "power": 6.0,
+      "machine": "machine.drilling",
+      "stage": "Primary Production"
+    },
+    "new": {
+      "inputs": {},
+      "output": 12.0,
+      "seconds": 6.0,
+      "power": 6.0,
+      "machine": "machine.drilling",
+      "stage": "Primary Production"
+    },
+    "price": 1.0
+  },
+  "natural_gas": {
+    "old": {
+      "inputs": {},
+      "output": 12.0,
+      "seconds": 6.0,
+      "power": 6.0,
+      "machine": "machine.drilling",
+      "stage": "Primary Production"
+    },
+    "new": {
+      "inputs": {},
+      "output": 12.0,
+      "seconds": 6.0,
+      "power": 6.0,
+      "machine": "machine.drilling",
+      "stage": "Primary Production"
+    },
+    "price": 1.0
+  },
+  "timber": {
+    "old": {
+      "inputs": {},
+      "output": 12.0,
+      "seconds": 6.0,
+      "power": 6.0,
+      "machine": "machine.agriculture",
+      "stage": "Primary Production"
+    },
+    "new": {
+      "inputs": {},
+      "output": 12.0,
+      "seconds": 6.0,
+      "power": 6.0,
+      "machine": "machine.agriculture",
+      "stage": "Primary Production"
+    },
+    "price": 1.0
+  },
+  "wheat": {
+    "old": {
+      "inputs": {},
+      "output": 12.0,
+      "seconds": 6.0,
+      "power": 6.0,
+      "machine": "machine.agriculture",
+      "stage": "Primary Production"
+    },
+    "new": {
+      "inputs": {},
+      "output": 12.0,
+      "seconds": 6.0,
+      "power": 6.0,
+      "machine": "machine.agriculture",
+      "stage": "Primary Production"
+    },
+    "price": 1.0
+  },
+  "corn": {
+    "old": {
+      "inputs": {},
+      "output": 12.0,
+      "seconds": 6.0,
+      "power": 6.0,
+      "machine": "machine.agriculture",
+      "stage": "Primary Production"
+    },
+    "new": {
+      "inputs": {},
+      "output": 12.0,
+      "seconds": 6.0,
+      "power": 6.0,
+      "machine": "machine.agriculture",
+      "stage": "Primary Production"
+    },
+    "price": 1.0
+  },
+  "soybeans": {
+    "old": {
+      "inputs": {},
+      "output": 12.0,
+      "seconds": 6.0,
+      "power": 6.0,
+      "machine": "machine.agriculture",
+      "stage": "Primary Production"
+    },
+    "new": {
+      "inputs": {},
+      "output": 12.0,
+      "seconds": 6.0,
+      "power": 6.0,
+      "machine": "machine.agriculture",
+      "stage": "Primary Production"
+    },
+    "price": 1.0
+  },
+  "sugarcane": {
+    "old": {
+      "inputs": {},
+      "output": 12.0,
+      "seconds": 6.0,
+      "power": 6.0,
+      "machine": "machine.agriculture",
+      "stage": "Primary Production"
+    },
+    "new": {
+      "inputs": {},
+      "output": 12.0,
+      "seconds": 6.0,
+      "power": 6.0,
+      "machine": "machine.agriculture",
+      "stage": "Primary Production"
+    },
+    "price": 1.0
+  },
+  "cotton": {
+    "old": {
+      "inputs": {},
+      "output": 12.0,
+      "seconds": 6.0,
+      "power": 6.0,
+      "machine": "machine.agriculture",
+      "stage": "Primary Production"
+    },
+    "new": {
+      "inputs": {},
+      "output": 12.0,
+      "seconds": 6.0,
+      "power": 6.0,
+      "machine": "machine.agriculture",
+      "stage": "Primary Production"
+    },
+    "price": 1.0
+  },
+  "rapeseed": {
+    "old": {
+      "inputs": {},
+      "output": 12.0,
+      "seconds": 6.0,
+      "power": 6.0,
+      "machine": "machine.agriculture",
+      "stage": "Primary Production"
+    },
+    "new": {
+      "inputs": {},
+      "output": 12.0,
+      "seconds": 6.0,
+      "power": 6.0,
+      "machine": "machine.agriculture",
+      "stage": "Primary Production"
+    },
+    "price": 1.0
+  },
+  "potatoes": {
+    "old": {
+      "inputs": {},
+      "output": 12.0,
+      "seconds": 6.0,
+      "power": 6.0,
+      "machine": "machine.agriculture",
+      "stage": "Primary Production"
+    },
+    "new": {
+      "inputs": {},
+      "output": 12.0,
+      "seconds": 6.0,
+      "power": 6.0,
+      "machine": "machine.agriculture",
+      "stage": "Primary Production"
+    },
+    "price": 1.0
+  },
+  "fruit": {
+    "old": {
+      "inputs": {},
+      "output": 12.0,
+      "seconds": 6.0,
+      "power": 6.0,
+      "machine": "machine.agriculture",
+      "stage": "Primary Production"
+    },
+    "new": {
+      "inputs": {},
+      "output": 12.0,
+      "seconds": 6.0,
+      "power": 6.0,
+      "machine": "machine.agriculture",
+      "stage": "Primary Production"
+    },
+    "price": 1.0
+  },
+  "natural_rubber": {
+    "old": {
+      "inputs": {},
+      "output": 12.0,
+      "seconds": 6.0,
+      "power": 6.0,
+      "machine": "machine.agriculture",
+      "stage": "Primary Production"
+    },
+    "new": {
+      "inputs": {},
+      "output": 12.0,
+      "seconds": 6.0,
+      "power": 6.0,
+      "machine": "machine.agriculture",
+      "stage": "Primary Production"
+    },
+    "price": 1.0
+  },
+  "iron": {
+    "old": {
+      "inputs": {
+        "iron_ore": 12
+      },
+      "output": 6.0,
+      "seconds": 6.0,
+      "power": 8.0,
+      "machine": "machine.processor",
+      "stage": "Processing"
+    },
+    "new": {
+      "inputs": {
+        "iron_ore": 12
+      },
+      "output": 6.0,
+      "seconds": 6.0,
+      "power": 8.0,
+      "machine": "machine.processor",
+      "stage": "Processing"
+    },
+    "price": 4.0
+  },
+  "steel": {
+    "old": {
+      "inputs": {
+        "iron_ore": 12,
+        "coal": 3
+      },
+      "output": 4.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.processor",
+      "stage": "Processing"
+    },
+    "new": {
+      "inputs": {
+        "iron_ore": 12,
+        "coal": 3
+      },
+      "output": 4.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.processor",
+      "stage": "Processing"
+    },
+    "price": 6.75
+  },
+  "stainless_steel": {
+    "old": {
+      "inputs": {
+        "iron_ore": 12,
+        "coal": 3,
+        "chromium_ore": 2,
+        "nickel_ore": 2
+      },
+      "output": 3.0,
+      "seconds": 6.0,
+      "power": 13.0,
+      "machine": "machine.processor",
+      "stage": "Processing"
+    },
+    "new": {
+      "inputs": {
+        "iron_ore": 12,
+        "coal": 3,
+        "chromium_ore": 2,
+        "nickel_ore": 2
+      },
+      "output": 3.0,
+      "seconds": 6.0,
+      "power": 13.0,
+      "machine": "machine.processor",
+      "stage": "Processing"
+    },
+    "price": 10.333333333333334
+  },
+  "copper": {
+    "old": {
+      "inputs": {
+        "copper_ore": 12
+      },
+      "output": 6.0,
+      "seconds": 6.0,
+      "power": 8.0,
+      "machine": "machine.processor",
+      "stage": "Processing"
+    },
+    "new": {
+      "inputs": {
+        "copper_ore": 12
+      },
+      "output": 6.0,
+      "seconds": 6.0,
+      "power": 8.0,
+      "machine": "machine.processor",
+      "stage": "Processing"
+    },
+    "price": 4.0
+  },
+  "aluminum": {
+    "old": {
+      "inputs": {
+        "bauxite": 9
+      },
+      "output": 5.0,
+      "seconds": 6.0,
+      "power": 9.0,
+      "machine": "machine.processor",
+      "stage": "Processing"
+    },
+    "new": {
+      "inputs": {
+        "bauxite": 9
+      },
+      "output": 5.0,
+      "seconds": 6.0,
+      "power": 9.0,
+      "machine": "machine.processor",
+      "stage": "Processing"
+    },
+    "price": 4.2
+  },
+  "zinc": {
+    "old": {
+      "inputs": {
+        "zinc_ore": 9
+      },
+      "output": 5.0,
+      "seconds": 6.0,
+      "power": 8.0,
+      "machine": "machine.processor",
+      "stage": "Processing"
+    },
+    "new": {
+      "inputs": {
+        "zinc_ore": 9
+      },
+      "output": 5.0,
+      "seconds": 6.0,
+      "power": 8.0,
+      "machine": "machine.processor",
+      "stage": "Processing"
+    },
+    "price": 4.2
+  },
+  "lead": {
+    "old": {
+      "inputs": {
+        "lead_ore": 9
+      },
+      "output": 5.0,
+      "seconds": 6.0,
+      "power": 8.0,
+      "machine": "machine.processor",
+      "stage": "Processing"
+    },
+    "new": {
+      "inputs": {
+        "lead_ore": 9
+      },
+      "output": 5.0,
+      "seconds": 6.0,
+      "power": 8.0,
+      "machine": "machine.processor",
+      "stage": "Processing"
+    },
+    "price": 4.2
+  },
+  "tin": {
+    "old": {
+      "inputs": {
+        "tin_ore": 9
+      },
+      "output": 5.0,
+      "seconds": 6.0,
+      "power": 8.0,
+      "machine": "machine.processor",
+      "stage": "Processing"
+    },
+    "new": {
+      "inputs": {
+        "tin_ore": 9
+      },
+      "output": 5.0,
+      "seconds": 6.0,
+      "power": 8.0,
+      "machine": "machine.processor",
+      "stage": "Processing"
+    },
+    "price": 4.2
+  },
+  "nickel": {
+    "old": {
+      "inputs": {
+        "nickel_ore": 9
+      },
+      "output": 5.0,
+      "seconds": 6.0,
+      "power": 9.0,
+      "machine": "machine.processor",
+      "stage": "Processing"
+    },
+    "new": {
+      "inputs": {
+        "nickel_ore": 9
+      },
+      "output": 5.0,
+      "seconds": 6.0,
+      "power": 9.0,
+      "machine": "machine.processor",
+      "stage": "Processing"
+    },
+    "price": 4.2
+  },
+  "titanium": {
+    "old": {
+      "inputs": {
+        "titanium_ore": 8
+      },
+      "output": 4.0,
+      "seconds": 6.0,
+      "power": 11.0,
+      "machine": "machine.processor",
+      "stage": "Processing"
+    },
+    "new": {
+      "inputs": {
+        "titanium_ore": 8
+      },
+      "output": 4.0,
+      "seconds": 6.0,
+      "power": 11.0,
+      "machine": "machine.processor",
+      "stage": "Processing"
+    },
+    "price": 5.0
+  },
+  "tungsten": {
+    "old": {
+      "inputs": {
+        "tungsten_ore": 8
+      },
+      "output": 4.0,
+      "seconds": 6.0,
+      "power": 11.0,
+      "machine": "machine.processor",
+      "stage": "Processing"
+    },
+    "new": {
+      "inputs": {
+        "tungsten_ore": 8
+      },
+      "output": 4.0,
+      "seconds": 6.0,
+      "power": 11.0,
+      "machine": "machine.processor",
+      "stage": "Processing"
+    },
+    "price": 5.0
+  },
+  "manganese": {
+    "old": {
+      "inputs": {
+        "manganese_ore": 9
+      },
+      "output": 5.0,
+      "seconds": 6.0,
+      "power": 8.0,
+      "machine": "machine.processor",
+      "stage": "Processing"
+    },
+    "new": {
+      "inputs": {
+        "manganese_ore": 9
+      },
+      "output": 5.0,
+      "seconds": 6.0,
+      "power": 8.0,
+      "machine": "machine.processor",
+      "stage": "Processing"
+    },
+    "price": 4.2
+  },
+  "chromium": {
+    "old": {
+      "inputs": {
+        "chromium_ore": 9
+      },
+      "output": 5.0,
+      "seconds": 6.0,
+      "power": 9.0,
+      "machine": "machine.processor",
+      "stage": "Processing"
+    },
+    "new": {
+      "inputs": {
+        "chromium_ore": 9
+      },
+      "output": 5.0,
+      "seconds": 6.0,
+      "power": 9.0,
+      "machine": "machine.processor",
+      "stage": "Processing"
+    },
+    "price": 4.2
+  },
+  "cobalt": {
+    "old": {
+      "inputs": {
+        "cobalt_ore": 8
+      },
+      "output": 4.0,
+      "seconds": 6.0,
+      "power": 10.0,
+      "machine": "machine.processor",
+      "stage": "Processing"
+    },
+    "new": {
+      "inputs": {
+        "cobalt_ore": 8
+      },
+      "output": 4.0,
+      "seconds": 6.0,
+      "power": 10.0,
+      "machine": "machine.processor",
+      "stage": "Processing"
+    },
+    "price": 5.0
+  },
+  "molybdenum": {
+    "old": {
+      "inputs": {
+        "molybdenum_ore": 8
+      },
+      "output": 4.0,
+      "seconds": 6.0,
+      "power": 10.0,
+      "machine": "machine.processor",
+      "stage": "Processing"
+    },
+    "new": {
+      "inputs": {
+        "molybdenum_ore": 8
+      },
+      "output": 4.0,
+      "seconds": 6.0,
+      "power": 10.0,
+      "machine": "machine.processor",
+      "stage": "Processing"
+    },
+    "price": 5.0
+  },
+  "vanadium": {
+    "old": {
+      "inputs": {
+        "vanadium_ore": 8
+      },
+      "output": 4.0,
+      "seconds": 6.0,
+      "power": 10.0,
+      "machine": "machine.processor",
+      "stage": "Processing"
+    },
+    "new": {
+      "inputs": {
+        "vanadium_ore": 8
+      },
+      "output": 4.0,
+      "seconds": 6.0,
+      "power": 10.0,
+      "machine": "machine.processor",
+      "stage": "Processing"
+    },
+    "price": 5.0
+  },
+  "lithium": {
+    "old": {
+      "inputs": {
+        "lithium_ore": 8
+      },
+      "output": 4.0,
+      "seconds": 6.0,
+      "power": 10.0,
+      "machine": "machine.processor",
+      "stage": "Processing"
+    },
+    "new": {
+      "inputs": {
+        "lithium_ore": 8
+      },
+      "output": 4.0,
+      "seconds": 6.0,
+      "power": 10.0,
+      "machine": "machine.processor",
+      "stage": "Processing"
+    },
+    "price": 5.0
+  },
+  "gold": {
+    "old": {
+      "inputs": {
+        "gold_ore": 6
+      },
+      "output": 3.0,
+      "seconds": 6.0,
+      "power": 11.0,
+      "machine": "machine.processor",
+      "stage": "Processing"
+    },
+    "new": {
+      "inputs": {
+        "gold_ore": 12
+      },
+      "output": 6.0,
+      "seconds": 6.0,
+      "power": 11.0,
+      "machine": "machine.processor",
+      "stage": "Processing"
+    },
+    "price": 4.0
+  },
+  "silver": {
+    "old": {
+      "inputs": {
+        "silver_ore": 6
+      },
+      "output": 3.0,
+      "seconds": 6.0,
+      "power": 10.0,
+      "machine": "machine.processor",
+      "stage": "Processing"
+    },
+    "new": {
+      "inputs": {
+        "silver_ore": 12
+      },
+      "output": 6.0,
+      "seconds": 6.0,
+      "power": 10.0,
+      "machine": "machine.processor",
+      "stage": "Processing"
+    },
+    "price": 4.0
+  },
+  "platinum": {
+    "old": {
+      "inputs": {
+        "platinum_ore": 4
+      },
+      "output": 2.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.processor",
+      "stage": "Processing"
+    },
+    "new": {
+      "inputs": {
+        "platinum_ore": 12
+      },
+      "output": 6.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.processor",
+      "stage": "Processing"
+    },
+    "price": 4.0
+  },
+  "palladium": {
+    "old": {
+      "inputs": {
+        "palladium_ore": 4
+      },
+      "output": 2.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.processor",
+      "stage": "Processing"
+    },
+    "new": {
+      "inputs": {
+        "palladium_ore": 12
+      },
+      "output": 6.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.processor",
+      "stage": "Processing"
+    },
+    "price": 4.0
+  },
+  "rare_earth_metals": {
+    "old": {
+      "inputs": {
+        "rare_earth_ore": 8
+      },
+      "output": 3.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.processor",
+      "stage": "Processing"
+    },
+    "new": {
+      "inputs": {
+        "rare_earth_ore": 8
+      },
+      "output": 3.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.processor",
+      "stage": "Processing"
+    },
+    "price": 6.666666666666666
+  },
+  "niobium": {
+    "old": {
+      "inputs": {
+        "niobium_ore": 8
+      },
+      "output": 4.0,
+      "seconds": 6.0,
+      "power": 10.0,
+      "machine": "machine.processor",
+      "stage": "Processing"
+    },
+    "new": {
+      "inputs": {
+        "niobium_ore": 8
+      },
+      "output": 4.0,
+      "seconds": 6.0,
+      "power": 10.0,
+      "machine": "machine.processor",
+      "stage": "Processing"
+    },
+    "price": 5.0
+  },
+  "nickel_alloy": {
+    "old": {
+      "inputs": {
+        "nickel_ore": 6,
+        "iron_ore": 6,
+        "coal": 1,
+        "molybdenum_ore": 2
+      },
+      "output": 3.0,
+      "seconds": 6.0,
+      "power": 13.0,
+      "machine": "machine.processor",
+      "stage": "Processing"
+    },
+    "new": {
+      "inputs": {
+        "nickel_ore": 12,
+        "iron_ore": 12,
+        "coal": 2,
+        "molybdenum_ore": 4
+      },
+      "output": 6.0,
+      "seconds": 6.0,
+      "power": 13.0,
+      "machine": "machine.processor",
+      "stage": "Processing"
+    },
+    "price": 7.0
+  },
+  "superconducting_alloy": {
+    "old": {
+      "inputs": {
+        "niobium_ore": 4,
+        "titanium_ore": 2,
+        "rare_earth_ore": 3
+      },
+      "output": 2.0,
+      "seconds": 6.0,
+      "power": 15.0,
+      "machine": "machine.processor",
+      "stage": "Processing"
+    },
+    "new": {
+      "inputs": {
+        "niobium_ore": 12,
+        "titanium_ore": 6,
+        "rare_earth_ore": 9
+      },
+      "output": 6.0,
+      "seconds": 6.0,
+      "power": 15.0,
+      "machine": "machine.processor",
+      "stage": "Processing"
+    },
+    "price": 6.5
+  },
+  "glass": {
+    "old": {
+      "inputs": {
+        "silica_sand": 4,
+        "limestone": 1,
+        "borate_ore": 1
+      },
+      "output": 3.0,
+      "seconds": 6.0,
+      "power": 7.0,
+      "machine": "machine.processor",
+      "stage": "Processing"
+    },
+    "new": {
+      "inputs": {
+        "silica_sand": 12,
+        "limestone": 3,
+        "borate_ore": 3
+      },
+      "output": 9.0,
+      "seconds": 6.0,
+      "power": 7.0,
+      "machine": "machine.processor",
+      "stage": "Processing"
+    },
+    "price": 3.333333333333333
+  },
+  "cement": {
+    "old": {
+      "inputs": {
+        "limestone": 4,
+        "gypsum": 1
+      },
+      "output": 3.0,
+      "seconds": 6.0,
+      "power": 7.0,
+      "machine": "machine.processor",
+      "stage": "Processing"
+    },
+    "new": {
+      "inputs": {
+        "limestone": 12,
+        "gypsum": 3
+      },
+      "output": 9.0,
+      "seconds": 6.0,
+      "power": 7.0,
+      "machine": "machine.processor",
+      "stage": "Processing"
+    },
+    "price": 3.0
+  },
+  "ceramics": {
+    "old": {
+      "inputs": {
+        "clay": 3,
+        "kaolin": 1,
+        "magnesite": 1
+      },
+      "output": 3.0,
+      "seconds": 6.0,
+      "power": 7.0,
+      "machine": "machine.processor",
+      "stage": "Processing"
+    },
+    "new": {
+      "inputs": {
+        "clay": 12,
+        "kaolin": 4,
+        "magnesite": 4
+      },
+      "output": 12.0,
+      "seconds": 6.0,
+      "power": 7.0,
+      "machine": "machine.processor",
+      "stage": "Processing"
+    },
+    "price": 2.6666666666666665
+  },
+  "processed_gypsum": {
+    "old": {
+      "inputs": {
+        "gypsum": 3
+      },
+      "output": 3.0,
+      "seconds": 6.0,
+      "power": 6.0,
+      "machine": "machine.processor",
+      "stage": "Processing"
+    },
+    "new": {
+      "inputs": {
+        "gypsum": 12
+      },
+      "output": 12.0,
+      "seconds": 6.0,
+      "power": 6.0,
+      "machine": "machine.processor",
+      "stage": "Processing"
+    },
+    "price": 2.0
+  },
+  "purified_graphite": {
+    "old": {
+      "inputs": {
+        "graphite": 4
+      },
+      "output": 3.0,
+      "seconds": 6.0,
+      "power": 9.0,
+      "machine": "machine.processor",
+      "stage": "Processing"
+    },
+    "new": {
+      "inputs": {
+        "graphite": 12
+      },
+      "output": 9.0,
+      "seconds": 6.0,
+      "power": 9.0,
+      "machine": "machine.processor",
+      "stage": "Processing"
+    },
+    "price": 2.666666666666667
+  },
+  "silicon": {
+    "old": {
+      "inputs": {
+        "quartz": 4,
+        "coal": 1
+      },
+      "output": 2.0,
+      "seconds": 6.0,
+      "power": 10.0,
+      "machine": "machine.processor",
+      "stage": "Processing"
+    },
+    "new": {
+      "inputs": {
+        "quartz": 12,
+        "coal": 3
+      },
+      "output": 6.0,
+      "seconds": 6.0,
+      "power": 10.0,
+      "machine": "machine.processor",
+      "stage": "Processing"
+    },
+    "price": 4.5
+  },
+  "high_purity_silicon": {
+    "old": {
+      "inputs": {
+        "quartz": 4,
+        "fluorspar": 1,
+        "crude_oil": 1,
+        "natural_gas": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.processor",
+      "stage": "Processing"
+    },
+    "new": {
+      "inputs": {
+        "quartz": 12,
+        "fluorspar": 3,
+        "crude_oil": 3,
+        "natural_gas": 3
+      },
+      "output": 3.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.processor",
+      "stage": "Processing"
+    },
+    "price": 11.0
+  },
+  "carbon_fiber": {
+    "old": {
+      "inputs": {
+        "crude_oil": 3,
+        "natural_gas": 1,
+        "graphite": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.processor",
+      "stage": "Processing"
+    },
+    "new": {
+      "inputs": {
+        "crude_oil": 12,
+        "natural_gas": 4,
+        "graphite": 4
+      },
+      "output": 4.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.processor",
+      "stage": "Processing"
+    },
+    "price": 8.0
+  },
+  "lumber": {
+    "old": {
+      "inputs": {
+        "timber": 3
+      },
+      "output": 3.0,
+      "seconds": 6.0,
+      "power": 5.0,
+      "machine": "machine.processor",
+      "stage": "Processing"
+    },
+    "new": {
+      "inputs": {
+        "timber": 12
+      },
+      "output": 12.0,
+      "seconds": 6.0,
+      "power": 5.0,
+      "machine": "machine.processor",
+      "stage": "Processing"
+    },
+    "price": 2.0
+  },
+  "wood_pulp": {
+    "old": {
+      "inputs": {
+        "timber": 3,
+        "crude_oil": 1,
+        "natural_gas": 1
+      },
+      "output": 3.0,
+      "seconds": 6.0,
+      "power": 6.0,
+      "machine": "machine.processor",
+      "stage": "Processing"
+    },
+    "new": {
+      "inputs": {
+        "timber": 12,
+        "crude_oil": 4,
+        "natural_gas": 4
+      },
+      "output": 12.0,
+      "seconds": 6.0,
+      "power": 6.0,
+      "machine": "machine.processor",
+      "stage": "Processing"
+    },
+    "price": 2.6666666666666665
+  },
+  "cellulose": {
+    "old": {
+      "inputs": {
+        "timber": 2,
+        "crude_oil": 1,
+        "natural_gas": 1
+      },
+      "output": 2.0,
+      "seconds": 6.0,
+      "power": 6.0,
+      "machine": "machine.processor",
+      "stage": "Processing"
+    },
+    "new": {
+      "inputs": {
+        "timber": 12,
+        "crude_oil": 6,
+        "natural_gas": 6
+      },
+      "output": 12.0,
+      "seconds": 6.0,
+      "power": 6.0,
+      "machine": "machine.processor",
+      "stage": "Processing"
+    },
+    "price": 3.0
+  },
+  "treated_lumber": {
+    "old": {
+      "inputs": {
+        "timber": 3,
+        "crude_oil": 2,
+        "natural_gas": 1
+      },
+      "output": 3.0,
+      "seconds": 6.0,
+      "power": 7.0,
+      "machine": "machine.processor",
+      "stage": "Processing"
+    },
+    "new": {
+      "inputs": {
+        "timber": 12,
+        "crude_oil": 8,
+        "natural_gas": 4
+      },
+      "output": 12.0,
+      "seconds": 6.0,
+      "power": 7.0,
+      "machine": "machine.processor",
+      "stage": "Processing"
+    },
+    "price": 3.0
+  },
+  "polymer": {
+    "old": {
+      "inputs": {
+        "crude_oil": 3,
+        "natural_gas": 1
+      },
+      "output": 2.0,
+      "seconds": 6.0,
+      "power": 9.0,
+      "machine": "machine.processor",
+      "stage": "Processing"
+    },
+    "new": {
+      "inputs": {
+        "crude_oil": 12,
+        "natural_gas": 4
+      },
+      "output": 8.0,
+      "seconds": 6.0,
+      "power": 9.0,
+      "machine": "machine.processor",
+      "stage": "Processing"
+    },
+    "price": 3.5
+  },
+  "synthetic_rubber": {
+    "old": {
+      "inputs": {
+        "crude_oil": 2,
+        "natural_gas": 1,
+        "sulfur": 1
+      },
+      "output": 2.0,
+      "seconds": 6.0,
+      "power": 9.0,
+      "machine": "machine.processor",
+      "stage": "Processing"
+    },
+    "new": {
+      "inputs": {
+        "crude_oil": 12,
+        "natural_gas": 6,
+        "sulfur": 6
+      },
+      "output": 12.0,
+      "seconds": 6.0,
+      "power": 9.0,
+      "machine": "machine.processor",
+      "stage": "Processing"
+    },
+    "price": 3.0
+  },
+  "industrial_resin": {
+    "old": {
+      "inputs": {
+        "crude_oil": 2,
+        "natural_gas": 1
+      },
+      "output": 2.0,
+      "seconds": 6.0,
+      "power": 9.0,
+      "machine": "machine.processor",
+      "stage": "Processing"
+    },
+    "new": {
+      "inputs": {
+        "crude_oil": 12,
+        "natural_gas": 6
+      },
+      "output": 12.0,
+      "seconds": 6.0,
+      "power": 9.0,
+      "machine": "machine.processor",
+      "stage": "Processing"
+    },
+    "price": 2.5
+  },
+  "chemical_feedstock": {
+    "old": {
+      "inputs": {
+        "crude_oil": 2,
+        "natural_gas": 2
+      },
+      "output": 3.0,
+      "seconds": 6.0,
+      "power": 8.0,
+      "machine": "machine.processor",
+      "stage": "Processing"
+    },
+    "new": {
+      "inputs": {
+        "crude_oil": 12,
+        "natural_gas": 12
+      },
+      "output": 18.0,
+      "seconds": 6.0,
+      "power": 8.0,
+      "machine": "machine.processor",
+      "stage": "Processing"
+    },
+    "price": 2.0
+  },
+  "sulfuric_acid": {
+    "old": {
+      "inputs": {
+        "sulfur": 2,
+        "natural_gas": 1
+      },
+      "output": 2.0,
+      "seconds": 6.0,
+      "power": 8.0,
+      "machine": "machine.processor",
+      "stage": "Processing"
+    },
+    "new": {
+      "inputs": {
+        "sulfur": 12,
+        "natural_gas": 6
+      },
+      "output": 12.0,
+      "seconds": 6.0,
+      "power": 8.0,
+      "machine": "machine.processor",
+      "stage": "Processing"
+    },
+    "price": 2.5
+  },
+  "chlorine": {
+    "old": {
+      "inputs": {
+        "salt": 3
+      },
+      "output": 2.0,
+      "seconds": 6.0,
+      "power": 8.0,
+      "machine": "machine.processor",
+      "stage": "Processing"
+    },
+    "new": {
+      "inputs": {
+        "salt": 12
+      },
+      "output": 8.0,
+      "seconds": 6.0,
+      "power": 8.0,
+      "machine": "machine.processor",
+      "stage": "Processing"
+    },
+    "price": 3.0
+  },
+  "ammonia": {
+    "old": {
+      "inputs": {
+        "natural_gas": 3
+      },
+      "output": 2.0,
+      "seconds": 6.0,
+      "power": 8.0,
+      "machine": "machine.processor",
+      "stage": "Processing"
+    },
+    "new": {
+      "inputs": {
+        "natural_gas": 12
+      },
+      "output": 8.0,
+      "seconds": 6.0,
+      "power": 8.0,
+      "machine": "machine.processor",
+      "stage": "Processing"
+    },
+    "price": 3.0
+  },
+  "phosphoric_acid": {
+    "old": {
+      "inputs": {
+        "phosphate_rock": 2,
+        "sulfur": 1,
+        "natural_gas": 1
+      },
+      "output": 2.0,
+      "seconds": 6.0,
+      "power": 8.0,
+      "machine": "machine.processor",
+      "stage": "Processing"
+    },
+    "new": {
+      "inputs": {
+        "phosphate_rock": 12,
+        "sulfur": 6,
+        "natural_gas": 6
+      },
+      "output": 12.0,
+      "seconds": 6.0,
+      "power": 8.0,
+      "machine": "machine.processor",
+      "stage": "Processing"
+    },
+    "price": 3.0
+  },
+  "potassium_compound": {
+    "old": {
+      "inputs": {
+        "potash": 3
+      },
+      "output": 2.0,
+      "seconds": 6.0,
+      "power": 7.0,
+      "machine": "machine.processor",
+      "stage": "Processing"
+    },
+    "new": {
+      "inputs": {
+        "potash": 12
+      },
+      "output": 8.0,
+      "seconds": 6.0,
+      "power": 7.0,
+      "machine": "machine.processor",
+      "stage": "Processing"
+    },
+    "price": 3.0
+  },
+  "industrial_gas": {
+    "old": {
+      "inputs": {
+        "natural_gas": 2
+      },
+      "output": 2.0,
+      "seconds": 6.0,
+      "power": 7.0,
+      "machine": "machine.processor",
+      "stage": "Processing"
+    },
+    "new": {
+      "inputs": {
+        "natural_gas": 12
+      },
+      "output": 12.0,
+      "seconds": 6.0,
+      "power": 7.0,
+      "machine": "machine.processor",
+      "stage": "Processing"
+    },
+    "price": 2.0
+  },
+  "hydrogen": {
+    "old": {
+      "inputs": {
+        "natural_gas": 3
+      },
+      "output": 2.0,
+      "seconds": 6.0,
+      "power": 9.0,
+      "machine": "machine.processor",
+      "stage": "Processing"
+    },
+    "new": {
+      "inputs": {
+        "natural_gas": 12
+      },
+      "output": 8.0,
+      "seconds": 6.0,
+      "power": 9.0,
+      "machine": "machine.processor",
+      "stage": "Processing"
+    },
+    "price": 3.0
+  },
+  "bitumen": {
+    "old": {
+      "inputs": {
+        "crude_oil": 3
+      },
+      "output": 2.0,
+      "seconds": 6.0,
+      "power": 8.0,
+      "machine": "machine.processor",
+      "stage": "Processing"
+    },
+    "new": {
+      "inputs": {
+        "crude_oil": 12
+      },
+      "output": 8.0,
+      "seconds": 6.0,
+      "power": 8.0,
+      "machine": "machine.processor",
+      "stage": "Processing"
+    },
+    "price": 3.0
+  },
+  "flour": {
+    "old": {
+      "inputs": {
+        "wheat": 2
+      },
+      "output": 2.0,
+      "seconds": 6.0,
+      "power": 5.0,
+      "machine": "machine.processor",
+      "stage": "Processing"
+    },
+    "new": {
+      "inputs": {
+        "wheat": 12
+      },
+      "output": 12.0,
+      "seconds": 6.0,
+      "power": 5.0,
+      "machine": "machine.processor",
+      "stage": "Processing"
+    },
+    "price": 2.0
+  },
+  "corn_meal": {
+    "old": {
+      "inputs": {
+        "corn": 2
+      },
+      "output": 2.0,
+      "seconds": 6.0,
+      "power": 5.0,
+      "machine": "machine.processor",
+      "stage": "Processing"
+    },
+    "new": {
+      "inputs": {
+        "corn": 12
+      },
+      "output": 12.0,
+      "seconds": 6.0,
+      "power": 5.0,
+      "machine": "machine.processor",
+      "stage": "Processing"
+    },
+    "price": 2.0
+  },
+  "starch": {
+    "old": {
+      "inputs": {
+        "corn": 2,
+        "potatoes": 1
+      },
+      "output": 2.0,
+      "seconds": 6.0,
+      "power": 5.0,
+      "machine": "machine.processor",
+      "stage": "Processing"
+    },
+    "new": {
+      "inputs": {
+        "corn": 12,
+        "potatoes": 6
+      },
+      "output": 12.0,
+      "seconds": 6.0,
+      "power": 5.0,
+      "machine": "machine.processor",
+      "stage": "Processing"
+    },
+    "price": 2.5
+  },
+  "raw_sugar": {
+    "old": {
+      "inputs": {
+        "sugarcane": 2
+      },
+      "output": 2.0,
+      "seconds": 6.0,
+      "power": 5.0,
+      "machine": "machine.processor",
+      "stage": "Processing"
+    },
+    "new": {
+      "inputs": {
+        "sugarcane": 12
+      },
+      "output": 12.0,
+      "seconds": 6.0,
+      "power": 5.0,
+      "machine": "machine.processor",
+      "stage": "Processing"
+    },
+    "price": 2.0
+  },
+  "refined_sugar": {
+    "old": {
+      "inputs": {
+        "sugarcane": 2
+      },
+      "output": 2.0,
+      "seconds": 6.0,
+      "power": 5.0,
+      "machine": "machine.processor",
+      "stage": "Processing"
+    },
+    "new": {
+      "inputs": {
+        "sugarcane": 12
+      },
+      "output": 12.0,
+      "seconds": 6.0,
+      "power": 5.0,
+      "machine": "machine.processor",
+      "stage": "Processing"
+    },
+    "price": 2.0
+  },
+  "soy_oil": {
+    "old": {
+      "inputs": {
+        "soybeans": 2
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 5.0,
+      "machine": "machine.processor",
+      "stage": "Processing"
+    },
+    "new": {
+      "inputs": {
+        "soybeans": 12
+      },
+      "output": 6.0,
+      "seconds": 6.0,
+      "power": 5.0,
+      "machine": "machine.processor",
+      "stage": "Processing"
+    },
+    "price": 4.0
+  },
+  "soy_protein": {
+    "old": {
+      "inputs": {
+        "soybeans": 2
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 5.0,
+      "machine": "machine.processor",
+      "stage": "Processing"
+    },
+    "new": {
+      "inputs": {
+        "soybeans": 12
+      },
+      "output": 6.0,
+      "seconds": 6.0,
+      "power": 5.0,
+      "machine": "machine.processor",
+      "stage": "Processing"
+    },
+    "price": 4.0
+  },
+  "vegetable_oil": {
+    "old": {
+      "inputs": {
+        "rapeseed": 2,
+        "soybeans": 2
+      },
+      "output": 2.0,
+      "seconds": 6.0,
+      "power": 5.0,
+      "machine": "machine.processor",
+      "stage": "Processing"
+    },
+    "new": {
+      "inputs": {
+        "rapeseed": 12,
+        "soybeans": 12
+      },
+      "output": 12.0,
+      "seconds": 6.0,
+      "power": 5.0,
+      "machine": "machine.processor",
+      "stage": "Processing"
+    },
+    "price": 3.0
+  },
+  "cotton_fiber": {
+    "old": {
+      "inputs": {
+        "cotton": 2
+      },
+      "output": 2.0,
+      "seconds": 6.0,
+      "power": 5.0,
+      "machine": "machine.processor",
+      "stage": "Processing"
+    },
+    "new": {
+      "inputs": {
+        "cotton": 12
+      },
+      "output": 12.0,
+      "seconds": 6.0,
+      "power": 5.0,
+      "machine": "machine.processor",
+      "stage": "Processing"
+    },
+    "price": 2.0
+  },
+  "fruit_concentrate": {
+    "old": {
+      "inputs": {
+        "fruit": 3,
+        "sugarcane": 1
+      },
+      "output": 2.0,
+      "seconds": 6.0,
+      "power": 5.0,
+      "machine": "machine.processor",
+      "stage": "Processing"
+    },
+    "new": {
+      "inputs": {
+        "fruit": 12,
+        "sugarcane": 4
+      },
+      "output": 8.0,
+      "seconds": 6.0,
+      "power": 5.0,
+      "machine": "machine.processor",
+      "stage": "Processing"
+    },
+    "price": 3.5
+  },
+  "processed_rubber": {
+    "old": {
+      "inputs": {
+        "natural_rubber": 2,
+        "sulfur": 1
+      },
+      "output": 2.0,
+      "seconds": 6.0,
+      "power": 7.0,
+      "machine": "machine.processor",
+      "stage": "Processing"
+    },
+    "new": {
+      "inputs": {
+        "natural_rubber": 12,
+        "sulfur": 6
+      },
+      "output": 12.0,
+      "seconds": 6.0,
+      "power": 7.0,
+      "machine": "machine.processor",
+      "stage": "Processing"
+    },
+    "price": 2.5
+  },
+  "fermentation_feedstock": {
+    "old": {
+      "inputs": {
+        "corn": 2,
+        "sugarcane": 1
+      },
+      "output": 2.0,
+      "seconds": 6.0,
+      "power": 6.0,
+      "machine": "machine.processor",
+      "stage": "Processing"
+    },
+    "new": {
+      "inputs": {
+        "corn": 12,
+        "sugarcane": 6
+      },
+      "output": 12.0,
+      "seconds": 6.0,
+      "power": 6.0,
+      "machine": "machine.processor",
+      "stage": "Processing"
+    },
+    "price": 2.5
+  },
+  "galvanized_metal": {
+    "old": {
+      "inputs": {
+        "zinc_ore": 4,
+        "iron_ore": 4
+      },
+      "output": 3.0,
+      "seconds": 6.0,
+      "power": 8.0,
+      "machine": "machine.processor",
+      "stage": "Processing"
+    },
+    "new": {
+      "inputs": {
+        "zinc_ore": 12,
+        "iron_ore": 12
+      },
+      "output": 9.0,
+      "seconds": 6.0,
+      "power": 8.0,
+      "machine": "machine.processor",
+      "stage": "Processing"
+    },
+    "price": 4.0
+  },
+  "shielding_material": {
+    "old": {
+      "inputs": {
+        "lead_ore": 4,
+        "borate_ore": 1
+      },
+      "output": 3.0,
+      "seconds": 6.0,
+      "power": 8.0,
+      "machine": "machine.processor",
+      "stage": "Processing"
+    },
+    "new": {
+      "inputs": {
+        "lead_ore": 12,
+        "borate_ore": 3
+      },
+      "output": 9.0,
+      "seconds": 6.0,
+      "power": 8.0,
+      "machine": "machine.processor",
+      "stage": "Processing"
+    },
+    "price": 3.0
+  },
+  "vanadium_alloy": {
+    "old": {
+      "inputs": {
+        "vanadium_ore": 4,
+        "iron_ore": 4
+      },
+      "output": 3.0,
+      "seconds": 6.0,
+      "power": 10.0,
+      "machine": "machine.processor",
+      "stage": "Processing"
+    },
+    "new": {
+      "inputs": {
+        "vanadium_ore": 12,
+        "iron_ore": 12
+      },
+      "output": 9.0,
+      "seconds": 6.0,
+      "power": 10.0,
+      "machine": "machine.processor",
+      "stage": "Processing"
+    },
+    "price": 4.0
+  },
+  "catalyst_metal": {
+    "old": {
+      "inputs": {
+        "palladium_ore": 3,
+        "platinum_ore": 1
+      },
+      "output": 2.0,
+      "seconds": 6.0,
+      "power": 10.0,
+      "machine": "machine.processor",
+      "stage": "Processing"
+    },
+    "new": {
+      "inputs": {
+        "palladium_ore": 12,
+        "platinum_ore": 4
+      },
+      "output": 8.0,
+      "seconds": 6.0,
+      "power": 10.0,
+      "machine": "machine.processor",
+      "stage": "Processing"
+    },
+    "price": 3.5
+  },
+  "nuclear_material": {
+    "old": {
+      "inputs": {
+        "uranium_ore": 3,
+        "lead_ore": 1
+      },
+      "output": 2.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.processor",
+      "stage": "Processing"
+    },
+    "new": {
+      "inputs": {
+        "uranium_ore": 12,
+        "lead_ore": 4
+      },
+      "output": 8.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.processor",
+      "stage": "Processing"
+    },
+    "price": 3.5
+  },
+  "bio_lubricant": {
+    "old": {
+      "inputs": {
+        "rapeseed": 2,
+        "natural_gas": 1
+      },
+      "output": 2.0,
+      "seconds": 6.0,
+      "power": 7.0,
+      "machine": "machine.processor",
+      "stage": "Processing"
+    },
+    "new": {
+      "inputs": {
+        "rapeseed": 12,
+        "natural_gas": 6
+      },
+      "output": 12.0,
+      "seconds": 6.0,
+      "power": 7.0,
+      "machine": "machine.processor",
+      "stage": "Processing"
+    },
+    "price": 2.5
+  },
+  "organic_feedstock": {
+    "old": {
+      "inputs": {
+        "wheat": 1,
+        "fruit": 1,
+        "potatoes": 1
+      },
+      "output": 2.0,
+      "seconds": 6.0,
+      "power": 6.0,
+      "machine": "machine.processor",
+      "stage": "Processing"
+    },
+    "new": {
+      "inputs": {
+        "wheat": 6,
+        "fruit": 6,
+        "potatoes": 6
+      },
+      "output": 12.0,
+      "seconds": 6.0,
+      "power": 6.0,
+      "machine": "machine.processor",
+      "stage": "Processing"
+    },
+    "price": 2.5
+  },
+  "iron_components": {
+    "old": {
+      "inputs": {
+        "iron": 2
+      },
+      "output": 2.0,
+      "seconds": 6.0,
+      "power": 10.0,
+      "machine": "machine.fabricator",
+      "stage": "Fabrication"
+    },
+    "new": {
+      "inputs": {
+        "iron": 6
+      },
+      "output": 6.0,
+      "seconds": 6.0,
+      "power": 10.0,
+      "machine": "machine.fabricator",
+      "stage": "Fabrication"
+    },
+    "price": 4.666666666666666
+  },
+  "steel_components": {
+    "old": {
+      "inputs": {
+        "steel": 2
+      },
+      "output": 2.0,
+      "seconds": 6.0,
+      "power": 10.0,
+      "machine": "machine.fabricator",
+      "stage": "Fabrication"
+    },
+    "new": {
+      "inputs": {
+        "steel": 4
+      },
+      "output": 4.0,
+      "seconds": 6.0,
+      "power": 10.0,
+      "machine": "machine.fabricator",
+      "stage": "Fabrication"
+    },
+    "price": 7.75
+  },
+  "stainless_components": {
+    "old": {
+      "inputs": {
+        "stainless_steel": 2
+      },
+      "output": 2.0,
+      "seconds": 6.0,
+      "power": 10.0,
+      "machine": "machine.fabricator",
+      "stage": "Fabrication"
+    },
+    "new": {
+      "inputs": {
+        "stainless_steel": 2
+      },
+      "output": 2.0,
+      "seconds": 6.0,
+      "power": 10.0,
+      "machine": "machine.fabricator",
+      "stage": "Fabrication"
+    },
+    "price": 12.333333333333334
+  },
+  "aluminum_components": {
+    "old": {
+      "inputs": {
+        "aluminum": 2
+      },
+      "output": 2.0,
+      "seconds": 6.0,
+      "power": 10.0,
+      "machine": "machine.fabricator",
+      "stage": "Fabrication"
+    },
+    "new": {
+      "inputs": {
+        "aluminum": 4
+      },
+      "output": 4.0,
+      "seconds": 6.0,
+      "power": 10.0,
+      "machine": "machine.fabricator",
+      "stage": "Fabrication"
+    },
+    "price": 5.199999999999999
+  },
+  "titanium_components": {
+    "old": {
+      "inputs": {
+        "titanium": 2
+      },
+      "output": 2.0,
+      "seconds": 6.0,
+      "power": 10.0,
+      "machine": "machine.fabricator",
+      "stage": "Fabrication"
+    },
+    "new": {
+      "inputs": {
+        "titanium": 4
+      },
+      "output": 4.0,
+      "seconds": 6.0,
+      "power": 10.0,
+      "machine": "machine.fabricator",
+      "stage": "Fabrication"
+    },
+    "price": 6.0
+  },
+  "precision_components": {
+    "old": {
+      "inputs": {
+        "steel": 1,
+        "aluminum": 1,
+        "tungsten": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 10.0,
+      "machine": "machine.fabricator",
+      "stage": "Fabrication"
+    },
+    "new": {
+      "inputs": {
+        "steel": 4,
+        "aluminum": 4,
+        "tungsten": 4
+      },
+      "output": 4.0,
+      "seconds": 6.0,
+      "power": 10.0,
+      "machine": "machine.fabricator",
+      "stage": "Fabrication"
+    },
+    "price": 16.950000000000003
+  },
+  "gear_components": {
+    "old": {
+      "inputs": {
+        "steel": 2,
+        "manganese": 1
+      },
+      "output": 2.0,
+      "seconds": 6.0,
+      "power": 10.0,
+      "machine": "machine.fabricator",
+      "stage": "Fabrication"
+    },
+    "new": {
+      "inputs": {
+        "steel": 4,
+        "manganese": 2
+      },
+      "output": 4.0,
+      "seconds": 6.0,
+      "power": 10.0,
+      "machine": "machine.fabricator",
+      "stage": "Fabrication"
+    },
+    "price": 9.850000000000001
+  },
+  "bearing_components": {
+    "old": {
+      "inputs": {
+        "steel": 2,
+        "chromium": 1
+      },
+      "output": 2.0,
+      "seconds": 6.0,
+      "power": 10.0,
+      "machine": "machine.fabricator",
+      "stage": "Fabrication"
+    },
+    "new": {
+      "inputs": {
+        "steel": 4,
+        "chromium": 2
+      },
+      "output": 4.0,
+      "seconds": 6.0,
+      "power": 10.0,
+      "machine": "machine.fabricator",
+      "stage": "Fabrication"
+    },
+    "price": 9.850000000000001
+  },
+  "cutting_tooling": {
+    "old": {
+      "inputs": {
+        "tungsten": 1,
+        "steel": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 10.0,
+      "machine": "machine.fabricator",
+      "stage": "Fabrication"
+    },
+    "new": {
+      "inputs": {
+        "tungsten": 4,
+        "steel": 4
+      },
+      "output": 4.0,
+      "seconds": 6.0,
+      "power": 10.0,
+      "machine": "machine.fabricator",
+      "stage": "Fabrication"
+    },
+    "price": 12.75
+  },
+  "hydraulic_components": {
+    "old": {
+      "inputs": {
+        "steel": 1,
+        "industrial_resin": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 10.0,
+      "machine": "machine.fabricator",
+      "stage": "Fabrication"
+    },
+    "new": {
+      "inputs": {
+        "steel": 4,
+        "industrial_resin": 4
+      },
+      "output": 4.0,
+      "seconds": 6.0,
+      "power": 10.0,
+      "machine": "machine.fabricator",
+      "stage": "Fabrication"
+    },
+    "price": 10.25
+  },
+  "pump_components": {
+    "old": {
+      "inputs": {
+        "steel": 1,
+        "copper": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 10.0,
+      "machine": "machine.fabricator",
+      "stage": "Fabrication"
+    },
+    "new": {
+      "inputs": {
+        "steel": 4,
+        "copper": 4
+      },
+      "output": 4.0,
+      "seconds": 6.0,
+      "power": 10.0,
+      "machine": "machine.fabricator",
+      "stage": "Fabrication"
+    },
+    "price": 11.75
+  },
+  "compressor_components": {
+    "old": {
+      "inputs": {
+        "steel": 1,
+        "aluminum": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 10.0,
+      "machine": "machine.fabricator",
+      "stage": "Fabrication"
+    },
+    "new": {
+      "inputs": {
+        "steel": 4,
+        "aluminum": 4
+      },
+      "output": 4.0,
+      "seconds": 6.0,
+      "power": 10.0,
+      "machine": "machine.fabricator",
+      "stage": "Fabrication"
+    },
+    "price": 11.95
+  },
+  "turbine_components": {
+    "old": {
+      "inputs": {
+        "nickel_alloy": 1,
+        "titanium": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 10.0,
+      "machine": "machine.fabricator",
+      "stage": "Fabrication"
+    },
+    "new": {
+      "inputs": {
+        "nickel_alloy": 4,
+        "titanium": 4
+      },
+      "output": 4.0,
+      "seconds": 6.0,
+      "power": 10.0,
+      "machine": "machine.fabricator",
+      "stage": "Fabrication"
+    },
+    "price": 13.0
+  },
+  "structural_components": {
+    "old": {
+      "inputs": {
+        "steel": 3,
+        "cement": 1
+      },
+      "output": 2.0,
+      "seconds": 6.0,
+      "power": 10.0,
+      "machine": "machine.fabricator",
+      "stage": "Fabrication"
+    },
+    "new": {
+      "inputs": {
+        "steel": 3,
+        "cement": 1
+      },
+      "output": 2.0,
+      "seconds": 6.0,
+      "power": 10.0,
+      "machine": "machine.fabricator",
+      "stage": "Fabrication"
+    },
+    "price": 13.625
+  },
+  "mining_components": {
+    "old": {
+      "inputs": {
+        "steel": 1,
+        "tungsten": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 10.0,
+      "machine": "machine.fabricator",
+      "stage": "Fabrication"
+    },
+    "new": {
+      "inputs": {
+        "steel": 4,
+        "tungsten": 4
+      },
+      "output": 4.0,
+      "seconds": 6.0,
+      "power": 10.0,
+      "machine": "machine.fabricator",
+      "stage": "Fabrication"
+    },
+    "price": 12.75
+  },
+  "vehicle_components": {
+    "old": {
+      "inputs": {
+        "steel": 1,
+        "aluminum": 1,
+        "processed_rubber": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 10.0,
+      "machine": "machine.fabricator",
+      "stage": "Fabrication"
+    },
+    "new": {
+      "inputs": {
+        "steel": 4,
+        "aluminum": 4,
+        "processed_rubber": 4
+      },
+      "output": 4.0,
+      "seconds": 6.0,
+      "power": 10.0,
+      "machine": "machine.fabricator",
+      "stage": "Fabrication"
+    },
+    "price": 14.45
+  },
+  "marine_components": {
+    "old": {
+      "inputs": {
+        "steel": 2,
+        "industrial_resin": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 10.0,
+      "machine": "machine.fabricator",
+      "stage": "Fabrication"
+    },
+    "new": {
+      "inputs": {
+        "steel": 4,
+        "industrial_resin": 2
+      },
+      "output": 2.0,
+      "seconds": 6.0,
+      "power": 10.0,
+      "machine": "machine.fabricator",
+      "stage": "Fabrication"
+    },
+    "price": 18.0
+  },
+  "rail_components": {
+    "old": {
+      "inputs": {
+        "steel": 2,
+        "manganese": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 10.0,
+      "machine": "machine.fabricator",
+      "stage": "Fabrication"
+    },
+    "new": {
+      "inputs": {
+        "steel": 4,
+        "manganese": 2
+      },
+      "output": 2.0,
+      "seconds": 6.0,
+      "power": 10.0,
+      "machine": "machine.fabricator",
+      "stage": "Fabrication"
+    },
+    "price": 19.700000000000003
+  },
+  "aerospace_components": {
+    "old": {
+      "inputs": {
+        "aluminum": 1,
+        "titanium": 1,
+        "carbon_fiber": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 10.0,
+      "machine": "machine.fabricator",
+      "stage": "Fabrication"
+    },
+    "new": {
+      "inputs": {
+        "aluminum": 4,
+        "titanium": 4,
+        "carbon_fiber": 4
+      },
+      "output": 4.0,
+      "seconds": 6.0,
+      "power": 10.0,
+      "machine": "machine.fabricator",
+      "stage": "Fabrication"
+    },
+    "price": 18.200000000000003
+  },
+  "copper_wire": {
+    "old": {
+      "inputs": {
+        "copper": 2
+      },
+      "output": 3.0,
+      "seconds": 6.0,
+      "power": 10.0,
+      "machine": "machine.fabricator",
+      "stage": "Fabrication"
+    },
+    "new": {
+      "inputs": {
+        "copper": 6
+      },
+      "output": 9.0,
+      "seconds": 6.0,
+      "power": 10.0,
+      "machine": "machine.fabricator",
+      "stage": "Fabrication"
+    },
+    "price": 3.111111111111111
+  },
+  "insulated_wire": {
+    "old": {
+      "inputs": {
+        "copper": 1,
+        "polymer": 1
+      },
+      "output": 2.0,
+      "seconds": 6.0,
+      "power": 10.0,
+      "machine": "machine.fabricator",
+      "stage": "Fabrication"
+    },
+    "new": {
+      "inputs": {
+        "copper": 6,
+        "polymer": 6
+      },
+      "output": 12.0,
+      "seconds": 6.0,
+      "power": 10.0,
+      "machine": "machine.fabricator",
+      "stage": "Fabrication"
+    },
+    "price": 4.083333333333334
+  },
+  "electrical_components": {
+    "old": {
+      "inputs": {
+        "copper": 1,
+        "polymer": 1,
+        "tin": 1
+      },
+      "output": 2.0,
+      "seconds": 6.0,
+      "power": 10.0,
+      "machine": "machine.fabricator",
+      "stage": "Fabrication"
+    },
+    "new": {
+      "inputs": {
+        "copper": 5,
+        "polymer": 5,
+        "tin": 5
+      },
+      "output": 10.0,
+      "seconds": 6.0,
+      "power": 10.0,
+      "machine": "machine.fabricator",
+      "stage": "Fabrication"
+    },
+    "price": 6.25
+  },
+  "transformer_components": {
+    "old": {
+      "inputs": {
+        "copper": 1,
+        "steel": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 10.0,
+      "machine": "machine.fabricator",
+      "stage": "Fabrication"
+    },
+    "new": {
+      "inputs": {
+        "copper": 4,
+        "steel": 4
+      },
+      "output": 4.0,
+      "seconds": 6.0,
+      "power": 10.0,
+      "machine": "machine.fabricator",
+      "stage": "Fabrication"
+    },
+    "price": 11.75
+  },
+  "motor_components": {
+    "old": {
+      "inputs": {
+        "copper": 1,
+        "rare_earth_metals": 1,
+        "iron": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 10.0,
+      "machine": "machine.fabricator",
+      "stage": "Fabrication"
+    },
+    "new": {
+      "inputs": {
+        "copper": 3,
+        "rare_earth_metals": 3,
+        "iron": 3
+      },
+      "output": 3.0,
+      "seconds": 6.0,
+      "power": 10.0,
+      "machine": "machine.fabricator",
+      "stage": "Fabrication"
+    },
+    "price": 16.0
+  },
+  "magnetic_components": {
+    "old": {
+      "inputs": {
+        "rare_earth_metals": 1,
+        "iron": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 10.0,
+      "machine": "machine.fabricator",
+      "stage": "Fabrication"
+    },
+    "new": {
+      "inputs": {
+        "rare_earth_metals": 3,
+        "iron": 3
+      },
+      "output": 3.0,
+      "seconds": 6.0,
+      "power": 10.0,
+      "machine": "machine.fabricator",
+      "stage": "Fabrication"
+    },
+    "price": 12.0
+  },
+  "power_electronics": {
+    "old": {
+      "inputs": {
+        "high_purity_silicon": 2,
+        "copper": 2,
+        "gold": 1,
+        "aluminum": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 10.0,
+      "machine": "machine.fabricator",
+      "stage": "Fabrication"
+    },
+    "new": {
+      "inputs": {
+        "high_purity_silicon": 2,
+        "copper": 2,
+        "gold": 1,
+        "aluminum": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 10.0,
+      "machine": "machine.fabricator",
+      "stage": "Fabrication"
+    },
+    "price": 42.2
+  },
+  "display_components": {
+    "old": {
+      "inputs": {
+        "glass": 1,
+        "high_purity_silicon": 1,
+        "polymer": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 10.0,
+      "machine": "machine.fabricator",
+      "stage": "Fabrication"
+    },
+    "new": {
+      "inputs": {
+        "glass": 3,
+        "high_purity_silicon": 3,
+        "polymer": 3
+      },
+      "output": 3.0,
+      "seconds": 6.0,
+      "power": 10.0,
+      "machine": "machine.fabricator",
+      "stage": "Fabrication"
+    },
+    "price": 19.166666666666668
+  },
+  "semiconductor_components": {
+    "old": {
+      "inputs": {
+        "high_purity_silicon": 2,
+        "copper": 1,
+        "gold": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 10.0,
+      "machine": "machine.fabricator",
+      "stage": "Fabrication"
+    },
+    "new": {
+      "inputs": {
+        "high_purity_silicon": 2,
+        "copper": 1,
+        "gold": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 10.0,
+      "machine": "machine.fabricator",
+      "stage": "Fabrication"
+    },
+    "price": 34.0
+  },
+  "semiconductor_die": {
+    "old": {
+      "inputs": {
+        "high_purity_silicon": 2,
+        "copper": 1,
+        "gold": 1,
+        "silver": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 10.0,
+      "machine": "machine.fabricator",
+      "stage": "Fabrication"
+    },
+    "new": {
+      "inputs": {
+        "high_purity_silicon": 2,
+        "copper": 1,
+        "gold": 1,
+        "silver": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 10.0,
+      "machine": "machine.fabricator",
+      "stage": "Fabrication"
+    },
+    "price": 38.0
+  },
+  "sensor_components": {
+    "old": {
+      "inputs": {
+        "high_purity_silicon": 2,
+        "copper": 1,
+        "gold": 1,
+        "rare_earth_metals": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 10.0,
+      "machine": "machine.fabricator",
+      "stage": "Fabrication"
+    },
+    "new": {
+      "inputs": {
+        "high_purity_silicon": 2,
+        "copper": 1,
+        "gold": 1,
+        "rare_earth_metals": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 10.0,
+      "machine": "machine.fabricator",
+      "stage": "Fabrication"
+    },
+    "price": 40.66666666666667
+  },
+  "control_electronics": {
+    "old": {
+      "inputs": {
+        "high_purity_silicon": 2,
+        "copper": 1,
+        "gold": 1,
+        "silver": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 10.0,
+      "machine": "machine.fabricator",
+      "stage": "Fabrication"
+    },
+    "new": {
+      "inputs": {
+        "high_purity_silicon": 2,
+        "copper": 1,
+        "gold": 1,
+        "silver": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 10.0,
+      "machine": "machine.fabricator",
+      "stage": "Fabrication"
+    },
+    "price": 38.0
+  },
+  "computing_components": {
+    "old": {
+      "inputs": {
+        "high_purity_silicon": 4,
+        "copper": 2,
+        "gold": 2,
+        "silver": 2
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 10.0,
+      "machine": "machine.fabricator",
+      "stage": "Fabrication"
+    },
+    "new": {
+      "inputs": {
+        "high_purity_silicon": 4,
+        "copper": 2,
+        "gold": 2,
+        "silver": 2
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 10.0,
+      "machine": "machine.fabricator",
+      "stage": "Fabrication"
+    },
+    "price": 72.0
+  },
+  "memory_components": {
+    "old": {
+      "inputs": {
+        "high_purity_silicon": 3,
+        "copper": 1,
+        "gold": 1,
+        "silver": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 10.0,
+      "machine": "machine.fabricator",
+      "stage": "Fabrication"
+    },
+    "new": {
+      "inputs": {
+        "high_purity_silicon": 3,
+        "copper": 1,
+        "gold": 1,
+        "silver": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 10.0,
+      "machine": "machine.fabricator",
+      "stage": "Fabrication"
+    },
+    "price": 49.0
+  },
+  "processor_components": {
+    "old": {
+      "inputs": {
+        "gold": 2,
+        "high_purity_silicon": 2,
+        "copper": 1,
+        "rare_earth_metals": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 10.0,
+      "machine": "machine.fabricator",
+      "stage": "Fabrication"
+    },
+    "new": {
+      "inputs": {
+        "gold": 2,
+        "high_purity_silicon": 2,
+        "copper": 1,
+        "rare_earth_metals": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 10.0,
+      "machine": "machine.fabricator",
+      "stage": "Fabrication"
+    },
+    "price": 44.66666666666667
+  },
+  "telecom_components": {
+    "old": {
+      "inputs": {
+        "copper": 2,
+        "high_purity_silicon": 2,
+        "gold": 1,
+        "rare_earth_metals": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 10.0,
+      "machine": "machine.fabricator",
+      "stage": "Fabrication"
+    },
+    "new": {
+      "inputs": {
+        "copper": 2,
+        "high_purity_silicon": 2,
+        "gold": 1,
+        "rare_earth_metals": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 10.0,
+      "machine": "machine.fabricator",
+      "stage": "Fabrication"
+    },
+    "price": 44.66666666666667
+  },
+  "network_components": {
+    "old": {
+      "inputs": {
+        "copper": 4,
+        "high_purity_silicon": 4,
+        "gold": 2,
+        "aluminum": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 10.0,
+      "machine": "machine.fabricator",
+      "stage": "Fabrication"
+    },
+    "new": {
+      "inputs": {
+        "copper": 4,
+        "high_purity_silicon": 4,
+        "gold": 2,
+        "aluminum": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 10.0,
+      "machine": "machine.fabricator",
+      "stage": "Fabrication"
+    },
+    "price": 76.2
+  },
+  "avionics_components": {
+    "old": {
+      "inputs": {
+        "high_purity_silicon": 4,
+        "copper": 2,
+        "gold": 2,
+        "aluminum": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 10.0,
+      "machine": "machine.fabricator",
+      "stage": "Fabrication"
+    },
+    "new": {
+      "inputs": {
+        "high_purity_silicon": 4,
+        "copper": 2,
+        "gold": 2,
+        "aluminum": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 10.0,
+      "machine": "machine.fabricator",
+      "stage": "Fabrication"
+    },
+    "price": 68.19999999999999
+  },
+  "battery_materials": {
+    "old": {
+      "inputs": {
+        "lithium": 2,
+        "nickel": 1,
+        "cobalt": 1
+      },
+      "output": 2.0,
+      "seconds": 6.0,
+      "power": 10.0,
+      "machine": "machine.fabricator",
+      "stage": "Fabrication"
+    },
+    "new": {
+      "inputs": {
+        "lithium": 4,
+        "nickel": 2,
+        "cobalt": 2
+      },
+      "output": 4.0,
+      "seconds": 6.0,
+      "power": 10.0,
+      "machine": "machine.fabricator",
+      "stage": "Fabrication"
+    },
+    "price": 10.600000000000001
+  },
+  "battery_components": {
+    "old": {
+      "inputs": {
+        "lithium": 1,
+        "nickel": 1,
+        "cobalt": 1,
+        "aluminum": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 10.0,
+      "machine": "machine.fabricator",
+      "stage": "Fabrication"
+    },
+    "new": {
+      "inputs": {
+        "lithium": 4,
+        "nickel": 4,
+        "cobalt": 4,
+        "aluminum": 4
+      },
+      "output": 4.0,
+      "seconds": 6.0,
+      "power": 10.0,
+      "machine": "machine.fabricator",
+      "stage": "Fabrication"
+    },
+    "price": 19.4
+  },
+  "advanced_cell_components": {
+    "old": {
+      "inputs": {
+        "aluminum": 1,
+        "lithium": 1,
+        "purified_graphite": 1,
+        "cobalt": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 10.0,
+      "machine": "machine.fabricator",
+      "stage": "Fabrication"
+    },
+    "new": {
+      "inputs": {
+        "aluminum": 4,
+        "lithium": 4,
+        "purified_graphite": 4,
+        "cobalt": 4
+      },
+      "output": 4.0,
+      "seconds": 6.0,
+      "power": 10.0,
+      "machine": "machine.fabricator",
+      "stage": "Fabrication"
+    },
+    "price": 17.866666666666667
+  },
+  "storage_components": {
+    "old": {
+      "inputs": {
+        "aluminum": 2,
+        "copper": 2,
+        "high_purity_silicon": 2,
+        "gold": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 10.0,
+      "machine": "machine.fabricator",
+      "stage": "Fabrication"
+    },
+    "new": {
+      "inputs": {
+        "aluminum": 2,
+        "copper": 2,
+        "high_purity_silicon": 2,
+        "gold": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 10.0,
+      "machine": "machine.fabricator",
+      "stage": "Fabrication"
+    },
+    "price": 46.400000000000006
+  },
+  "solar_components": {
+    "old": {
+      "inputs": {
+        "glass": 1,
+        "aluminum": 1,
+        "high_purity_silicon": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 10.0,
+      "machine": "machine.fabricator",
+      "stage": "Fabrication"
+    },
+    "new": {
+      "inputs": {
+        "glass": 3,
+        "aluminum": 3,
+        "high_purity_silicon": 3
+      },
+      "output": 3.0,
+      "seconds": 6.0,
+      "power": 10.0,
+      "machine": "machine.fabricator",
+      "stage": "Fabrication"
+    },
+    "price": 19.866666666666667
+  },
+  "wind_components": {
+    "old": {
+      "inputs": {
+        "nickel_alloy": 1,
+        "titanium": 1,
+        "carbon_fiber": 1,
+        "industrial_resin": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 10.0,
+      "machine": "machine.fabricator",
+      "stage": "Fabrication"
+    },
+    "new": {
+      "inputs": {
+        "nickel_alloy": 4,
+        "titanium": 4,
+        "carbon_fiber": 4,
+        "industrial_resin": 4
+      },
+      "output": 4.0,
+      "seconds": 6.0,
+      "power": 10.0,
+      "machine": "machine.fabricator",
+      "stage": "Fabrication"
+    },
+    "price": 23.5
+  },
+  "reactor_components": {
+    "old": {
+      "inputs": {
+        "nuclear_material": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 10.0,
+      "machine": "machine.fabricator",
+      "stage": "Fabrication"
+    },
+    "new": {
+      "inputs": {
+        "nuclear_material": 6
+      },
+      "output": 6.0,
+      "seconds": 6.0,
+      "power": 10.0,
+      "machine": "machine.fabricator",
+      "stage": "Fabrication"
+    },
+    "price": 4.166666666666667
+  },
+  "electrolyzer_components": {
+    "old": {
+      "inputs": {
+        "copper": 2,
+        "high_purity_silicon": 2,
+        "aluminum": 1,
+        "gold": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 10.0,
+      "machine": "machine.fabricator",
+      "stage": "Fabrication"
+    },
+    "new": {
+      "inputs": {
+        "copper": 2,
+        "high_purity_silicon": 2,
+        "aluminum": 1,
+        "gold": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 10.0,
+      "machine": "machine.fabricator",
+      "stage": "Fabrication"
+    },
+    "price": 42.2
+  },
+  "concrete_components": {
+    "old": {
+      "inputs": {
+        "cement": 2,
+        "steel": 1
+      },
+      "output": 2.0,
+      "seconds": 6.0,
+      "power": 10.0,
+      "machine": "machine.fabricator",
+      "stage": "Fabrication"
+    },
+    "new": {
+      "inputs": {
+        "cement": 8,
+        "steel": 4
+      },
+      "output": 8.0,
+      "seconds": 6.0,
+      "power": 10.0,
+      "machine": "machine.fabricator",
+      "stage": "Fabrication"
+    },
+    "price": 6.874999999999999
+  },
+  "glass_panels": {
+    "old": {
+      "inputs": {
+        "glass": 2,
+        "aluminum": 1
+      },
+      "output": 2.0,
+      "seconds": 6.0,
+      "power": 10.0,
+      "machine": "machine.fabricator",
+      "stage": "Fabrication"
+    },
+    "new": {
+      "inputs": {
+        "glass": 8,
+        "aluminum": 4
+      },
+      "output": 8.0,
+      "seconds": 6.0,
+      "power": 10.0,
+      "machine": "machine.fabricator",
+      "stage": "Fabrication"
+    },
+    "price": 5.933333333333334
+  },
+  "ceramic_components": {
+    "old": {
+      "inputs": {
+        "ceramics": 2
+      },
+      "output": 2.0,
+      "seconds": 6.0,
+      "power": 10.0,
+      "machine": "machine.fabricator",
+      "stage": "Fabrication"
+    },
+    "new": {
+      "inputs": {
+        "ceramics": 12
+      },
+      "output": 12.0,
+      "seconds": 6.0,
+      "power": 10.0,
+      "machine": "machine.fabricator",
+      "stage": "Fabrication"
+    },
+    "price": 3.0
+  },
+  "insulation_material": {
+    "old": {
+      "inputs": {
+        "processed_gypsum": 1,
+        "polymer": 1
+      },
+      "output": 2.0,
+      "seconds": 6.0,
+      "power": 10.0,
+      "machine": "machine.fabricator",
+      "stage": "Fabrication"
+    },
+    "new": {
+      "inputs": {
+        "processed_gypsum": 6,
+        "polymer": 6
+      },
+      "output": 12.0,
+      "seconds": 6.0,
+      "power": 10.0,
+      "machine": "machine.fabricator",
+      "stage": "Fabrication"
+    },
+    "price": 3.0833333333333335
+  },
+  "composite_components": {
+    "old": {
+      "inputs": {
+        "carbon_fiber": 1,
+        "industrial_resin": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 10.0,
+      "machine": "machine.fabricator",
+      "stage": "Fabrication"
+    },
+    "new": {
+      "inputs": {
+        "carbon_fiber": 4,
+        "industrial_resin": 4
+      },
+      "output": 4.0,
+      "seconds": 6.0,
+      "power": 10.0,
+      "machine": "machine.fabricator",
+      "stage": "Fabrication"
+    },
+    "price": 11.5
+  },
+  "packaging_components": {
+    "old": {
+      "inputs": {
+        "wood_pulp": 2,
+        "polymer": 1
+      },
+      "output": 2.0,
+      "seconds": 6.0,
+      "power": 10.0,
+      "machine": "machine.fabricator",
+      "stage": "Fabrication"
+    },
+    "new": {
+      "inputs": {
+        "wood_pulp": 12,
+        "polymer": 6
+      },
+      "output": 12.0,
+      "seconds": 6.0,
+      "power": 10.0,
+      "machine": "machine.fabricator",
+      "stage": "Fabrication"
+    },
+    "price": 4.75
+  },
+  "food_ingredients": {
+    "old": {
+      "inputs": {
+        "flour": 1,
+        "corn_meal": 1,
+        "refined_sugar": 1
+      },
+      "output": 2.0,
+      "seconds": 6.0,
+      "power": 10.0,
+      "machine": "machine.fabricator",
+      "stage": "Fabrication"
+    },
+    "new": {
+      "inputs": {
+        "flour": 6,
+        "corn_meal": 6,
+        "refined_sugar": 6
+      },
+      "output": 12.0,
+      "seconds": 6.0,
+      "power": 10.0,
+      "machine": "machine.fabricator",
+      "stage": "Fabrication"
+    },
+    "price": 3.333333333333333
+  },
+  "nutrition_components": {
+    "old": {
+      "inputs": {
+        "soy_protein": 1,
+        "vegetable_oil": 1,
+        "fruit_concentrate": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 10.0,
+      "machine": "machine.fabricator",
+      "stage": "Fabrication"
+    },
+    "new": {
+      "inputs": {
+        "soy_protein": 6,
+        "vegetable_oil": 6,
+        "fruit_concentrate": 6
+      },
+      "output": 6.0,
+      "seconds": 6.0,
+      "power": 10.0,
+      "machine": "machine.fabricator",
+      "stage": "Fabrication"
+    },
+    "price": 11.166666666666668
+  },
+  "fertilizer_components": {
+    "old": {
+      "inputs": {
+        "ammonia": 1,
+        "phosphoric_acid": 2
+      },
+      "output": 2.0,
+      "seconds": 6.0,
+      "power": 10.0,
+      "machine": "machine.fabricator",
+      "stage": "Fabrication"
+    },
+    "new": {
+      "inputs": {
+        "ammonia": 6,
+        "phosphoric_acid": 12
+      },
+      "output": 12.0,
+      "seconds": 6.0,
+      "power": 10.0,
+      "machine": "machine.fabricator",
+      "stage": "Fabrication"
+    },
+    "price": 4.833333333333334
+  },
+  "agricultural_chemicals": {
+    "old": {
+      "inputs": {
+        "chemical_feedstock": 1,
+        "chlorine": 1,
+        "sulfuric_acid": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 10.0,
+      "machine": "machine.fabricator",
+      "stage": "Fabrication"
+    },
+    "new": {
+      "inputs": {
+        "chemical_feedstock": 6,
+        "chlorine": 6,
+        "sulfuric_acid": 6
+      },
+      "output": 6.0,
+      "seconds": 6.0,
+      "power": 10.0,
+      "machine": "machine.fabricator",
+      "stage": "Fabrication"
+    },
+    "price": 8.166666666666668
+  },
+  "technical_textile": {
+    "old": {
+      "inputs": {
+        "cotton_fiber": 1,
+        "polymer": 1
+      },
+      "output": 2.0,
+      "seconds": 6.0,
+      "power": 10.0,
+      "machine": "machine.fabricator",
+      "stage": "Fabrication"
+    },
+    "new": {
+      "inputs": {
+        "cotton_fiber": 6,
+        "polymer": 6
+      },
+      "output": 12.0,
+      "seconds": 6.0,
+      "power": 10.0,
+      "machine": "machine.fabricator",
+      "stage": "Fabrication"
+    },
+    "price": 3.0833333333333335
+  },
+  "industrial_fabric": {
+    "old": {
+      "inputs": {
+        "cotton_fiber": 1,
+        "polymer": 1,
+        "processed_rubber": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 10.0,
+      "machine": "machine.fabricator",
+      "stage": "Fabrication"
+    },
+    "new": {
+      "inputs": {
+        "cotton_fiber": 6,
+        "polymer": 6,
+        "processed_rubber": 6
+      },
+      "output": 6.0,
+      "seconds": 6.0,
+      "power": 10.0,
+      "machine": "machine.fabricator",
+      "stage": "Fabrication"
+    },
+    "price": 8.666666666666668
+  },
+  "wooden_components": {
+    "old": {
+      "inputs": {
+        "lumber": 2,
+        "treated_lumber": 1
+      },
+      "output": 2.0,
+      "seconds": 6.0,
+      "power": 10.0,
+      "machine": "machine.fabricator",
+      "stage": "Fabrication"
+    },
+    "new": {
+      "inputs": {
+        "lumber": 12,
+        "treated_lumber": 6
+      },
+      "output": 12.0,
+      "seconds": 6.0,
+      "power": 10.0,
+      "machine": "machine.fabricator",
+      "stage": "Fabrication"
+    },
+    "price": 3.8333333333333335
+  },
+  "fiber_components": {
+    "old": {
+      "inputs": {
+        "cellulose": 2,
+        "industrial_resin": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 10.0,
+      "machine": "machine.fabricator",
+      "stage": "Fabrication"
+    },
+    "new": {
+      "inputs": {
+        "cellulose": 12,
+        "industrial_resin": 6
+      },
+      "output": 6.0,
+      "seconds": 6.0,
+      "power": 10.0,
+      "machine": "machine.fabricator",
+      "stage": "Fabrication"
+    },
+    "price": 9.166666666666668
+  },
+  "bio_composite": {
+    "old": {
+      "inputs": {
+        "cellulose": 1,
+        "industrial_resin": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 10.0,
+      "machine": "machine.fabricator",
+      "stage": "Fabrication"
+    },
+    "new": {
+      "inputs": {
+        "cellulose": 6,
+        "industrial_resin": 6
+      },
+      "output": 6.0,
+      "seconds": 6.0,
+      "power": 10.0,
+      "machine": "machine.fabricator",
+      "stage": "Fabrication"
+    },
+    "price": 6.166666666666667
+  },
+  "biopolymer": {
+    "old": {
+      "inputs": {
+        "starch": 2,
+        "fermentation_feedstock": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 10.0,
+      "machine": "machine.fabricator",
+      "stage": "Fabrication"
+    },
+    "new": {
+      "inputs": {
+        "starch": 12,
+        "fermentation_feedstock": 6
+      },
+      "output": 6.0,
+      "seconds": 6.0,
+      "power": 10.0,
+      "machine": "machine.fabricator",
+      "stage": "Fabrication"
+    },
+    "price": 8.166666666666668
+  },
+  "tire_components": {
+    "old": {
+      "inputs": {
+        "processed_rubber": 2,
+        "carbon_fiber": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 10.0,
+      "machine": "machine.fabricator",
+      "stage": "Fabrication"
+    },
+    "new": {
+      "inputs": {
+        "processed_rubber": 8,
+        "carbon_fiber": 4
+      },
+      "output": 4.0,
+      "seconds": 6.0,
+      "power": 10.0,
+      "machine": "machine.fabricator",
+      "stage": "Fabrication"
+    },
+    "price": 14.0
+  },
+  "ethanol_components": {
+    "old": {
+      "inputs": {
+        "fermentation_feedstock": 2
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 10.0,
+      "machine": "machine.fabricator",
+      "stage": "Fabrication"
+    },
+    "new": {
+      "inputs": {
+        "fermentation_feedstock": 12
+      },
+      "output": 6.0,
+      "seconds": 6.0,
+      "power": 10.0,
+      "machine": "machine.fabricator",
+      "stage": "Fabrication"
+    },
+    "price": 5.666666666666666
+  },
+  "biodiesel_feedstock": {
+    "old": {
+      "inputs": {
+        "vegetable_oil": 2,
+        "chemical_feedstock": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 10.0,
+      "machine": "machine.fabricator",
+      "stage": "Fabrication"
+    },
+    "new": {
+      "inputs": {
+        "vegetable_oil": 12,
+        "chemical_feedstock": 6
+      },
+      "output": 6.0,
+      "seconds": 6.0,
+      "power": 10.0,
+      "machine": "machine.fabricator",
+      "stage": "Fabrication"
+    },
+    "price": 8.666666666666668
+  },
+  "galvanized_components": {
+    "old": {
+      "inputs": {
+        "galvanized_metal": 2,
+        "zinc": 1
+      },
+      "output": 2.0,
+      "seconds": 6.0,
+      "power": 10.0,
+      "machine": "machine.fabricator",
+      "stage": "Fabrication"
+    },
+    "new": {
+      "inputs": {
+        "galvanized_metal": 8,
+        "zinc": 4
+      },
+      "output": 8.0,
+      "seconds": 6.0,
+      "power": 10.0,
+      "machine": "machine.fabricator",
+      "stage": "Fabrication"
+    },
+    "price": 6.6
+  },
+  "shielding_components": {
+    "old": {
+      "inputs": {
+        "shielding_material": 2,
+        "lead": 1
+      },
+      "output": 2.0,
+      "seconds": 6.0,
+      "power": 10.0,
+      "machine": "machine.fabricator",
+      "stage": "Fabrication"
+    },
+    "new": {
+      "inputs": {
+        "shielding_material": 8,
+        "lead": 4
+      },
+      "output": 8.0,
+      "seconds": 6.0,
+      "power": 10.0,
+      "machine": "machine.fabricator",
+      "stage": "Fabrication"
+    },
+    "price": 5.6
+  },
+  "advanced_alloy_components": {
+    "old": {
+      "inputs": {
+        "vanadium_alloy": 2,
+        "vanadium": 1,
+        "titanium": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 10.0,
+      "machine": "machine.fabricator",
+      "stage": "Fabrication"
+    },
+    "new": {
+      "inputs": {
+        "vanadium_alloy": 8,
+        "vanadium": 4,
+        "titanium": 4
+      },
+      "output": 4.0,
+      "seconds": 6.0,
+      "power": 10.0,
+      "machine": "machine.fabricator",
+      "stage": "Fabrication"
+    },
+    "price": 19.0
+  },
+  "catalyst_components": {
+    "old": {
+      "inputs": {
+        "catalyst_metal": 1,
+        "palladium": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 10.0,
+      "machine": "machine.fabricator",
+      "stage": "Fabrication"
+    },
+    "new": {
+      "inputs": {
+        "catalyst_metal": 6,
+        "palladium": 6
+      },
+      "output": 6.0,
+      "seconds": 6.0,
+      "power": 10.0,
+      "machine": "machine.fabricator",
+      "stage": "Fabrication"
+    },
+    "price": 8.166666666666668
+  },
+  "gas_handling_components": {
+    "old": {
+      "inputs": {
+        "industrial_gas": 1,
+        "hydrogen": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 10.0,
+      "machine": "machine.fabricator",
+      "stage": "Fabrication"
+    },
+    "new": {
+      "inputs": {
+        "industrial_gas": 6,
+        "hydrogen": 6
+      },
+      "output": 6.0,
+      "seconds": 6.0,
+      "power": 10.0,
+      "machine": "machine.fabricator",
+      "stage": "Fabrication"
+    },
+    "price": 5.666666666666667
+  },
+  "asphalt_components": {
+    "old": {
+      "inputs": {
+        "bitumen": 2,
+        "cement": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 10.0,
+      "machine": "machine.fabricator",
+      "stage": "Fabrication"
+    },
+    "new": {
+      "inputs": {
+        "bitumen": 8,
+        "cement": 4
+      },
+      "output": 4.0,
+      "seconds": 6.0,
+      "power": 10.0,
+      "machine": "machine.fabricator",
+      "stage": "Fabrication"
+    },
+    "price": 10.0
+  },
+  "agricultural_mineral_components": {
+    "old": {
+      "inputs": {
+        "potassium_compound": 2,
+        "phosphoric_acid": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 10.0,
+      "machine": "machine.fabricator",
+      "stage": "Fabrication"
+    },
+    "new": {
+      "inputs": {
+        "potassium_compound": 8,
+        "phosphoric_acid": 4
+      },
+      "output": 4.0,
+      "seconds": 6.0,
+      "power": 10.0,
+      "machine": "machine.fabricator",
+      "stage": "Fabrication"
+    },
+    "price": 10.0
+  },
+  "sweetener_components": {
+    "old": {
+      "inputs": {
+        "raw_sugar": 2,
+        "soy_oil": 1,
+        "organic_feedstock": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 10.0,
+      "machine": "machine.fabricator",
+      "stage": "Fabrication"
+    },
+    "new": {
+      "inputs": {
+        "raw_sugar": 12,
+        "soy_oil": 6,
+        "organic_feedstock": 6
+      },
+      "output": 6.0,
+      "seconds": 6.0,
+      "power": 10.0,
+      "machine": "machine.fabricator",
+      "stage": "Fabrication"
+    },
+    "price": 11.166666666666668
+  },
+  "silicon_substrate": {
+    "old": {
+      "inputs": {
+        "silicon": 2,
+        "glass": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 10.0,
+      "machine": "machine.fabricator",
+      "stage": "Fabrication"
+    },
+    "new": {
+      "inputs": {
+        "silicon": 6,
+        "glass": 3
+      },
+      "output": 3.0,
+      "seconds": 6.0,
+      "power": 10.0,
+      "machine": "machine.fabricator",
+      "stage": "Fabrication"
+    },
+    "price": 13.666666666666668
+  },
+  "rubber_blend_components": {
+    "old": {
+      "inputs": {
+        "synthetic_rubber": 2,
+        "processed_rubber": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 10.0,
+      "machine": "machine.fabricator",
+      "stage": "Fabrication"
+    },
+    "new": {
+      "inputs": {
+        "synthetic_rubber": 12,
+        "processed_rubber": 6
+      },
+      "output": 6.0,
+      "seconds": 6.0,
+      "power": 10.0,
+      "machine": "machine.fabricator",
+      "stage": "Fabrication"
+    },
+    "price": 9.166666666666668
+  },
+  "refractory_alloy_components": {
+    "old": {
+      "inputs": {
+        "molybdenum": 1,
+        "niobium": 1,
+        "superconducting_alloy": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 10.0,
+      "machine": "machine.fabricator",
+      "stage": "Fabrication"
+    },
+    "new": {
+      "inputs": {
+        "molybdenum": 4,
+        "niobium": 4,
+        "superconducting_alloy": 4
+      },
+      "output": 4.0,
+      "seconds": 6.0,
+      "power": 10.0,
+      "machine": "machine.fabricator",
+      "stage": "Fabrication"
+    },
+    "price": 17.5
+  },
+  "filtration_components": {
+    "old": {
+      "inputs": {
+        "ceramics": 1,
+        "processed_gypsum": 1,
+        "polymer": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 10.0,
+      "machine": "machine.fabricator",
+      "stage": "Fabrication"
+    },
+    "new": {
+      "inputs": {
+        "ceramics": 6,
+        "processed_gypsum": 6,
+        "polymer": 6
+      },
+      "output": 6.0,
+      "seconds": 6.0,
+      "power": 10.0,
+      "machine": "machine.fabricator",
+      "stage": "Fabrication"
+    },
+    "price": 8.833333333333334
+  },
+  "membrane_components": {
+    "old": {
+      "inputs": {
+        "polymer": 1,
+        "cellulose": 1,
+        "chlorine": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 10.0,
+      "machine": "machine.fabricator",
+      "stage": "Fabrication"
+    },
+    "new": {
+      "inputs": {
+        "polymer": 6,
+        "cellulose": 6,
+        "chlorine": 6
+      },
+      "output": 6.0,
+      "seconds": 6.0,
+      "power": 10.0,
+      "machine": "machine.fabricator",
+      "stage": "Fabrication"
+    },
+    "price": 10.166666666666668
+  },
+  "medical_components": {
+    "old": {
+      "inputs": {
+        "stainless_steel": 1,
+        "glass": 1,
+        "platinum": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 10.0,
+      "machine": "machine.fabricator",
+      "stage": "Fabrication"
+    },
+    "new": {
+      "inputs": {
+        "stainless_steel": 3,
+        "glass": 3,
+        "platinum": 3
+      },
+      "output": 3.0,
+      "seconds": 6.0,
+      "power": 10.0,
+      "machine": "machine.fabricator",
+      "stage": "Fabrication"
+    },
+    "price": 19.0
+  },
+  "autonomous_components": {
+    "old": {
+      "inputs": {
+        "high_purity_silicon": 1,
+        "rare_earth_metals": 1,
+        "copper": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 10.0,
+      "machine": "machine.fabricator",
+      "stage": "Fabrication"
+    },
+    "new": {
+      "inputs": {
+        "high_purity_silicon": 3,
+        "rare_earth_metals": 3,
+        "copper": 3
+      },
+      "output": 3.0,
+      "seconds": 6.0,
+      "power": 10.0,
+      "machine": "machine.fabricator",
+      "stage": "Fabrication"
+    },
+    "price": 23.0
+  },
+  "server_components": {
+    "old": {
+      "inputs": {
+        "high_purity_silicon": 2,
+        "copper": 1,
+        "gold": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 10.0,
+      "machine": "machine.fabricator",
+      "stage": "Fabrication"
+    },
+    "new": {
+      "inputs": {
+        "high_purity_silicon": 2,
+        "copper": 1,
+        "gold": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 10.0,
+      "machine": "machine.fabricator",
+      "stage": "Fabrication"
+    },
+    "price": 34.0
+  },
+  "ai_compute_components": {
+    "old": {
+      "inputs": {
+        "high_purity_silicon": 2,
+        "rare_earth_metals": 1,
+        "gold": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 10.0,
+      "machine": "machine.fabricator",
+      "stage": "Fabrication"
+    },
+    "new": {
+      "inputs": {
+        "high_purity_silicon": 2,
+        "rare_earth_metals": 1,
+        "gold": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 10.0,
+      "machine": "machine.fabricator",
+      "stage": "Fabrication"
+    },
+    "price": 36.66666666666667
+  },
+  "chemical_components": {
+    "old": {
+      "inputs": {
+        "chemical_feedstock": 2,
+        "sulfuric_acid": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 10.0,
+      "machine": "machine.fabricator",
+      "stage": "Fabrication"
+    },
+    "new": {
+      "inputs": {
+        "chemical_feedstock": 12,
+        "sulfuric_acid": 6
+      },
+      "output": 6.0,
+      "seconds": 6.0,
+      "power": 10.0,
+      "machine": "machine.fabricator",
+      "stage": "Fabrication"
+    },
+    "price": 7.166666666666666
+  },
+  "bio_material_components": {
+    "old": {
+      "inputs": {
+        "bio_lubricant": 1,
+        "cellulose": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 10.0,
+      "machine": "machine.fabricator",
+      "stage": "Fabrication"
+    },
+    "new": {
+      "inputs": {
+        "bio_lubricant": 6,
+        "cellulose": 6
+      },
+      "output": 6.0,
+      "seconds": 6.0,
+      "power": 10.0,
+      "machine": "machine.fabricator",
+      "stage": "Fabrication"
+    },
+    "price": 6.166666666666667
+  },
+  "nuclear_fuel_components": {
+    "old": {
+      "inputs": {
+        "nuclear_material": 2,
+        "shielding_material": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 10.0,
+      "machine": "machine.fabricator",
+      "stage": "Fabrication"
+    },
+    "new": {
+      "inputs": {
+        "nuclear_material": 8,
+        "shielding_material": 4
+      },
+      "output": 4.0,
+      "seconds": 6.0,
+      "power": 10.0,
+      "machine": "machine.fabricator",
+      "stage": "Fabrication"
+    },
+    "price": 11.0
+  },
+  "grid_storage_components": {
+    "old": {
+      "inputs": {
+        "lithium": 1,
+        "vanadium_alloy": 1,
+        "purified_graphite": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 10.0,
+      "machine": "machine.fabricator",
+      "stage": "Fabrication"
+    },
+    "new": {
+      "inputs": {
+        "lithium": 4,
+        "vanadium_alloy": 4,
+        "purified_graphite": 4
+      },
+      "output": 4.0,
+      "seconds": 6.0,
+      "power": 10.0,
+      "machine": "machine.fabricator",
+      "stage": "Fabrication"
+    },
+    "price": 12.666666666666666
+  },
+  "corrosion_resistant_components": {
+    "old": {
+      "inputs": {
+        "galvanized_metal": 2,
+        "stainless_steel": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 10.0,
+      "machine": "machine.fabricator",
+      "stage": "Fabrication"
+    },
+    "new": {
+      "inputs": {
+        "galvanized_metal": 6,
+        "stainless_steel": 3
+      },
+      "output": 3.0,
+      "seconds": 6.0,
+      "power": 10.0,
+      "machine": "machine.fabricator",
+      "stage": "Fabrication"
+    },
+    "price": 19.666666666666664
+  },
+  "industrial_equipment": {
+    "old": {
+      "inputs": {
+        "steel_components": 2,
+        "electrical_components": 1,
+        "iron_components": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "new": {
+      "inputs": {
+        "steel_components": 4,
+        "electrical_components": 2,
+        "iron_components": 2
+      },
+      "output": 2.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "price": 32.416666666666664
+  },
+  "heavy_machinery": {
+    "old": {
+      "inputs": {
+        "structural_components": 2,
+        "hydraulic_components": 1,
+        "control_electronics": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "new": {
+      "inputs": {
+        "structural_components": 2,
+        "hydraulic_components": 1,
+        "control_electronics": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "price": 87.5
+  },
+  "mining_equipment": {
+    "old": {
+      "inputs": {
+        "mining_components": 2,
+        "steel_components": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "new": {
+      "inputs": {
+        "mining_components": 4,
+        "steel_components": 2
+      },
+      "output": 2.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "price": 39.25
+  },
+  "mining_drill": {
+    "old": {
+      "inputs": {
+        "mining_components": 1,
+        "motor_components": 1,
+        "steel_components": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "new": {
+      "inputs": {
+        "mining_components": 3,
+        "motor_components": 3,
+        "steel_components": 3
+      },
+      "output": 3.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "price": 40.5
+  },
+  "heavy_mining_drill": {
+    "old": {
+      "inputs": {
+        "mining_components": 2,
+        "hydraulic_components": 1,
+        "control_electronics": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "new": {
+      "inputs": {
+        "mining_components": 2,
+        "hydraulic_components": 1,
+        "control_electronics": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "price": 85.75
+  },
+  "excavator": {
+    "old": {
+      "inputs": {
+        "vehicle_components": 2,
+        "hydraulic_components": 1,
+        "structural_components": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "new": {
+      "inputs": {
+        "vehicle_components": 4,
+        "hydraulic_components": 2,
+        "structural_components": 2
+      },
+      "output": 2.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "price": 58.775
+  },
+  "industrial_crusher": {
+    "old": {
+      "inputs": {
+        "mining_components": 2,
+        "gear_components": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "new": {
+      "inputs": {
+        "mining_components": 4,
+        "gear_components": 2
+      },
+      "output": 2.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "price": 41.35
+  },
+  "industrial_pump": {
+    "old": {
+      "inputs": {
+        "pump_components": 2,
+        "motor_components": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "new": {
+      "inputs": {
+        "pump_components": 4,
+        "motor_components": 2
+      },
+      "output": 2.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "price": 45.5
+  },
+  "industrial_compressor": {
+    "old": {
+      "inputs": {
+        "compressor_components": 2,
+        "motor_components": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "new": {
+      "inputs": {
+        "compressor_components": 4,
+        "motor_components": 2
+      },
+      "output": 2.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "price": 45.900000000000006
+  },
+  "hydraulic_system": {
+    "old": {
+      "inputs": {
+        "hydraulic_components": 2,
+        "steel_components": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "new": {
+      "inputs": {
+        "hydraulic_components": 4,
+        "steel_components": 2
+      },
+      "output": 2.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "price": 34.25
+  },
+  "electric_motor": {
+    "old": {
+      "inputs": {
+        "motor_components": 2,
+        "electrical_components": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "new": {
+      "inputs": {
+        "motor_components": 2,
+        "electrical_components": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "price": 50.25
+  },
+  "precision_motor": {
+    "old": {
+      "inputs": {
+        "motor_components": 1,
+        "precision_components": 1,
+        "magnetic_components": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "new": {
+      "inputs": {
+        "motor_components": 3,
+        "precision_components": 3,
+        "magnetic_components": 3
+      },
+      "output": 3.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "price": 48.95
+  },
+  "gearbox": {
+    "old": {
+      "inputs": {
+        "gear_components": 2,
+        "bearing_components": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "new": {
+      "inputs": {
+        "gear_components": 4,
+        "bearing_components": 2
+      },
+      "output": 2.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "price": 35.550000000000004
+  },
+  "cnc_machine": {
+    "old": {
+      "inputs": {
+        "precision_components": 2,
+        "control_electronics": 1,
+        "structural_components": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "new": {
+      "inputs": {
+        "precision_components": 2,
+        "control_electronics": 1,
+        "structural_components": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "price": 97.525
+  },
+  "industrial_cutting_machine": {
+    "old": {
+      "inputs": {
+        "precision_components": 1,
+        "cutting_tooling": 1,
+        "control_electronics": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "new": {
+      "inputs": {
+        "precision_components": 1,
+        "cutting_tooling": 1,
+        "control_electronics": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "price": 79.69999999999999
+  },
+  "processing_equipment": {
+    "old": {
+      "inputs": {
+        "steel_components": 2,
+        "pump_components": 1,
+        "control_electronics": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "new": {
+      "inputs": {
+        "steel_components": 2,
+        "pump_components": 1,
+        "control_electronics": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "price": 77.25
+  },
+  "advanced_furnace": {
+    "old": {
+      "inputs": {
+        "stainless_components": 2,
+        "ceramic_components": 1,
+        "control_electronics": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "new": {
+      "inputs": {
+        "stainless_components": 2,
+        "ceramic_components": 1,
+        "control_electronics": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "price": 77.66666666666667
+  },
+  "construction_materials": {
+    "old": {
+      "inputs": {
+        "concrete_components": 2,
+        "wooden_components": 1,
+        "asphalt_components": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "new": {
+      "inputs": {
+        "concrete_components": 8,
+        "wooden_components": 4,
+        "asphalt_components": 4
+      },
+      "output": 4.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "price": 30.583333333333332
+  },
+  "reinforced_concrete": {
+    "old": {
+      "inputs": {
+        "concrete_components": 2,
+        "steel_components": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "new": {
+      "inputs": {
+        "concrete_components": 8,
+        "steel_components": 4
+      },
+      "output": 4.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "price": 24.5
+  },
+  "structural_systems": {
+    "old": {
+      "inputs": {
+        "structural_components": 2,
+        "concrete_components": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "new": {
+      "inputs": {
+        "structural_components": 2,
+        "concrete_components": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "price": 46.125
+  },
+  "industrial_hall_modules": {
+    "old": {
+      "inputs": {
+        "structural_components": 2,
+        "galvanized_components": 1,
+        "insulation_material": 1,
+        "glass_panels": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "new": {
+      "inputs": {
+        "structural_components": 2,
+        "galvanized_components": 1,
+        "insulation_material": 1,
+        "glass_panels": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "price": 54.86666666666667
+  },
+  "prefabricated_structures": {
+    "old": {
+      "inputs": {
+        "structural_components": 1,
+        "wooden_components": 1,
+        "concrete_components": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "new": {
+      "inputs": {
+        "structural_components": 2,
+        "wooden_components": 2,
+        "concrete_components": 2
+      },
+      "output": 2.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "price": 30.333333333333336
+  },
+  "industrial_glass_panels": {
+    "old": {
+      "inputs": {
+        "glass_panels": 2,
+        "aluminum_components": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "new": {
+      "inputs": {
+        "glass_panels": 8,
+        "aluminum_components": 4
+      },
+      "output": 4.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "price": 20.066666666666666
+  },
+  "industrial_insulation": {
+    "old": {
+      "inputs": {
+        "insulation_material": 2,
+        "fiber_components": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "new": {
+      "inputs": {
+        "insulation_material": 12,
+        "fiber_components": 6
+      },
+      "output": 6.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "price": 17.333333333333336
+  },
+  "engineered_structures": {
+    "old": {
+      "inputs": {
+        "structural_components": 2,
+        "composite_components": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "new": {
+      "inputs": {
+        "structural_components": 2,
+        "composite_components": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "price": 50.75
+  },
+  "electrical_cable": {
+    "old": {
+      "inputs": {
+        "insulated_wire": 2,
+        "copper_wire": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "new": {
+      "inputs": {
+        "insulated_wire": 12,
+        "copper_wire": 6
+      },
+      "output": 6.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "price": 13.277777777777779
+  },
+  "power_cable": {
+    "old": {
+      "inputs": {
+        "insulated_wire": 2,
+        "aluminum_components": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "new": {
+      "inputs": {
+        "insulated_wire": 8,
+        "aluminum_components": 4
+      },
+      "output": 4.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "price": 16.366666666666667
+  },
+  "transformer": {
+    "old": {
+      "inputs": {
+        "transformer_components": 2,
+        "electrical_components": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "new": {
+      "inputs": {
+        "transformer_components": 4,
+        "electrical_components": 2
+      },
+      "output": 2.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "price": 35.75
+  },
+  "switchgear": {
+    "old": {
+      "inputs": {
+        "electrical_components": 2,
+        "control_electronics": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "new": {
+      "inputs": {
+        "electrical_components": 2,
+        "control_electronics": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "price": 62.5
+  },
+  "industrial_relay": {
+    "old": {
+      "inputs": {
+        "electrical_components": 1,
+        "control_electronics": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "new": {
+      "inputs": {
+        "electrical_components": 1,
+        "control_electronics": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "price": 56.25
+  },
+  "high_voltage_equipment": {
+    "old": {
+      "inputs": {
+        "transformer_components": 1,
+        "power_electronics": 1,
+        "insulation_material": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "new": {
+      "inputs": {
+        "transformer_components": 1,
+        "power_electronics": 1,
+        "insulation_material": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "price": 69.03333333333333
+  },
+  "industrial_generator": {
+    "old": {
+      "inputs": {
+        "motor_components": 2,
+        "turbine_components": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "new": {
+      "inputs": {
+        "motor_components": 2,
+        "turbine_components": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "price": 57.0
+  },
+  "industrial_inverter": {
+    "old": {
+      "inputs": {
+        "power_electronics": 2,
+        "control_electronics": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "new": {
+      "inputs": {
+        "power_electronics": 2,
+        "control_electronics": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "price": 134.4
+  },
+  "solar_array": {
+    "old": {
+      "inputs": {
+        "solar_components": 2,
+        "power_electronics": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "new": {
+      "inputs": {
+        "solar_components": 2,
+        "power_electronics": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "price": 93.93333333333334
+  },
+  "wind_turbine": {
+    "old": {
+      "inputs": {
+        "wind_components": 2,
+        "structural_components": 1,
+        "power_electronics": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "new": {
+      "inputs": {
+        "wind_components": 2,
+        "structural_components": 1,
+        "power_electronics": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "price": 114.82500000000002
+  },
+  "gas_turbine": {
+    "old": {
+      "inputs": {
+        "turbine_components": 2,
+        "advanced_alloy_components": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "new": {
+      "inputs": {
+        "turbine_components": 4,
+        "advanced_alloy_components": 2
+      },
+      "output": 2.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "price": 51.0
+  },
+  "steam_turbine": {
+    "old": {
+      "inputs": {
+        "turbine_components": 2,
+        "stainless_components": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "new": {
+      "inputs": {
+        "turbine_components": 4,
+        "stainless_components": 2
+      },
+      "output": 2.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "price": 44.333333333333336
+  },
+  "grid_battery": {
+    "old": {
+      "inputs": {
+        "battery_components": 2,
+        "battery_materials": 1,
+        "power_electronics": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "new": {
+      "inputs": {
+        "battery_components": 2,
+        "battery_materials": 1,
+        "power_electronics": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "price": 103.6
+  },
+  "grid_storage_system": {
+    "old": {
+      "inputs": {
+        "storage_components": 2,
+        "power_electronics": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "new": {
+      "inputs": {
+        "storage_components": 2,
+        "power_electronics": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "price": 147.0
+  },
+  "hydrogen_electrolyzer": {
+    "old": {
+      "inputs": {
+        "electrolyzer_components": 2,
+        "power_electronics": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "new": {
+      "inputs": {
+        "electrolyzer_components": 2,
+        "power_electronics": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "price": 138.60000000000002
+  },
+  "nuclear_fuel_assembly": {
+    "old": {
+      "inputs": {
+        "nuclear_fuel_components": 2,
+        "shielding_components": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "new": {
+      "inputs": {
+        "nuclear_fuel_components": 4,
+        "shielding_components": 2
+      },
+      "output": 2.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "price": 33.6
+  },
+  "nuclear_reactor": {
+    "old": {
+      "inputs": {
+        "reactor_components": 2,
+        "nuclear_fuel_components": 1,
+        "control_electronics": 1,
+        "structural_components": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "new": {
+      "inputs": {
+        "reactor_components": 2,
+        "nuclear_fuel_components": 1,
+        "control_electronics": 1,
+        "structural_components": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "price": 82.95833333333333
+  },
+  "basic_chip": {
+    "old": {
+      "inputs": {
+        "semiconductor_components": 1,
+        "silicon_substrate": 1,
+        "copper_wire": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "new": {
+      "inputs": {
+        "semiconductor_components": 1,
+        "silicon_substrate": 1,
+        "copper_wire": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "price": 62.77777777777777
+  },
+  "microcontroller": {
+    "old": {
+      "inputs": {
+        "semiconductor_die": 1,
+        "control_electronics": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "new": {
+      "inputs": {
+        "semiconductor_die": 1,
+        "control_electronics": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "price": 88.0
+  },
+  "microchip": {
+    "old": {
+      "inputs": {
+        "semiconductor_die": 1,
+        "semiconductor_components": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "new": {
+      "inputs": {
+        "semiconductor_die": 1,
+        "semiconductor_components": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "price": 84.0
+  },
+  "cpu": {
+    "old": {
+      "inputs": {
+        "processor_components": 2,
+        "memory_components": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "new": {
+      "inputs": {
+        "processor_components": 2,
+        "memory_components": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "price": 150.33333333333334
+  },
+  "memory_module": {
+    "old": {
+      "inputs": {
+        "memory_components": 2,
+        "control_electronics": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "new": {
+      "inputs": {
+        "memory_components": 2,
+        "control_electronics": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "price": 148.0
+  },
+  "industrial_sensor": {
+    "old": {
+      "inputs": {
+        "sensor_components": 2,
+        "control_electronics": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "new": {
+      "inputs": {
+        "sensor_components": 2,
+        "control_electronics": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "price": 131.33333333333334
+  },
+  "industrial_controller": {
+    "old": {
+      "inputs": {
+        "control_electronics": 2,
+        "sensor_components": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "new": {
+      "inputs": {
+        "control_electronics": 2,
+        "sensor_components": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "price": 128.66666666666669
+  },
+  "industrial_display": {
+    "old": {
+      "inputs": {
+        "glass_panels": 1,
+        "control_electronics": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "new": {
+      "inputs": {
+        "glass_panels": 1,
+        "control_electronics": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "price": 55.93333333333333
+  },
+  "industrial_computer": {
+    "old": {
+      "inputs": {
+        "computing_components": 2,
+        "display_components": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "new": {
+      "inputs": {
+        "computing_components": 2,
+        "display_components": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "price": 175.16666666666663
+  },
+  "server": {
+    "old": {
+      "inputs": {
+        "computing_components": 2,
+        "memory_components": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "new": {
+      "inputs": {
+        "computing_components": 2,
+        "memory_components": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "price": 205.0
+  },
+  "server_rack": {
+    "old": {
+      "inputs": {
+        "server_components": 2,
+        "structural_components": 1,
+        "network_components": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "new": {
+      "inputs": {
+        "server_components": 2,
+        "structural_components": 1,
+        "network_components": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "price": 169.825
+  },
+  "compute_node": {
+    "old": {
+      "inputs": {
+        "processor_components": 2,
+        "memory_components": 1,
+        "network_components": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "new": {
+      "inputs": {
+        "processor_components": 2,
+        "memory_components": 1,
+        "network_components": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "price": 226.53333333333333
+  },
+  "ai_accelerator": {
+    "old": {
+      "inputs": {
+        "ai_compute_components": 2,
+        "power_electronics": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "new": {
+      "inputs": {
+        "ai_compute_components": 2,
+        "power_electronics": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "price": 127.53333333333333
+  },
+  "ai_server": {
+    "old": {
+      "inputs": {
+        "ai_compute_components": 1,
+        "server_components": 1,
+        "network_components": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "new": {
+      "inputs": {
+        "ai_compute_components": 1,
+        "server_components": 1,
+        "network_components": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "price": 158.86666666666667
+  },
+  "data_center_module": {
+    "old": {
+      "inputs": {
+        "server_components": 2,
+        "grid_storage_components": 1,
+        "structural_components": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "new": {
+      "inputs": {
+        "server_components": 2,
+        "grid_storage_components": 1,
+        "structural_components": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "price": 106.29166666666666
+  },
+  "supercomputer": {
+    "old": {
+      "inputs": {
+        "ai_compute_components": 2,
+        "server_components": 1,
+        "grid_storage_components": 1,
+        "network_components": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "new": {
+      "inputs": {
+        "ai_compute_components": 2,
+        "server_components": 1,
+        "grid_storage_components": 1,
+        "network_components": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "price": 208.2
+  },
+  "robotic_actuator": {
+    "old": {
+      "inputs": {
+        "precision_components": 1,
+        "motor_components": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "new": {
+      "inputs": {
+        "precision_components": 3,
+        "motor_components": 3
+      },
+      "output": 3.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "price": 36.95
+  },
+  "servo_motor": {
+    "old": {
+      "inputs": {
+        "motor_components": 1,
+        "precision_components": 1,
+        "control_electronics": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "new": {
+      "inputs": {
+        "motor_components": 1,
+        "precision_components": 1,
+        "control_electronics": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "price": 82.94999999999999
+  },
+  "robotic_arm": {
+    "old": {
+      "inputs": {
+        "precision_components": 2,
+        "motor_components": 1,
+        "control_electronics": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "new": {
+      "inputs": {
+        "precision_components": 2,
+        "motor_components": 1,
+        "control_electronics": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "price": 99.9
+  },
+  "industrial_robot": {
+    "old": {
+      "inputs": {
+        "precision_components": 2,
+        "motor_components": 1,
+        "control_electronics": 1,
+        "sensor_components": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "new": {
+      "inputs": {
+        "precision_components": 2,
+        "motor_components": 1,
+        "control_electronics": 1,
+        "sensor_components": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "price": 140.56666666666666
+  },
+  "industrial_drone": {
+    "old": {
+      "inputs": {
+        "aerospace_components": 1,
+        "sensor_components": 1,
+        "battery_components": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "new": {
+      "inputs": {
+        "aerospace_components": 1,
+        "sensor_components": 1,
+        "battery_components": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "price": 90.26666666666668
+  },
+  "autonomous_mobile_robot": {
+    "old": {
+      "inputs": {
+        "vehicle_components": 1,
+        "sensor_components": 1,
+        "control_electronics": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "new": {
+      "inputs": {
+        "vehicle_components": 1,
+        "sensor_components": 1,
+        "control_electronics": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "price": 105.11666666666666
+  },
+  "advanced_industrial_robot": {
+    "old": {
+      "inputs": {
+        "autonomous_components": 2,
+        "sensor_components": 1,
+        "ai_compute_components": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "new": {
+      "inputs": {
+        "autonomous_components": 2,
+        "sensor_components": 1,
+        "ai_compute_components": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "price": 135.33333333333334
+  },
+  "utility_vehicle": {
+    "old": {
+      "inputs": {
+        "vehicle_components": 2,
+        "control_electronics": 2,
+        "sensor_components": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "new": {
+      "inputs": {
+        "vehicle_components": 2,
+        "control_electronics": 2,
+        "sensor_components": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "price": 157.56666666666666
+  },
+  "combustion_vehicle": {
+    "old": {
+      "inputs": {
+        "vehicle_components": 2,
+        "turbine_components": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "new": {
+      "inputs": {
+        "vehicle_components": 4,
+        "turbine_components": 2
+      },
+      "output": 2.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "price": 47.9
+  },
+  "electric_vehicle": {
+    "old": {
+      "inputs": {
+        "vehicle_components": 1,
+        "battery_components": 2,
+        "motor_components": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "new": {
+      "inputs": {
+        "vehicle_components": 2,
+        "battery_components": 4,
+        "motor_components": 2
+      },
+      "output": 2.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "price": 75.25
+  },
+  "premium_electric_vehicle": {
+    "old": {
+      "inputs": {
+        "vehicle_components": 1,
+        "advanced_cell_components": 1,
+        "display_components": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "new": {
+      "inputs": {
+        "vehicle_components": 3,
+        "advanced_cell_components": 3,
+        "display_components": 3
+      },
+      "output": 3.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "price": 55.48333333333333
+  },
+  "autonomous_vehicle": {
+    "old": {
+      "inputs": {
+        "vehicle_components": 1,
+        "autonomous_components": 1,
+        "sensor_components": 1,
+        "ai_compute_components": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "new": {
+      "inputs": {
+        "vehicle_components": 1,
+        "autonomous_components": 1,
+        "sensor_components": 1,
+        "ai_compute_components": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "price": 126.78333333333333
+  },
+  "commercial_truck": {
+    "old": {
+      "inputs": {
+        "vehicle_components": 2,
+        "tire_components": 3,
+        "control_electronics": 2,
+        "sensor_components": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "new": {
+      "inputs": {
+        "vehicle_components": 2,
+        "tire_components": 3,
+        "control_electronics": 2,
+        "sensor_components": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "price": 199.56666666666666
+  },
+  "industrial_tires": {
+    "old": {
+      "inputs": {
+        "tire_components": 3
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "new": {
+      "inputs": {
+        "tire_components": 3
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "price": 54.0
+  },
+  "railway_track": {
+    "old": {
+      "inputs": {
+        "rail_components": 2,
+        "steel_components": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "new": {
+      "inputs": {
+        "rail_components": 2,
+        "steel_components": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "price": 59.150000000000006
+  },
+  "freight_railcar": {
+    "old": {
+      "inputs": {
+        "rail_components": 2,
+        "structural_components": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "new": {
+      "inputs": {
+        "rail_components": 2,
+        "structural_components": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "price": 65.025
+  },
+  "diesel_locomotive": {
+    "old": {
+      "inputs": {
+        "rail_components": 2,
+        "turbine_components": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "new": {
+      "inputs": {
+        "rail_components": 2,
+        "turbine_components": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "price": 64.4
+  },
+  "electric_locomotive": {
+    "old": {
+      "inputs": {
+        "rail_components": 2,
+        "motor_components": 1,
+        "power_electronics": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "new": {
+      "inputs": {
+        "rail_components": 2,
+        "motor_components": 1,
+        "power_electronics": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "price": 109.6
+  },
+  "high_speed_train": {
+    "old": {
+      "inputs": {
+        "rail_components": 2,
+        "aerospace_components": 1,
+        "power_electronics": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "new": {
+      "inputs": {
+        "rail_components": 2,
+        "aerospace_components": 1,
+        "power_electronics": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "price": 111.80000000000001
+  },
+  "autonomous_freight_train": {
+    "old": {
+      "inputs": {
+        "rail_components": 2,
+        "autonomous_components": 1,
+        "network_components": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "new": {
+      "inputs": {
+        "rail_components": 2,
+        "autonomous_components": 1,
+        "network_components": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "price": 150.6
+  },
+  "workboat": {
+    "old": {
+      "inputs": {
+        "marine_components": 2,
+        "turbine_components": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "new": {
+      "inputs": {
+        "marine_components": 2,
+        "turbine_components": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "price": 61.0
+  },
+  "cargo_vessel": {
+    "old": {
+      "inputs": {
+        "marine_components": 3,
+        "steel_components": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "new": {
+      "inputs": {
+        "marine_components": 3,
+        "steel_components": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "price": 73.75
+  },
+  "container_ship": {
+    "old": {
+      "inputs": {
+        "marine_components": 3,
+        "structural_components": 1,
+        "control_electronics": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "new": {
+      "inputs": {
+        "marine_components": 3,
+        "structural_components": 1,
+        "control_electronics": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "price": 117.625
+  },
+  "tanker": {
+    "old": {
+      "inputs": {
+        "marine_components": 2,
+        "pump_components": 1,
+        "corrosion_resistant_components": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "new": {
+      "inputs": {
+        "marine_components": 2,
+        "pump_components": 1,
+        "corrosion_resistant_components": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "price": 79.41666666666666
+  },
+  "autonomous_cargo_ship": {
+    "old": {
+      "inputs": {
+        "marine_components": 2,
+        "autonomous_components": 1,
+        "sensor_components": 1,
+        "network_components": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "new": {
+      "inputs": {
+        "marine_components": 2,
+        "autonomous_components": 1,
+        "sensor_components": 1,
+        "network_components": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "price": 187.86666666666667
+  },
+  "high_speed_vessel": {
+    "old": {
+      "inputs": {
+        "marine_components": 1,
+        "turbine_components": 1,
+        "composite_components": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "new": {
+      "inputs": {
+        "marine_components": 2,
+        "turbine_components": 2,
+        "composite_components": 2
+      },
+      "output": 2.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "price": 48.5
+  },
+  "light_aircraft": {
+    "old": {
+      "inputs": {
+        "aerospace_components": 2,
+        "avionics_components": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "new": {
+      "inputs": {
+        "aerospace_components": 2,
+        "avionics_components": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "price": 116.6
+  },
+  "cargo_aircraft": {
+    "old": {
+      "inputs": {
+        "aerospace_components": 3,
+        "avionics_components": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "new": {
+      "inputs": {
+        "aerospace_components": 3,
+        "avionics_components": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "price": 134.8
+  },
+  "commercial_aircraft": {
+    "old": {
+      "inputs": {
+        "aerospace_components": 3,
+        "avionics_components": 1,
+        "turbine_components": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "new": {
+      "inputs": {
+        "aerospace_components": 3,
+        "avionics_components": 1,
+        "turbine_components": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "price": 147.8
+  },
+  "jet_engine": {
+    "old": {
+      "inputs": {
+        "turbine_components": 3
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "new": {
+      "inputs": {
+        "turbine_components": 3
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "price": 51.0
+  },
+  "advanced_aircraft": {
+    "old": {
+      "inputs": {
+        "aerospace_components": 2,
+        "turbine_components": 1,
+        "avionics_components": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "new": {
+      "inputs": {
+        "aerospace_components": 2,
+        "turbine_components": 1,
+        "avionics_components": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "price": 129.60000000000002
+  },
+  "autonomous_aircraft": {
+    "old": {
+      "inputs": {
+        "aerospace_components": 2,
+        "avionics_components": 1,
+        "autonomous_components": 1,
+        "sensor_components": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "new": {
+      "inputs": {
+        "aerospace_components": 2,
+        "avionics_components": 1,
+        "autonomous_components": 1,
+        "sensor_components": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "price": 180.26666666666665
+  },
+  "satellite": {
+    "old": {
+      "inputs": {
+        "aerospace_components": 1,
+        "solar_components": 1,
+        "telecom_components": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "new": {
+      "inputs": {
+        "aerospace_components": 1,
+        "solar_components": 1,
+        "telecom_components": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "price": 94.73333333333333
+  },
+  "communication_satellite": {
+    "old": {
+      "inputs": {
+        "aerospace_components": 1,
+        "solar_components": 1,
+        "telecom_components": 1,
+        "network_components": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "new": {
+      "inputs": {
+        "aerospace_components": 1,
+        "solar_components": 1,
+        "telecom_components": 1,
+        "network_components": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "price": 170.93333333333334
+  },
+  "navigation_satellite": {
+    "old": {
+      "inputs": {
+        "aerospace_components": 1,
+        "sensor_components": 1,
+        "telecom_components": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "new": {
+      "inputs": {
+        "aerospace_components": 1,
+        "sensor_components": 1,
+        "telecom_components": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "price": 115.53333333333333
+  },
+  "rocket_engine": {
+    "old": {
+      "inputs": {
+        "turbine_components": 2,
+        "titanium_components": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "new": {
+      "inputs": {
+        "turbine_components": 4,
+        "titanium_components": 2
+      },
+      "output": 2.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "price": 38.0
+  },
+  "launch_vehicle": {
+    "old": {
+      "inputs": {
+        "aerospace_components": 2,
+        "turbine_components": 1,
+        "control_electronics": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "new": {
+      "inputs": {
+        "aerospace_components": 2,
+        "turbine_components": 1,
+        "control_electronics": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "price": 99.4
+  },
+  "orbital_vehicle": {
+    "old": {
+      "inputs": {
+        "aerospace_components": 2,
+        "avionics_components": 1,
+        "control_electronics": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "new": {
+      "inputs": {
+        "aerospace_components": 2,
+        "avionics_components": 1,
+        "control_electronics": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "price": 154.6
+  },
+  "packaged_food": {
+    "old": {
+      "inputs": {
+        "food_ingredients": 2,
+        "sweetener_components": 1,
+        "packaging_components": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "new": {
+      "inputs": {
+        "food_ingredients": 12,
+        "sweetener_components": 6,
+        "packaging_components": 6
+      },
+      "output": 6.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "price": 24.583333333333332
+  },
+  "processed_food": {
+    "old": {
+      "inputs": {
+        "food_ingredients": 2,
+        "nutrition_components": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "new": {
+      "inputs": {
+        "food_ingredients": 12,
+        "nutrition_components": 6
+      },
+      "output": 6.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "price": 19.833333333333336
+  },
+  "packaged_nutrition": {
+    "old": {
+      "inputs": {
+        "nutrition_components": 2,
+        "packaging_components": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "new": {
+      "inputs": {
+        "nutrition_components": 6,
+        "packaging_components": 3
+      },
+      "output": 3.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "price": 31.083333333333336
+  },
+  "bakery_products": {
+    "old": {
+      "inputs": {
+        "food_ingredients": 2,
+        "packaging_components": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "new": {
+      "inputs": {
+        "food_ingredients": 12,
+        "packaging_components": 6
+      },
+      "output": 6.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "price": 13.416666666666668
+  },
+  "packaged_meals": {
+    "old": {
+      "inputs": {
+        "food_ingredients": 2,
+        "nutrition_components": 2,
+        "packaging_components": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "new": {
+      "inputs": {
+        "food_ingredients": 6,
+        "nutrition_components": 6,
+        "packaging_components": 3
+      },
+      "output": 3.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "price": 37.75
+  },
+  "packaged_beverages": {
+    "old": {
+      "inputs": {
+        "nutrition_components": 1,
+        "packaging_components": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "new": {
+      "inputs": {
+        "nutrition_components": 6,
+        "packaging_components": 6
+      },
+      "output": 6.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "price": 17.916666666666664
+  },
+  "soft_drinks": {
+    "old": {
+      "inputs": {
+        "nutrition_components": 2,
+        "packaging_components": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "new": {
+      "inputs": {
+        "nutrition_components": 6,
+        "packaging_components": 3
+      },
+      "output": 3.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "price": 31.083333333333336
+  },
+  "animal_feed": {
+    "old": {
+      "inputs": {
+        "food_ingredients": 2,
+        "nutrition_components": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "new": {
+      "inputs": {
+        "food_ingredients": 12,
+        "nutrition_components": 6
+      },
+      "output": 6.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "price": 19.833333333333336
+  },
+  "fertilizer": {
+    "old": {
+      "inputs": {
+        "fertilizer_components": 2,
+        "agricultural_mineral_components": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "new": {
+      "inputs": {
+        "fertilizer_components": 8,
+        "agricultural_mineral_components": 4
+      },
+      "output": 4.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "price": 22.666666666666668
+  },
+  "advanced_fertilizer": {
+    "old": {
+      "inputs": {
+        "fertilizer_components": 2,
+        "agricultural_chemicals": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "new": {
+      "inputs": {
+        "fertilizer_components": 12,
+        "agricultural_chemicals": 6
+      },
+      "output": 6.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "price": 19.833333333333332
+  },
+  "construction_frames": {
+    "old": {
+      "inputs": {
+        "wooden_components": 2,
+        "structural_components": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "new": {
+      "inputs": {
+        "wooden_components": 4,
+        "structural_components": 2
+      },
+      "output": 2.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "price": 27.291666666666664
+  },
+  "packaging_materials": {
+    "old": {
+      "inputs": {
+        "packaging_components": 2
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "new": {
+      "inputs": {
+        "packaging_components": 12
+      },
+      "output": 6.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "price": 11.5
+  },
+  "industrial_packaging": {
+    "old": {
+      "inputs": {
+        "packaging_components": 2,
+        "wooden_components": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "new": {
+      "inputs": {
+        "packaging_components": 12,
+        "wooden_components": 6
+      },
+      "output": 6.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "price": 15.333333333333332
+  },
+  "protective_packaging": {
+    "old": {
+      "inputs": {
+        "packaging_components": 1,
+        "insulation_material": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "new": {
+      "inputs": {
+        "packaging_components": 6,
+        "insulation_material": 6
+      },
+      "output": 6.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "price": 9.833333333333332
+  },
+  "cargo_pallets": {
+    "old": {
+      "inputs": {
+        "wooden_components": 2
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "new": {
+      "inputs": {
+        "wooden_components": 12
+      },
+      "output": 6.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "price": 9.666666666666668
+  },
+  "commercial_furniture": {
+    "old": {
+      "inputs": {
+        "wooden_components": 2,
+        "industrial_fabric": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "new": {
+      "inputs": {
+        "wooden_components": 12,
+        "industrial_fabric": 6
+      },
+      "output": 6.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "price": 18.333333333333336
+  },
+  "sustainable_packaging": {
+    "old": {
+      "inputs": {
+        "packaging_components": 1,
+        "bio_composite": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "new": {
+      "inputs": {
+        "packaging_components": 6,
+        "bio_composite": 6
+      },
+      "output": 6.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "price": 12.916666666666666
+  },
+  "clothing": {
+    "old": {
+      "inputs": {
+        "technical_textile": 2
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "new": {
+      "inputs": {
+        "technical_textile": 12
+      },
+      "output": 6.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "price": 8.166666666666666
+  },
+  "workwear": {
+    "old": {
+      "inputs": {
+        "technical_textile": 1,
+        "industrial_fabric": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "new": {
+      "inputs": {
+        "technical_textile": 6,
+        "industrial_fabric": 6
+      },
+      "output": 6.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "price": 13.75
+  },
+  "protective_clothing": {
+    "old": {
+      "inputs": {
+        "industrial_fabric": 2,
+        "tire_components": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "new": {
+      "inputs": {
+        "industrial_fabric": 6,
+        "tire_components": 3
+      },
+      "output": 3.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "price": 35.33333333333333
+  },
+  "industrial_clothing": {
+    "old": {
+      "inputs": {
+        "industrial_fabric": 2,
+        "technical_textile": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "new": {
+      "inputs": {
+        "industrial_fabric": 6,
+        "technical_textile": 3
+      },
+      "output": 3.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "price": 24.416666666666664
+  },
+  "safety_equipment": {
+    "old": {
+      "inputs": {
+        "industrial_fabric": 1,
+        "glass_panels": 1,
+        "tire_components": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "new": {
+      "inputs": {
+        "industrial_fabric": 4,
+        "glass_panels": 4,
+        "tire_components": 4
+      },
+      "output": 4.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "price": 31.6
+  },
+  "advanced_protective_equipment": {
+    "old": {
+      "inputs": {
+        "industrial_fabric": 2,
+        "sensor_components": 1,
+        "composite_components": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "new": {
+      "inputs": {
+        "industrial_fabric": 2,
+        "sensor_components": 1,
+        "composite_components": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "price": 81.5
+  },
+  "industrial_plastics": {
+    "old": {
+      "inputs": {
+        "packaging_components": 2,
+        "composite_components": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "new": {
+      "inputs": {
+        "packaging_components": 8,
+        "composite_components": 4
+      },
+      "output": 4.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "price": 24.0
+  },
+  "industrial_rubber_products": {
+    "old": {
+      "inputs": {
+        "tire_components": 2,
+        "rubber_blend_components": 1,
+        "chemical_components": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "new": {
+      "inputs": {
+        "tire_components": 4,
+        "rubber_blend_components": 2,
+        "chemical_components": 2
+      },
+      "output": 2.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "price": 50.33333333333333
+  },
+  "industrial_seals": {
+    "old": {
+      "inputs": {
+        "tire_components": 1,
+        "precision_components": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "new": {
+      "inputs": {
+        "tire_components": 4,
+        "precision_components": 4
+      },
+      "output": 4.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "price": 33.95
+  },
+  "industrial_chemicals": {
+    "old": {
+      "inputs": {
+        "chemical_components": 2,
+        "gas_handling_components": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "new": {
+      "inputs": {
+        "chemical_components": 6,
+        "gas_handling_components": 3
+      },
+      "output": 3.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "price": 24.0
+  },
+  "bio_based_chemicals": {
+    "old": {
+      "inputs": {
+        "bio_material_components": 2,
+        "chemical_components": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "new": {
+      "inputs": {
+        "bio_material_components": 6,
+        "chemical_components": 3
+      },
+      "output": 3.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "price": 23.5
+  },
+  "bioplastic": {
+    "old": {
+      "inputs": {
+        "biopolymer": 2,
+        "bio_composite": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "new": {
+      "inputs": {
+        "biopolymer": 6,
+        "bio_composite": 3
+      },
+      "output": 3.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "price": 26.5
+  },
+  "biofuel": {
+    "old": {
+      "inputs": {
+        "ethanol_components": 2,
+        "chemical_components": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "new": {
+      "inputs": {
+        "ethanol_components": 6,
+        "chemical_components": 3
+      },
+      "output": 3.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "price": 22.5
+  },
+  "biodiesel": {
+    "old": {
+      "inputs": {
+        "biodiesel_feedstock": 2
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "new": {
+      "inputs": {
+        "biodiesel_feedstock": 6
+      },
+      "output": 3.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "price": 21.333333333333336
+  },
+  "crop_protection_products": {
+    "old": {
+      "inputs": {
+        "agricultural_chemicals": 2,
+        "chemical_components": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "new": {
+      "inputs": {
+        "agricultural_chemicals": 6,
+        "chemical_components": 3
+      },
+      "output": 3.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "price": 27.5
+  },
+  "laboratory_equipment": {
+    "old": {
+      "inputs": {
+        "glass_panels": 1,
+        "precision_components": 1,
+        "control_electronics": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "new": {
+      "inputs": {
+        "glass_panels": 1,
+        "precision_components": 1,
+        "control_electronics": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "price": 72.88333333333334
+  },
+  "medical_monitor": {
+    "old": {
+      "inputs": {
+        "display_components": 1,
+        "sensor_components": 1,
+        "medical_components": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "new": {
+      "inputs": {
+        "display_components": 1,
+        "sensor_components": 1,
+        "medical_components": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "price": 90.83333333333333
+  },
+  "surgical_equipment": {
+    "old": {
+      "inputs": {
+        "precision_components": 2,
+        "stainless_components": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "new": {
+      "inputs": {
+        "precision_components": 4,
+        "stainless_components": 2
+      },
+      "output": 2.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "price": 52.233333333333334
+  },
+  "diagnostic_system": {
+    "old": {
+      "inputs": {
+        "medical_components": 1,
+        "computing_components": 1,
+        "sensor_components": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "new": {
+      "inputs": {
+        "medical_components": 1,
+        "computing_components": 1,
+        "sensor_components": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "price": 143.66666666666666
+  },
+  "advanced_medical_equipment": {
+    "old": {
+      "inputs": {
+        "medical_components": 2,
+        "precision_components": 1,
+        "sensor_components": 1,
+        "control_electronics": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "new": {
+      "inputs": {
+        "medical_components": 2,
+        "precision_components": 1,
+        "sensor_components": 1,
+        "control_electronics": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "price": 145.61666666666667
+  },
+  "communication_cable": {
+    "old": {
+      "inputs": {
+        "insulated_wire": 2,
+        "telecom_components": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "new": {
+      "inputs": {
+        "insulated_wire": 2,
+        "telecom_components": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "price": 64.83333333333334
+  },
+  "network_switch": {
+    "old": {
+      "inputs": {
+        "network_components": 2,
+        "control_electronics": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "new": {
+      "inputs": {
+        "network_components": 2,
+        "control_electronics": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "price": 202.4
+  },
+  "router": {
+    "old": {
+      "inputs": {
+        "network_components": 1,
+        "telecom_components": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "new": {
+      "inputs": {
+        "network_components": 1,
+        "telecom_components": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "price": 132.86666666666667
+  },
+  "radio_transceiver": {
+    "old": {
+      "inputs": {
+        "telecom_components": 2,
+        "magnetic_components": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "new": {
+      "inputs": {
+        "telecom_components": 2,
+        "magnetic_components": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "price": 113.33333333333334
+  },
+  "cellular_base_station": {
+    "old": {
+      "inputs": {
+        "telecom_components": 2,
+        "structural_components": 1,
+        "power_electronics": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "new": {
+      "inputs": {
+        "telecom_components": 2,
+        "structural_components": 1,
+        "power_electronics": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "price": 157.15833333333333
+  },
+  "high_speed_network_system": {
+    "old": {
+      "inputs": {
+        "network_components": 3,
+        "control_electronics": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "new": {
+      "inputs": {
+        "network_components": 3,
+        "control_electronics": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "price": 278.59999999999997
+  },
+  "semiconductor_equipment": {
+    "old": {
+      "inputs": {
+        "precision_components": 2,
+        "control_electronics": 1,
+        "ceramic_components": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "new": {
+      "inputs": {
+        "precision_components": 2,
+        "control_electronics": 1,
+        "ceramic_components": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "price": 86.9
+  },
+  "industrial_laser": {
+    "old": {
+      "inputs": {
+        "precision_components": 1,
+        "semiconductor_components": 1,
+        "magnetic_components": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "new": {
+      "inputs": {
+        "precision_components": 1,
+        "semiconductor_components": 1,
+        "magnetic_components": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "price": 74.95
+  },
+  "machine_vision_system": {
+    "old": {
+      "inputs": {
+        "sensor_components": 2,
+        "computing_components": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "new": {
+      "inputs": {
+        "sensor_components": 2,
+        "computing_components": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "price": 165.33333333333334
+  },
+  "autonomous_control_system": {
+    "old": {
+      "inputs": {
+        "control_electronics": 2,
+        "processor_components": 2,
+        "magnetic_components": 1,
+        "power_electronics": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "new": {
+      "inputs": {
+        "control_electronics": 2,
+        "processor_components": 2,
+        "magnetic_components": 1,
+        "power_electronics": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "price": 231.53333333333336
+  },
+  "advanced_semiconductor_equipment": {
+    "old": {
+      "inputs": {
+        "precision_components": 2,
+        "control_electronics": 1,
+        "ceramic_components": 1,
+        "sensor_components": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "new": {
+      "inputs": {
+        "precision_components": 2,
+        "control_electronics": 1,
+        "ceramic_components": 1,
+        "sensor_components": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "price": 127.56666666666666
+  },
+  "carbon_capture_plant": {
+    "old": {
+      "inputs": {
+        "pump_components": 1,
+        "compressor_components": 1,
+        "chemical_components": 1,
+        "filtration_components": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "new": {
+      "inputs": {
+        "pump_components": 4,
+        "compressor_components": 4,
+        "chemical_components": 4,
+        "filtration_components": 4
+      },
+      "output": 4.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "price": 42.7
+  },
+  "desalination_plant": {
+    "old": {
+      "inputs": {
+        "filtration_components": 1,
+        "membrane_components": 1,
+        "pump_components": 1,
+        "power_electronics": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "new": {
+      "inputs": {
+        "filtration_components": 1,
+        "membrane_components": 1,
+        "pump_components": 1,
+        "power_electronics": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "price": 84.95000000000002
+  },
+  "synthetic_fuel_plant": {
+    "old": {
+      "inputs": {
+        "chemical_components": 1,
+        "electrolyzer_components": 1,
+        "catalyst_components": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "new": {
+      "inputs": {
+        "chemical_components": 1,
+        "electrolyzer_components": 1,
+        "catalyst_components": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "price": 69.53333333333333
+  },
+  "quantum_computing_module": {
+    "old": {
+      "inputs": {
+        "refractory_alloy_components": 1,
+        "processor_components": 1,
+        "control_electronics": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "new": {
+      "inputs": {
+        "refractory_alloy_components": 1,
+        "processor_components": 1,
+        "control_electronics": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "price": 112.16666666666667
+  },
+  "superconducting_magnet_system": {
+    "old": {
+      "inputs": {
+        "refractory_alloy_components": 2,
+        "power_electronics": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "new": {
+      "inputs": {
+        "refractory_alloy_components": 2,
+        "power_electronics": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "price": 89.2
+  },
+  "fusion_reactor_module": {
+    "old": {
+      "inputs": {
+        "reactor_components": 1,
+        "nuclear_fuel_components": 1,
+        "electrolyzer_components": 1,
+        "refractory_alloy_components": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "new": {
+      "inputs": {
+        "reactor_components": 1,
+        "nuclear_fuel_components": 1,
+        "electrolyzer_components": 1,
+        "refractory_alloy_components": 1
+      },
+      "output": 1.0,
+      "seconds": 6.0,
+      "power": 12.0,
+      "machine": "machine.assembler",
+      "stage": "Assembly"
+    },
+    "price": 86.86666666666667
+  }
+}

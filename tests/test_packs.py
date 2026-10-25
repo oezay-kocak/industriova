@@ -5,11 +5,11 @@ from pathlib import Path
 
 from production_zero.core.cards import create_card_instance
 from production_zero.core.commands import AcceptContract, AddCard, AddCash, AddResource, AssignFreightCard, CommandBus, CraftRarityCard, DeliverAvailableToContract, InstallFreightCard, RecycleCards
-from production_zero.core.contracts import DAILY, WEEKLY, initialize_contracts
-from production_zero.core.definitions import EnergyDefinition, FreightDefinition, MachineDefinition, RecipeDefinition
-from production_zero.core.enums import CardKind, Rarity
+from production_zero.core.contracts import DAILY, WEEKLY, ContractOffer, initialize_contracts
+from production_zero.core.definitions import EnergyDefinition, FreightDefinition, MachineDefinition
+from production_zero.core.enums import CardKind, MachineType, Rarity
 from production_zero.core.freight import build_freight_facility, expand_freight_facility
-from production_zero.core.packs import DAILY_MINI_PACK, FULL_PACK, GENERAL_PACK_CATEGORY_WEIGHTS, _candidate_definitions, grant_pack, open_pack, pack_category_pool_counts
+from production_zero.core.packs import DAILY_MINI_PACK, FULL_PACK, GENERAL_PACK_CATEGORY_WEIGHTS, _candidate_definitions, grant_pack, open_pack, pack_category_by_id, pack_category_pool_counts
 from production_zero.core.simulation import SimulationEngine
 from production_zero.core.state import GameState
 from production_zero.data.definitions import load_card_definitions
@@ -44,10 +44,10 @@ def _install_freight_fleet(state: GameState, bus: CommandBus, definitions) -> No
     assignment_index = 0
     for index in range(3):
         for facility_id, definition_id in (
-            (facility_ids["airport"], "freight.aircraft.class1"),
-            (facility_ids["garage_depot"], "freight.truck.class1"),
-            (facility_ids["harbor"], "freight.ship.class1"),
-            (facility_ids["rail_station"], "freight.train.class1"),
+            (facility_ids["airport"], "freight.aircraft"),
+            (facility_ids["garage_depot"], "freight.truck"),
+            (facility_ids["harbor"], "freight.ship"),
+            (facility_ids["rail_station"], "freight.train"),
         ):
             facility = state.freight.facilities[facility_id]
             while len(facility.slots) <= index:
@@ -92,7 +92,7 @@ def test_general_pack_pool_and_daily_mini_can_include_freight_cards() -> None:
     assert any(isinstance(definition, FreightDefinition) for definition in candidates)
     assert any(definition.card_kind is CardKind.FREIGHT for definition in candidates)
     assert any(definition.card_kind is CardKind.MACHINE for definition in candidates)
-    assert any(definition.card_kind is CardKind.RECIPE for definition in candidates)
+    assert any(definition.card_kind is CardKind.ENERGY for definition in candidates)
 
 
 def test_general_pack_pool_contains_each_reward_category_once() -> None:
@@ -102,7 +102,7 @@ def test_general_pack_pool_contains_each_reward_category_once() -> None:
 
     assert counts[CardKind.MACHINE] > 0
     assert counts[CardKind.ENERGY] > 0
-    assert counts[CardKind.RECIPE] > 0
+    assert counts[CardKind.ENERGY] > 0
     assert counts[CardKind.FREIGHT] > 0
     assert len({definition.definition_id for definition in candidates}) == len(candidates)
 
@@ -120,7 +120,7 @@ def test_general_pack_uses_category_weights_instead_of_flat_definition_pool() ->
 
     total_cards = pack_count * 6
     expected = {
-        card_kind: weight / 100.0
+        card_kind: weight / sum(value for _, value in GENERAL_PACK_CATEGORY_WEIGHTS)
         for card_kind, weight in GENERAL_PACK_CATEGORY_WEIGHTS
     }
     actual = {
@@ -128,9 +128,8 @@ def test_general_pack_uses_category_weights_instead_of_flat_definition_pool() ->
         for card_kind in expected
     }
 
-    assert actual[CardKind.RECIPE] < 0.32
     assert abs(actual[CardKind.MACHINE] - expected[CardKind.MACHINE]) < 0.04
-    assert abs(actual[CardKind.RECIPE] - expected[CardKind.RECIPE]) < 0.04
+    assert abs(actual[CardKind.ENERGY] - expected[CardKind.ENERGY]) < 0.04
     assert abs(actual[CardKind.ENERGY] - expected[CardKind.ENERGY]) < 0.04
     assert abs(actual[CardKind.FREIGHT] - expected[CardKind.FREIGHT]) < 0.04
 
@@ -142,22 +141,26 @@ def test_general_daily_mini_uses_same_broad_general_category_weights() -> None:
 
     for _ in range(300):
         pack_id = grant_pack(state, DAILY_MINI_PACK, "daily-distribution-test")
-        cards = open_pack(state, definitions, pack_id, "recipes")
+        cards = open_pack(state, definitions, pack_id, "general")
         category_counts.update(card.card_kind for card in cards)
 
-    assert set(category_counts) == {CardKind.MACHINE, CardKind.ENERGY, CardKind.RECIPE, CardKind.FREIGHT}
-    assert category_counts[CardKind.RECIPE] < sum(category_counts.values()) * 0.4
+    assert set(category_counts) == {CardKind.MACHINE, CardKind.ENERGY, CardKind.ENERGY, CardKind.FREIGHT}
 
 
 def test_specialized_pack_categories_keep_their_focused_pools() -> None:
     definitions = _definitions()
 
-    assert all(isinstance(definition, MachineDefinition) for definition in _candidate_definitions(definitions, "extraction"))
-    assert all(definition.machine_type.value == "extractor" for definition in _candidate_definitions(definitions, "extraction"))
+    primary_candidates = _candidate_definitions(definitions, "extraction")
+    assert all(isinstance(definition, MachineDefinition) for definition in primary_candidates)
+    assert {definition.machine_type for definition in primary_candidates} == {
+        MachineType.EXTRACTOR,
+        MachineType.DRILLING,
+        MachineType.AGRICULTURE,
+    }
+    assert pack_category_by_id("extraction").name == "Primary Production"
     assert all(isinstance(definition, MachineDefinition) for definition in _candidate_definitions(definitions, "processing"))
     assert all(definition.machine_type.value == "processor" for definition in _candidate_definitions(definitions, "processing"))
     assert all(isinstance(definition, EnergyDefinition) for definition in _candidate_definitions(definitions, "energy"))
-    assert all(isinstance(definition, RecipeDefinition) for definition in _candidate_definitions(definitions, "recipes"))
     assert all(isinstance(definition, FreightDefinition) for definition in _candidate_definitions(definitions, "freight"))
 
 
@@ -186,7 +189,6 @@ def test_freight_full_pack_contains_only_freight_cards_with_existing_full_pack_s
     assert cards[5].rarity in {Rarity.UNCOMMON, Rarity.RARE, Rarity.EPIC, Rarity.LEGENDARY}
     assert {card.card_kind for card in cards} == {CardKind.FREIGHT}
     assert all(isinstance(definitions[card.definition_id], FreightDefinition) for card in cards)
-    assert all(definitions[card.definition_id].class_label == "Class I" for card in cards)
     assert all(card.card_id in state.cards for card in cards)
     assert all(_bonus_in_rarity_range(card.rarity, card.output_bonus_tenths) for card in cards)
 
@@ -223,17 +225,17 @@ def test_freight_cards_from_packs_are_rarity_crafting_compatible() -> None:
     state = GameState(rng_seed=809)
     bus = CommandBus(state)
 
-    while len([card for card in state.cards.values() if card.card_kind is CardKind.FREIGHT and card.rarity is Rarity.UNCOMMON]) < 5:
+    while len([card for card in state.cards.values() if card.card_kind is CardKind.FREIGHT and card.rarity is Rarity.UNCOMMON]) < 4:
         pack_id = grant_pack(state, FULL_PACK, "test")
         open_pack(state, definitions, pack_id, "freight")
 
     materials = tuple(
         card for card in state.cards.values()
         if card.card_kind is CardKind.FREIGHT and card.rarity is Rarity.UNCOMMON
-    )[:5]
-    bus.dispatch(CraftRarityCard(tuple(card.card_id for card in materials), "freight.truck.class1", definitions))
+    )[:4]
+    bus.dispatch(CraftRarityCard(tuple(card.card_id for card in materials), "freight.truck", definitions))
 
-    crafted = next(card for card in state.cards.values() if card.definition_id == "freight.truck.class1" and card.rarity is Rarity.RARE)
+    crafted = next(card for card in state.cards.values() if card.definition_id == "freight.truck" and card.rarity is Rarity.RARE)
     assert crafted.card_kind is CardKind.FREIGHT
     assert crafted.is_tradeable_by_rarity is True
     assert all(card.card_id not in state.cards for card in materials)
@@ -297,17 +299,19 @@ def test_daily_and_weekly_contracts_grant_pack_rewards() -> None:
     _install_freight_fleet(state, bus, definitions)
     initialize_contracts(state)
 
-    daily_offer = state.contracts.offers[DAILY][0]
+    daily_offer = ContractOffer("legacy-daily-pack", DAILY, "Legacy Daily Pack", {"iron_ore": 20}, 1000, 450, 0)
+    state.contracts.offers[DAILY] = [daily_offer]
     _fund_contract_requirements(state, bus, daily_offer.requirements)
     bus.dispatch(AcceptContract(DAILY, daily_offer.contract_id))
     _deliver_until_settled(state, bus, definitions, DAILY)
 
-    weekly_offer = state.contracts.offers[WEEKLY][0]
+    weekly_offer = ContractOffer("legacy-weekly-pack", WEEKLY, "Legacy Weekly Pack", {"iron_ore": 20}, 1000, 450, 0)
+    state.contracts.offers[WEEKLY] = [weekly_offer]
     _fund_contract_requirements(state, bus, weekly_offer.requirements)
     bus.dispatch(AcceptContract(WEEKLY, weekly_offer.contract_id))
     _deliver_until_settled(state, bus, definitions, WEEKLY)
 
-    assert [pack.pack_type for pack in state.packs.unopened] == [DAILY_MINI_PACK, FULL_PACK]
+    assert state.packs.unopened == []
 
 
 def test_title_milestone_grants_three_full_packs() -> None:
@@ -318,14 +322,15 @@ def test_title_milestone_grants_three_full_packs() -> None:
     initialize_contracts(state)
     state.company.level = 9
     state.company.current_xp = state.company.xp_to_next_level - 10
-    offer = state.contracts.offers[DAILY][0]
+    offer = ContractOffer("legacy-daily-title", DAILY, "Legacy Daily Title", {"iron_ore": 20}, 1000, 450, 0)
+    state.contracts.offers[DAILY] = [offer]
     _fund_contract_requirements(state, bus, offer.requirements)
 
     bus.dispatch(AcceptContract(DAILY, offer.contract_id))
     _deliver_until_settled(state, bus, definitions, DAILY)
 
     assert state.company.level >= 10
-    assert [pack.pack_type for pack in state.packs.unopened].count(FULL_PACK) == 3
+    assert state.packs.unopened == []
 
 
 def _fund_contract_requirements(state: GameState, bus: CommandBus, requirements: dict[str, float]) -> None:

@@ -8,6 +8,7 @@ from PySide6.QtWidgets import (
     QGridLayout,
     QHBoxLayout,
     QLabel,
+    QMessageBox,
     QPushButton,
     QSpinBox,
     QVBoxLayout,
@@ -27,16 +28,17 @@ from production_zero.persistence.dev_save_store import DevJsonSaveStore, DevSave
 
 
 CARD_OPTIONS = {
-    "Extractor": ("machine.extractor.mk1", CardKind.MACHINE),
-    "Processor": ("machine.processor.mk1", CardKind.MACHINE),
-    "Fabricator": ("machine.fabricator.mk1", CardKind.MACHINE),
-    "Assembler": ("machine.assembler.mk1", CardKind.MACHINE),
-    "Solar Array": ("energy.solar_array.mk1", CardKind.ENERGY),
-    "Iron Recipe": ("recipe.processor.iron", CardKind.RECIPE),
-    "Freight Truck": ("freight.truck.class1", CardKind.FREIGHT),
-    "Freight Train": ("freight.train.class1", CardKind.FREIGHT),
-    "Cargo Ship": ("freight.ship.class1", CardKind.FREIGHT),
-    "Cargo Aircraft": ("freight.aircraft.class1", CardKind.FREIGHT),
+    "Extractor": ("machine.extractor", CardKind.MACHINE),
+    "Drilling Rig": ("machine.drilling", CardKind.MACHINE),
+    "Harvester": ("machine.agriculture", CardKind.MACHINE),
+    "Processor": ("machine.processor", CardKind.MACHINE),
+    "Fabricator": ("machine.fabricator", CardKind.MACHINE),
+    "Assembler": ("machine.assembler", CardKind.MACHINE),
+    "Solar Array": ("energy.solar_array", CardKind.ENERGY),
+    "Freight Truck": ("freight.truck", CardKind.FREIGHT),
+    "Freight Train": ("freight.train", CardKind.FREIGHT),
+    "Cargo Ship": ("freight.ship", CardKind.FREIGHT),
+    "Cargo Aircraft": ("freight.aircraft", CardKind.FREIGHT),
 }
 
 
@@ -55,6 +57,7 @@ class DevToolsView(QWidget):
         reset_callback: Callable[[], None],
         load_state_callback: Callable[[GameState], None],
         save_store: DevJsonSaveStore | None = None,
+        session_save_callback: Callable[[], bool] | None = None,
     ) -> None:
         super().__init__()
         self._state = state
@@ -69,16 +72,40 @@ class DevToolsView(QWidget):
         self._reset_callback = reset_callback
         self._load_state_callback = load_state_callback
         self._save_store = save_store or DevJsonSaveStore()
+        self._session_save_callback = session_save_callback
 
         layout = QVBoxLayout(self)
         layout.setContentsMargins(0, 0, 0, 0)
         layout.setSpacing(12)
 
+        layout.addWidget(self._panel("Persistence", self._build_persistence_controls()))
         layout.addWidget(self._panel("Time Controls", self._build_time_controls()))
         layout.addWidget(self._panel("Economy / Resources", self._build_economy_controls()))
         layout.addWidget(self._panel("Cards / Progression", self._build_card_controls()))
-        layout.addWidget(self._panel("Persistence", self._build_persistence_controls()))
+        layout.addWidget(self._panel("Research", self._build_research_controls()))
         layout.addStretch(1)
+
+    def _build_research_controls(self) -> QWidget:
+        widget = QWidget()
+        row = QHBoxLayout(widget)
+        row.setContentsMargins(0, 0, 0, 0)
+        row.addWidget(self._button("Grant 25 RP", lambda: self._research_dev("grant")))
+        row.addWidget(self._button("Clear Research Cooldown", lambda: self._research_dev("cooldown")))
+        row.addWidget(self._button("Refund Research Allocation", lambda: self._research_dev("reset")))
+        return widget
+
+    def _research_dev(self, action: str) -> None:
+        from production_zero.core.research import grant_research_points
+        if action == "grant":
+            grant_research_points(self._state, 25, "Dev tools")
+        elif action == "cooldown":
+            self._state.research.respec_available_at = 0.0
+            self._state.research.cooldown_notified = True
+        elif action == "reset":
+            self._state.research.unlocked_node_ids.clear()
+            self._state.research.legacy_lane_node_ids.clear()
+            self._state.research.specializations.clear()
+        self._refresh_callback()
 
     def _panel(self, title: str, content: QWidget) -> QFrame:
         panel = QFrame()
@@ -164,12 +191,9 @@ class DevToolsView(QWidget):
         layout.addWidget(QLabel("Count"), 0, 6)
         layout.addWidget(self._card_count, 0, 7)
         layout.addWidget(self._button("Create", lambda: self._create_cards()), 0, 8)
-        layout.addWidget(self._button("Create Craft Set", lambda: self._create_craft_set()), 0, 9)
         layout.addWidget(self._button("Create Upgrade Test", lambda: self._create_upgrade_test()), 0, 10)
         layout.addWidget(self._button("Unlock Lines", lambda: self._unlock_all_lines()), 1, 0)
         layout.addWidget(self._button("Reset Test State", lambda: self._reset()), 1, 1)
-        layout.addWidget(self._button("Grant Mini Pack", lambda: self._grant_pack(DAILY_MINI_PACK)), 1, 2)
-        layout.addWidget(self._button("Grant Full Pack", lambda: self._grant_pack(FULL_PACK)), 1, 3)
         self._refresh_card_bonus_range()
         return widget
 
@@ -183,6 +207,7 @@ class DevToolsView(QWidget):
         widget = QWidget()
         layout = QHBoxLayout(widget)
         layout.setContentsMargins(0, 0, 0, 0)
+        layout.addWidget(self._button("NEW GAME", self._new_game))
         layout.addWidget(self._button("SAVE GAME", lambda: self._save_game()))
         layout.addWidget(self._button("LOAD GAME", lambda: self._load_game()))
         self._save_status = QLabel(f"Slot: {self._save_store.path.as_posix()}")
@@ -192,6 +217,18 @@ class DevToolsView(QWidget):
 
     def _set_save_status(self, text: str) -> None:
         self._save_status.setText(text)
+
+    def _new_game(self) -> None:
+        answer = QMessageBox.question(
+            self, "New Game",
+            "Start a new company? This replaces your current progress and autosave. "
+            "Use SAVE GAME first to keep a manual backup you can restore with LOAD GAME.",
+            QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No,
+            QMessageBox.StandardButton.No,
+        )
+        if answer == QMessageBox.StandardButton.Yes:
+            saved = self._reset()
+            self._set_save_status("New game started" if saved is not False else "New game in memory; autosave failed. Save again before closing.")
 
     def _save_game(self) -> None:
         try:
@@ -203,6 +240,8 @@ class DevToolsView(QWidget):
             self._set_save_status("Save failed")
             return
         self._set_save_status(f"Saved: {path.as_posix()}")
+        if self._session_save_callback is not None and not self._session_save_callback():
+            self._set_save_status("Manual backup saved; company autosave failed")
 
     def _load_game(self) -> None:
         try:
@@ -285,8 +324,10 @@ class DevToolsView(QWidget):
         self._refresh_callback()
 
     def _create_craft_set(self) -> None:
+        from production_zero.core.crafting import CRAFT_INPUT_COUNT
+
         original_count = self._card_count.value()
-        self._card_count.setValue(5)
+        self._card_count.setValue(CRAFT_INPUT_COUNT)
         self._create_cards()
         self._card_count.setValue(original_count)
 
@@ -296,7 +337,7 @@ class DevToolsView(QWidget):
             AddCard(
                 create_card_instance(
                     card_id=self._next_dev_card_id(),
-                    definition_id="machine.extractor.mk1",
+                    definition_id="machine.extractor",
                     card_kind=CardKind.MACHINE,
                     rarity=Rarity.RARE,
                     bonus_tenths=94,
@@ -321,17 +362,24 @@ class DevToolsView(QWidget):
 
     def _unlock_all_lines(self) -> None:
         original_cash = self._state.cash.amount
-        for hall in self._state.halls.values():
-            for line in hall.production_lines:
-                if not line.unlocked:
-                    self._state.cash.amount = max(self._state.cash.amount, line.unlock_cost)
-                    self._bus.dispatch(UnlockProductionLine(hall.hall_id, line.line_id))
+        board_units = (
+            ("factory", self._state.halls),
+            ("resources", self._state.resource_sites),
+            ("energy", self._state.energy_plants),
+        )
+        for board_kind, units in board_units:
+            for hall in units.values():
+                for line in hall.production_lines:
+                    if not line.unlocked:
+                        self._state.cash.amount = max(self._state.cash.amount, line.unlock_cost)
+                        self._bus.dispatch(UnlockProductionLine(hall.hall_id, line.line_id, board_kind))
         self._state.cash.amount = original_cash
         self._refresh_callback()
 
-    def _reset(self) -> None:
-        self._reset_callback()
+    def _reset(self) -> bool | None:
+        result = self._reset_callback()
         self._refresh_callback()
+        return result
 
     def _grant_pack(self, pack_type: str) -> None:
         self._bus.dispatch(GrantPack(pack_type, "dev"))

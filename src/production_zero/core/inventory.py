@@ -2,8 +2,8 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 
-from production_zero.core.cards import CardInstance, CardStack
-from production_zero.core.definitions import CardDefinition, EnergyDefinition, FreightDefinition, MachineDefinition, RecipeDefinition
+from production_zero.core.cards import CardInstance, CardStack, CardStackKey
+from production_zero.core.definitions import CardDefinition, EnergyDefinition, FreightDefinition, MachineDefinition
 from production_zero.core.enums import Rarity
 from production_zero.core.state import GameState
 
@@ -14,26 +14,17 @@ class CardInventoryRow:
     definition: CardDefinition
     quantity: int
     status: str
+    card_ids: tuple[str, ...] = ()
 
     @property
     def card_type(self) -> str:
         if isinstance(self.definition, MachineDefinition):
             return self.definition.machine_type.value
         if isinstance(self.definition, EnergyDefinition):
-            return self.definition.energy_type.value
-        if isinstance(self.definition, RecipeDefinition):
-            return "recipe"
+            return "energy"
         if isinstance(self.definition, FreightDefinition):
             return "freight"
         return "card"
-
-    @property
-    def mk_level(self) -> int:
-        if isinstance(self.definition, RecipeDefinition):
-            return 0
-        if isinstance(self.definition, FreightDefinition):
-            return self.definition.class_level
-        return self.definition.mk_level
 
     @property
     def rarity(self) -> Rarity:
@@ -48,7 +39,7 @@ def build_card_inventory_rows(
 
     for stack in state.inventory_card_stacks():
         definition = definitions.get(stack.first_card.definition_id)
-        if not isinstance(definition, (MachineDefinition, EnergyDefinition, RecipeDefinition, FreightDefinition)):
+        if not isinstance(definition, (MachineDefinition, EnergyDefinition, FreightDefinition)):
             continue
         rows.append(
             CardInventoryRow(
@@ -56,20 +47,29 @@ def build_card_inventory_rows(
                 definition=definition,
                 quantity=stack.quantity,
                 status="Available",
+                card_ids=tuple(card.card_id for card in stack.cards),
             )
         )
 
+    deployed: dict[CardStackKey | str, list[CardInstance]] = {}
     for card_id in sorted(state.installed_card_ids() | state.installed_freight_card_ids()):
+        card = state.cards.get(card_id)
+        if card is None:
+            continue
+        deployed.setdefault(CardStackKey.from_card(card) if card.is_stackable else card_id, []).append(card)
+    for cards in deployed.values():
+        card_id = cards[0].card_id
         card = state.cards[card_id]
         definition = definitions.get(card.definition_id)
-        if not isinstance(definition, (MachineDefinition, EnergyDefinition, RecipeDefinition, FreightDefinition)):
+        if not isinstance(definition, (MachineDefinition, EnergyDefinition, FreightDefinition)):
             continue
         rows.append(
             CardInventoryRow(
                 card=card,
                 definition=definition,
-                quantity=1,
+                quantity=len(cards),
                 status="In Use",
+                card_ids=tuple(card.card_id for card in cards),
             )
         )
 
@@ -77,7 +77,7 @@ def build_card_inventory_rows(
 
 
 def is_placeable_card_definition(definition: CardDefinition | None) -> bool:
-    return isinstance(definition, (MachineDefinition, EnergyDefinition))
+    return isinstance(definition, (MachineDefinition, EnergyDefinition, FreightDefinition))
 
 
 def build_placeable_inventory_stacks(

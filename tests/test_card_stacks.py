@@ -12,7 +12,7 @@ from production_zero.core.state import FactoryHall, GameState
 def _drill(card_id: str, rarity: Rarity = Rarity.COMMON, bonus: float = 0.0) -> CardInstance:
     return CardInstance(
         card_id=card_id,
-        definition_id="machine.mining_drill.mk1",
+        definition_id="machine.extractor",
         card_kind=CardKind.MACHINE,
         rarity=rarity,
         output_bonus_percent=bonus,
@@ -44,14 +44,57 @@ def test_identical_standard_cards_stack_by_definition_rarity_and_bonus_tenths() 
     assert quantities_by_bonus[75] == 1
 
 
+def test_identical_stackable_cards_continue_merging_beyond_four_items() -> None:
+    state = GameState(rng_seed=106)
+    bus = CommandBus(state)
+
+    observed_quantities = []
+    for index in range(5):
+        bus.dispatch(AddCard(_drill(f"drill-{index + 1}")))
+        observed_quantities.append(state.inventory_card_stacks()[0].quantity)
+
+    assert observed_quantities == [1, 2, 3, 4, 5]
+
+
+def test_identical_stackable_cards_support_large_practical_stack_counts() -> None:
+    state = GameState(rng_seed=107)
+    bus = CommandBus(state)
+
+    for index in range(250):
+        bus.dispatch(AddCard(_drill(f"bulk-drill-{index:03d}")))
+
+    stacks = state.inventory_card_stacks()
+
+    assert len(stacks) == 1
+    assert stacks[0].quantity == 250
+    assert len({card.card_id for card in stacks[0].cards}) == 250
+
+
+def test_large_stacks_still_keep_different_cards_separate() -> None:
+    state = GameState(rng_seed=108)
+    bus = CommandBus(state)
+
+    for index in range(40):
+        bus.dispatch(AddCard(_drill(f"common-drill-{index:03d}")))
+        bus.dispatch(AddCard(_drill(f"rare-drill-{index:03d}", Rarity.RARE, 7.4)))
+        bus.dispatch(AddCard(_drill(f"other-rare-drill-{index:03d}", Rarity.RARE, 7.5)))
+
+    quantities_by_bonus = {
+        stack.first_card.output_bonus_tenths: stack.quantity
+        for stack in state.inventory_card_stacks()
+    }
+
+    assert quantities_by_bonus == {0: 40, 74: 40, 75: 40}
+
+
 def test_generated_rarity_cards_stack_only_when_bonus_values_match() -> None:
     state = GameState(rng_seed=105)
     bus = CommandBus(state)
 
     for card in (
-        create_card_instance("rare-a", "machine.mining_drill.mk1", CardKind.MACHINE, Rarity.RARE, bonus_tenths=74),
-        create_card_instance("rare-b", "machine.mining_drill.mk1", CardKind.MACHINE, Rarity.RARE, bonus_tenths=74),
-        create_card_instance("rare-c", "machine.mining_drill.mk1", CardKind.MACHINE, Rarity.RARE, bonus_tenths=75),
+        create_card_instance("rare-a", "machine.extractor", CardKind.MACHINE, Rarity.RARE, bonus_tenths=74),
+        create_card_instance("rare-b", "machine.extractor", CardKind.MACHINE, Rarity.RARE, bonus_tenths=74),
+        create_card_instance("rare-c", "machine.extractor", CardKind.MACHINE, Rarity.RARE, bonus_tenths=75),
     ):
         bus.dispatch(AddCard(card))
 
@@ -70,7 +113,7 @@ def test_collectible_cards_remain_unstacked_even_when_card_stats_match() -> None
     for card in (
         CardInstance(
             "collectible-1",
-            "machine.mining_drill.mk1",
+            "machine.extractor",
             CardKind.MACHINE,
             Rarity.RARE,
             7.4,
@@ -80,7 +123,7 @@ def test_collectible_cards_remain_unstacked_even_when_card_stats_match() -> None
         ),
         CardInstance(
             "collectible-2",
-            "machine.mining_drill.mk1",
+            "machine.extractor",
             CardKind.MACHINE,
             Rarity.RARE,
             7.4,
@@ -116,6 +159,24 @@ def test_installing_and_removing_cards_updates_derived_stack_quantity() -> None:
     assert state.inventory_card_stacks()[0].quantity == 2
 
 
+def test_installing_and_removing_from_large_stack_updates_quantity_without_splitting_rules() -> None:
+    state = GameState(rng_seed=109)
+    bus = CommandBus(state)
+    bus.dispatch(BuildHall(FactoryHall(hall_id="hall-1", name="Halle 1", slot_count=6)))
+    for index in range(25):
+        bus.dispatch(AddCard(_drill(f"drill-{index + 1}")))
+
+    bus.dispatch(InstallCardInHall("hall-1", 0, "drill-1"))
+    bus.dispatch(InstallCardInHall("hall-1", 1, "drill-2"))
+    bus.dispatch(InstallCardInHall("hall-1", 2, "drill-3"))
+
+    assert state.inventory_card_stacks()[0].quantity == 22
+
+    bus.dispatch(RemoveCardFromHall("hall-1", 1))
+
+    assert state.inventory_card_stacks()[0].quantity == 23
+
+
 def test_identical_installed_cards_keep_independent_machine_configuration() -> None:
     state = GameState(rng_seed=103)
     bus = CommandBus(state)
@@ -142,11 +203,10 @@ def test_card_inventory_rows_include_available_stacks_and_in_use_cards() -> None
         bus.dispatch(AddCard(card))
     bus.dispatch(InstallCardInHall("hall-1", 0, "drill-1"))
     definitions = {
-        "machine.mining_drill.mk1": MachineDefinition(
-            definition_id="machine.mining_drill.mk1",
-            name="Mining Drill MK I",
+        "machine.extractor": MachineDefinition(
+            definition_id="machine.extractor",
+            name="Extractor",
             machine_type=MachineType.MINING,
-            mk_level=1,
             base_output_per_tick=12,
             base_power_draw=6,
             cycle_seconds=3,
@@ -158,6 +218,6 @@ def test_card_inventory_rows_include_available_stacks_and_in_use_cards() -> None
     rows = build_card_inventory_rows(state, definitions)
 
     assert [(row.status, row.quantity, row.definition.name) for row in rows] == [
-        ("Available", 2, "Mining Drill MK I"),
-        ("In Use", 1, "Mining Drill MK I"),
+        ("Available", 2, "Extractor"),
+        ("In Use", 1, "Extractor"),
     ]

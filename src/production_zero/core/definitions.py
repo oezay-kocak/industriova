@@ -3,6 +3,7 @@ from __future__ import annotations
 from dataclasses import dataclass, field
 from typing import Mapping
 
+from production_zero.core.economic_cycle import ECONOMIC_CYCLE_SECONDS
 from production_zero.core.enums import CardKind, EnergyType, FreightFamily, MachineType
 
 
@@ -39,7 +40,6 @@ class MachineDefinition:
     definition_id: str
     name: str
     machine_type: MachineType
-    mk_level: int
     base_output_per_tick: float
     base_power_draw: float
     cycle_seconds: float
@@ -98,7 +98,6 @@ class EnergyDefinition:
     definition_id: str
     name: str
     energy_type: EnergyType
-    mk_level: int
     base_power_output: float
     input_resources: Mapping[str, float]
     fuel_resource_id: str | None = None
@@ -110,26 +109,14 @@ class EnergyDefinition:
         return CardKind.ENERGY
 
     @property
+    def fuel_consumption_per_cycle(self) -> float:
+        return self.fuel_consumption_per_minute * ECONOMIC_CYCLE_SECONDS / 60.0
+
+    @property
     def requires_fuel(self) -> bool:
         return self.fuel_resource_id is not None and self.fuel_consumption_per_minute > 0
 
 
-@dataclass(frozen=True, slots=True)
-class RecipeDefinition:
-    """Static production recipe blueprint loaded from game data."""
-
-    definition_id: str
-    name: str
-    duration_ticks: int
-    input_resources: Mapping[str, float]
-    output_resources: Mapping[str, float]
-    stage: MachineType = MachineType.PROCESSOR
-    icon_key: str = ""
-    accent_key: str = ""
-
-    @property
-    def card_kind(self) -> CardKind:
-        return CardKind.RECIPE
 
 
 @dataclass(frozen=True, slots=True)
@@ -139,16 +126,15 @@ class FreightDefinition:
     definition_id: str
     name: str
     family: FreightFamily
-    class_level: int
-    class_label: str
     facility_id: str
     facility_name: str
     base_capacity: float
     base_transport_time_seconds: float
+    supply_price_cash: float | None = None
 
     @property
     def card_kind(self) -> CardKind:
         return CardKind.FREIGHT
 
 
-CardDefinition = MachineDefinition | EnergyDefinition | RecipeDefinition | FreightDefinition
+CardDefinition = MachineDefinition | EnergyDefinition | FreightDefinition

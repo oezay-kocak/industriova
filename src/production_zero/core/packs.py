@@ -6,7 +6,7 @@ from dataclasses import dataclass, field
 from typing import TYPE_CHECKING
 
 from production_zero.core.cards import CardInstance, create_card_instance
-from production_zero.core.definitions import CardDefinition, EnergyDefinition, FreightDefinition, MachineDefinition, RecipeDefinition
+from production_zero.core.definitions import CardDefinition, EnergyDefinition, FreightDefinition, MachineDefinition
 from production_zero.core.enums import CardKind, MachineType, Rarity
 
 if TYPE_CHECKING:
@@ -30,16 +30,14 @@ class PackCategoryDefinition:
 
 PACK_CATEGORIES: tuple[PackCategoryDefinition, ...] = (
     PackCategoryDefinition("general", "General", "All available card types"),
-    PackCategoryDefinition("extraction", "Extraction", "Mining and extraction cards"),
+    PackCategoryDefinition("extraction", "Primary Production", "Extractor, Drilling Rig, and Harvester cards"),
     PackCategoryDefinition("energy", "Energy", "Energy generation cards"),
     PackCategoryDefinition("processing", "Processing", "Processing machines"),
-    PackCategoryDefinition("recipes", "Recipes", "Recipe cards"),
     PackCategoryDefinition("freight", "Freight", "Freight transport cards"),
 )
 
 GENERAL_PACK_CATEGORY_WEIGHTS: tuple[tuple[CardKind, float], ...] = (
     (CardKind.MACHINE, 35.0),
-    (CardKind.RECIPE, 25.0),
     (CardKind.ENERGY, 20.0),
     (CardKind.FREIGHT, 20.0),
 )
@@ -176,19 +174,21 @@ def _candidate_definitions(
         for definition in definitions.values()
     }
     for definition in unique_definitions.values():
-        if not isinstance(definition, (MachineDefinition, EnergyDefinition, RecipeDefinition, FreightDefinition)):
+        if not isinstance(definition, (MachineDefinition, EnergyDefinition, FreightDefinition)):
             continue
-        if category_id == "general":
+        if category_id == 'general':
             candidates.append(definition)
-        elif category_id == "extraction" and isinstance(definition, MachineDefinition) and definition.machine_type is MachineType.EXTRACTOR:
+        elif category_id == 'extraction' and isinstance(definition, MachineDefinition) and definition.machine_type in {
+            MachineType.EXTRACTOR,
+            MachineType.DRILLING,
+            MachineType.AGRICULTURE,
+        }:
             candidates.append(definition)
-        elif category_id == "energy" and isinstance(definition, EnergyDefinition):
+        elif category_id == 'energy' and isinstance(definition, EnergyDefinition):
             candidates.append(definition)
-        elif category_id == "processing" and isinstance(definition, MachineDefinition) and definition.machine_type is MachineType.PROCESSOR:
+        elif category_id == 'processing' and isinstance(definition, MachineDefinition) and (definition.machine_type is MachineType.PROCESSOR):
             candidates.append(definition)
-        elif category_id == "recipes" and isinstance(definition, RecipeDefinition):
-            candidates.append(definition)
-        elif category_id == "freight" and isinstance(definition, FreightDefinition):
+        elif category_id == 'freight' and isinstance(definition, FreightDefinition):
             candidates.append(definition)
     return tuple(sorted(candidates, key=lambda definition: definition.definition_id))
 

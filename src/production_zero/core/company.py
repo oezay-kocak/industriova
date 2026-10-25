@@ -64,15 +64,16 @@ def unlocked_level_titles(level: int) -> tuple[str, ...]:
 
 def xp_reward_for_contract_kind(kind: str) -> float:
     rewards = {
-        "regular": 90.0,
-        "daily": 450.0,
-        "weekly": 2_400.0,
+        "regular": 150.0,
+        "daily": 900.0,
+        "weekly": 4_500.0,
     }
     return rewards.get(kind, 0.0)
 
 
 def award_company_xp(company: CompanyProfile, amount: float) -> tuple[int, ...]:
-    if amount < 0:
+    from math import isfinite
+    if not isfinite(amount) or amount < 0:
         raise ValueError("Company XP cannot be negative.")
     if amount == 0:
         return ()

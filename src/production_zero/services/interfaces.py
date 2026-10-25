@@ -15,6 +15,7 @@ class LeaderboardEntry:
     total_earnings: float
     current_xp: float = 0.0
     is_current_player: bool = False
+    production_amount: float = 0.0
 
 
 class MarketService(Protocol):

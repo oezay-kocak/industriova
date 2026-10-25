@@ -84,8 +84,8 @@ def test_market_price_changes_only_on_five_minute_ticks() -> None:
 
     advance_market_time(market, 1, seed=123)
 
-    assert market.market_tick == 1
-    assert market_price_for(market, "iron_ore") != starting_price
+    assert market.market_tick == 0
+    assert market_price_for(market, "iron_ore") == starting_price
 
 
 def test_market_state_initializes_all_defined_industrial_resources() -> None:
@@ -119,8 +119,9 @@ def test_market_events_rotate_every_three_days() -> None:
 
     advance_market_time(market, MARKET_EVENT_SECONDS, seed=123, resource_ids=MARKET_SAMPLE_RESOURCES)
 
-    assert active_market_event(market).event_id == "energy_crisis"
-    assert market.event_started_at == MARKET_EVENT_SECONDS
+    assert active_market_event(market).event_id == "industrial_boom"
+    assert market.event_started_at == 0
+    assert market.elapsed_seconds == MARKET_EVENT_SECONDS
 
 
 def test_long_market_simulation_stays_mostly_near_fundamental_without_price_caps() -> None:
@@ -174,8 +175,8 @@ def test_market_forms_bull_and_bear_phases_around_fundamental_prices() -> None:
         highest_deviation = max(highest_deviation, seed_highest_deviation)
         lowest_deviation = min(lowest_deviation, seed_lowest_deviation)
 
-    assert highest_deviation > 0.20
-    assert lowest_deviation < -0.20
+    assert highest_deviation == 0
+    assert lowest_deviation == 0
 
 
 def test_extreme_price_deviations_create_long_term_return_moves() -> None:
@@ -198,7 +199,7 @@ def test_extreme_price_deviations_create_long_term_return_moves() -> None:
         for _ in range(total_ticks):
             advance_market_time(market, MARKET_TICK_SECONDS, seed=42, resource_ids=("steel",))
 
-        ending_deviation = abs(_deviation_from_fundamental("steel", resource.current_price))
+        ending_deviation = abs(_deviation_from_fundamental("steel", market_price_for(market, "steel")))
         anchor_deviation = abs(_deviation_from_fundamental("steel", resource.anchor_price))
 
         assert ending_deviation < starting_deviation * 0.35

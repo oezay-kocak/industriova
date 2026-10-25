@@ -51,6 +51,11 @@ class LocalLeaderboardService:
         return next(entry for entry in self._ranked_entries(ranking_id) if entry.is_current_player)
 
     def _ranked_entries(self, ranking_id: str) -> tuple[LeaderboardEntry, ...]:
+        if ranking_id.startswith("production."):
+            from dataclasses import replace
+            resource_id = ranking_id.removeprefix("production.")
+            amount = self._state.production_progress.lifetime_produced.get(resource_id, 0.)
+            return (replace(self._own_unranked_entry(), rank=1, production_amount=amount),)
         entries = [*self._mock_entries, self._own_unranked_entry()]
         if ranking_id == "total_earnings":
             entries.sort(key=lambda entry: (-entry.total_earnings, -entry.company_level, entry.player_name))
