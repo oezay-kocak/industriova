@@ -1,8 +1,12 @@
 # Industriova
 
-**A local industrial simulation used as a practical case study in requirements analysis, system design and AI-assisted software delivery.**
+**A business analysis and product-design portfolio demonstrated through a working industrial simulation.**
 
-Industriova, formerly Production Zero, is a Python desktop application in which a player builds production chains, manages shared storage and energy, and transports goods to markets and contracts. Its portfolio value lies in making interdependent rules executable, investigating defects and validating changes against observable behavior.
+Industriova, formerly Production Zero, is a Python desktop application in which a player builds production chains, manages shared storage and energy, and transports goods to markets and contracts. For recruiters and Business Analysts, it offers an inspectable example of turning complex requirements into working software: modeling dependencies, defining consistent rules, directing AI-assisted implementation and checking the results through tests and playtest feedback.
+
+## My Role
+
+I conceived the product and designed its gameplay loop, domain architecture and features. I planned and prioritised the development work, translated ideas into requirements, and directed AI agents through implementation. I reviewed the results against the intended rules and used test findings and playtest observations to guide revisions. AI agents wrote the implementation code; I did not personally program it. The [case study](docs/CASE_STUDY.md#human-direction-and-ai-assisted-work) explains this division of responsibility and the supporting evidence.
 
 This is a development playtest, not a finished commercial release. Distribution metadata is `0.3.0.dev1`; the default application ruleset identifies itself as `0.3.0.contract-auto-test`. An optional performance mode has its own version and save directory. See the [validation report](docs/PORTFOLIO_RELEASE_REPORT.md) for the reviewed state and limitations.
 
@@ -10,13 +14,52 @@ This is a development playtest, not a finished commercial release. Distribution 
 
 ## Screenshots
 
-Actual application renders from synthetic QA data at 1600 × 980, captured without loading a personal save. They illustrate configured production, logistics and research, not a naturally played progression or native usability acceptance.
+The three images below are actual application renders from synthetic QA data at 1600 × 980, captured without loading a personal save. They illustrate configured production, logistics and research, not a naturally played progression or native usability acceptance.
 
 ![Factory board with installed machines, production status and expansion controls](docs/images/factory.png)
 ![Freight board with a configured truck route](docs/images/freight.png)
 ![Research tree with prerequisites and research point costs](docs/images/research.png)
 
 Capture provenance: [manifest](docs/images/captures.json). Reproduce with `python scripts/capture_portfolio.py` after installation.
+
+<details>
+<summary>More application views — eight owner-supplied screenshots</summary>
+
+These additional screenshots show an owner-provided session with development controls visible. They are kept separately from the synthetic QA captures and do not establish formal native acceptance. The original files were copied without changing their pixels; see the [screenshot manifest](docs/images/playtest/captures.json).
+
+**Primary resource production**
+
+![Resources board with two sectors of configured extraction machines](docs/images/playtest/resources.png)
+
+**Factory production and configuration states**
+
+![Factory board with running processors and fabricators awaiting recipe selection](docs/images/playtest/factory.png)
+
+**Energy supply**
+
+![Energy board with solar arrays and fuel-based power plants](docs/images/playtest/energy.png)
+
+**Freight routing and shipment progress**
+
+![Freight board showing two fleets of trucks with active routes and shipment progress](docs/images/playtest/freight.png)
+
+**Research prerequisites**
+
+![Forestry and Wood research tree with available and locked nodes](docs/images/playtest/research.png)
+
+**Industrial Supply**
+
+![Industrial Supply catalog with aircraft, ship, train and truck purchase options](docs/images/playtest/industrial-supply.png)
+
+**Production unlock dependencies**
+
+![Unlock tree highlighting Nuclear Material and its downstream production dependencies](docs/images/playtest/unlock-tree.png)
+
+**Chain inspection**
+
+![Semiconductor Die chain inspector showing primary resources, processing and manufacturing inputs](docs/images/playtest/chain-inspector.png)
+
+</details>
 
 ## Implemented capabilities
 
@@ -61,14 +104,14 @@ Important state transitions have command objects. `GameState` separates owned in
 Windows is the locally validated platform. The project declares Python **3.11+** and pins **PySide6 6.11.1**; this portfolio verification used Python 3.12.14. Other operating systems have not been validated in this review.
 
 ```powershell
-git clone https://github.com/oezay-kocak/production-zero.git
-cd production-zero
+git clone https://github.com/oezay-kocak/industriova.git
+cd industriova
 python -m venv .venv
 .\.venv\Scripts\python.exe -m pip install -e ".[dev]"
 .\.venv\Scripts\python.exe -m production_zero.app
 ```
 
-The URL intentionally retains the existing repository name. This local portfolio preparation has not yet been pushed; cloning retrieves the revision the owner has approved and published. These instructions apply to the prepared source revision.
+The portfolio application source is published in the existing [Industriova repository](https://github.com/oezay-kocak/industriova) on `main`. The repository name has changed; the internal Python package remains `production_zero`.
 
 No external account or API key is needed for local play. Normal saves use `%LOCALAPPDATA%\Industriova\playtests\contract-auto-test\saves`, with fallbacks defined in [paths.py](src/production_zero/persistence/paths.py). Previous test rulesets are not automatically loaded. Start a new company for this ruleset. Source launches enable development controls by default; set `$env:PRODUCTION_ZERO_DEV_MODE='0'` to hide them.
 

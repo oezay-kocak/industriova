@@ -1,0 +1,74 @@
+{
+  "capture_date": "2026-10-25",
+  "source": "Owner-supplied application screenshots",
+  "fixture": "Owner-provided session; not the synthetic QA fixture",
+  "displayed_development_controls": true,
+  "files_copied_without_pixel_changes": true,
+  "formal_native_acceptance_claimed": false,
+  "screenshots": [
+    {
+      "file": "resources.png",
+      "source_filename": "Screenshot 2026-10-25 155503.png",
+      "view": "Resources production board",
+      "width": 1919,
+      "height": 1005,
+      "sha256": "9f0545b75250b4856f410955139a06a9f5eb7949d8fffa456b15bc758850e1e9"
+    },
+    {
+      "file": "factory.png",
+      "source_filename": "Screenshot 2026-10-25 155539.png",
+      "view": "Factory processing and manufacturing",
+      "width": 1919,
+      "height": 1006,
+      "sha256": "9add64180f1ed632f0625c6c816d570a4cc4b132db5450985103294e78790cfd"
+    },
+    {
+      "file": "energy.png",
+      "source_filename": "Screenshot 2026-10-25 155606.png",
+      "view": "Energy production board",
+      "width": 1919,
+      "height": 1007,
+      "sha256": "3ad93d7cb412c0dcc5169ad948ed07c6a48257077d013cb3c836cc4a8a0b6a85"
+    },
+    {
+      "file": "freight.png",
+      "source_filename": "Screenshot 2026-10-25 155627.png",
+      "view": "Freight routes and shipments",
+      "width": 1919,
+      "height": 1006,
+      "sha256": "8fd41fb63d9a3c6ffd8542ee50387280230ea6a8ff796d5206f088c36d3ff148"
+    },
+    {
+      "file": "research.png",
+      "source_filename": "Screenshot 2026-10-25 155704.png",
+      "view": "Forestry and Wood research",
+      "width": 1919,
+      "height": 1006,
+      "sha256": "48bf7fe3936f59ed5f4f5773512682855fefd5541e85d78c354ef110d271fffb"
+    },
+    {
+      "file": "industrial-supply.png",
+      "source_filename": "Screenshot 2026-10-25 155730.png",
+      "view": "Industrial Supply freight catalog",
+      "width": 1919,
+      "height": 1006,
+      "sha256": "638ae9e2995503847069c8dd6e4dc1643b329c4ab0548fedf1e72935f00330a0"
+    },
+    {
+      "file": "unlock-tree.png",
+      "source_filename": "Screenshot 2026-10-25 155833.png",
+      "view": "Production unlock tree",
+      "width": 1919,
+      "height": 1004,
+      "sha256": "3d10c5a99001b20ac07c91297279bba64711ea19b234f43f3384a830b4b45a92"
+    },
+    {
+      "file": "chain-inspector.png",
+      "source_filename": "Screenshot 2026-10-25 155900.png",
+      "view": "Semiconductor Die chain inspector",
+      "width": 1919,
+      "height": 1005,
+      "sha256": "abdbb05a0003d992f547de43c2d29e2d1f6fa33d8bb70e8dda419374069b9d2c"
+    }
+  ]
+}
