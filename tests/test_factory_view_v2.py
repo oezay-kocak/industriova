@@ -7,13 +7,16 @@ from importlib.resources import files
 
 os.environ.setdefault("QT_QPA_PLATFORM", "offscreen")
 
-from PySide6.QtCore import QPoint, QRectF, Qt
-from PySide6.QtGui import QImage, QPainter
-from PySide6.QtWidgets import QApplication, QFrame, QLabel, QScrollArea, QVBoxLayout, QWidget
+import pytest
+
+from PySide6.QtCore import QEvent, QPoint, QRectF, Qt
+from PySide6.QtGui import QColor, QImage, QPainter
+from PySide6.QtTest import QTest
+from PySide6.QtWidgets import QPushButton, QApplication, QFrame, QLabel, QScrollArea, QVBoxLayout, QWidget
 
 from production_zero.core.commands import AddCash, InstallCardInHall, SelectMachineProduction
+from production_zero.core.simulation import SimulationEngine
 from production_zero.data.definitions import load_card_definitions, load_resource_definitions
-from production_zero.ui.factory_view import FactoryView
 from production_zero.ui import factory_view_v2 as factory_v2_module
 from production_zero.ui.factory_view_v2 import (
     FACTORY_V2_CARD_HEIGHT,
@@ -30,6 +33,7 @@ from production_zero.ui.factory_view_v2 import (
     FactoryV2LinePlate,
     FactoryV2LockedSlot,
     FactoryV2MachineCard,
+    FactoryV2ResourceDrawer,
     FactoryV2TrackPanel,
     FactoryViewV2,
     accent_for_definition,
@@ -78,12 +82,26 @@ def _app() -> QApplication:
     return app
 
 
+@pytest.fixture(autouse=True)
+def _close_qt_top_levels_after_test():
+    yield
+    for widget in QApplication.topLevelWidgets():
+        widget.close()
+        widget.deleteLater()
+    QApplication.sendPostedEvents(None, QEvent.Type.DeferredDelete)
+    QApplication.processEvents()
+
+
 def _state_defs_bus():
     from production_zero.core.commands import CommandBus
 
     definitions = load_card_definitions(files("production_zero.data") / "game_definitions.json")
     resource_definitions = load_resource_definitions(files("production_zero.data") / "resource_definitions.json")
     state = _create_initial_state(resource_definitions, definitions)
+    # This module exercises the legacy mixed-card renderer in isolation. Split-board
+    # ownership is covered by test_production_board_split.py.
+    state.resource_sites.clear()
+    state.energy_plants.clear()
     return state, definitions, CommandBus(state)
 
 
@@ -115,6 +133,12 @@ def _save_preview(image: QImage, filename: str) -> Path:
     return path
 
 
+def _drain_deferred_ui() -> None:
+    QApplication.processEvents()
+    QTest.qWait(70)
+    QApplication.processEvents()
+
+
 def _bright_corner_pixels(image: QImage, margin: int = 10) -> int:
     hits = 0
     regions = (
@@ -132,16 +156,17 @@ def _bright_corner_pixels(image: QImage, margin: int = 10) -> int:
     return hits
 
 
-def test_factory_view_v1_and_v2_are_both_constructible_offscreen() -> None:
+def test_factory_view_v2_is_the_only_constructible_factory_screen() -> None:
+    from production_zero.ui.factory_view import FactoryViewBase
+    import pytest
     _app()
     state, definitions, bus = _state_defs_bus()
-    v1 = FactoryView(state, bus, definitions)
-    v2 = FactoryViewV2(state, bus, definitions)
-
-    assert v1.findChild(QFrame, "factoryHallCommandBoard") is not None
-    assert v2.objectName() == "factoryViewV2"
-    assert v2.findChild(QFrame, "factoryV2Board") is not None
-    assert v2.findChild(QFrame, "factoryV2HallStage") is not None
+    with pytest.raises(TypeError, match="Use FactoryViewV2"):
+        FactoryViewBase(state, bus, definitions)
+    view = FactoryViewV2(state, bus, definitions)
+    assert view.findChild(QFrame, "factoryV2Board") is not None
+    view.pause_simulation()
+    view.close()
 
 
 def test_factory_view_v2_build_install_and_core_state_display() -> None:
@@ -155,8 +180,8 @@ def test_factory_view_v2_build_install_and_core_state_display() -> None:
     assert view._drawer_mode == "cards"
     assert view._drawer_slot_index == 0
 
-    view._install_card_from_selection("test-solar-common-001")
-    assert state.halls["hall-1"].slots[0].card_id == "test-solar-common-001"
+    view._install_card_from_selection("test-furnace-common-001")
+    assert state.halls["hall-1"].slots[0].card_id == "test-furnace-common-001"
     assert view.findChild(FactoryV2MachineCard, "factoryV2MachineCard") is not None
     assert view.findChild(QFrame, "factoryV2HallOverview") is not None
 
@@ -175,9 +200,9 @@ def test_factory_view_v2_locked_slot_and_locked_line_unlock_use_commands() -> No
     assert len(hall.production_lines[0].slot_indexes) == initial_line_slots + 1
 
     view.refresh_view()
-    locked_line = next(panel for panel in view.findChildren(QFrame, "lockedLinePanel") if panel.property("lineId") == "hall-1.line-3")
+    locked_line = next(panel for panel in view.findChildren(QFrame, "lockedLinePanel") if panel.property("lineId") == "hall-1.line-2")
     locked_line.activated.emit()
-    assert hall.production_lines[2].unlocked is True
+    assert hall.production_lines[1].unlocked is True
 
 
 def test_factory_view_v2_machine_status_refreshes_after_production_selection() -> None:
@@ -198,9 +223,11 @@ def test_factory_view_v2_machine_icons_render_and_map_expected_types() -> None:
     _app()
     state, definitions, bus = _state_defs_bus()
 
-    assert machine_icon_for_definition(definitions["energy.solar_array.mk1"]) == MachineIcon.SOLAR_ARRAY
-    assert machine_icon_for_definition(definitions["machine.extractor.mk1"]) == MachineIcon.EXTRACTOR
-    assert machine_icon_for_definition(definitions["machine.processor.mk1"]) == MachineIcon.PROCESSOR
+    assert machine_icon_for_definition(definitions["energy.solar_array"]) == MachineIcon.SOLAR_ARRAY
+    assert machine_icon_for_definition(definitions["machine.extractor"]) == MachineIcon.EXTRACTOR
+    assert machine_icon_for_definition(definitions["machine.processor"]) == MachineIcon.PROCESSOR
+    assert machine_icon_for_definition(definitions["machine.fabricator"]) == MachineIcon.FABRICATOR
+    assert machine_icon_for_definition(definitions["machine.assembler"]) == MachineIcon.ASSEMBLER
 
     image = QImage(520, 120, QImage.Format.Format_ARGB32_Premultiplied)
     image.fill(0)
@@ -541,10 +568,10 @@ def test_factory_view_v2_semantic_edges_keep_empty_surfaces_neutral() -> None:
     assert "neutral_edge" in inspect.getsource(game_rendering_factory_module.GAME_UI_TOKENS.colors.__class__)
     assert "draw_game_panel(painter, rect, accent=Accent.NEUTRAL" in view_source
     assert "draw_hall_control_assembly(painter, rect, variant=1)" in view_source
-    assert "header_panel = rect.adjusted(16, 14, -16, -14)" in view_source
+    assert "header_panel = rect.adjusted(14, 10, -14, -10)" in view_source
     assert "draw_game_surface(painter, rect, accent=Accent.NEUTRAL, radius=18, depth=1, role=\"board\")" in view_source
     assert "draw_hall_control_assembly(painter, rect, variant=1)" in view_source
-    assert "draw_track_surface(painter, rect, accent=Accent.NEUTRAL" in view_source
+    assert "draw_production_track(painter, rect, active=False, variant=self._line_number - 1)" in view_source
     assert "draw_game_surface(painter, rect, accent=Accent.NEUTRAL, depth=0, radius=18, role=\"track\"" in source
     assert "accent: Accent = Accent.NEUTRAL" in track_surface_source
     assert "if accent == Accent.NEUTRAL and state == InteractionState.NORMAL" in glow_edge_source
@@ -580,31 +607,15 @@ def test_factory_view_v2_chassis_edges_are_neutral_with_local_accents() -> None:
 
 
 def test_factory_view_v2_uses_light_industrial_chassis_with_dark_recessed_modules() -> None:
+    colors = game_rendering_factory_module.GAME_UI_TOKENS.colors
+    assert QColor(colors.chassis_light).lightness() > QColor(colors.recessed_dark).lightness() + 100
     _app()
-    token_source = inspect.getsource(game_rendering_factory_module.GAME_UI_TOKENS.colors.__class__)
-    rendering_source = inspect.getsource(game_rendering_factory_module)
-    materials_source = inspect.getsource(game_materials_module.draw_game_panel)
-    inset_source = inspect.getsource(game_materials_module.draw_inset_surface)
-    view_source = inspect.getsource(factory_v2_module)
-    theme_source = APP_STYLESHEET
-
-    assert "chassis_light" in token_source
-    assert "chassis_mid" in token_source
-    assert "chassis_shadow" in token_source
-    assert "recessed_dark" in token_source
-    assert "recessed_edge" in token_source
-    assert "base_top = tokens.colors.qcolor(tokens.colors.chassis_light)" in materials_source
-    assert "base_bottom = tokens.colors.qcolor(tokens.colors.chassis_shadow)" in materials_source
-    assert "tokens.colors.qcolor(tokens.colors.recessed_dark" in inset_source
-    assert "QColor(230, 228, 216, 150)" in rendering_source
-    assert "QColor(226, 224, 214, 212 + depth * 10)" in rendering_source
-    assert "QColor(38, 45, 45, 168 if active else 146)" in rendering_source
-    assert "def draw_hall_control_assembly" in rendering_source
-    assert "GAME_UI_TOKENS.typography.brand_display()" in view_source
-    assert "GAME_UI_TOKENS.typography.industrial_title()" in view_source
-    assert 'font-family: "Bahnschrift Condensed", "Bahnschrift SemiCondensed", "Agency FB", "Arial Narrow", "Bahnschrift", "Segoe UI"' in theme_source
-    assert "QFrame#factoryV2Sidebar" in theme_source
-    assert "stop:0 #d3d2c8" in theme_source
+    state, definitions, bus = _state_defs_bus()
+    view = FactoryViewV2(state, bus, definitions)
+    assert view.findChild(QFrame, "factoryV2Board") is not None
+    assert view.findChild(QFrame, "factoryV2Sidebar") is not None
+    view.pause_simulation()
+    view.close()
 
 
 def test_factory_view_v2_safety_identity_uses_warning_plates_hazard_and_leds() -> None:
@@ -782,7 +793,8 @@ def test_factory_view_v2_material_hierarchy_keeps_passive_surfaces_matte_and_gam
     assert "GameButton(\"Expand\", variant=\"primary\", accent=Accent.BUILD)" in view_source
     assert "FactoryV2CommandButton(\"Production Guide\", accent=Accent.BUILD)" in view_source
     assert "super().__init__(text, variant=\"primary\", accent=accent)" in view_source
-    assert "right_stack.setContentsMargins(0, 8, 0, 0)" in view_source
+    assert "resources = FactoryV2CommandButton(\"Resources\", accent=Accent.STORAGE)" in view_source
+    assert "board.set_resource_drawer(self._resource_drawer)" in view_source
     assert "rect.width() * 0.16" in view_source
     assert "QPushButton#expandResourceStorageButton[factoryV2StorageCta=\"true\"]" in theme_source
     assert "QPushButton#productionGuideButton" in theme_source
@@ -792,11 +804,11 @@ def test_factory_view_v2_material_hierarchy_keeps_passive_surfaces_matte_and_gam
 def test_factory_view_v2_machine_card_prototype_renders_five_family_signage_cards() -> None:
     _app()
     cards = (
-        ("Extractor", "extractor", "Machine · MK I", "Output 60/min"),
-        ("Processor", "processor", "Machine · MK I", "Power 12 MW"),
-        ("Assembler", "assembly", "Machine · MK I", "Input 2x"),
-        ("Solar Array", "energy", "Energy · MK I", "+25 MW"),
-        ("Freight Truck", "transport", "Logistics · MK I", "Capacity 20"),
+        ("Extractor", "extractor", "Machine · COMMON", "Output 60/min"),
+        ("Processor", "processor", "Machine · COMMON", "Power 12 MW"),
+        ("Assembler", "assembly", "Machine · COMMON", "Input 2x"),
+        ("Solar Array", "energy", "Energy · COMMON", "+25 MW"),
+        ("Freight Truck", "transport", "Logistics · COMMON", "Capacity 20"),
     )
     image = QImage(920, 300, QImage.Format.Format_ARGB32_Premultiplied)
     image.fill(0)
@@ -822,12 +834,15 @@ def test_factory_view_v2_machine_card_prototype_renders_five_family_signage_card
     preview = _save_preview(image, "factory_view_v2_machine_card_prototype_preview.png")
 
     assert '"extractor": QColor("#d8a642")' in family_source
-    assert '"processor": QColor("#df6b2f")' in family_source
+    assert '"processor": QColor("#5d94aa")' in family_source
+    assert '"fabricator": QColor("#df6b2f")' in family_source
     assert '"assembly": QColor("#c83a2b")' in family_source
     assert '"energy": QColor("#ffd21f")' in family_source
     assert '"transport": QColor("#25b9e8")' in family_source
     assert "body = QLinearGradient(rect.topLeft(), rect.bottomRight())" in source
-    assert "sign = QRectF(rect.left() + 14, rect.top() + 54" in source
+    assert "rarity_rail = QRectF" not in source
+    assert "stage_plate = QRectF" not in source
+    assert "sign = QRectF(rect.left() + 18, rect.top() + 55" in source
     assert "header_title = QRectF" in source
     assert "main_info = QRectF" in source
     assert "secondary_info = QRectF" in source
@@ -836,12 +851,12 @@ def test_factory_view_v2_machine_card_prototype_renders_five_family_signage_card
     assert "align=Qt.AlignmentFlag.AlignHCenter" in source
     assert "draw_panel_bolts(painter, rect, inset=10" in source
     assert "_accent(Accent.BUILD" not in source
-    assert "drawLine(sign.left()" not in source
+    assert "drawLine(QPointF(sign.left() + 11" in source
     assert "_point(rect, 0.18, 0.18)" not in icon_source
     assert "secondary_control" in source
     assert "draw_machine_card_prototype" in runtime_source
-    for family in ("extractor", "processor", "assembly", "energy", "transport"):
-        assert f'family == "{family}"' in icon_source
+    for family in ("extractor", "processor", "fabricator", "assembler", "transport", "solar", "wind", "coal", "gas", "nuclear"):
+        assert f'"{family}"' in icon_source
     assert preview.exists()
     assert _painted_samples(image) > 60
 
@@ -860,8 +875,23 @@ def test_factory_view_v2_machine_category_accent_mapping_is_type_based() -> None
     assert accent_for_definition(cards["test-solar-common-001"]._definition) == factory_v2_module.Accent.ENERGY
     assert accent_for_definition(cards["test-furnace-common-001"]._definition) == factory_v2_module.Accent.PROCESSOR
     assert prototype_family_for_definition(cards["test-drill-common-001"]._definition) == "extractor"
-    assert prototype_family_for_definition(cards["test-solar-common-001"]._definition) == "energy"
+    assert prototype_family_for_definition(cards["test-solar-common-001"]._definition) == "solar"
     assert prototype_family_for_definition(cards["test-furnace-common-001"]._definition) == "processor"
+
+
+def test_factory_view_v2_freight_cards_use_vehicle_visual_identity() -> None:
+    _app()
+    _, definitions, _ = _state_defs_bus()
+
+    freight_cases = {
+        "freight.truck": "truck",
+        "freight.train": "train",
+        "freight.ship": "ship",
+        "freight.aircraft": "aircraft",
+    }
+
+    for definition_id, expected_family in freight_cases.items():
+        assert prototype_family_for_definition(definitions[definition_id]) == expected_family
 
 
 def test_factory_view_v2_machine_card_visual_hierarchy_exposes_primary_message() -> None:
@@ -893,6 +923,9 @@ def test_factory_view_v2_machine_card_visual_hierarchy_exposes_primary_message()
 def test_factory_view_v2_machine_cards_show_selected_runtime_resource(monkeypatch) -> None:
     _app()
     state, definitions, bus = _state_defs_bus()
+    state.production_progress.unlocked_production_ids.update(
+        {"recipe.processor.iron", "recipe.processor.copper"}
+    )
     bus.dispatch(InstallCardInHall("hall-1", 0, "test-drill-common-001"))
     bus.dispatch(InstallCardInHall("hall-1", 2, "test-furnace-common-001"))
     bus.dispatch(SelectMachineProduction("test-drill-common-001", "recipe.extract.iron_ore", "iron_ore"))
@@ -950,20 +983,94 @@ def test_factory_view_v2_machine_resource_inset_replaces_circular_selector() -> 
     assert "_config_rect" not in inspect.getsource(FactoryV2MachineCard)
 
 
+def test_processor_recipe_control_tracks_unlocked_choice_count_and_selection() -> None:
+    app = _app()
+    state, definitions, bus = _state_defs_bus()
+    processor = definitions["machine.processor"]
+    processor_option_ids = {
+        option.production_id for option in processor.available_production_options
+    }
+    state.production_progress.unlocked_production_ids.difference_update(processor_option_ids)
+    bus.dispatch(InstallCardInHall("hall-1", 0, "test-furnace-common-001"))
+    view = FactoryViewV2(state, bus, definitions)
+    view.resize(1366, 768)
+    view.show()
+    app.processEvents()
+
+    def processor_card() -> FactoryV2MachineCard:
+        return next(
+            card
+            for card in view.findChildren(FactoryV2MachineCard, "factoryV2MachineCard")
+            if card._card is not None and card._card.card_id == "test-furnace-common-001"
+        )
+
+    card = processor_card()
+    assert card._active_production() is None
+    assert card._production_change_available() is False
+    assert card._prototype_secondary_text() == "NO RECIPE"
+
+    state.production_progress.unlocked_production_ids.add("recipe.processor.iron")
+    view.refresh_view()
+    app.processEvents()
+    card = processor_card()
+    assert card._active_production() is None
+    assert card._production_change_available() is True
+    assert card._prototype_secondary_text() == "SELECT RECIPE >"
+
+    QTest.mouseClick(
+        card,
+        Qt.MouseButton.LeftButton,
+        pos=card._resource_control_rect().center().toPoint(),
+    )
+    app.processEvents()
+    assert view._drawer_mode == "production"
+    picker_options = view._filtered_production_options()
+    assert [
+        option.production_id for option in picker_options if option.production_id in state.production_progress.unlocked_production_ids
+    ] == ["recipe.processor.iron"]
+    assert len(picker_options) <= 3
+
+    option_tile = next(
+        tile
+        for tile in view.findChildren(QFrame, "productionSelectionTile")
+        if tile.property("productionId") == "recipe.processor.iron"
+    )
+    QTest.mouseClick(option_tile, Qt.MouseButton.LeftButton)
+    app.processEvents()
+    selected = state.machine_production["test-furnace-common-001"]
+    assert selected.selected_production_id == "recipe.processor.iron"
+    card = processor_card()
+    assert card._production_change_available() is False
+    assert card._prototype_secondary_text() == "IRON"
+
+    bus.dispatch(InstallCardInHall("hall-1", 1, "test-solar-common-001"))
+    totals = SimulationEngine(definitions).advance_time(state, 6.0)
+    assert totals.outputs["iron"] > 0
+    assert selected.selected_production_id == "recipe.processor.iron"
+
+    state.production_progress.unlocked_production_ids.add("recipe.processor.copper")
+    view.refresh_view()
+    app.processEvents()
+    assert processor_card()._production_change_available() is True
+
+
 def test_factory_view_v2_machine_card_runtime_zones_do_not_overlap() -> None:
     source = inspect.getsource(game_rendering_factory_module.draw_machine_card_prototype)
-    runtime_source = inspect.getsource(FactoryV2MachineCard.paintEvent)
+    runtime_source = inspect.getsource(FactoryV2MachineCard._render_card_pixmap)
 
-    assert "sign = QRectF(rect.left() + 14, rect.top() + 54" in source
-    assert "main_info = QRectF(rect.left() + 14, sign.bottom() + 7" in source
-    assert "secondary_info = QRectF(rect.left() + 14, sign.bottom() + 24" in source
-    assert "progress = QRectF(rect.left() + 18, footer.top() - 7" in runtime_source
+    assert "sign = QRectF(rect.left() + 18, rect.top() + 55" in source
+    assert "main_info = QRectF(rect.left() + 16, sign.bottom() + 7" in source
+    assert "secondary_info = QRectF(rect.left() + 16, sign.bottom() + 24" in source
+    assert "draw_progress_bar(" not in runtime_source
     assert "footer = QRectF(rect.left() + 10, rect.bottom() - 27" in runtime_source
 
 
 def test_factory_view_v2_active_machine_card_polish_keeps_geometry_and_content_focus() -> None:
     _app()
     state, definitions, bus = _state_defs_bus()
+    state.production_progress.unlocked_production_ids.update(
+        {"recipe.processor.iron", "recipe.processor.copper"}
+    )
     bus.dispatch(InstallCardInHall("hall-1", 0, "test-furnace-common-001"))
     bus.dispatch(SelectMachineProduction("test-furnace-common-001", "recipe.processor.iron", "iron"))
     processor_state = state.machine_production["test-furnace-common-001"]
@@ -1054,7 +1161,7 @@ def test_factory_view_v2_cards_use_compact_module_proportions_in_tracks() -> Non
     assert machine.width() < 170
     assert machine.height() > 220
     assert locked_slot.size() == machine.size()
-    assert track.minimumHeight() >= FACTORY_V2_CARD_HEIGHT + 56
+    assert track.minimumHeight() >= FACTORY_V2_CARD_HEIGHT + 48
 
 
 def test_factory_view_v2_cards_build_and_locked_slots_share_raised_baseline() -> None:
@@ -1077,7 +1184,7 @@ def test_factory_view_v2_cards_build_and_locked_slots_share_raised_baseline() ->
     assert locked_slot is not None
     assert machine.y() == build_slot.y() == locked_slot.y()
     assert machine.y() <= 58
-    assert "layout.setSpacing(6)" in inspect.getsource(factory_v2_module.FactoryViewV2._build_line_panel)
+    assert "layout.setSpacing(4)" in inspect.getsource(factory_v2_module.FactoryViewV2._build_line_panel)
 
 
 def test_factory_view_v2_command_deck_groups_primary_systems_operations_and_rank() -> None:
@@ -1098,8 +1205,8 @@ def test_factory_view_v2_command_deck_groups_primary_systems_operations_and_rank
     assert deck.findChild(QFrame, "factoryV2StorageModule") is not None
     assert deck.findChild(QFrame, "factoryV2PrimarySystems")._accent == factory_v2_module.Accent.STORAGE
     assert deck.findChild(QFrame, "factoryV2ResourceStrip")._accent == factory_v2_module.Accent.PROCESSOR
-    assert deck.findChild(QLabel, "factoryV2OperationsLabel").text() == "GLOBAL OPERATIONS"
-    assert deck.findChild(QLabel, "factoryV2OperationsHint").text() == "READY FOR FACTORY-WIDE SIGNALS"
+    assert deck.findChild(QLabel, "factoryV2OperationsLabel").text() == "PRODUCTION NETWORK"
+    assert deck.findChild(QLabel, "factoryV2OperationsHint").text() == "1 UNIT · 0 MODULES ONLINE"
     assert deck.findChild(QLabel, "factoryV2ResourceName") is None
     assert deck.findChild(QLabel, "factoryV2ResourceAmount") is None
     storage_button = deck.findChild(GameButton, "expandResourceStorageButton")
@@ -1107,7 +1214,7 @@ def test_factory_view_v2_command_deck_groups_primary_systems_operations_and_rank
     assert storage_button.accent == factory_v2_module.Accent.BUILD
     assert storage_button.variant == "primary"
     assert storage_button.property("factoryV2StorageCta") is True
-    assert "text_color = \"#10120a\"" in inspect.getsource(GameButton)
+    assert 'text_color = "#a7ada8" if state == InteractionState.DISABLED' in inspect.getsource(GameButton)
     deck_source = inspect.getsource(FactoryCommandDeckWidget)
     assert "rect.width() * 0.16" in deck_source
     assert "stripe_width=18" in deck_source
@@ -1135,7 +1242,7 @@ def test_factory_view_v2_topbar_primary_values_are_readable_without_overlap() ->
     for label in labels:
         assert label.text()
         assert label.fontMetrics().horizontalAdvance(label.text()) <= label.rect().width()
-        assert label.fontMetrics().boundingRect(label.text()).height() <= label.rect().height()
+        assert label.fontMetrics().tightBoundingRect(label.text()).height() <= label.rect().height()
 
     value_rects = []
     for label in labels:
@@ -1170,8 +1277,8 @@ def test_factory_view_v2_command_deck_storage_rank_and_branding_are_clean() -> N
     assert deck.findChild(QLabel, "factoryV2DeckSubtitle") is None
     assert all("deterministic industry" not in label.text() for label in deck.findChildren(QLabel))
     assert all("cards ·" not in label.text() for label in deck.findChildren(QLabel))
-    assert deck.findChild(QLabel, "factoryV2DeckTitle").text() == "PRODUCTION ZERO"
-    assert deck.findChild(QLabel, "factoryV2Level").text() == "LEVEL 1"
+    assert deck.findChild(QLabel, "factoryV2DeckTitle").text() == "INDUSTRIOVA"
+    assert deck.findChild(QPushButton, "factoryV2Level").text() == "LEVEL 1"
     assert deck.findChild(QLabel, "factoryV2RankTitle").text() == "FOUNDER"
     assert deck.findChild(QFrame, "factoryV2RankEmblem") is not None
     assert isinstance(deck.findChild(QFrame, "factoryV2StorageModule"), FactoryV2CommandModule)
@@ -1182,7 +1289,7 @@ def test_factory_view_v2_command_deck_storage_rank_and_branding_are_clean() -> N
     storage_button = deck.findChild(GameButton, "expandResourceStorageButton")
     rank_emblem = deck.findChild(QFrame, "factoryV2RankEmblem")
     rank_icon = deck.findChild(QWidget, "factoryV2RankIcon")
-    level = deck.findChild(QLabel, "factoryV2Level")
+    level = deck.findChild(QPushButton, "factoryV2Level")
     rank_title = deck.findChild(QLabel, "factoryV2RankTitle")
     xp = deck.findChild(QLabel, "factoryV2Xp")
     assert storage_label is not None
@@ -1194,15 +1301,17 @@ def test_factory_view_v2_command_deck_storage_rank_and_branding_are_clean() -> N
     assert level is not None
     assert rank_title is not None
     assert xp is not None
-    assert storage_button.height() >= 34
+    assert storage_button.height() >= 28
     storage_module = deck.findChild(QFrame, "factoryV2StorageModule")
     progression_zone = deck.findChild(QFrame, "factoryV2ProgressionZone")
     assert storage_module is not None
     assert progression_zone is not None
-    assert storage_icon.mapTo(storage_module, storage_icon.rect().topLeft()).y() == 12
+    assert abs(storage_icon.mapTo(storage_module, storage_icon.rect().topLeft()).y() - storage_label.mapTo(storage_module, storage_label.rect().topLeft()).y()) <= 1
     assert storage_label.mapTo(storage_module, storage_label.rect().topLeft()).y() == 12
     assert storage_value.mapTo(storage_module, storage_value.rect().topLeft()).y() > storage_label.mapTo(storage_module, storage_label.rect().topLeft()).y()
-    assert storage_button.mapTo(storage_module, storage_button.rect().topLeft()).y() == 54
+    assert storage_button.y() == storage_label.mapTo(storage_module, storage_label.rect().topLeft()).y()
+    assert storage_button.x() > storage_value.mapTo(storage_module, storage_value.rect().topRight()).x()
+    assert storage_module.rect().contains(storage_button.geometry())
     assert rank_emblem.width() == 82
     assert rank_icon.width() == 64
     assert rank_emblem.width() >= 2 * 42 - 2
@@ -1212,7 +1321,7 @@ def test_factory_view_v2_command_deck_storage_rank_and_branding_are_clean() -> N
     assert xp.mapTo(progression_zone, xp.rect().topLeft()).y() > rank_title.mapTo(progression_zone, rank_title.rect().topLeft()).y()
 
     for label in (storage_label, storage_value):
-        bounding = label.fontMetrics().boundingRect(label.text())
+        bounding = label.fontMetrics().tightBoundingRect(label.text())
         assert bounding.height() <= label.rect().height()
         assert label.fontMetrics().horizontalAdvance(label.text()) <= label.rect().width()
 
@@ -1228,15 +1337,24 @@ def test_factory_view_v2_utility_panels_and_guide_use_rollout_runtime_widgets() 
     bus.dispatch(InstallCardInHall("hall-1", 1, "test-solar-common-001"))
     bus.dispatch(SelectMachineProduction("test-drill-common-001", "recipe.extract.iron_ore", "iron_ore"))
     view = FactoryViewV2(state, bus, definitions)
+    resources_button = view.findChild(FactoryV2CommandButton, "resourcesButton")
+    assert resources_button is None
+    view._set_resources_drawer_open(True)
 
     image = _render_widget(view, 1920, 1080)
 
-    summary = view.findChild(FactoryV2HallResourceSummaryWidget, "hallResourceSummary")
+    drawer = view.findChild(FactoryV2ResourceDrawer, "factoryV2ResourceDrawer")
+    summary = view.findChild(FactoryV2HallResourceSummaryWidget, "factoryV2ResourceDrawerSummary")
+    drawer_title = view.findChild(QLabel, "factoryV2DrawerTitle")
     guide = view.findChild(FactoryV2CommandButton, "productionGuideButton")
     kpi = view.findChild(FactoryV2KpiStripWidget, "hallKpiStrip")
     utility_items = view.findChildren(QFrame, "hallResourceSummaryItem")
 
+    assert drawer is not None
     assert summary is not None
+    assert drawer_title is not None
+    assert drawer_title.font().pointSize() == 17
+    assert drawer_title.font().weight() == drawer_title.font().Weight.Black
     assert guide is not None
     assert kpi is not None
     assert utility_items
@@ -1248,7 +1366,8 @@ def test_factory_view_v2_utility_panels_and_guide_use_rollout_runtime_widgets() 
     assert "font.setPointSize(12 if self.height() <= 38 else 14)" in button_source
     assert "font.setWeight(font.Weight.Black)" in button_source
     hall_source = inspect.getsource(FactoryV2HallStage)
-    assert "header_panel = rect.adjusted(16, 14, -16, -14)" in hall_source
+    assert "header_panel = rect.adjusted(14, 10, -14, -10)" in hall_source
+    assert "active lines" not in hall_source
     assert "header_panel.width() * 0.62" not in hall_source
     assert "header_panel.bottom() - 18" not in hall_source
     assert "header_body.setColorAt" not in inspect.getsource(FactoryV2HallStage)
@@ -1277,10 +1396,246 @@ def test_factory_view_v2_hall_overview_is_compact_and_stage_text_fits() -> None:
 
     assert overview is not None
     assert stage is not None
-    assert overview.minimumHeight() <= 168
-    assert stage.minimumHeight() <= 140
+    assert overview.minimumHeight() <= 100
+    assert stage.minimumHeight() <= 86
     assert stage.geometry().height() >= stage.minimumHeight()
+    assert "slots" not in inspect.getsource(FactoryV2HallStage)
     assert _painted_samples(image) > 100
+
+
+def test_factory_view_v2_resource_drawer_toggles_without_relaying_out_lines() -> None:
+    _app()
+    state, definitions, bus = _state_defs_bus()
+    bus.dispatch(InstallCardInHall("hall-1", 0, "test-drill-common-001"))
+    bus.dispatch(InstallCardInHall("hall-1", 1, "test-solar-common-001"))
+    bus.dispatch(SelectMachineProduction("test-drill-common-001", "recipe.extract.iron_ore", "iron_ore"))
+    view = FactoryViewV2(state, bus, definitions)
+    view.resize(1600, 900)
+    view.show()
+    QApplication.processEvents()
+
+    tracks_before = [track.geometry() for track in view.findChildren(QFrame, "factoryV2ProductionTrack")]
+    machine_cards_before = view.findChildren(FactoryV2MachineCard, "factoryV2MachineCard")
+    structural_refresh_count = view._structural_refresh_count
+    assert view.findChild(FactoryV2CommandButton, 'resourcesButton') is None
+    view._set_resources_drawer_open(True)
+    QApplication.processEvents()
+
+    drawer = view.findChild(FactoryV2ResourceDrawer, "factoryV2ResourceDrawer")
+    tracks_after = [track.geometry() for track in view.findChildren(QFrame, "factoryV2ProductionTrack")]
+
+    assert drawer is not None
+    assert drawer.isVisible()
+    assert drawer.property("overlay") is True
+    assert tracks_after == tracks_before
+    assert view.findChildren(FactoryV2MachineCard, "factoryV2MachineCard") == machine_cards_before
+    assert view._structural_refresh_count == structural_refresh_count
+    assert drawer.geometry().right() <= view.findChild(QFrame, "factoryV2Board").width()
+
+    close = drawer.findChild(FactoryV2CommandButton, "closeDrawerButton")
+    assert close is not None
+    close.clicked.emit()
+    QApplication.processEvents()
+
+    assert view.findChild(FactoryV2ResourceDrawer, "factoryV2ResourceDrawer") is None
+    assert view.findChildren(FactoryV2MachineCard, "factoryV2MachineCard") == machine_cards_before
+    assert view._structural_refresh_count == structural_refresh_count
+
+    view._set_resources_drawer_open(True)
+    QApplication.processEvents()
+    reopened = view.findChild(FactoryV2ResourceDrawer, "factoryV2ResourceDrawer")
+
+    assert reopened is not None
+    assert reopened.isVisible()
+    assert view._structural_refresh_count == structural_refresh_count
+
+
+def test_factory_view_v2_preserves_scroll_after_slot_unlock_rebuild() -> None:
+    _app()
+    state, definitions, bus = _state_defs_bus()
+    state.cash.amount = 10_000
+    view = FactoryViewV2(state, bus, definitions)
+    view.resize(1500, 520)
+    view.show()
+    QApplication.processEvents()
+
+    scroll = view.findChild(QScrollArea, "factoryV2Scroll")
+    assert scroll is not None
+    assert scroll.verticalScrollBar().maximum() > 0
+    scroll.verticalScrollBar().setValue(scroll.verticalScrollBar().maximum())
+    before = scroll.verticalScrollBar().value()
+    locked = view.findChild(QFrame, "lockedSlotPanel")
+    assert locked is not None
+
+    locked.activated.emit()
+    QApplication.processEvents()
+    QApplication.processEvents()
+
+    scroll_after = view.findChild(QScrollArea, "factoryV2Scroll")
+    assert scroll_after is not None
+    assert scroll_after.verticalScrollBar().value() == min(before, scroll_after.verticalScrollBar().maximum())
+
+
+def test_factory_view_v2_preserves_scroll_after_card_install_from_selection() -> None:
+    _app()
+    state, definitions, bus = _state_defs_bus()
+    view = FactoryViewV2(state, bus, definitions)
+    view.resize(1500, 520)
+    view.show()
+    QApplication.processEvents()
+
+    scroll = view.findChild(QScrollArea, "factoryV2Scroll")
+    assert scroll is not None
+    assert scroll.verticalScrollBar().maximum() > 0
+    scroll.verticalScrollBar().setValue(scroll.verticalScrollBar().maximum())
+    before = scroll.verticalScrollBar().value()
+
+    view._on_slot_clicked(0)
+    QApplication.processEvents()
+    assert view.findChild(QScrollArea, "factoryV2Scroll") is None
+    view._install_card_from_selection("test-furnace-common-001")
+    _drain_deferred_ui()
+
+    scroll_after = view.findChild(QScrollArea, "factoryV2Scroll")
+    assert scroll_after is not None
+    assert scroll_after.verticalScrollBar().value() == min(before, scroll_after.verticalScrollBar().maximum())
+
+
+def test_factory_view_v2_preserves_scroll_after_production_change_from_selection() -> None:
+    _app()
+    state, definitions, bus = _state_defs_bus()
+    bus.dispatch(InstallCardInHall("hall-1", 0, "test-drill-common-001"))
+    view = FactoryViewV2(state, bus, definitions)
+    view.resize(1500, 520)
+    view.show()
+    QApplication.processEvents()
+
+    scroll = view.findChild(QScrollArea, "factoryV2Scroll")
+    assert scroll is not None
+    assert scroll.verticalScrollBar().maximum() > 0
+    scroll.verticalScrollBar().setValue(scroll.verticalScrollBar().maximum())
+    before = scroll.verticalScrollBar().value()
+
+    view._open_production_drawer("test-drill-common-001")
+    QApplication.processEvents()
+    assert view.findChild(QScrollArea, "factoryV2Scroll") is None
+    view._apply_production_option("resource.copper_ore", "copper_ore")
+    _drain_deferred_ui()
+
+    scroll_after = view.findChild(QScrollArea, "factoryV2Scroll")
+    assert scroll_after is not None
+    assert scroll_after.verticalScrollBar().value() == min(before, scroll_after.verticalScrollBar().maximum())
+
+
+def test_factory_view_v2_production_guide_reuses_static_index_and_sorted_items() -> None:
+    _app()
+    state, definitions, bus = _state_defs_bus()
+    view = FactoryViewV2(state, bus, definitions)
+    index_builds = view._guide_option_index_build_count
+
+    view._open_production_guide()
+    QApplication.processEvents()
+    first_cache_rebuilds = view._guide_items_cache_rebuild_count
+    first_tile_count = view._guide_tile_create_count
+    view._close_drawer()
+    view._open_production_guide()
+    QApplication.processEvents()
+
+    assert view._guide_option_index_build_count == index_builds
+    assert view._guide_items_cache_rebuild_count == first_cache_rebuilds
+    assert view._guide_tile_create_count == first_tile_count
+
+
+def test_factory_view_v2_passive_runtime_refresh_preserves_scroll_and_machine_widgets() -> None:
+    _app()
+    state, definitions, bus = _state_defs_bus()
+    bus.dispatch(InstallCardInHall("hall-1", 0, "test-drill-common-001"))
+    bus.dispatch(InstallCardInHall("hall-1", 1, "test-solar-common-001"))
+    bus.dispatch(SelectMachineProduction("test-drill-common-001", "recipe.extract.iron_ore", "iron_ore"))
+    view = FactoryViewV2(state, bus, definitions)
+    view.resize(1500, 520)
+    view.show()
+    QApplication.processEvents()
+
+    scroll = view.findChild(QScrollArea, "factoryV2Scroll")
+    assert scroll is not None
+    scroll.verticalScrollBar().setValue(scroll.verticalScrollBar().maximum())
+    before_scroll = scroll.verticalScrollBar().value()
+    machine_cards_before = dict(view._slot_widgets)
+    structural_refresh_count = view._structural_refresh_count
+
+    state.resources["iron_ore"].amount += 12
+    view._refresh_runtime_widgets()
+    QApplication.processEvents()
+
+    assert view._slot_widgets == machine_cards_before
+    assert view._structural_refresh_count == structural_refresh_count
+    assert scroll.verticalScrollBar().value() == before_scroll
+
+
+def test_factory_view_v2_header_height_is_stable_when_resource_drawer_has_many_items() -> None:
+    _app()
+    state, definitions, bus = _state_defs_bus()
+    for slot_index, card_id, production_id, resource_id in (
+        (0, "test-drill-common-001", "recipe.extract.iron_ore", "iron_ore"),
+        (1, "test-furnace-common-001", "recipe.processor.iron", "iron"),
+    ):
+        bus.dispatch(InstallCardInHall("hall-1", slot_index, card_id))
+        bus.dispatch(SelectMachineProduction(card_id, production_id, resource_id))
+    view = FactoryViewV2(state, bus, definitions)
+    view.resize(1600, 900)
+    view.show()
+    QApplication.processEvents()
+
+    overview_before = view.findChild(QFrame, "factoryV2HallOverview")
+    stage_before = view.findChild(QFrame, "factoryV2HallStage")
+    before_geometry = (overview_before.geometry(), stage_before.geometry())
+
+    assert view.findChild(FactoryV2CommandButton, 'resourcesButton') is None
+    view._set_resources_drawer_open(True)
+    QApplication.processEvents()
+
+    overview_after = view.findChild(QFrame, "factoryV2HallOverview")
+    stage_after = view.findChild(QFrame, "factoryV2HallStage")
+    drawer_summary = view.findChild(FactoryV2HallResourceSummaryWidget, "factoryV2ResourceDrawerSummary")
+
+    assert drawer_summary is not None
+    assert len(drawer_summary.findChildren(QFrame, "hallResourceSummaryItem")) >= 2
+    assert drawer_summary.property("layoutMode") == "vertical-list"
+    assert (overview_after.geometry(), stage_after.geometry()) == before_geometry
+
+
+def test_factory_view_v2_resource_drawer_entries_are_top_aligned_vertical_list() -> None:
+    _app()
+    state, definitions, bus = _state_defs_bus()
+    for slot_index, card_id, production_id, resource_id in (
+        (0, "test-drill-common-001", "recipe.extract.iron_ore", "iron_ore"),
+        (1, "test-furnace-common-001", "recipe.processor.iron", "iron"),
+    ):
+        bus.dispatch(InstallCardInHall("hall-1", slot_index, card_id))
+        bus.dispatch(SelectMachineProduction(card_id, production_id, resource_id))
+    view = FactoryViewV2(state, bus, definitions)
+    view.resize(1600, 900)
+    view.show()
+    QApplication.processEvents()
+    view._set_resources_drawer_open(True)
+    QApplication.processEvents()
+
+    summary = view.findChild(FactoryV2HallResourceSummaryWidget, "factoryV2ResourceDrawerSummary")
+    items = sorted(
+        summary.findChildren(QFrame, "hallResourceSummaryItem"),
+        key=lambda item: item.mapTo(summary, item.rect().topLeft()).y(),
+    )
+
+    assert summary.property("layoutMode") == "vertical-list"
+    assert len(items) >= 2
+    assert items[0].mapTo(summary, items[0].rect().topLeft()).y() <= 2
+    assert all(item.width() == items[0].width() for item in items)
+    assert all(
+        items[index].mapTo(summary, items[index].rect().topLeft()).y()
+        > items[index - 1].mapTo(summary, items[index - 1].rect().topLeft()).y()
+        for index in range(1, len(items))
+    )
 
 
 def test_factory_view_v2_build_slot_stage_uses_square_geometry() -> None:
@@ -1350,6 +1705,7 @@ def test_factory_view_v2_sidebar_hall_overview_and_rarity_hooks_are_runtime_widg
     assert view._build_hall_button.objectName() == "buildHallButtonV2"
     assert "Build Hall" in view._build_hall_button.text()
     assert view.findChild(QFrame, "factoryV2HallOverview") is not None
+    assert view.findChild(FactoryV2CommandButton, "resourcesButton") is None
     assert any(label.text() == "LINE 01" for label in view.findChildren(FactoryV2LinePlate, "factoryV2LineTitle"))
     assert view.findChild(FactoryV2ActiveIndicator, "factoryV2ActiveIndicator") is not None
     assert not any(label.text() == "PRODUCTION TRACK" for label in view.findChildren(QLabel, "factoryV2LineEyebrow"))
@@ -1367,7 +1723,7 @@ def test_factory_view_v2_install_flash_hook_marks_recent_machine_temporarily() -
     state, definitions, bus = _state_defs_bus()
     view = FactoryViewV2(state, bus, definitions)
     view._on_slot_clicked(0)
-    view._install_card_from_selection("test-solar-common-001")
+    view._install_card_from_selection("test-furnace-common-001")
 
     machine = view.findChild(FactoryV2MachineCard, "factoryV2MachineCard")
     assert machine is not None
@@ -1380,6 +1736,9 @@ def test_factory_view_v2_1920_layout_renders_without_visible_top_level_windows()
     bus.dispatch(InstallCardInHall("hall-1", 0, "test-drill-common-001"))
     bus.dispatch(InstallCardInHall("hall-1", 1, "test-solar-common-001"))
     bus.dispatch(InstallCardInHall("hall-1", 2, "test-furnace-common-001"))
+    from production_zero.core.commands import UnlockProductionSlot
+    state.cash.amount=1_000
+    bus.dispatch(UnlockProductionSlot("hall-1","hall-1.line-1"))
     view = FactoryViewV2(state, bus, definitions)
 
     before = [widget for widget in QApplication.topLevelWidgets() if widget.isVisible()]

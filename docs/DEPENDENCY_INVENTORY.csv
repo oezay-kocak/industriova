@@ -1,0 +1,17 @@
+name,version,scope,license_metadata,evidence
+altgraph,0.17.5,development/build,MIT,installed distribution metadata; binaries not vendored
+colorama,0.4.6,development/build,OSI Approved :: BSD License,installed distribution metadata; binaries not vendored
+iniconfig,2.3.0,development/build,MIT,installed distribution metadata; binaries not vendored
+packaging,26.3,development/build,Apache-2.0 OR BSD-2-Clause,installed distribution metadata; binaries not vendored
+pefile,2024.8.26,development/build,MIT,installed distribution metadata; binaries not vendored
+pluggy,1.6.0,development/build,MIT,installed distribution metadata; binaries not vendored
+Pygments,2.20.0,development/build,BSD-2-Clause,installed distribution metadata; binaries not vendored
+pyinstaller,6.22.2,development/build,GPLv2-or-later with a special exception which allows to use PyInstaller to build and distribute non-free programs (including commercial ones),installed distribution metadata; binaries not vendored
+pyinstaller-hooks-contrib,2026.7,development/build,OSI Approved :: Apache Software License; OSI Approved :: GNU General Public License v2 (GPLv2),installed distribution metadata; binaries not vendored
+PySide6,6.11.1,runtime,LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only,installed distribution metadata; binaries not vendored
+PySide6_Addons,6.11.1,runtime,LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only,installed distribution metadata; binaries not vendored
+PySide6_Essentials,6.11.1,runtime,LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only,installed distribution metadata; binaries not vendored
+pytest,9.1.1,development/build,MIT,installed distribution metadata; binaries not vendored
+pywin32-ctypes,0.2.3,development/build,BSD-3-Clause,installed distribution metadata; binaries not vendored
+setuptools,84.0.0,development/build,MIT,installed distribution metadata; binaries not vendored
+shiboken6,6.11.1,runtime,LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only,installed distribution metadata; binaries not vendored

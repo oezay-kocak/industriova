@@ -1,41 +1,18 @@
 from __future__ import annotations
 
-import re
-
 from PySide6.QtCore import Qt
 from PySide6.QtWidgets import QLabel
 
 
-_GROUPED_SUFFIXES = (
-    "CLASS I",
-    "CLASS II",
-    "CLASS III",
-    "MK I",
-    "MK II",
-    "MK III",
-    "MK IV",
-    "MK V",
-)
-
 
 def smart_card_title(text: str) -> str:
-    normalized = " ".join(text.replace("\n", " ").split())
-    upper = normalized.upper()
-    if " · " in normalized:
-        left, right = normalized.split(" · ", 1)
-        if any(right.upper().startswith(suffix) for suffix in _GROUPED_SUFFIXES):
-            return f"{left}\n{right}"
-    for suffix in _GROUPED_SUFFIXES:
-        marker = f" {suffix}"
-        if upper.endswith(marker):
-            return f"{normalized[:-len(marker)]}\n{normalized[-len(suffix):]}"
-    match = re.search(r"\b([IVX]+)$", normalized)
-    if match is not None and match.start() > 0:
-        before = normalized[: match.start()].rstrip()
-        grouped = before.rsplit(" ", 1)
-        if len(grouped) == 2 and grouped[1].upper() in {"MK", "CLASS"}:
-            return f"{grouped[0]}\n{grouped[1]} {match.group(1)}"
-    return normalized
+    return " ".join(text.replace("\n", " ").split())
+
+
+def count_label(count: int, singular: str, plural: str | None = None) -> str:
+    """Format a counted UI noun without leaking mechanical ``s`` suffixes."""
+    return f"{count} {singular if count == 1 else (plural or singular + 's')}"
+
 
 
 class SmartCardTitleLabel(QLabel):

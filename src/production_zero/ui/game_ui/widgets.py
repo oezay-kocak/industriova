@@ -71,6 +71,13 @@ class _InteractivePaintWidget(QWidget):
             return
         super().mouseReleaseEvent(event)
 
+    def keyPressEvent(self, event) -> None:
+        if self.isEnabled() and event.key() in (Qt.Key.Key_Space, Qt.Key.Key_Return, Qt.Key.Key_Enter):
+            self.clicked.emit()
+            event.accept()
+            return
+        super().keyPressEvent(event)
+
 
 class GamePanel(QFrame):
     def __init__(
@@ -143,8 +150,21 @@ class GameButton(_InteractivePaintWidget):
         self._text = text
         self._variant = variant
         self.setObjectName("gameButton")
+        self.setStyleSheet("background: transparent; border: 0;")
+        self.setAttribute(Qt.WidgetAttribute.WA_TranslucentBackground, True)
         self.setMinimumSize(112, 38)
         self.setCursor(Qt.CursorShape.PointingHandCursor)
+
+    def setText(self, text: str) -> None:
+        self._text = text
+        self.update()
+
+    def text(self) -> str:
+        return self._text
+
+    def click(self) -> None:
+        if self.isEnabled():
+            self.clicked.emit()
 
     @property
     def variant(self) -> str:
@@ -156,21 +176,27 @@ class GameButton(_InteractivePaintWidget):
             painter.setRenderHint(QPainter.RenderHint.Antialiasing)
             state = self.interaction_state()
             rect = QRectF(1, 1, self.width() - 2, self.height() - 2)
-            if self._variant == "primary" and self.accent == Accent.BUILD:
+            raised = self._variant == "primary" and self.accent in {Accent.BUILD, Accent.DANGER, Accent.SUCCESS, Accent.STORAGE, Accent.NEUTRAL}
+            if raised:
                 body = QLinearGradient(rect.topLeft(), rect.bottomLeft())
-                if state == InteractionState.PRESSED:
-                    body.setColorAt(0.0, QColor("#c89305"))
-                    body.setColorAt(0.48, GAME_UI_TOKENS.colors.accent(Accent.BUILD, 232))
-                    body.setColorAt(1.0, QColor("#745200"))
+                if state == InteractionState.DISABLED:
+                    body.setColorAt(0.0, QColor("#4b504b"))
+                    body.setColorAt(0.48, QColor("#343934"))
+                    body.setColorAt(1.0, QColor("#1b1e1b"))
                 else:
-                    body.setColorAt(0.0, QColor("#fff06f"))
-                    body.setColorAt(0.44, GAME_UI_TOKENS.colors.accent(Accent.BUILD, 246))
-                    body.setColorAt(0.78, QColor("#c88f00"))
-                    body.setColorAt(1.0, QColor("#111008"))
-                painter.setPen(QPen(QColor(7, 8, 7, 238), 2))
+                    palette = {
+                        Accent.NEUTRAL: ("#eeeee3", "#c3c6bb", "#8f968d", "#303a34"),
+                        Accent.BUILD: ("#fff06f", "#ffd21f", "#c88f00", "#111008"),
+                        Accent.DANGER: ("#ffaca0", "#e64d38", "#af281c", "#29100d"),
+                        Accent.SUCCESS: ("#b7ff79", "#65d83a", "#329319", "#10240a"),
+                        Accent.STORAGE: ("#c6f5ff", "#74d8f2", "#2899bd", "#0c242d"),
+                    }[self.accent]
+                    for stop, color in zip((0., .44, .78, 1.), palette):
+                        body.setColorAt(stop, QColor(color).darker(125) if state == InteractionState.PRESSED else QColor(color))
+                painter.setPen(QPen(QColor("#6e756f") if state == InteractionState.DISABLED else QColor(7, 8, 7, 238), 2))
                 painter.setBrush(body)
                 painter.drawRoundedRect(rect, GAME_UI_TOKENS.geometry.radius_medium, GAME_UI_TOKENS.geometry.radius_medium)
-                painter.setPen(QPen(QColor(255, 246, 210, 174 if state == InteractionState.HOVER else 118), 1))
+                painter.setPen(QPen(QColor(255, 255, 255, 28 if state == InteractionState.DISABLED else (174 if state == InteractionState.HOVER else 118)), 1))
                 painter.drawLine(rect.left() + 9, rect.top() + 6, rect.right() - 9, rect.top() + 6)
                 painter.setPen(QPen(QColor(0, 0, 0, 150), 1))
                 painter.drawLine(rect.left() + 9, rect.bottom() - 5, rect.right() - 9, rect.bottom() - 5)
@@ -183,12 +209,22 @@ class GameButton(_InteractivePaintWidget):
                     level=MaterialLevel.ELEVATED if self._variant in {"primary", "upgrade"} else MaterialLevel.PANEL,
                     radius=GAME_UI_TOKENS.geometry.radius_medium,
                 )
-            text_color = "#10120a" if self._variant == "primary" and self.accent == Accent.BUILD else GAME_UI_TOKENS.colors.text_primary
+            text_color = "#a7ada8" if state == InteractionState.DISABLED else ("#10120a" if raised else GAME_UI_TOKENS.colors.text_primary)
             color = GAME_UI_TOKENS.colors.qcolor(text_color, 105 if state == InteractionState.DISABLED else 255)
             painter.setPen(color)
-            if self._variant == "primary" and self.accent == Accent.BUILD:
+            if raised and self._text == "⇈":
+                painter.setPen(QPen(color, 2.6, Qt.PenStyle.SolidLine, Qt.PenCapStyle.RoundCap, Qt.PenJoinStyle.RoundJoin))
+                for x in (self.width() * .37, self.width() * .65):
+                    top, bottom = self.height() * .32, self.height() * .72
+                    painter.drawLine(QPoint(round(x), round(bottom)), QPoint(round(x), round(top)))
+                    painter.drawLine(QPoint(round(x-4), round(top+5)), QPoint(round(x), round(top)))
+                    painter.drawLine(QPoint(round(x+4), round(top+5)), QPoint(round(x), round(top)))
+                return
+            if raised:
                 font = GAME_UI_TOKENS.typography.industrial_title()
                 font.setPointSize(12 if self.height() <= 38 else 14)
+                if self.objectName() == "globalResourcesButton":
+                    font.setPointSize(22)
                 font.setWeight(font.Weight.Black)
                 painter.setFont(font)
                 while font.pointSize() > 10 and painter.fontMetrics().horizontalAdvance(self._text.upper()) > self.width() - 18:
@@ -347,7 +383,7 @@ class GameCardFrame(_InteractivePaintWidget):
         primary: str = "Iron",
         status: str = "Running",
         *,
-        meta: str = "MK I",
+        meta: str = "COMMON",
         detail: str = "",
         icon: GameIcon = GameIcon.HALL,
         accent: Accent = Accent.ENERGY,
@@ -520,9 +556,9 @@ class GameUiShowcase(QWidget):
         card_layout = QHBoxLayout()
         card_layout.setContentsMargins(0, 8, 0, 0)
         card_layout.setSpacing(14)
-        extractor = GameCardFrame("Extractor", "Iron Ore", "Running", meta="Machine · MK I", detail="Power 12 MW", icon=GameIcon.IRON_ORE, accent=Accent.BUILD, status_accent=Accent.SUCCESS)
-        wind = GameCardFrame("Wind Turbine", "+35 MW", "Online", meta="Energy · MK I", detail="No fuel", icon=GameIcon.ENERGY, accent=Accent.ENERGY, status_accent=Accent.SUCCESS)
-        nuclear = GameCardFrame("Nuclear Plant", "+500 MW", "Fueled", meta="Energy · MK III", detail="Uranium fuel", icon=GameIcon.ENERGY, accent=Accent.LEGENDARY, status_accent=Accent.WARNING)
+        extractor = GameCardFrame("Extractor", "Iron Ore", "Running", meta="Machine · COMMON", detail="Power 12 MW", icon=GameIcon.IRON_ORE, accent=Accent.BUILD, status_accent=Accent.SUCCESS)
+        wind = GameCardFrame("Wind Turbine", "+35 MW", "Online", meta="Energy · COMMON", detail="No fuel", icon=GameIcon.ENERGY, accent=Accent.ENERGY, status_accent=Accent.SUCCESS)
+        nuclear = GameCardFrame("Nuclear Plant", "+500 MW", "Fueled", meta="Energy · LEGENDARY", detail="Uranium fuel", icon=GameIcon.ENERGY, accent=Accent.LEGENDARY, status_accent=Accent.WARNING)
         for card in (extractor, wind, nuclear):
             card.setMinimumSize(210, 190)
             card_layout.addWidget(card)
@@ -532,8 +568,8 @@ class GameUiShowcase(QWidget):
 
         track = ProductionTrack("Production Track · Aluminum Components", accent=Accent.ENERGY, slots=4)
         track.setMinimumHeight(250)
-        track.add_track_widget(GameCardFrame("Extractor", "Bauxite", "Running", meta="MK I", detail="+120/min", icon=GameIcon.IRON_ORE, accent=Accent.BUILD, status_accent=Accent.SUCCESS))
-        track.add_track_widget(GameCardFrame("Processor", "Aluminum", "Running", meta="MK I", detail="+60/min", icon=GameIcon.STEEL, accent=Accent.STORAGE, status_accent=Accent.SUCCESS))
+        track.add_track_widget(GameCardFrame("Extractor", "Bauxite", "Running", meta="COMMON", detail="+120/min", icon=GameIcon.IRON_ORE, accent=Accent.BUILD, status_accent=Accent.SUCCESS))
+        track.add_track_widget(GameCardFrame("Processor", "Aluminum", "Running", meta="COMMON", detail="+60/min", icon=GameIcon.STEEL, accent=Accent.STORAGE, status_accent=Accent.SUCCESS))
         track.add_track_widget(BuildSlotWidget("Build Slot", "Add machine"))
         track.add_track_widget(LockedUpgradeWidget("Slot 04", "$350", "Upgrade Bay"))
         layout.addWidget(track, 3, 0, 1, 4)

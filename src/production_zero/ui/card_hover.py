@@ -1,15 +1,61 @@
 from __future__ import annotations
 
 from PySide6.QtCore import QPoint, Qt, Signal
+from PySide6.QtGui import QPixmap
 from PySide6.QtWidgets import QFrame, QHBoxLayout, QLabel, QVBoxLayout, QWidget
 
-from production_zero.ui.resource_icons import ResourceIconWidget
+from production_zero.core.definitions import CardDefinition, EnergyDefinition, FreightDefinition, MachineDefinition
+from production_zero.ui.freight_art import FREIGHT_RASTER_ASSETS
+from production_zero.ui.machine_art import MACHINE_RASTER_ASSETS, machine_art_family_for_machine_type
+from production_zero.ui.resource_icons import ResourceIconWidget, card_resource_icon_signature
 from production_zero.ui.widget_lifecycle import hide_detach_delete
+
+
+HOVER_HIDDEN_METADATA = frozenset({"quantity", "available", "in use"})
+
+
+def card_hover_icon(definition: CardDefinition, *, size: int = 42) -> QWidget:
+    asset_path = None
+    family = ""
+    if isinstance(definition, EnergyDefinition):
+        family = definition.energy_type.value
+        asset_path = MACHINE_RASTER_ASSETS.get(family)
+    elif isinstance(definition, FreightDefinition):
+        family = definition.family.value
+        asset_path = FREIGHT_RASTER_ASSETS.get(family)
+    elif isinstance(definition, MachineDefinition):
+        family = machine_art_family_for_machine_type(definition.machine_type)
+        asset_path = MACHINE_RASTER_ASSETS.get(family)
+    if asset_path is not None:
+        pixmap = QPixmap(str(asset_path))
+        if not pixmap.isNull():
+            icon = QLabel()
+            icon.setObjectName("cardHoverIcon")
+            icon.setProperty("assetFamily", family)
+            icon.setProperty("assetPath", str(asset_path))
+            icon.setFixedSize(size, size)
+            icon.setAlignment(Qt.AlignmentFlag.AlignCenter)
+            icon.setPixmap(pixmap.scaled(
+                size,
+                size,
+                Qt.AspectRatioMode.KeepAspectRatio,
+                Qt.TransformationMode.SmoothTransformation,
+            ))
+            return icon
+    icon_key, accent_key, resource_id = card_resource_icon_signature(definition, definition.definition_id)
+    return ResourceIconWidget(resource_id, icon_key, accent_key, size=size)
 
 
 class HoverableCardFrame(QFrame):
     hovered = Signal()
     unhovered = Signal()
+
+    def __init__(self, parent: QWidget | None = None) -> None:
+        super().__init__(parent)
+        self.setAutoFillBackground(False)
+        self.setAttribute(Qt.WidgetAttribute.WA_StyledBackground, False)
+        self.setAttribute(Qt.WidgetAttribute.WA_TranslucentBackground, True)
+        self.setAttribute(Qt.WidgetAttribute.WA_NoSystemBackground, True)
 
     def enterEvent(self, event) -> None:  # noqa: N802
         self.hovered.emit()
@@ -36,7 +82,7 @@ class CardHoverInfoPopup(QFrame):
         self._layout.setContentsMargins(12, 10, 12, 11)
         self._layout.setSpacing(6)
 
-    def set_details(self, title: str, icon: ResourceIconWidget | None, sections: list[tuple[str, str]], signature: tuple) -> None:
+    def set_details(self, title: str, icon: QWidget | None, sections: list[tuple[str, str]], signature: tuple) -> None:
         self.details_signature = signature
         self.current_title = title
         self._clear_layout()
@@ -51,12 +97,18 @@ class CardHoverInfoPopup(QFrame):
         self._layout.addLayout(header)
 
         for label, value in sections:
+            if label.strip().lower() in HOVER_HIDDEN_METADATA:
+                continue
             row = QHBoxLayout()
             label_widget = QLabel(label.upper())
             label_widget.setObjectName("cardHoverLabel")
             label_widget.setFixedWidth(108)
             value_widget = QLabel(value)
             value_widget.setObjectName("cardHoverValue")
+            field_key = label.strip().lower().replace(" ", "_")
+            value_widget.setProperty("field", field_key)
+            if field_key == "rarity":
+                value_widget.setProperty("rarity", value.strip().lower())
             value_widget.setWordWrap(True)
             row.addWidget(label_widget)
             row.addWidget(value_widget, 1)
@@ -66,6 +118,8 @@ class CardHoverInfoPopup(QFrame):
 
     def update_values(self, sections: list[tuple[str, str]]) -> None:
         for label, value in sections:
+            if label.strip().lower() in HOVER_HIDDEN_METADATA:
+                continue
             value_widget = self._value_labels.get(label)
             if value_widget is not None and value_widget.text() != value:
                 value_widget.setText(value)

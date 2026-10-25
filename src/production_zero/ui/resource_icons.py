@@ -4,6 +4,8 @@ from PySide6.QtCore import QPointF, QRectF
 from PySide6.QtGui import QColor, QPainter, QPen, QPolygonF
 from PySide6.QtWidgets import QWidget
 
+from production_zero.core.definitions import CardDefinition, EnergyDefinition, FreightDefinition, MachineDefinition
+from production_zero.ui.resource_art import draw_resource_raster, has_resource_raster
 from production_zero.ui.theme import Theme
 
 
@@ -47,6 +49,9 @@ KNOWN_ICON_KEYS = {
     "coal_chunk",
     "oil_drop",
     "flame",
+    "solar_panel",
+    "wind_turbine",
+    "nuclear",
     "log",
     "wheat",
     "corn",
@@ -192,6 +197,44 @@ def resource_accent_color(resource_id_or_accent: str) -> str:
     return ACCENT_COLORS.get(accent, ACCENT_COLORS["default"])
 
 
+def energy_icon_signature(energy_type: str) -> tuple[str, str]:
+    return {
+        "solar": ("solar_panel", "battery"),
+        "wind": ("wind_turbine", "battery"),
+        "coal": ("coal_chunk", "coal"),
+        "gas": ("flame", "gas"),
+        "nuclear": ("nuclear", "battery"),
+    }.get(energy_type, ("battery", "battery"))
+
+
+def card_resource_icon_signature(definition: CardDefinition, card_definition_id: str | None = None) -> tuple[str, str, str]:
+    if isinstance(definition, MachineDefinition):
+        production_id = (
+            definition.default_production_id_for_card_definition(card_definition_id)
+            if card_definition_id is not None
+            else definition.default_production_id
+        )
+        production = definition.production_option(production_id)
+        resource_id = production.output_resource or definition.output_resource
+        return (
+            production.icon_key or definition.icon_key or resource_icon_key(resource_id),
+            production.accent_key or definition.accent_key or resource_accent_key(resource_id),
+            resource_id,
+        )
+    if isinstance(definition, EnergyDefinition):
+        icon_key, accent_key = energy_icon_signature(definition.energy_type.value)
+        return (icon_key, accent_key, definition.definition_id)
+    if isinstance(definition, FreightDefinition):
+        icon_key, accent_key = {
+            "truck": ("vehicle", "truck"),
+            "train": ("rail", "rail"),
+            "ship": ("ship", "ship"),
+            "aircraft": ("aircraft", "aircraft"),
+        }.get(definition.family.value, ("vehicle", "vehicle"))
+        return (icon_key, accent_key, definition.definition_id)
+    return (resource_icon_key(definition.definition_id), resource_accent_key(definition.definition_id), definition.definition_id)
+
+
 def resource_category(resource_id: str, stage: str | None = None) -> str:
     rid = resource_id.lower()
     if stage == "extractor":
@@ -237,6 +280,9 @@ class ResourceIconWidget(QWidget):
     def paintEvent(self, event) -> None:  # noqa: N802
         painter = QPainter(self)
         painter.setRenderHint(QPainter.RenderHint.Antialiasing)
+        if has_resource_raster(self.resource_id):
+            draw_resource_raster(painter, QRectF(self.rect()), self.resource_id)
+            return
         color = QColor(resource_accent_color(self.accent_key))
         muted = QColor(Theme.MUTED)
         rect = QRectF(4, 4, self.width() - 8, self.height() - 8)
@@ -320,6 +366,29 @@ class ResourceIconWidget(QWidget):
             painter.drawEllipse(inner.adjusted(5, 9, -5, -1))
             painter.drawLine(inner.center().x(), inner.top(), inner.left() + 5, inner.center().y())
             painter.drawLine(inner.center().x(), inner.top(), inner.right() - 5, inner.center().y())
+        elif key == "solar_panel":
+            panel = inner.adjusted(0, 7, 0, -7)
+            painter.drawRoundedRect(panel, 2, 2)
+            painter.setPen(QPen(QColor(Theme.PANEL_ALT), 1))
+            painter.drawLine(panel.left() + panel.width() * 0.33, panel.top() + 2, panel.left() + panel.width() * 0.33, panel.bottom() - 2)
+            painter.drawLine(panel.left() + panel.width() * 0.66, panel.top() + 2, panel.left() + panel.width() * 0.66, panel.bottom() - 2)
+            painter.drawLine(panel.left() + 2, panel.center().y(), panel.right() - 2, panel.center().y())
+        elif key == "wind_turbine":
+            hub = inner.center()
+            painter.drawLine(hub.x(), hub.y() + 3, inner.center().x(), inner.bottom())
+            painter.drawLine(hub, QPointF(inner.center().x(), inner.top()))
+            painter.drawLine(hub, QPointF(inner.right(), inner.center().y() + 6))
+            painter.drawLine(hub, QPointF(inner.left() + 2, inner.center().y() + 7))
+            painter.setBrush(QColor(Theme.PANEL_ALT))
+            painter.drawEllipse(QRectF(hub.x() - 3, hub.y() - 3, 6, 6))
+        elif key == "nuclear":
+            painter.drawEllipse(inner.adjusted(2, 2, -2, -2))
+            painter.setBrush(QColor(Theme.PANEL_ALT))
+            painter.drawEllipse(inner.adjusted(9, 9, -9, -9))
+            painter.setBrush(color)
+            painter.drawPie(inner.adjusted(4, 4, -4, -4), 90 * 16, 70 * 16)
+            painter.drawPie(inner.adjusted(4, 4, -4, -4), 210 * 16, 70 * 16)
+            painter.drawPie(inner.adjusted(4, 4, -4, -4), 330 * 16, 70 * 16)
         elif key == "log":
             painter.drawRoundedRect(inner.adjusted(0, 8, 0, -5), 5, 5)
             painter.setPen(QPen(muted, 1))

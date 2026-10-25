@@ -1,50 +1,76 @@
 from __future__ import annotations
 
 from collections.abc import Callable
+from dataclasses import dataclass
+import re
 from time import monotonic, perf_counter
 from typing import Mapping
 
 from PySide6.QtCore import QPointF, QRectF, QTimer, Qt, Signal
-from PySide6.QtGui import QColor, QFont, QLinearGradient, QPainter, QPen, QPolygonF
-from PySide6.QtWidgets import (
-    QFrame,
-    QComboBox,
-    QHBoxLayout,
-    QLabel,
-    QLineEdit,
-    QListWidget,
-    QListWidgetItem,
-    QPushButton,
-    QProgressBar,
-    QScrollArea,
-    QGridLayout,
-    QTreeWidget,
-    QTreeWidgetItem,
-    QVBoxLayout,
-    QWidget,
-)
+from PySide6.QtGui import QColor, QFont, QPainter, QPen, QPolygonF
+from PySide6.QtWidgets import QFrame, QComboBox, QHBoxLayout, QLabel, QLineEdit, QListWidget, QListWidgetItem, QPushButton, QProgressBar, QScrollArea, QGridLayout, QSizePolicy, QTreeWidget, QVBoxLayout, QWidget
 from shiboken6 import isValid as is_qt_object_valid
 
-from production_zero.core.cards import CardInstance, CardStack, effective_recipe_inputs, effective_recipe_outputs
-from production_zero.core.commands import CommandBus, InstallCardInHall, PurchaseHall, RemoveCardFromHall, RenameHall, SelectMachineProduction, UnlockProductionLine, UnlockProductionSlot
-from production_zero.core.analytics import ResourceFlow
-from production_zero.core.definitions import CardDefinition, EnergyDefinition, MachineDefinition, ProductionOptionDefinition, RecipeDefinition
+from production_zero.core.economic_cycle import ECONOMIC_CYCLE_SECONDS
+from production_zero.core.cards import CardInstance, CardStack, CardStackKey
+from production_zero.core.commands import CommandBus, InstallCardInHall, PurchaseProductionUnit, RemoveCardFromHall, RenameHall, SelectMachineProduction, UnlockProductionLine, UnlockProductionSlot
+from production_zero.core.analytics import ResourceFlow, calculate_resource_flows
+from production_zero.core.definitions import CardDefinition, EnergyDefinition, MachineDefinition, ProductionOptionDefinition
 from production_zero.core.enums import MachineType, Rarity
-from production_zero.core.inventory import build_placeable_inventory_stacks
+from production_zero.core.inventory import CardInventoryRow, build_placeable_inventory_stacks
 from production_zero.core.economy import hall_purchase_price
+from production_zero.core.infrastructure_prices import production_facility_price,unit_line_price,unit_slot_price
+from production_zero.core.production_guide import GuideRecipeEntry, ProductionGuideRecipeIndex
+from production_zero.core.progression import (
+    initialize_production_progress,
+    is_production_unlocked,
+    production_option_for_id,
+    production_options_for_machine,
+    production_progress_state,
+    progression_resources,
+    unlock_requirement_lines,
+)
 from production_zero.core.simulation import SimulationEngine
-from production_zero.core.state import FactoryHall, GameState, HallSlot, MachineProductionState, ProductionLine, MAX_FACTORY_SLOTS_PER_LINE, factory_slot_unlock_cost
-from production_zero.ui.card_hover import CardHoverInfoPopup
-from production_zero.ui.resource_icons import ResourceIconWidget, resource_category, resource_icon_key, resource_accent_key
+from production_zero.core.state import FactoryHall, GameState, ProductionLine
+from production_zero.ui.card_hover import CardHoverInfoPopup, card_hover_icon
+from production_zero.ui.inventory_view import INVENTORY_CARD_HEIGHT, INVENTORY_CARD_WIDTH, InventoryCardFrame
+from production_zero.ui.machine_art import machine_art_family_for_machine_type
+from production_zero.ui.resource_icons import ResourceIconWidget, card_resource_icon_signature, resource_category, resource_icon_key, resource_accent_key
+from production_zero.ui.secondary_views import ResourceBrowser, SecondaryViewHeader, StageFilterBar, UsedInNavigationButton, secondary_action_button, style_secondary, RecipeInputButton, browser_category, retain_grid_tiles
+from production_zero.ui.empty_state import EmptyStatePanel
+from production_zero.ui.resource_tiles import RESOURCE_TILE_WIDTH, ResourceSelectionGridHost, ResourceSelectionTile, configure_resource_selection_grid_host, configure_resource_selection_scroll
 from production_zero.ui.text_format import SmartCardTitleLabel
 from production_zero.ui.theme import Theme
+from production_zero.ui.resource_prices import base_price_text
 from production_zero.ui.widget_lifecycle import clear_layout_safely, hide_detach_delete
+from production_zero.ui.zoom_pan_view import ZoomPanGraphicsView
+from production_zero.ui.unlock_tree_view import UnlockTreeView
 
 
 FACTORY_CARD_SIZE = 132
 FACTORY_CARD_MIN_SIZE = 96
 FACTORY_CARD_MAX_SIZE = 168
 FACTORY_SLOT_SPACING = 6
+PRIMARY_MACHINE_TYPES = frozenset({MachineType.EXTRACTOR, MachineType.DRILLING, MachineType.AGRICULTURE})
+
+
+@dataclass(frozen=True, slots=True)
+class ProductionBoardConfig:
+    board_kind: str = "factory"
+    title: str = "FACTORY"
+    unit_label: str = "Hall"
+    unit_plural: str = "HALLS"
+    unit_id_prefix: str = "hall"
+    track_label: str = "LINE"
+    purchase_label: str = "Build Hall"
+    production_guide_enabled: bool = True
+    resource_drawer_enabled: bool = True
+    allowed_machine_types: frozenset[MachineType] = frozenset({MachineType.PROCESSOR, MachineType.FABRICATOR, MachineType.ASSEMBLER})
+    allow_energy: bool = False
+    max_lines: int = 5
+    max_slots_per_line: int = 10
+    start_unlocked_lines: int = 1
+    start_slots_per_line: int = 3
 
 
 class ClickableCapacityPanel(QFrame):
@@ -75,16 +101,56 @@ def _ui_feedback_time() -> float:
 
 PRODUCTION_STAGE_ORDER = (
     MachineType.EXTRACTOR,
+    MachineType.DRILLING,
+    MachineType.AGRICULTURE,
+    MachineType.PROCESSOR,
+    MachineType.FABRICATOR,
+    MachineType.ASSEMBLER,
+)
+CHAIN_STAGE_ORDER = (
+    MachineType.EXTRACTOR,
     MachineType.PROCESSOR,
     MachineType.FABRICATOR,
     MachineType.ASSEMBLER,
 )
 PRODUCTION_STAGE_LABELS = {
-    MachineType.EXTRACTOR: "Extraction",
+    MachineType.EXTRACTOR: "Primary Production",
+    MachineType.DRILLING: "Primary Production",
+    MachineType.AGRICULTURE: "Primary Production",
     MachineType.PROCESSOR: "Processing",
     MachineType.FABRICATOR: "Manufacturing",
     MachineType.ASSEMBLER: "Assembly",
 }
+
+
+def _player_progression_lines(progression_state: str, requirement_lines: tuple[str, ...]) -> tuple[str, ...]:
+    """Remove XP/internal guide language while preserving actual unlock gates."""
+    if progression_state == "unlocked":
+        return ("UNLOCKED",)
+    result: list[str] = []
+    for line in requirement_lines:
+        upper = line.upper()
+        if upper.startswith("REQUIRES COMPANY LEVEL "):
+            result.append(upper.replace("REQUIRES COMPANY LEVEL ", "LEVEL ", 1))
+            continue
+        if upper.startswith("REQUIRES UNLOCKED INPUT: "):
+            result.append(upper.replace("REQUIRES UNLOCKED INPUT: ", "REQUIRES ", 1))
+            continue
+        match = re.match(r"PRODUCE [\d.]+ MORE (.+?) \(([\d.]+) / ([\d.]+)\)$", upper)
+        if match:
+            result.append(f"{match.group(1)} {match.group(2)} / {match.group(3)}")
+    return tuple(result) or ("LOCKED",)
+
+
+def _production_stage_group(stage: MachineType) -> MachineType:
+    return MachineType.EXTRACTOR if stage in PRIMARY_MACHINE_TYPES else stage
+
+
+def _machine_type_label(machine_type: MachineType) -> str:
+    return {
+        MachineType.DRILLING: "Drilling Rig",
+        MachineType.AGRICULTURE: "Harvester",
+    }.get(machine_type, machine_type.value.title())
 
 
 def _format_io_summary(input_resources: Mapping[str, float], output_resources: Mapping[str, float] | str) -> str:
@@ -105,6 +171,13 @@ def _format_resource_amounts(resources: Mapping[str, float]) -> str:
     )
 
 
+def _hidden_child_label(parent: QWidget, object_name: str, text: str) -> QLabel:
+    label = QLabel(text, parent)
+    label.setObjectName(object_name)
+    label.hide()
+    return label
+
+
 def _stage_accent_for_definition(definition: CardDefinition | None) -> QColor:
     if isinstance(definition, EnergyDefinition):
         return QColor(Theme.ENERGY)
@@ -123,7 +196,7 @@ def _stage_name_for_definition(definition: CardDefinition | None) -> str:
     if isinstance(definition, EnergyDefinition):
         return "Energy"
     if isinstance(definition, MachineDefinition):
-        return definition.machine_type.value.title()
+        return definition.name
     return "Card"
 
 
@@ -189,7 +262,7 @@ class HallResourceSummaryItemWidget(QFrame):
         self._amount_transition_ms = 220
         self.setObjectName("hallResourceSummaryItem")
         self.setProperty("resourceId", flow.resource_id)
-        self.setFixedHeight(62)
+        self.setFixedHeight(102)
         self.setMinimumWidth(172)
 
         layout = QHBoxLayout(self)
@@ -211,7 +284,8 @@ class HallResourceSummaryItemWidget(QFrame):
         text_layout.setSpacing(3)
 
         row = QHBoxLayout()
-        self._name = QLabel(flow.resource_id.replace("_", " ").upper())
+        from production_zero.ui.resource_tiles import ElidedResourceLabel
+        self._name = ElidedResourceLabel(flow.resource_id.replace("_", " ").upper())
         self._name.setObjectName("hallResourceName")
         self._name.setCursor(Qt.CursorShape.PointingHandCursor)
         self._name.mousePressEvent = lambda event, resource_id=flow.resource_id: self._emit_chain_request(event, resource_id)  # type: ignore[method-assign]
@@ -229,9 +303,13 @@ class HallResourceSummaryItemWidget(QFrame):
         amount_row.addWidget(self._amount)
         self._rate = QLabel()
         self._rate.setObjectName("hallResourceNet")
-        amount_row.addWidget(self._rate)
         amount_row.addStretch(1)
         text_layout.addLayout(amount_row)
+        text_layout.addWidget(self._rate)
+        self._price = ElidedResourceLabel("")
+        self._price.setObjectName("resourceBaseSellPrice")
+        self._price.setFixedHeight(18)
+        text_layout.addWidget(self._price)
 
         self._progress = QProgressBar()
         self._progress.setObjectName("hallResourceStorageProgress")
@@ -244,10 +322,19 @@ class HallResourceSummaryItemWidget(QFrame):
         self.update_flow(flow)
 
     def update_flow(self, flow: ResourceFlow) -> None:
+        from production_zero.ui.resource_prices import base_price_text, price_tooltip
+        from production_zero.core.market import market_price_for
+        self._price.setText(base_price_text(flow.resource_id,self._state))
+        tooltip = price_tooltip(self._state,flow.resource_id)
+        self._price.set_tooltip_text(tooltip)
+        self.setToolTip(flow.resource_id.replace("_", " ").upper()+"\n"+tooltip)
+        self._price.setAccessibleName(tooltip)
+        self.setProperty("baseSellPrice",market_price_for(self._state.market,flow.resource_id))
         stock = self._state.ensure_resource(flow.resource_id)
         previous_amount = self.property("targetAmount")
         previous_progress = self.property("targetStorageProgress")
-        target_progress = round(stock.fill_ratio * 1000)
+        global_fill = self._state.used_storage / self._state.storage_capacity if self._state.storage_capacity > 0 else 0.0
+        target_progress = round(global_fill * 1000)
         if previous_amount is not None and round(float(previous_amount)) != round(stock.amount):
             self._amount_transition_started = _ui_feedback_time()
             self.setProperty("previousAmount", previous_amount)
@@ -257,13 +344,19 @@ class HallResourceSummaryItemWidget(QFrame):
             self.setProperty("storageTransitionMs", self._amount_transition_ms)
         self.setProperty("targetAmount", stock.amount)
         self.setProperty("targetStorageProgress", target_progress)
+        self.setProperty("producedPerMinute", flow.produced_per_minute)
+        self.setProperty("consumedPerMinute", flow.consumed_per_minute)
+        self.setProperty("netPerMinute", flow.net_per_minute)
         self.setProperty("netState", self._net_state(flow.net_per_minute))
-        self.setProperty("storageState", self._storage_state(stock.fill_ratio))
-        self._amount.setText(f"{stock.amount:.0f} / {stock.capacity:.0f}")
-        self._rate.setText(f"{flow.net_per_minute:+.0f}/min")
+        self.setProperty("storageState", self._storage_state(global_fill))
+        self._amount.setText(f"{stock.amount:.0f} STORED")
+        self._rate.setToolTip("Company-wide configured flow. Assumes full power and available inputs/storage; excludes Freight. Stock is shown separately.")
+        self._rate.setText(
+            f"PROD +{flow.produced_per_minute:.1f} · USE -{flow.consumed_per_minute:.1f} · NET {flow.net_per_minute:+.1f}/min"
+        )
         self._rate.setProperty("netState", self._net_state(flow.net_per_minute))
         self._progress.setValue(target_progress)
-        self._progress.setProperty("storageState", self._storage_state(stock.fill_ratio))
+        self._progress.setProperty("storageState", self._storage_state(global_fill))
         self.style().unpolish(self)
         self.style().polish(self)
         self._rate.style().unpolish(self._rate)
@@ -310,7 +403,7 @@ class HallResourceSummaryWidget(QWidget):
         self.refresh()
 
     def refresh(self) -> None:
-        flows = self._hall_resource_flows()
+        flows = self._resource_flows()
         for resource_id in list(self._items):
             if resource_id not in flows:
                 widget = self._items.pop(resource_id)
@@ -338,39 +431,8 @@ class HallResourceSummaryWidget(QWidget):
         for index, resource_id in enumerate(sorted(self._items)):
             self._layout.addWidget(self._items[resource_id], index // columns, index % columns)
 
-    def _hall_resource_flows(self) -> dict[str, ResourceFlow]:
-        mutable: dict[str, dict[str, float]] = {}
-        for slot in self._hall.slots:
-            if slot.card_id is None:
-                continue
-            card = self._state.cards.get(slot.card_id)
-            definition = self._definitions.get(card.definition_id) if card is not None else None
-            if card is None or not isinstance(definition, MachineDefinition):
-                continue
-            machine_state = self._state.machine_production.get(card.card_id)
-            if machine_state is None or machine_state.selected_production_id is None:
-                continue
-            production = definition.production_option(machine_state.selected_production_id)
-            output_entry = self._flow_entry(mutable, production.output_resource)
-            input_entries = {
-                resource_id: self._flow_entry(mutable, resource_id)
-                for resource_id in production.input_resources
-            }
-            if machine_state is not None and machine_state.status not in {"running", "idle"}:
-                continue
-            cycles_per_minute = 60.0 / max(0.001, production.cycle_seconds_for(definition))
-            output_entry["produced"] += production.output_amount_for(definition) * card.output_multiplier * cycles_per_minute
-            for resource_id, amount in production.input_resources.items():
-                input_entries[resource_id]["consumed"] += amount * cycles_per_minute
-        return {
-            resource_id: ResourceFlow(resource_id, values["produced"], values["consumed"])
-            for resource_id, values in mutable.items()
-        }
-
-    def _flow_entry(self, flows: dict[str, dict[str, float]], resource_id: str) -> dict[str, float]:
-        if resource_id not in flows:
-            flows[resource_id] = {"produced": 0.0, "consumed": 0.0}
-        return flows[resource_id]
+    def _resource_flows(self) -> dict[str, ResourceFlow]:
+        return calculate_resource_flows(self._state, self._definitions)
 
     def _net_state(self, value: float) -> str:
         if value > 0.001:
@@ -383,773 +445,43 @@ class HallResourceSummaryWidget(QWidget):
         clear_layout_safely(self._layout)
 
 
-class FactoryCardHoverInfoPopup(CardHoverInfoPopup):
-    def __init__(self, parent: QWidget) -> None:
-        super().__init__(parent, object_name="factoryCardHoverInfo", embedded=True)
-
-
-class MachineSlotWidget(QWidget):
-    clicked = Signal(int)
-    production_change_requested = Signal(str)
-    chain_requested = Signal(str)
-
-    def __init__(
-        self,
-        slot: HallSlot,
-        card: CardInstance | None,
-        definition: CardDefinition | None,
-        production_state: MachineProductionState | None,
-        hover_parent: QWidget | None = None,
-        state: GameState | None = None,
-    ) -> None:
-        super().__init__()
-        self._state = state
-        self._slot = slot
-        self._card = card
-        self._definition = definition
-        self._production_state = production_state
-        self._primary_icon: ResourceIconWidget | None = None
-        self._primary_icon_signature: tuple[str, str, str] | None = None
-        self._last_card_id = card.card_id if card is not None else None
-        self._last_status = production_state.status if production_state is not None else None
-        self._last_production_signature = self._production_signature()
-        self._status_pulse_until = 0.0
-        self._install_pulse_until = 0.0
-        self._production_pulse_until = 0.0
-        self._hover_info = FactoryCardHoverInfoPopup(hover_parent or self)
-        self._hover_signature: tuple | None = None
-        if hover_parent is not None and hover_parent is not self:
-            self.destroyed.connect(lambda: hide_detach_delete(self._hover_info))
-        self.setProperty("slotVisualState", "installed" if card is not None else "empty")
-        self.setProperty("stageAccent", self._stage_accent_name())
-        self.setProperty("rarity", card.rarity.value if card is not None else "")
-        self.setFixedSize(FACTORY_CARD_SIZE, FACTORY_CARD_SIZE)
-        self.setCursor(Qt.CursorShape.PointingHandCursor)
-        self.setMouseTracking(True)
-        self._refresh_primary_icon()
-        self._refresh_hover_info()
-
-    def set_data(
-        self,
-        slot: HallSlot,
-        card: CardInstance | None,
-        definition: CardDefinition | None,
-        production_state: MachineProductionState | None,
-        state: GameState | None = None,
-    ) -> None:
-        self._slot = slot
-        previous_card_id = self._last_card_id
-        previous_status = self._last_status
-        previous_production_signature = self._last_production_signature
-        self._card = card
-        self._definition = definition
-        self._production_state = production_state
-        if state is not None:
-            self._state = state
-        self._last_card_id = card.card_id if card is not None else None
-        self._last_status = production_state.status if production_state is not None else None
-        self._last_production_signature = self._production_signature()
-        self.setProperty("slotVisualState", "installed" if card is not None else "empty")
-        self.setProperty("stageAccent", self._stage_accent_name())
-        self.setProperty("rarity", card.rarity.value if card is not None else "")
-        if previous_card_id is None and self._last_card_id is not None:
-            self._install_pulse_until = _ui_feedback_time() + 0.35
-        if self._last_status is not None and previous_status != self._last_status:
-            self._status_pulse_until = _ui_feedback_time() + 0.4
-        if previous_production_signature is not None and self._last_production_signature is not None and previous_production_signature != self._last_production_signature:
-            self._production_pulse_until = _ui_feedback_time() + 0.3
-        self._refresh_primary_icon()
-        self._refresh_hover_info()
-        self.update()
-
-    def trigger_install_feedback(self) -> None:
-        self._install_pulse_until = _ui_feedback_time() + 0.35
-        self.update()
-
-    def trigger_production_change_feedback(self) -> None:
-        self._production_pulse_until = _ui_feedback_time() + 0.3
-        self.update()
-
-    def resizeEvent(self, event) -> None:  # noqa: N802
-        self._sync_primary_icon_geometry()
-        self._position_hover_info()
-
-    def enterEvent(self, event) -> None:  # noqa: N802
-        if self._card is not None:
-            self._refresh_hover_info()
-            self._hover_info.show_for(self)
-
-    def leaveEvent(self, event) -> None:  # noqa: N802
-        self._hover_info.hide()
-        super().leaveEvent(event)
-
-    def _refresh_primary_icon(self) -> None:
-        if self._card is None:
-            if self._primary_icon is not None:
-                hide_detach_delete(self._primary_icon)
-                self._primary_icon = None
-            self._primary_icon_signature = None
-            return
-        resource_id = self._primary_resource_id()
-        icon_key = self._primary_icon_key()
-        accent_key = self._primary_accent_key()
-        signature = (resource_id, icon_key, accent_key)
-        if self._primary_icon is not None and self._primary_icon_signature == signature:
-            icon_rect = self._primary_icon_rect()
-            self._primary_icon.setGeometry(
-                round(icon_rect.left()),
-                round(icon_rect.top()),
-                round(icon_rect.width()),
-                round(icon_rect.height()),
-            )
-            return
-        if self._primary_icon is not None:
-            hide_detach_delete(self._primary_icon)
-            self._primary_icon = None
-        self._primary_icon = ResourceIconWidget(resource_id, icon_key, accent_key, size=60)
-        self._primary_icon_signature = signature
-        self._primary_icon.setParent(self)
-        self._primary_icon.setAttribute(Qt.WidgetAttribute.WA_TransparentForMouseEvents, True)
-        self._primary_icon.show()
-        icon_rect = self._primary_icon_rect()
-        self._primary_icon.setGeometry(
-            round(icon_rect.left()),
-            round(icon_rect.top()),
-            round(icon_rect.width()),
-            round(icon_rect.height()),
-        )
-
-    def _active_production_id(self) -> str | None:
-        if not isinstance(self._definition, MachineDefinition):
-            return None
-        if self._production_state is not None and self._production_state.selected_production_id is not None:
-            return self._production_state.selected_production_id
-        return None
-
-    def _active_production(self):
-        if not isinstance(self._definition, MachineDefinition):
-            return None
-        production_id = self._active_production_id()
-        if production_id is None:
-            return None
-        return self._definition.production_option(self._active_production_id())
-
-    def _request_production_change(self) -> None:
-        if self._card is not None and isinstance(self._definition, MachineDefinition):
-            self.production_change_requested.emit(self._card.card_id)
-
-    def mousePressEvent(self, event) -> None:  # noqa: N802
-        if event.button() != Qt.MouseButton.LeftButton:
-            return
-        self._hover_info.hide()
-        if self._card is not None and self._active_production() is not None and self._chain_hit_rect().contains(event.position()):
-            self.chain_requested.emit(self._primary_resource_id())
-        elif self._production_change_available() and self._production_hit_rect().contains(event.position()):
-            self._request_production_change()
-        else:
-            self.clicked.emit(self._slot.index)
-
-    def paintEvent(self, event) -> None:  # noqa: N802
-        painter = QPainter(self)
-        try:
-            painter.setRenderHint(QPainter.RenderHint.Antialiasing)
-            rect = QRectF(1, 1, self.width() - 2, self.height() - 2)
-            if self._card is None:
-                self._draw_empty_slot(painter, rect)
-            else:
-                self._sync_primary_icon_geometry()
-                self._draw_machine_card(painter, rect)
-        finally:
-            painter.end()
-
-    def _draw_empty_slot(self, painter: QPainter, rect: QRectF) -> None:
-        base = QLinearGradient(rect.topLeft(), rect.bottomRight())
-        base.setColorAt(0.0, QColor(20, 39, 48, 235))
-        base.setColorAt(0.55, QColor(12, 23, 29, 220))
-        base.setColorAt(1.0, QColor(9, 16, 21, 232))
-        painter.setPen(QPen(QColor(98, 190, 232, 118), 1.2))
-        painter.setBrush(base)
-        painter.drawRoundedRect(rect, 9, 9)
-        painter.setPen(QPen(QColor(255, 255, 255, 18), 1))
-        painter.setBrush(Qt.BrushStyle.NoBrush)
-        painter.drawRoundedRect(rect.adjusted(4, 4, -4, -4), 7, 7)
-        painter.setPen(QPen(QColor(98, 190, 232, 96), 1.1, Qt.PenStyle.DashLine))
-        painter.setBrush(QColor(98, 190, 232, 14))
-        pad = max(8, round(rect.width() * 0.09))
-        painter.drawRoundedRect(rect.adjusted(pad, pad, -pad, -pad), 7, 7)
-        painter.setPen(Qt.PenStyle.NoPen)
-        painter.setBrush(QColor(98, 190, 232, 32))
-        plus_shell = QRectF(rect.center().x() - 23, rect.top() + rect.height() * 0.2, 46, 46)
-        painter.drawRoundedRect(plus_shell, 12, 12)
-        painter.setBrush(QColor(216, 240, 106, 20))
-        painter.drawEllipse(QRectF(plus_shell.center().x() - 13, plus_shell.center().y() - 13, 26, 26))
-        painter.setPen(QColor(Theme.ENERGY))
-        painter.setFont(QFont("Segoe UI", 25, QFont.Weight.Black))
-        painter.drawText(plus_shell, Qt.AlignmentFlag.AlignCenter, "+")
-        painter.setPen(QColor(Theme.TEXT))
-        painter.setFont(QFont("Segoe UI", 8, QFont.Weight.Bold))
-        painter.drawText(QRectF(rect.left(), rect.center().y() + 18, rect.width(), 18), Qt.AlignmentFlag.AlignCenter, "BUILD SLOT")
-        painter.setPen(QColor(Theme.MUTED))
-        painter.setFont(QFont("Segoe UI", 7, QFont.Weight.DemiBold))
-        painter.drawText(QRectF(rect.left() + 8, rect.center().y() + 33, rect.width() - 16, 16), Qt.AlignmentFlag.AlignCenter, "Install machine")
-
-    def _draw_machine_card(self, painter: QPainter, rect: QRectF) -> None:
-        assert self._card is not None
-        accent = self._stage_accent_color()
-        rarity_accent = self._rarity_accent_color()
-        base = QLinearGradient(rect.topLeft(), rect.bottomRight())
-        base.setColorAt(0.0, QColor(27, 45, 54, 252))
-        base.setColorAt(0.48, QColor(16, 27, 34, 250))
-        base.setColorAt(1.0, QColor(8, 14, 19, 252))
-        painter.setPen(QPen(QColor(accent.red(), accent.green(), accent.blue(), 170), 1.35))
-        painter.setBrush(base)
-        painter.drawRoundedRect(rect, 10, 10)
-        painter.setPen(QPen(QColor(255, 255, 255, 18), 1))
-        painter.setBrush(Qt.BrushStyle.NoBrush)
-        painter.drawRoundedRect(rect.adjusted(3, 3, -3, -3), 8, 8)
-        painter.setPen(Qt.PenStyle.NoPen)
-        header_rect = QRectF(rect.left() + 4, rect.top() + 4, rect.width() - 8, 36)
-        header_gradient = QLinearGradient(header_rect.topLeft(), header_rect.bottomLeft())
-        header_gradient.setColorAt(0.0, QColor(accent.red(), accent.green(), accent.blue(), 34))
-        header_gradient.setColorAt(1.0, QColor(255, 255, 255, 10))
-        painter.setBrush(header_gradient)
-        painter.drawRoundedRect(header_rect, 8, 8)
-        icon_stage = QRectF(rect.left() + 13, rect.top() + 45, rect.width() - 26, max(35, rect.height() * 0.34))
-        stage_gradient = QLinearGradient(icon_stage.topLeft(), icon_stage.bottomRight())
-        stage_gradient.setColorAt(0.0, QColor(accent.red(), accent.green(), accent.blue(), 30))
-        stage_gradient.setColorAt(0.7, QColor(255, 255, 255, 7))
-        stage_gradient.setColorAt(1.0, QColor(0, 0, 0, 20))
-        painter.setBrush(stage_gradient)
-        painter.drawRoundedRect(icon_stage, 9, 9)
-        painter.setPen(QPen(QColor(accent.red(), accent.green(), accent.blue(), 52), 0.8))
-        painter.setBrush(Qt.BrushStyle.NoBrush)
-        painter.drawRoundedRect(icon_stage.adjusted(3, 3, -3, -3), 7, 7)
-        painter.setPen(Qt.PenStyle.NoPen)
-        painter.setBrush(QColor(accent.red(), accent.green(), accent.blue(), 12))
-        painter.drawRoundedRect(rect.adjusted(6, 43, -6, -8), 8, 8)
-        painter.setBrush(rarity_accent)
-        painter.drawRoundedRect(QRectF(rect.left() + 9, rect.top() + 6, rect.width() - 18, 3), 2, 2)
-        painter.setPen(QColor(Theme.TEXT))
-        painter.setFont(QFont("Segoe UI", 8, QFont.Weight.Bold))
-        name = self._definition.name if self._definition is not None else self._card.definition_id
-        painter.drawText(QRectF(rect.left() + 10, rect.top() + 12, rect.width() - 38, 14), Qt.AlignmentFlag.AlignLeft | Qt.AlignmentFlag.AlignVCenter, name.upper())
-
-        painter.setPen(QColor(Theme.MUTED))
-        painter.setFont(QFont("Segoe UI", 7, QFont.Weight.DemiBold))
-        meta = self._card.rarity.value.upper()
-        if hasattr(self._definition, "mk_level"):
-            meta = f"MK {self._definition.mk_level} · {meta}"
-        painter.drawText(QRectF(rect.left() + 10, rect.top() + 27, rect.width() - 20, 11), Qt.AlignmentFlag.AlignLeft | Qt.AlignmentFlag.AlignVCenter, meta)
-
-        self._draw_chain_info(painter)
-        self._draw_primary_area(painter, rect)
-        self._draw_runtime_indicator(painter, rect)
-        self._draw_feedback_pulse(painter, rect)
-
-    def _draw_chain_info(self, painter: QPainter) -> None:
-        info_rect = self._chain_hit_rect()
-        painter.setPen(QPen(QColor(Theme.BORDER), 0.9))
-        painter.setBrush(QColor(168, 182, 255, 18))
-        painter.drawEllipse(info_rect)
-        painter.setPen(QColor(Theme.RESOURCE))
-        painter.setFont(QFont("Segoe UI", 7, QFont.Weight.Bold))
-        painter.drawText(info_rect, Qt.AlignmentFlag.AlignCenter, "i")
-
-    def _draw_primary_area(self, painter: QPainter, rect: QRectF) -> None:
-        primary = self._production_hit_rect()
-        label_rect = self._primary_label_rect()
-        value_rect = self._bottom_stats_rect()
-        painter.setPen(Qt.PenStyle.NoPen)
-        painter.setBrush(QColor(255, 255, 255, 13))
-        output_zone = QRectF(primary.left() + 2, max(primary.top() + primary.height() * 0.58, label_rect.top() - 4), primary.width() - 4, value_rect.bottom() - max(primary.top() + primary.height() * 0.58, label_rect.top() - 4) + 4)
-        painter.drawRoundedRect(output_zone, 7, 7)
-        painter.setPen(QPen(QColor(255, 255, 255, 18), 0.7))
-        painter.setBrush(Qt.BrushStyle.NoBrush)
-        painter.drawRoundedRect(output_zone.adjusted(1, 1, -1, -1), 6, 6)
-        painter.setPen(QColor(Theme.RESOURCE))
-        painter.setFont(QFont("Segoe UI", 8, QFont.Weight.Black))
-        painter.drawText(label_rect, Qt.AlignmentFlag.AlignCenter | Qt.TextFlag.TextWordWrap, self._primary_label())
-
-        painter.setPen(QColor(Theme.TEXT))
-        painter.setFont(QFont("Segoe UI", 8, QFont.Weight.Bold))
-        painter.drawText(value_rect, Qt.AlignmentFlag.AlignLeft | Qt.AlignmentFlag.AlignVCenter, self._primary_value())
-        secondary = self._secondary_runtime_value()
-        if secondary:
-            painter.setPen(QColor(Theme.MUTED))
-            painter.setFont(QFont("Segoe UI", 7, QFont.Weight.DemiBold))
-            painter.drawText(value_rect, Qt.AlignmentFlag.AlignRight | Qt.AlignmentFlag.AlignVCenter, f"PWR {secondary}")
-
-    def _card_details(self) -> str:
-        if isinstance(self._definition, MachineDefinition):
-            production = self._active_production()
-            if production is None:
-                return (
-                    f"{self._definition.machine_type.value} | MK {self._definition.mk_level}\n"
-                    f"Bonus +{self._card.output_bonus_percent:.1f}%\n"
-                    "No production selected"
-                )
-            return (
-                f"{self._definition.machine_type.value} | MK {self._definition.mk_level}\n"
-                f"Bonus +{self._card.output_bonus_percent:.1f}%\n"
-                f"Output {production.output_amount_for(self._definition) * self._card.output_multiplier:.1f} | "
-                f"Power {production.power_draw_for(self._definition) * self._card.power_multiplier:.1f}"
-            )
-        if isinstance(self._definition, EnergyDefinition):
-            fuel_text = self._energy_fuel_text()
-            return (
-                f"{self._definition.energy_type.value} | MK {self._definition.mk_level}\n"
-                f"Generation {self._definition.base_power_output:.0f} MW\n"
-                f"{fuel_text}"
-            )
-        if isinstance(self._definition, RecipeDefinition):
-            inputs = effective_recipe_inputs(self._card, dict(self._definition.input_resources))
-            outputs = effective_recipe_outputs(self._card, dict(self._definition.output_resources))
-            return (
-                f"recipe | ticks {self._definition.duration_ticks}\n"
-                f"Bonus +{self._card.output_bonus_percent:.1f}%\n"
-                f"{_format_io_summary(inputs, outputs)}"
-            )
-        return f"Bonus +{self._card.output_bonus_percent:.1f}%"
-
-    def _refresh_hover_info(self) -> None:
-        if self._card is None:
-            self._hover_info.hide()
-            self._hover_signature = None
-            return
-        title = self._definition.name if self._definition is not None else self._card.definition_id
-        sections = self._hover_sections()
-        signature = (
-            title,
-            tuple(label for label, _ in sections),
-            self._primary_resource_id(),
-            self._primary_icon_key(),
-            self._primary_accent_key(),
-        )
-        if self._hover_signature != signature or self._hover_info.details_signature != signature:
-            icon = ResourceIconWidget(
-                self._primary_resource_id(),
-                self._primary_icon_key(),
-                self._primary_accent_key(),
-                size=34,
-            )
-            self._hover_info.set_details(title, icon, sections, signature)
-            self._hover_signature = signature
-            self._position_hover_info()
-        else:
-            self._hover_info.update_values(sections)
-        self.setToolTip("")
-
-    def _hover_sections(self) -> list[tuple[str, str]]:
-        if self._card is None:
-            return []
-        sections = [
-            ("Rarity", self._card.rarity.value.title()),
-            ("Bonus", f"+{self._card.output_bonus_percent:.1f}%"),
-        ]
-        if isinstance(self._definition, MachineDefinition):
-            production = self._active_production()
-            machine_sections = [
-                ("Machine Family", self._definition.machine_type.value.title()),
-                ("MK", str(self._definition.mk_level)),
-            ]
-            if production is None:
-                machine_sections.extend(
-                    [
-                        ("Current Production", "Not selected"),
-                        ("Current Status", self._status_text()),
-                    ]
-                )
-            else:
-                machine_sections.extend(
-                    [
-                        ("Base Output", f"{production.output_amount_for(self._definition):.1f}"),
-                        ("Effective Output", f"{production.output_amount_for(self._definition) * self._card.output_multiplier:.1f}"),
-                        ("Power Demand", f"{production.power_draw_for(self._definition) * self._card.power_multiplier:.1f} MW"),
-                        ("Current Production", production.name),
-                        ("Current Status", self._status_text()),
-                    ]
-                )
-            sections.extend(machine_sections)
-        elif isinstance(self._definition, EnergyDefinition):
-            energy_sections = [
-                ("Machine Family", self._definition.energy_type.value.title()),
-                ("MK", str(self._definition.mk_level)),
-                ("Power Generation", f"{self._definition.base_power_output * self._card.output_multiplier:.1f} MW"),
-                ("Current Production", "Power"),
-                ("Current Status", self._status_text()),
-            ]
-            if self._definition.requires_fuel and self._definition.fuel_resource_id is not None:
-                energy_sections.extend(
-                    [
-                        ("Fuel", self._definition.fuel_resource_id.replace("_", " ").title()),
-                        ("Consumption", f"{self._definition.fuel_consumption_per_minute:g}/min"),
-                    ]
-                )
-            sections.extend(energy_sections)
-        elif isinstance(self._definition, RecipeDefinition):
-            sections.extend([("Machine Family", "Recipe"), ("Recipe", self._card_details())])
-        return sections
-
-    def _position_hover_info(self) -> None:
-        if self._hover_info.isVisible():
-            self._hover_info.show_for(self)
-
-    def _primary_resource_id(self) -> str:
-        production = self._active_production()
-        if production is not None:
-            return production.output_resource
-        if isinstance(self._definition, RecipeDefinition) and self._definition.output_resources:
-            return next(iter(self._definition.output_resources))
-        if isinstance(self._definition, EnergyDefinition):
-            return "power"
-        return "factory_card"
-
-    def _primary_icon_key(self) -> str:
-        production = self._active_production()
-        if production is not None and production.icon_key:
-            return production.icon_key
-        return resource_icon_key(self._primary_resource_id())
-
-    def _primary_accent_key(self) -> str:
-        production = self._active_production()
-        if production is not None and production.accent_key:
-            return production.accent_key
-        if isinstance(self._definition, EnergyDefinition):
-            return "battery"
-        return resource_accent_key(self._primary_resource_id())
-
-    def _primary_label(self) -> str:
-        production = self._active_production()
-        if production is not None:
-            return production.name.upper()
-        if isinstance(self._definition, MachineDefinition):
-            if self._definition.machine_type.value == "extractor":
-                return "NO RESOURCE SELECTED"
-            return "NO RECIPE SELECTED"
-        if isinstance(self._definition, EnergyDefinition):
-            return "POWER"
-        if isinstance(self._definition, RecipeDefinition) and self._definition.output_resources:
-            return next(iter(self._definition.output_resources)).replace("_", " ").upper()
-        return "CARD"
-
-    def _primary_value(self) -> str:
-        if isinstance(self._definition, MachineDefinition):
-            production = self._active_production()
-            if production is None:
-                return "Select"
-            cycles_per_minute = 60.0 / max(0.001, production.cycle_seconds_for(self._definition))
-            output_per_minute = production.output_amount_for(self._definition) * self._card.output_multiplier * cycles_per_minute
-            return f"+{output_per_minute:.0f}/min"
-        if isinstance(self._definition, EnergyDefinition):
-            return f"+{self._definition.base_power_output * self._card.output_multiplier:.0f} MW"
-        return ""
-
-    def _energy_has_fuel(self) -> bool:
-        if not isinstance(self._definition, EnergyDefinition) or not self._definition.requires_fuel:
-            return True
-        if self._state is None or self._definition.fuel_resource_id is None:
-            return True
-        return self._state.ensure_resource(self._definition.fuel_resource_id).amount > 0
-
-    def _energy_fuel_text(self) -> str:
-        if not isinstance(self._definition, EnergyDefinition) or not self._definition.requires_fuel:
-            return "No fuel required"
-        fuel = self._definition.fuel_resource_id.replace("_", " ").title() if self._definition.fuel_resource_id else "Fuel"
-        return f"Fuel {fuel} | {self._definition.fuel_consumption_per_minute:g}/min"
-
-    def _secondary_runtime_value(self) -> str:
-        if isinstance(self._definition, MachineDefinition):
-            production = self._active_production()
-            if production is None:
-                return ""
-            power = production.power_draw_for(self._definition) * self._card.power_multiplier
-            return f"{power:.0f} MW"
-        return ""
-
-    def _production_change_available(self) -> bool:
-        return isinstance(self._definition, MachineDefinition) and len(self._definition.available_production_options) > 1
-
-    def _production_signature(self) -> str | None:
-        production = self._active_production()
-        if production is None:
-            return None
-        return f"{production.production_id}:{production.output_resource}:{production.icon_key}:{production.accent_key}"
-
-    def _primary_icon_rect(self) -> QRectF:
-        primary = self._production_hit_rect()
-        label_top = self._primary_label_rect().top()
-        available = max(12, label_top - primary.top() - 6)
-        min_size = 50 if self.width() >= FACTORY_CARD_SIZE else 14
-        size = max(min_size, min(58, round(self.width() * 0.42), round(available)))
-        return QRectF(primary.center().x() - size / 2, primary.top() + 4, size, size)
-
-    def _sync_primary_icon_geometry(self) -> None:
-        if self._primary_icon is None:
-            return
-        icon_rect = self._primary_icon_rect()
-        self._primary_icon.setFixedSize(round(icon_rect.width()), round(icon_rect.height()))
-        self._primary_icon.setGeometry(
-            round(icon_rect.left()),
-            round(icon_rect.top()),
-            round(icon_rect.width()),
-            round(icon_rect.height()),
-        )
-
-    def _primary_label_rect(self) -> QRectF:
-        primary = self._production_hit_rect()
-        stats_top = self._bottom_stats_rect().top()
-        if isinstance(self._definition, MachineDefinition) and self._active_production() is None:
-            label_height = 38
-        else:
-            label_height = 14 if self.width() < 112 else 20
-        return QRectF(primary.left() + 4, stats_top - label_height - 2, primary.width() - 8, label_height)
-
-    def _bottom_stats_rect(self) -> QRectF:
-        top = self.height() - (29 if self.height() < 112 else 35)
-        return QRectF(8, top, self.width() - 16, 13)
-
-    def _status_rect(self) -> QRectF:
-        top = self.height() - (16 if self.height() < 112 else 20)
-        return QRectF(8, top, self.width() - 16, 11)
-
-    def _progress_rect(self) -> QRectF:
-        return QRectF(8, self.height() - 6, self.width() - 16, 3)
-
-    def _production_hit_rect(self) -> QRectF:
-        top = 30 if self.height() < 112 else 39
-        return QRectF(8, top, self.width() - 16, max(54, self.height() - top - 38))
-
-    def _chain_hit_rect(self) -> QRectF:
-        return QRectF(self.width() - 23, 10, 15, 15)
-
-    def _status_text(self) -> str:
-        if isinstance(self._definition, EnergyDefinition):
-            return "Online" if self._energy_has_fuel() else "No Fuel"
-        if self._production_state is None:
-            return "Idle"
-        if self._production_state.is_unconfigured:
-            if isinstance(self._definition, MachineDefinition) and self._definition.machine_type.value == "extractor":
-                return "No Resource"
-            return "No Recipe"
-        if self._production_state.is_storage_full:
-            return "Storage Full"
-        if self._production_state.is_no_power:
-            return "No Power"
-        if self._production_state.is_missing_input:
-            return "Missing Input"
-        if self._production_state.status == "running":
-            return "Running"
-        return "Idle"
-
-    def _status_color(self) -> QColor:
-        if self._production_state is not None:
-            if self._production_state.is_storage_full or self._production_state.is_no_power:
-                return QColor(Theme.BAD)
-            if self._production_state.is_missing_input:
-                return QColor(Theme.WARN)
-            if self._production_state.status == "running":
-                return QColor(Theme.GOOD)
-        if isinstance(self._definition, EnergyDefinition):
-            return QColor(Theme.GOOD if self._energy_has_fuel() else Theme.WARN)
-        return QColor(Theme.MUTED)
-
-    def _feedback_intensity(self) -> float:
-        remaining = max(self._status_pulse_until, self._install_pulse_until, self._production_pulse_until) - _ui_feedback_time()
-        if remaining <= 0:
-            return 0.0
-        return min(1.0, remaining / 0.4)
-
-    def _draw_feedback_pulse(self, painter: QPainter, rect: QRectF) -> None:
-        intensity = self._feedback_intensity()
-        if intensity <= 0:
-            return
-        accent = self._stage_accent_color()
-        painter.setPen(QPen(QColor(accent.red(), accent.green(), accent.blue(), round(90 * intensity)), 2))
-        painter.setBrush(Qt.BrushStyle.NoBrush)
-        painter.drawRoundedRect(rect.adjusted(2, 2, -2, -2), 6, 6)
-
-    def _stage_accent_color(self) -> QColor:
-        return _stage_accent_for_definition(self._definition)
-
-    def _stage_accent_name(self) -> str:
-        if isinstance(self._definition, EnergyDefinition):
-            return "energy"
-        if isinstance(self._definition, MachineDefinition):
-            return self._definition.machine_type.value
-        return "recipe"
-
-    def _rarity_accent_color(self) -> QColor:
-        return _rarity_accent_for_card(self._card)
-
-    def _draw_runtime_indicator(self, painter: QPainter, rect: QRectF) -> None:
-        status = self._status_text()
-        status_color = self._status_color()
-        footer = QRectF(rect.left() + 5, self._status_rect().top() - 4, rect.width() - 10, rect.bottom() - self._status_rect().top())
-        painter.setPen(Qt.PenStyle.NoPen)
-        footer_gradient = QLinearGradient(footer.topLeft(), footer.bottomLeft())
-        footer_gradient.setColorAt(0.0, QColor(0, 0, 0, 28))
-        footer_gradient.setColorAt(1.0, QColor(0, 0, 0, 76))
-        painter.setBrush(footer_gradient)
-        painter.drawRoundedRect(footer, 6, 6)
-        dot = QRectF(self._status_rect().left(), self._status_rect().center().y() - 2.5, 5, 5)
-        painter.setBrush(status_color)
-        painter.drawEllipse(dot)
-        painter.setPen(status_color)
-        painter.setFont(QFont("Segoe UI", 7, QFont.Weight.Bold))
-        text_rect = self._status_rect().adjusted(9, 0, 0, 0)
-        painter.drawText(text_rect, Qt.AlignmentFlag.AlignLeft | Qt.AlignmentFlag.AlignVCenter, status.upper())
-
-        if isinstance(self._definition, EnergyDefinition):
-            bar = self._progress_rect()
-            painter.setPen(Qt.PenStyle.NoPen)
-            painter.setBrush(QColor(Theme.ENERGY if self._energy_has_fuel() else Theme.WARN))
-            painter.drawRoundedRect(bar, 3, 3)
-            return
-        if not isinstance(self._definition, MachineDefinition) or self._production_state is None:
-            return
-        bar = self._progress_rect()
-        painter.setPen(Qt.PenStyle.NoPen)
-        painter.setBrush(QColor(255, 255, 255, 16))
-        painter.drawRoundedRect(bar, 3, 3)
-
-        if self._production_state.is_storage_full:
-            painter.setBrush(QColor(Theme.BAD))
-            painter.drawRoundedRect(bar, 3, 3)
-            return
-        if self._production_state.is_no_power:
-            painter.setBrush(QColor(Theme.BAD))
-            painter.drawRoundedRect(bar, 3, 3)
-            return
-        if self._production_state.is_missing_input:
-            painter.setBrush(QColor(Theme.WARN))
-            painter.drawRoundedRect(bar, 3, 3)
-            return
-
-        production = self._active_production()
-        if production is None:
-            return
-        progress = self._cycle_progress_ratio()
-        fill = QRectF(bar.left(), bar.top(), bar.width() * progress, bar.height())
-        painter.setBrush(self._stage_accent_color())
-        painter.drawRoundedRect(fill, 3, 3)
-
-    def _cycle_progress_ratio(self) -> float:
-        if not isinstance(self._definition, MachineDefinition) or self._production_state is None:
-            return 0.0
-        production = self._active_production()
-        if production is None:
-            return 0.0
-        return min(1.0, max(0.0, self._production_state.progress_seconds / max(0.001, production.cycle_seconds_for(self._definition))))
-
-
-class FactorySlotRowWidget(QWidget):
-    def __init__(self) -> None:
-        super().__init__()
-        self.setObjectName("factorySlotRow")
-        self._slot_widgets: list[QWidget] = []
-        self._layout = QHBoxLayout(self)
-        self._layout.setContentsMargins(0, 0, 0, 0)
-        self._layout.setSpacing(FACTORY_SLOT_SPACING)
-
-    def add_slot_widget(self, widget: QWidget) -> None:
-        self._slot_widgets.append(widget)
-        self._layout.addWidget(widget)
-        self.setProperty("slotCount", len(self._slot_widgets))
-        self._resize_slot_widgets()
-
-    def resizeEvent(self, event) -> None:  # noqa: N802
-        self._resize_slot_widgets()
-        super().resizeEvent(event)
-
-    def _resize_slot_widgets(self) -> None:
-        if not self._slot_widgets:
-            return
-        available = max(0, self.width() - FACTORY_SLOT_SPACING * (len(self._slot_widgets) - 1))
-        size = available // len(self._slot_widgets) if available else FACTORY_CARD_SIZE
-        size = max(FACTORY_CARD_MIN_SIZE, min(FACTORY_CARD_MAX_SIZE, size))
-        for widget in self._slot_widgets:
-            widget.setFixedSize(size, size)
-        self.setMinimumHeight(size)
-        self.setMaximumHeight(size)
-
-
-class FactoryCardSelectionTile(QFrame):
+class FactoryCardSelectionTile(InventoryCardFrame):
     selected = Signal(str)
     hovered = Signal(str)
     unhovered = Signal()
 
     def __init__(self, stack: CardStack, definition: CardDefinition | None) -> None:
-        super().__init__()
         card = stack.first_card
+        if definition is None:
+            raise ValueError(f"Missing card definition for selection tile: {card.definition_id}")
+        row = CardInventoryRow(card=card, definition=definition, quantity=stack.quantity, status="Available")
+        stage_name = _stage_name_for_definition(definition)
+        family = (
+            definition.energy_type.value
+            if isinstance(definition, EnergyDefinition)
+            else machine_art_family_for_machine_type(definition.machine_type)
+        )
+        super().__init__(
+            row,
+            title=definition.name.upper() if isinstance(definition, EnergyDefinition) else stage_name.upper(),
+            family=family,
+            meta=self._card_meta(row, definition),
+            detail=self._card_detail(definition),
+            selected=False,
+            disabled=False,
+            status_text="AVAILABLE",
+        )
         self._card_id = card.card_id
         self.setObjectName("factoryCardSelectionTile")
         self.setProperty("cardId", card.card_id)
         self.setProperty("definitionId", card.definition_id)
         self.setProperty("rarity", card.rarity.value)
         self.setProperty("quantity", stack.quantity)
-        self.setProperty("stageAccent", _stage_name_for_definition(definition).lower())
+        self.setProperty("stageAccent", stage_name.lower())
         self.setCursor(Qt.CursorShape.PointingHandCursor)
         self.setFocusPolicy(Qt.FocusPolicy.StrongFocus)
-        self.setMinimumSize(152, 152)
-        self.setMaximumSize(176, 176)
-
-        layout = QVBoxLayout(self)
-        layout.setContentsMargins(10, 9, 10, 10)
-        layout.setSpacing(5)
-
-        raw_name = definition.name if definition is not None else card.definition_id
-        name = SmartCardTitleLabel(raw_name.upper())
-        name.setObjectName("factoryCardSelectionTileName")
-        name.setWordWrap(True)
-        name.setAttribute(Qt.WidgetAttribute.WA_TransparentForMouseEvents, True)
-        layout.addWidget(name)
-
-        rarity = QLabel(card.rarity.value.upper())
-        rarity.setObjectName("factoryCardSelectionTileRarity")
-        rarity.setAttribute(Qt.WidgetAttribute.WA_TransparentForMouseEvents, True)
-        layout.addWidget(rarity)
-
-        rarity_line = QFrame()
-        rarity_line.setObjectName("factoryCardSelectionRarityLine")
-        rarity_line.setProperty("rarity", card.rarity.value)
-        rarity_line.setFixedHeight(2)
-        rarity_line.setAttribute(Qt.WidgetAttribute.WA_TransparentForMouseEvents, True)
-        layout.addWidget(rarity_line)
-
-        accent = _stage_accent_for_definition(definition)
-        icon = ResourceIconWidget(
-            self._icon_resource_id(definition),
-            self._icon_key(definition),
-            self._accent_key(definition),
-            size=58,
-        )
-        icon.setAttribute(Qt.WidgetAttribute.WA_TransparentForMouseEvents, True)
-        icon_row = QHBoxLayout()
-        icon_row.addStretch(1)
-        icon_row.addWidget(icon)
-        icon_row.addStretch(1)
-        layout.addLayout(icon_row)
-        layout.addSpacing(3)
-
-        function = QLabel(_stage_name_for_definition(definition).upper())
-        function.setObjectName("factoryCardSelectionTileFunction")
-        function.setAlignment(Qt.AlignmentFlag.AlignCenter)
-        function.setProperty("accentColor", accent.name())
-        function.setAttribute(Qt.WidgetAttribute.WA_TransparentForMouseEvents, True)
-        layout.addWidget(function)
-
-        bottom = QHBoxLayout()
-        bottom.setSpacing(6)
-        bonus = QLabel(f"+{card.output_bonus_percent:.1f}%")
-        bonus.setObjectName("factoryCardSelectionTileBonus")
-        bonus.setAttribute(Qt.WidgetAttribute.WA_TransparentForMouseEvents, True)
-        count = QLabel(f"x{stack.quantity}")
-        count.setObjectName("factoryCardSelectionTileCount")
-        count.setAttribute(Qt.WidgetAttribute.WA_TransparentForMouseEvents, True)
-        bottom.addWidget(bonus)
-        bottom.addStretch(1)
-        bottom.addWidget(count)
-        layout.addLayout(bottom)
+        self.setFixedSize(INVENTORY_CARD_WIDTH, INVENTORY_CARD_HEIGHT)
+        self._add_compatibility_children(row, definition)
 
     def mousePressEvent(self, event) -> None:  # noqa: N802
         if event.button() == Qt.MouseButton.LeftButton:
@@ -1159,11 +491,11 @@ class FactoryCardSelectionTile(QFrame):
 
     def enterEvent(self, event) -> None:  # noqa: N802
         self.hovered.emit(self._card_id)
-        super().enterEvent(event)
+        self.update()
 
     def leaveEvent(self, event) -> None:  # noqa: N802
         self.unhovered.emit()
-        super().leaveEvent(event)
+        self.update()
 
     def keyPressEvent(self, event) -> None:  # noqa: N802
         if event.key() in (Qt.Key.Key_Return, Qt.Key.Key_Enter, Qt.Key.Key_Space):
@@ -1171,126 +503,140 @@ class FactoryCardSelectionTile(QFrame):
             return
         super().keyPressEvent(event)
 
-    def _icon_resource_id(self, definition: CardDefinition | None) -> str:
+    def _add_compatibility_children(self, row: CardInventoryRow, definition: CardDefinition) -> None:
+        _hidden_child_label(self, "factoryCardSelectionTileName", definition.name.upper())
+        _hidden_child_label(self, "factoryCardSelectionTileRarity", row.rarity.value.upper())
+        _hidden_child_label(self, "factoryCardSelectionTileFunction", _stage_name_for_definition(definition).upper())
+        _hidden_child_label(self, "factoryCardSelectionTileBonus", f"+{row.card.output_bonus_percent:.1f}%")
+        _hidden_child_label(self, "factoryCardSelectionTileCount", f"x{row.quantity}")
+        rarity_line = QFrame(self)
+        rarity_line.setObjectName("factoryCardSelectionRarityLine")
+        rarity_line.setProperty("rarity", row.rarity.value)
+        rarity_line.hide()
+        icon = ResourceIconWidget(
+            self._icon_resource_id(definition),
+            self._icon_key(definition),
+            self._accent_key(definition),
+            size=1,
+        )
+        icon.setParent(self)
+        icon.setObjectName("resourceIcon")
+        icon.hide()
+
+    def _card_meta(self, row: CardInventoryRow, definition: CardDefinition) -> str:
+        return row.rarity.value.upper()
+
+    def _card_detail(self, definition: CardDefinition) -> str:
+        if isinstance(definition, MachineDefinition):
+            return f"{definition.base_output_per_tick:g} OUTPUT / {definition.base_power_draw:g} MW"
+        if isinstance(definition, EnergyDefinition):
+            return f"{definition.base_power_output:g} MW GENERATION"
+        return "SELECT CARD"
+
+    def _icon_resource_id(self, definition: CardDefinition) -> str:
         if isinstance(definition, MachineDefinition):
             production = definition.production_option(definition.default_production_id)
             return production.output_resource
         if isinstance(definition, EnergyDefinition):
-            return "power"
+            return card_resource_icon_signature(definition, definition.definition_id)[2]
         return "factory_card"
 
-    def _icon_key(self, definition: CardDefinition | None) -> str:
+    def _icon_key(self, definition: CardDefinition) -> str:
         if isinstance(definition, MachineDefinition):
             production = definition.production_option(definition.default_production_id)
             return production.icon_key or resource_icon_key(production.output_resource)
         if isinstance(definition, EnergyDefinition):
-            return "battery"
+            return card_resource_icon_signature(definition, definition.definition_id)[0]
         return resource_icon_key(self._icon_resource_id(definition))
 
-    def _accent_key(self, definition: CardDefinition | None) -> str:
+    def _accent_key(self, definition: CardDefinition) -> str:
         if isinstance(definition, MachineDefinition):
             production = definition.production_option(definition.default_production_id)
             return production.accent_key or resource_accent_key(production.output_resource)
         if isinstance(definition, EnergyDefinition):
-            return "battery"
+            return card_resource_icon_signature(definition, definition.definition_id)[1]
         return resource_accent_key(self._icon_resource_id(definition))
 
 
-class ProductionSelectionTile(QFrame):
+class ProductionSelectionTile(ResourceSelectionTile):
     selected = Signal(str, str)
 
-    def __init__(self, production, current_id: str, category: str) -> None:
-        super().__init__()
+    def __init__(self, production, current_id: str, category: str, *, locked_reason: str = "") -> None:
         self._production = production
-        self.setObjectName("productionSelectionTile")
-        self.setProperty("productionId", production.production_id)
-        self.setProperty("resourceId", production.output_resource)
-        self.setProperty("category", category)
-        self.setProperty("current", production.production_id == current_id)
-        self.setCursor(Qt.CursorShape.PointingHandCursor)
-        self.setMinimumSize(154, 128)
-        layout = QVBoxLayout(self)
-        layout.setContentsMargins(12, 11, 12, 12)
-        layout.setSpacing(6)
-
-        top = QHBoxLayout()
-        icon = ResourceIconWidget(
-            production.output_resource,
-            production.icon_key or resource_icon_key(production.output_resource),
-            production.accent_key or resource_accent_key(production.output_resource),
-            size=64,
+        is_current = production.production_id == current_id
+        super().__init__(
+            resource_id=production.output_resource,
+            title=production.name,
+            subtitle=category,
+            detail=base_price_text(production.output_resource,compact=True),
+            status=("CURRENT" if is_current else locked_reason),
+            icon_key=production.icon_key or resource_icon_key(production.output_resource),
+            accent_key=production.accent_key or resource_accent_key(production.output_resource),
+            object_name="productionSelectionTile",
+            title_object_name="productionTileName",
+            subtitle_object_name="productionTileCategory",
+            detail_object_name="productionTileStage",
+            status_object_name="productionTileCurrent",
         )
-        top.addWidget(icon)
-        text = QVBoxLayout()
-        name = QLabel(production.name.upper())
-        name.setObjectName("productionTileName")
-        name.setWordWrap(True)
-        text.addWidget(name)
-        category_label = QLabel(category)
-        category_label.setObjectName("productionTileCategory")
-        text.addWidget(category_label)
-        top.addLayout(text, 1)
-        layout.addLayout(top)
-
-        if production.production_id == current_id:
-            current = QLabel("CURRENT")
-            current.setObjectName("productionTileCurrent")
-            layout.addWidget(current)
-        else:
-            spacer = QLabel("")
-            spacer.setObjectName("productionTileCurrent")
-            layout.addWidget(spacer)
+        self.setProperty("productionId", production.production_id)
+        self.findChild(QLabel,"productionTileName")._forward_tooltip_to_parent = False
+        self.findChild(QLabel,"productionTileStage").set_tooltip_text(base_price_text(production.output_resource))
+        self.setToolTip("\n".join((production.name,category,base_price_text(production.output_resource))))
+        self.setProperty("category", category)
+        self.setProperty("stageAccent", production.stage.value)
+        self.setProperty("current", is_current)
+        self.setProperty("locked", bool(locked_reason))
+        self.setEnabled(not locked_reason)
+        if locked_reason:
+            self.setCursor(Qt.CursorShape.ForbiddenCursor)
 
     def mousePressEvent(self, event) -> None:  # noqa: N802
         if event.button() == Qt.MouseButton.LeftButton:
             self.selected.emit(self._production.production_id, self._production.output_resource)
 
 
-class ProductionGuideTile(QFrame):
+class ProductionGuideTile(ResourceSelectionTile):
     selected = Signal(str)
 
-    def __init__(self, resource_id: str, name: str, stage: MachineType, category: str, icon_key: str, accent_key: str) -> None:
-        super().__init__()
+    def __init__(
+        self,
+        resource_id: str,
+        name: str,
+        stage: MachineType,
+        category: str,
+        icon_key: str,
+        accent_key: str,
+        progression_state: str = "unlocked",
+        requirement_lines: tuple[str, ...] = (),
+    ) -> None:
         self._resource_id = resource_id
-        self.setObjectName("productionGuideTile")
+        super().__init__(
+            resource_id=resource_id,
+            title=name,
+            subtitle=PRODUCTION_STAGE_LABELS[stage],
+            detail=base_price_text(resource_id,compact=True),
+            status=self._unlock_text(progression_state, requirement_lines),
+            icon_key=icon_key,
+            accent_key=accent_key,
+            object_name="productionGuideTile",
+            title_object_name="productionGuideTileName",
+            subtitle_object_name="productionGuideTileStage",
+            detail_object_name="productionGuideTileCategory",
+            status_object_name="productionGuideUnlock",
+        )
         self.setProperty("resourceId", resource_id)
+        self.findChild(QLabel,"productionGuideTileName")._forward_tooltip_to_parent = False
+        self.findChild(QLabel,"productionGuideTileCategory").set_tooltip_text(base_price_text(resource_id))
         self.setProperty("stage", PRODUCTION_STAGE_LABELS[stage])
         self.setProperty("category", category)
         self.setProperty("stageAccent", stage.value)
-        self.setCursor(Qt.CursorShape.PointingHandCursor)
-        self.setFocusPolicy(Qt.FocusPolicy.StrongFocus)
-        self.setMinimumSize(164, 156)
-        self.setMaximumSize(210, 182)
-        layout = QVBoxLayout(self)
-        layout.setContentsMargins(12, 11, 12, 12)
-        layout.setSpacing(6)
+        self.setProperty("progressionState", progression_state)
+        self.setToolTip("\n".join((name,category,base_price_text(resource_id),*requirement_lines)))
+        if unlock := self.findChild(QLabel, "productionGuideUnlock"):
+            unlock.setProperty("progressionState", progression_state)
 
-        icon = ResourceIconWidget(resource_id, icon_key, accent_key, size=68)
-        icon.setAttribute(Qt.WidgetAttribute.WA_TransparentForMouseEvents, True)
-        icon_row = QHBoxLayout()
-        icon_row.addStretch(1)
-        icon_row.addWidget(icon)
-        icon_row.addStretch(1)
-        layout.addLayout(icon_row)
-
-        name_label = SmartCardTitleLabel(name.upper())
-        name_label.setObjectName("productionGuideTileName")
-        name_label.setWordWrap(True)
-        name_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
-        name_label.setAttribute(Qt.WidgetAttribute.WA_TransparentForMouseEvents, True)
-        layout.addWidget(name_label)
-
-        stage_label = QLabel(PRODUCTION_STAGE_LABELS[stage])
-        stage_label.setObjectName("productionGuideTileStage")
-        stage_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
-        stage_label.setAttribute(Qt.WidgetAttribute.WA_TransparentForMouseEvents, True)
-        layout.addWidget(stage_label)
-
-        category_label = QLabel(category)
-        category_label.setObjectName("productionGuideTileCategory")
-        category_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
-        category_label.setAttribute(Qt.WidgetAttribute.WA_TransparentForMouseEvents, True)
-        layout.addWidget(category_label)
+    def _unlock_text(self, progression_state: str, requirement_lines: tuple[str, ...]) -> str:
+        return requirement_lines[0] if requirement_lines else "LOCKED"
 
     def mousePressEvent(self, event) -> None:  # noqa: N802
         if event.button() == Qt.MouseButton.LeftButton:
@@ -1313,12 +659,100 @@ class ResizingGridHost(QWidget):
         self.resized.emit()
 
 
-class ChainFlowConnector(QFrame):
-    def __init__(self) -> None:
+class GuideRecipeGridHost(QWidget):
+    def __init__(
+        self,
+        rows: tuple[QWidget, ...],
+        *,
+        minimum_column_width: int = 220,
+    ) -> None:
         super().__init__()
+        self.setObjectName("guideRecipeSectionContent")
+        self.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
+        self._rows = rows
+        self._minimum_column_width = minimum_column_width
+        self._columns = 0
+        self._grid = QGridLayout(self)
+        self._grid.setContentsMargins(0, 0, 0, 0)
+        self._grid.setHorizontalSpacing(14)
+        self._grid.setVerticalSpacing(14)
+        self._apply_columns(self._target_columns())
+
+    def resizeEvent(self, event) -> None:  # noqa: N802
+        super().resizeEvent(event)
+        self._apply_columns(self._target_columns(event.size().width()))
+
+    def _target_columns(self, width: int | None = None) -> int:
+        width = self.width() if width is None else width
+        spacing = self._grid.horizontalSpacing()
+        return max(1, (width + spacing) // (self._minimum_column_width + spacing))
+
+    def _apply_columns(self, columns: int) -> None:
+        columns = max(1, columns)
+        if columns == self._columns:
+            return
+        while self._grid.count():
+            item = self._grid.takeAt(0)
+            widget = item.widget()
+            if widget is None:
+                continue
+            if widget in self._rows:
+                widget.hide()
+            else:
+                widget.hide()
+                widget.deleteLater()
+        for column in range(self._grid.columnCount() + 3):
+            self._grid.setColumnMinimumWidth(column, 0)
+            self._grid.setColumnStretch(column, 0)
+        for row_index in range(self._grid.rowCount()):
+            self._grid.setRowStretch(row_index, 0)
+        if not self._rows:
+            empty = EmptyStatePanel("NO DOWNSTREAM PRODUCTS", "This product has no direct downstream recipes.")
+            empty.findChild(QWidget, "emptyStateIcon").hide()
+            empty.setObjectName("guideRecipeEmpty")
+            self._grid.addWidget(empty, 0, 0)
+        else:
+            for index, row in enumerate(self._rows):
+                row.setFixedWidth(self._minimum_column_width)
+                self._grid.addWidget(row, index // columns, index % columns, Qt.AlignmentFlag.AlignLeft)
+                row.show()
+            for column in range(min(columns, len(self._rows))):
+                self._grid.setColumnMinimumWidth(column, self._minimum_column_width)
+            self._grid.setColumnStretch(min(columns, len(self._rows)), 1)
+        self._grid.setRowStretch((len(self._rows) + columns - 1) // columns, 1)
+        self.setProperty("guideRecipeColumns", columns)
+        self._columns = columns
+
+
+class ChainFlowConnector(QFrame):
+    def __init__(self, source_group: QWidget, destination_group: QWidget) -> None:
+        super().__init__()
+        self._source_group = source_group
+        self._destination_group = destination_group
         self.setObjectName("chainFlowConnector")
-        self.setFixedWidth(38)
+        self.setFixedWidth(30)
         self.setMinimumHeight(150)
+        self.setSizePolicy(QSizePolicy.Policy.Fixed, QSizePolicy.Policy.Expanding)
+
+    def _node_group_bounds(self, stage_group: QWidget):
+        bounds = None
+        for node in stage_group.findChildren(QFrame, "chainResourceBox"):
+            node_bounds = node.rect().translated(node.mapTo(self, node.rect().topLeft()))
+            bounds = node_bounds if bounds is None else bounds.united(node_bounds)
+        return bounds
+
+    def connection_points(self) -> tuple[QPointF, QPointF, QPointF, QPointF]:
+        source_bounds = self._node_group_bounds(self._source_group)
+        destination_bounds = self._node_group_bounds(self._destination_group)
+        source_y = float(source_bounds.center().y()) if source_bounds is not None else self.height() / 2
+        destination_y = float(destination_bounds.center().y()) if destination_bounds is not None else self.height() / 2
+        elbow_x = self.width() / 2
+        return (
+            QPointF(0, source_y),
+            QPointF(elbow_x, source_y),
+            QPointF(elbow_x, destination_y),
+            QPointF(self.width() - 4, destination_y),
+        )
 
     def paintEvent(self, event) -> None:  # noqa: N802
         super().paintEvent(event)
@@ -1327,18 +761,22 @@ class ChainFlowConnector(QFrame):
         color = QColor(112, 138, 132, 150)
         pen = QPen(color, 1.4)
         painter.setPen(pen)
-        center_y = self.height() // 2
-        painter.drawLine(4, center_y, self.width() - 10, center_y)
+        source, source_elbow, destination_elbow, destination = self.connection_points()
+        painter.drawLine(source, source_elbow)
+        painter.drawLine(source_elbow, destination_elbow)
+        painter.drawLine(destination_elbow, QPointF(destination.x() - 6, destination.y()))
         arrow = QPolygonF([
-            QPointF(self.width() - 12, center_y - 5),
-            QPointF(self.width() - 12, center_y + 5),
-            QPointF(self.width() - 4, center_y),
+            QPointF(destination.x() - 8, destination.y() - 5),
+            QPointF(destination.x() - 8, destination.y() + 5),
+            destination,
         ])
         painter.setBrush(color)
         painter.drawPolygon(arrow)
 
 
 class ChainResourceBox(QFrame):
+    resource_selected = Signal(str)
+
     def __init__(
         self,
         resource_id: str,
@@ -1349,6 +787,8 @@ class ChainResourceBox(QFrame):
         output_amount: float,
         icon_key: str,
         accent_key: str,
+        input_resources: Mapping[str, float] | None = None,
+        input_names: Mapping[str, str] | None = None,
     ) -> None:
         super().__init__()
         self.setObjectName("chainResourceBox")
@@ -1357,14 +797,14 @@ class ChainResourceBox(QFrame):
         self.setProperty("machineFamily", machine_family)
         self.setProperty("stageAccent", stage.value)
         self.setProperty("target", required_amount <= 0 and output_amount > 0)
-        self.setFixedWidth(172)
-        self.setMinimumHeight(126)
+        self.setFixedWidth(264)
+        self.setMinimumHeight(92 if not input_resources else 116)
         layout = QVBoxLayout(self)
-        layout.setContentsMargins(11, 10, 11, 10)
-        layout.setSpacing(6)
+        layout.setContentsMargins(10, 6, 10, 6)
+        layout.setSpacing(4)
 
         header = QHBoxLayout()
-        icon = ResourceIconWidget(resource_id, icon_key, accent_key, size=48)
+        icon = ResourceIconWidget(resource_id, icon_key, accent_key, size=38)
         icon.setAttribute(Qt.WidgetAttribute.WA_TransparentForMouseEvents, True)
         header.addWidget(icon)
         text = QVBoxLayout()
@@ -1375,38 +815,136 @@ class ChainResourceBox(QFrame):
         text.addWidget(name_label)
         family = QLabel(machine_family)
         family.setObjectName("chainMachineFamily")
+        family.setProperty("secondaryTextRole", "metadata")
         family.setAttribute(Qt.WidgetAttribute.WA_TransparentForMouseEvents, True)
         text.addWidget(family)
         header.addLayout(text, 1)
         layout.addLayout(header)
 
-        amounts = []
-        if required_amount > 0:
-            amounts.append(f"Input {required_amount:g}")
-        if output_amount > 0:
-            amounts.append(f"Output {output_amount:g}")
-        amount_label = QLabel(" · ".join(amounts) if amounts else "Reference")
+        if input_resources:
+            inputs_host = QFrame()
+            inputs_host.setObjectName("chainResourceInputs")
+            inputs_layout = QVBoxLayout(inputs_host)
+            inputs_layout.setContentsMargins(0, 0, 0, 0)
+            inputs_layout.setSpacing(0)
+            for input_id, amount in input_resources.items():
+                input_name = (input_names or {}).get(input_id, input_id.replace("_", " ").title())
+                input_link = QPushButton(f"{amount:g} {input_name}")
+                input_link.setObjectName("guideRecipeInputLink")
+                input_link.setProperty("resourceId", input_id)
+                input_link.setProperty("chainNodeInput", True)
+                input_link.setFixedHeight(16)
+                input_link.setCursor(Qt.CursorShape.PointingHandCursor)
+                input_link.clicked.connect(
+                    lambda checked=False, rid=input_id: self.resource_selected.emit(rid)
+                )
+                inputs_layout.addWidget(input_link)
+            layout.addWidget(inputs_host)
+        layout.addStretch(1)
+        divider = QFrame()
+        divider.setObjectName("chainResourceDivider")
+        divider.setFixedHeight(1)
+        layout.addWidget(divider)
+        amount_label = QLabel(f"{output_amount:g} / CYCLE" if output_amount > 0 else "—")
+        amount_label.setWordWrap(True)
         amount_label.setObjectName("chainResourceAmount")
         amount_label.setAttribute(Qt.WidgetAttribute.WA_TransparentForMouseEvents, True)
         layout.addWidget(amount_label)
 
 
-class FactoryView(QWidget):
-    def __init__(self, state: GameState, command_bus: CommandBus, definitions: dict[str, CardDefinition]) -> None:
+class GuideRecipeRow(QFrame):
+    resource_selected = Signal(str)
+
+    def __init__(
+        self,
+        *,
+        resource_id: str,
+        resource_name: str,
+        detail: str,
+        meta: str,
+        icon_key: str,
+        accent_key: str,
+        progression_state: str = "unlocked",
+    ) -> None:
+        super().__init__()
+        self._resource_id = resource_id
+        self.setObjectName("guideRecipeRow")
+        self.setProperty("resourceId", resource_id)
+        self.setProperty("progressionState", progression_state)
+        self.setCursor(Qt.CursorShape.PointingHandCursor)
+        self.setFocusPolicy(Qt.FocusPolicy.StrongFocus)
+        self.setFixedHeight(208)
+        self.setMinimumWidth(268)
+        self.setMaximumWidth(350)
+        self.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Fixed)
+        layout = QVBoxLayout(self)
+        layout.setContentsMargins(10, 8, 10, 8)
+        layout.setSpacing(10)
+
+        icon = ResourceIconWidget(resource_id, icon_key, accent_key, size=48)
+        icon.setAttribute(Qt.WidgetAttribute.WA_TransparentForMouseEvents, True)
+        layout.addWidget(icon)
+
+        text = QVBoxLayout()
+        text.setSpacing(2)
+        title = QPushButton(resource_name)
+        title.setObjectName("guideRecipeLink")
+        title.setProperty("progressionState", progression_state)
+        title.setCursor(Qt.CursorShape.PointingHandCursor)
+        title.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Fixed)
+        title.clicked.connect(lambda checked=False: self.resource_selected.emit(self._resource_id))
+        text.addWidget(title)
+        meta_label = QLabel(meta)
+        meta_label.setObjectName("guideRecipeMeta")
+        meta_label.setProperty("secondaryTextRole", "metadata")
+        meta_label.setProperty("progressionState", progression_state)
+        text.addWidget(meta_label)
+        layout.addLayout(text)
+
+        detail_label = QLabel(detail)
+        detail_label.setObjectName("guideRecipeDetail")
+        detail_label.setAlignment(Qt.AlignmentFlag.AlignLeft | Qt.AlignmentFlag.AlignVCenter)
+        detail_label.setWordWrap(True)
+        layout.addWidget(detail_label)
+
+    def mousePressEvent(self, event) -> None:  # noqa: N802
+        if event.button() == Qt.MouseButton.LeftButton:
+            self.resource_selected.emit(self._resource_id)
+            return
+        super().mousePressEvent(event)
+
+    def keyPressEvent(self, event) -> None:  # noqa: N802
+        if event.key() in (Qt.Key.Key_Return, Qt.Key.Key_Enter, Qt.Key.Key_Space):
+            self.resource_selected.emit(self._resource_id)
+            return
+        super().keyPressEvent(event)
+
+
+
+
+class FactoryViewBase(QWidget):
+    """Shared runtime and subviews; the concrete production screen is FactoryViewV2."""
+    supply_requested = Signal(str)
+
+    def __init__(self, state: GameState, command_bus: CommandBus, definitions: dict[str, CardDefinition], board_config: ProductionBoardConfig | None = None) -> None:
+        if type(self) is FactoryViewBase:
+            raise TypeError("Use FactoryViewV2; this is shared runtime code, not a screen")
         super().__init__()
         self._state = state
+        self._board_config = board_config or ProductionBoardConfig()
+        self._units = state.production_units(self._board_config.board_kind)
         self._command_bus = command_bus
         self._definitions = definitions
+        initialize_production_progress(state, definitions)
         self._simulation = SimulationEngine(definitions)
         self._last_update = perf_counter()
         self._simulation_advanced_callback: Callable[[], None] | None = None
-        self._selected_hall_id = next(iter(state.halls))
+        self._selected_hall_id = next(iter(self._units))
         self._selected_card_id: str | None = None
         self._drawer_mode: str | None = None
         self._drawer_slot_index: int | None = None
         self._card_search_text = ""
         self._card_type_filter_text = "All"
-        self._card_mk_filter_text = "All"
         self._card_rarity_filter_text = "All"
         self._card_detail_label: QLabel | None = None
         self._install_button: QPushButton | None = None
@@ -1429,11 +967,20 @@ class FactoryView(QWidget):
         self._guide_grid_rebuild_count = 0
         self._guide_grid_resize_count = 0
         self._guide_tile_create_count = 0
+        self._guide_scroll_value = 0
+        self._guide_option_index_build_count = 0
+        self._guide_option_index_cache = self._build_guide_option_index()
+        self._guide_recipe_index = ProductionGuideRecipeIndex(self._definitions)
+        self._guide_items_cache_signature: tuple[tuple[str, ...], tuple[tuple[str, float], ...]] | None = None
+        self._guide_items_cache: list[ProductionOptionDefinition] = []
+        self._guide_items_cache_rebuild_count = 0
         self._chain_resource_id: str | None = None
         self._chain_back_mode: str = "hall"
+        self._chain_canvas: ZoomPanGraphicsView | None = None
+        self._cached_unlock_tree_panel: UnlockTreeView | None = None
         self._recent_install_slot_indexes: set[int] = set()
         self._recent_production_change_card_ids: set[str] = set()
-        self._slot_widgets: dict[int, MachineSlotWidget] = {}
+        self._slot_widgets: dict[int, QWidget] = {}
         self._kpi_strip: KpiStripWidget | None = None
         self._resource_summary: HallResourceSummaryWidget | None = None
         self._selection_hover_card_id: str | None = None
@@ -1443,7 +990,12 @@ class FactoryView(QWidget):
         layout.setContentsMargins(0, 0, 0, 0)
         layout.setSpacing(14)
 
-        self._hall_tree = QTreeWidget()
+        from production_zero.ui.building_tree import BuildingTree
+        self._hall_tree = BuildingTree() if self._board_config.board_kind in {'resources', 'factory'} else QTreeWidget()
+        if self._board_config.board_kind in {'resources', 'factory'}:
+            from production_zero.core.commands import ReorderBuildings
+            self._hall_tree.enable_reordering(lambda ids: self._command_bus.dispatch(
+                ReorderBuildings(self._board_config.board_kind, ids)))
         self._hall_tree.setObjectName("hallTree")
         self._hall_tree.setHeaderHidden(True)
         self._hall_tree.setFixedWidth(238)
@@ -1458,9 +1010,9 @@ class FactoryView(QWidget):
         sidebar_layout = QVBoxLayout(sidebar)
         sidebar_layout.setContentsMargins(10, 10, 10, 10)
         sidebar_layout.setSpacing(10)
-        sidebar_label = QLabel("FACTORY")
+        sidebar_label = QLabel(self._board_config.title)
         sidebar_label.setObjectName("factoryNavTitle")
-        sidebar_subtitle = QLabel("OPERATIONS / HALLS")
+        sidebar_subtitle = QLabel(f"OPERATIONS / {self._board_config.unit_plural}")
         sidebar_subtitle.setObjectName("factoryNavSubtitle")
         sidebar_layout.addWidget(sidebar_label)
         sidebar_layout.addWidget(sidebar_subtitle)
@@ -1481,133 +1033,23 @@ class FactoryView(QWidget):
         self._timer = QTimer(self)
         self._timer.setInterval(250)
         self._timer.timeout.connect(self._advance_simulation)
-        self._timer.start()
+        if self._board_config.board_kind == "factory":
+            self._timer.start()
 
-    def _refresh_hall_tree(self) -> None:
-        self._hall_tree.blockSignals(True)
-        self._hall_tree.clear()
-        root = QTreeWidgetItem(["Factory"])
-        root.setExpanded(True)
-        self._hall_tree.addTopLevelItem(root)
-        for hall in self._state.halls.values():
-            item = QTreeWidgetItem([self._hall_nav_label(hall)])
-            item.setData(0, Qt.ItemDataRole.UserRole, hall.hall_id)
-            root.addChild(item)
-            if hall.hall_id == self._selected_hall_id:
-                self._hall_tree.setCurrentItem(item)
-        self._hall_tree.blockSignals(False)
-        self._refresh_build_hall_button()
-
-    def _hall_nav_label(self, hall: FactoryHall) -> str:
-        occupied = sum(1 for index in hall.unlocked_slot_indexes() if hall.slots[index].card_id is not None)
-        return f"{hall.name}   {occupied} / {hall.slot_count}"
 
     def _refresh_build_hall_button(self) -> None:
-        cost = hall_purchase_price(len(self._state.halls))
-        self._build_hall_button.setText(f"Build Hall (${cost:.0f})")
+        board=self._board_config.board_kind
+        try:
+            cost = min(production_facility_price(self._state,board,target) for target in ('machine.extractor','machine.agriculture','machine.drilling')) if board=='resources' else production_facility_price(self._state,board)
+        except ValueError:
+            self._build_hall_button.setProperty('quotedCost', None)
+            self._build_hall_button.setText(f"{self._board_config.purchase_label} (price unavailable)")
+            self._build_hall_button.setEnabled(False)
+            return
+        self._build_hall_button.setProperty('quotedCost',cost)
+        self._build_hall_button.setText(f"{self._board_config.purchase_label} (${cost:.2f})")
         self._build_hall_button.setEnabled(self._state.cash.amount >= cost)
 
-    def _refresh_content(self) -> None:
-        self._hide_card_selection_hover()
-        self._detach_runtime_widget_references()
-        self._clear_layout(self._content_layout)
-
-        hall = self._state.halls[self._selected_hall_id]
-
-        if self._drawer_mode == "cards":
-            self._content_layout.addWidget(self._build_factory_card_selection_view(hall), 1)
-            return
-        if self._drawer_mode == "production":
-            self._content_layout.addWidget(self._build_production_selection_view(), 1)
-            return
-        if self._drawer_mode == "guide":
-            self._content_layout.addWidget(self._build_production_guide_view(), 1)
-            return
-        if self._drawer_mode == "chain":
-            self._content_layout.addWidget(self._build_chain_inspector_view(), 1)
-            return
-
-        command_board = QFrame()
-        command_board.setObjectName("factoryHallCommandBoard")
-        command_layout = QVBoxLayout(command_board)
-        command_layout.setContentsMargins(14, 12, 14, 12)
-        command_layout.setSpacing(10)
-
-        header_panel = QFrame()
-        header_panel.setObjectName("factoryHallHeader")
-        header = QHBoxLayout(header_panel)
-        header.setContentsMargins(0, 0, 0, 0)
-        header.setSpacing(14)
-        title_shell = QFrame()
-        title_shell.setObjectName("factoryHallTitleShell")
-        title_shell_layout = QVBoxLayout(title_shell)
-        title_shell_layout.setContentsMargins(12, 9, 12, 9)
-        title_shell_layout.setSpacing(3)
-        title_block = QVBoxLayout()
-        title_block.setContentsMargins(0, 0, 0, 0)
-        title_block.setSpacing(3)
-        hall_label = QLabel("ACTIVE PRODUCTION HALL")
-        hall_label.setObjectName("hallCommandLabel")
-        hall_name = QLineEdit(hall.name)
-        hall_name.setObjectName("hallNameEdit")
-        hall_name.editingFinished.connect(lambda: self._rename_hall(hall_name.text()))
-        guide_button = QPushButton("Production Guide")
-        guide_button.setObjectName("productionGuideButton")
-        guide_button.clicked.connect(lambda checked=False: self._open_production_guide())
-        hall_name.setProperty("factoryHeader", True)
-        active_lines = sum(1 for line in hall.production_lines if line.unlocked)
-        occupied = sum(1 for index in hall.unlocked_slot_indexes() if hall.slots[index].card_id is not None)
-        slot_count = QLabel(f"{occupied} / {hall.slot_count} slots · {active_lines} active lines")
-        slot_count.setObjectName("hallSlotCount")
-        title_block.addWidget(hall_label)
-        title_block.addWidget(hall_name)
-        title_block.addWidget(slot_count)
-        title_shell_layout.addLayout(title_block)
-        header.addWidget(title_shell, 1)
-        header.addStretch(1)
-        header.addWidget(guide_button)
-        command_layout.addWidget(header_panel)
-        command_divider = QFrame()
-        command_divider.setObjectName("factoryCommandDivider")
-        command_divider.setFixedHeight(2)
-        command_layout.addWidget(command_divider)
-
-        status_zone = QFrame()
-        status_zone.setObjectName("factoryStatusZone")
-        status_layout = QHBoxLayout(status_zone)
-        status_layout.setContentsMargins(0, 0, 0, 0)
-        status_layout.setSpacing(12)
-        self._kpi_strip = KpiStripWidget(self._state)
-        status_layout.addWidget(self._kpi_strip)
-        self._resource_summary = HallResourceSummaryWidget(self._state, self._definitions, hall)
-        self._resource_summary.chain_requested.connect(self._open_chain_from_hall)
-        status_layout.addWidget(self._resource_summary, 1)
-        command_layout.addWidget(status_zone)
-        self._content_layout.addWidget(command_board)
-
-        body = QHBoxLayout()
-        body.setContentsMargins(0, 0, 0, 0)
-        body.setSpacing(0)
-        lines_container = QWidget()
-        lines_layout = QVBoxLayout(lines_container)
-        lines_layout.setContentsMargins(0, 0, 0, 0)
-        lines_layout.setSpacing(10)
-        for line in hall.production_lines:
-            line_panel = self._build_line_panel(line, hall)
-            lines_layout.addWidget(line_panel)
-        lines_layout.addStretch(1)
-
-        scroll = QScrollArea()
-        scroll.setObjectName("factoryHallScroll")
-        scroll.setWidgetResizable(True)
-        scroll.setHorizontalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAlwaysOff)
-        scroll.setFrameShape(QFrame.Shape.NoFrame)
-        scroll.setWidget(lines_container)
-        body.addWidget(scroll, 1)
-        drawer = self._build_context_drawer()
-        if drawer is not None:
-            body.addWidget(drawer, 0)
-        self._content_layout.addLayout(body, 1)
 
     def _detach_runtime_widget_references(self) -> None:
         self._slot_widgets = {}
@@ -1617,179 +1059,76 @@ class FactoryView(QWidget):
     def _clear_layout(self, layout) -> None:
         clear_layout_safely(layout)
 
-    def _build_line_panel(self, line: ProductionLine, hall: FactoryHall) -> QFrame:
-        panel = QFrame()
-        panel.setObjectName("linePanel")
-        layout = QVBoxLayout(panel)
-        layout.setContentsMargins(10, 8, 10, 10)
-        layout.setSpacing(8)
-
-        if not line.unlocked:
-            line_number = self._line_number(hall, line)
-            layout.setContentsMargins(10, 6, 10, 6)
-            locked_panel = ClickableCapacityPanel(enabled=self._state.cash.amount >= line.unlock_cost)
-            locked_panel.setObjectName("lockedLinePanel")
-            locked_panel.setProperty("lineId", line.line_id)
-            locked_panel.setProperty("lineNumber", line_number)
-            locked_panel.setProperty("unlockCost", line.unlock_cost)
-            locked_panel.setMinimumHeight(42)
-            locked_panel.setMaximumHeight(54)
-            locked_panel.activated.connect(lambda line_id=line.line_id: self._unlock_line(line_id))
-            locked_layout = QHBoxLayout(locked_panel)
-            locked_layout.setContentsMargins(10, 8, 10, 8)
-            locked_layout.setSpacing(10)
-
-            name = QLabel(line.name.upper())
-            name.setObjectName("lockedLineName")
-            name.setAttribute(Qt.WidgetAttribute.WA_TransparentForMouseEvents, True)
-            badge = QLabel("LOCKED")
-            badge.setObjectName("lineLockedBadge")
-            badge.setAttribute(Qt.WidgetAttribute.WA_TransparentForMouseEvents, True)
-            detail = QLabel(f"Expansion Bay · ${line.unlock_cost:.0f}")
-            detail.setObjectName("lockedLineDetail")
-            detail.setAttribute(Qt.WidgetAttribute.WA_TransparentForMouseEvents, True)
-            action = QLabel("Unlock Line")
-            action.setObjectName("lockedLineAction")
-            action.setAttribute(Qt.WidgetAttribute.WA_TransparentForMouseEvents, True)
-
-            locked_layout.addWidget(name)
-            locked_layout.addWidget(badge)
-            locked_layout.addWidget(detail)
-            locked_layout.addStretch(1)
-            locked_layout.addWidget(action)
-            layout.addWidget(locked_panel)
-            return panel
-
-        header_row = QHBoxLayout()
-        line_number = self._line_number(hall, line)
-        line_badge = QLabel(f"LINE {line_number:02d}")
-        line_badge.setObjectName("lineNumberBadge")
-        header = QLabel(line.name.upper())
-        header.setObjectName("lineHeader")
-        header.setProperty("locked", not line.unlocked)
-        header_rule = QFrame()
-        header_rule.setObjectName("lineHeaderRule")
-        header_rule.setFrameShape(QFrame.Shape.HLine)
-        header_row.addWidget(line_badge)
-        header_row.addWidget(header)
-        if not line.unlocked:
-            badge = QLabel("LOCKED")
-            badge.setObjectName("lineLockedBadge")
-            header_row.addWidget(badge)
-        header_row.addWidget(header_rule, 1)
-        layout.addLayout(header_row)
-
-        row = FactorySlotRowWidget()
-        for slot_number in range(1, MAX_FACTORY_SLOTS_PER_LINE + 1):
-            if slot_number <= len(line.slot_indexes):
-                slot_index = line.slot_indexes[slot_number - 1]
-                slot = hall.slots[slot_index]
-                card = self._state.cards.get(slot.card_id) if slot.card_id else None
-                definition = self._definitions.get(card.definition_id) if card else None
-                production_state = self._state.machine_production.get(card.card_id) if card else None
-                slot_widget = MachineSlotWidget(slot, card, definition, production_state, self, state=self._state)
-                slot_widget.clicked.connect(self._on_slot_clicked)
-                slot_widget.production_change_requested.connect(self._open_production_drawer)
-                slot_widget.chain_requested.connect(self._open_chain_from_hall)
-                self._slot_widgets[slot_index] = slot_widget
-                if slot_index in self._recent_install_slot_indexes:
-                    slot_widget.trigger_install_feedback()
-                    self._recent_install_slot_indexes.discard(slot_index)
-                if card is not None and card.card_id in self._recent_production_change_card_ids:
-                    slot_widget.trigger_production_change_feedback()
-                    self._recent_production_change_card_ids.discard(card.card_id)
-                row.add_slot_widget(slot_widget)
-            else:
-                row.add_slot_widget(self._build_locked_slot_panel(line, line_number, slot_number))
-        layout.addWidget(row)
-        return panel
 
     def _line_number(self, hall: FactoryHall, line: ProductionLine) -> int:
         return hall.production_lines.index(line) + 1
 
-    def _build_locked_slot_panel(self, line: ProductionLine, line_number: int, slot_number: int) -> QFrame:
-        cost = factory_slot_unlock_cost(line_number, slot_number)
-        panel = ClickableCapacityPanel(enabled=self._state.cash.amount >= cost)
-        panel.setObjectName("lockedSlotPanel")
-        panel.setProperty("lineId", line.line_id)
-        panel.setProperty("slotNumber", slot_number)
-        panel.setProperty("slotIndex", None)
-        panel.setProperty("slotVisualState", "locked")
-        panel.setProperty("unlockCost", cost)
-        panel.setFixedSize(FACTORY_CARD_SIZE, FACTORY_CARD_SIZE)
-        panel.activated.connect(lambda line_id=line.line_id: self._unlock_slot(line_id))
-        layout = QVBoxLayout(panel)
-        layout.setContentsMargins(10, 10, 10, 10)
-        layout.setSpacing(6)
-        lock = QLabel("LOCK")
-        lock.setObjectName("lockedSlotIcon")
-        lock.setAlignment(Qt.AlignmentFlag.AlignCenter)
-        lock.setAttribute(Qt.WidgetAttribute.WA_TransparentForMouseEvents, True)
-        title = QLabel(f"SLOT {slot_number}")
-        title.setObjectName("lockedSlotTitle")
-        title.setAlignment(Qt.AlignmentFlag.AlignCenter)
-        title.setAttribute(Qt.WidgetAttribute.WA_TransparentForMouseEvents, True)
-        detail = QLabel(f"${cost:.0f}")
-        detail.setObjectName("lockedSlotPrice")
-        detail.setAlignment(Qt.AlignmentFlag.AlignCenter)
-        detail.setAttribute(Qt.WidgetAttribute.WA_TransparentForMouseEvents, True)
-        hint = QLabel("UPGRADE BAY")
-        hint.setObjectName("lockedSlotHint")
-        hint.setAlignment(Qt.AlignmentFlag.AlignCenter)
-        hint.setAttribute(Qt.WidgetAttribute.WA_TransparentForMouseEvents, True)
-        layout.addStretch(1)
-        layout.addWidget(lock)
-        layout.addWidget(title)
-        layout.addWidget(hint)
-        layout.addWidget(detail)
-        layout.addStretch(1)
-        return panel
-
-    def _build_context_drawer(self) -> QFrame | None:
-        if self._drawer_mode == "cards":
-            return None
-        if self._drawer_mode == "production":
-            return None
-        return None
 
     def _build_production_guide_view(self) -> QFrame:
+        cached = getattr(self, "_cached_guide_panel", None)
+        if cached is not None:
+            self._guide_grid_host = cached.findChild(ResizingGridHost, "productionGuideGridHost")
+            self._guide_grid = self._guide_grid_host.layout()
+            signature = self._guide_progress_signature()
+            if signature != self._cached_guide_progress:
+                self._populate_guide_grid()
+                self._cached_guide_progress = signature
+            cached.show()
+            return cached
         self._guide_view_build_count += 1
         panel = QFrame()
         panel.setObjectName("productionGuideView")
+        style_secondary(panel)
         layout = QVBoxLayout(panel)
-        layout.setContentsMargins(14, 12, 14, 14)
-        layout.setSpacing(10)
+        layout.setContentsMargins(18, 16, 18, 18)
+        layout.setSpacing(12)
 
-        header = QHBoxLayout()
+        header_panel = QFrame()
+        header_panel.setObjectName("productionGuideHeader")
+        header = QHBoxLayout(header_panel)
+        header.setContentsMargins(14, 10, 14, 10)
+        header.setSpacing(12)
         title = QLabel("PRODUCTION GUIDE")
         title.setObjectName("sectionLabel")
-        back = QPushButton("Back")
-        back.setObjectName("productionGuideBackButton")
+        back = secondary_action_button("Back", "productionGuideBackButton")
         back.clicked.connect(lambda checked=False: self._close_drawer())
         header.addWidget(title)
         header.addStretch(1)
         header.addWidget(back)
-        layout.addLayout(header)
+        guide_title = QLabel("PRODUCTION GUIDE")
+        guide_title.setObjectName("productionGuideTitle")
+        guide_subtitle = QLabel("Browse resources and production chains")
+        guide_subtitle.setObjectName("productionGuideSubtitle")
+        header_actions = QWidget()
+        header_actions.setObjectName("productionGuideHeaderActions")
+        header_action_layout = QHBoxLayout(header_actions)
+        header_action_layout.setContentsMargins(0, 0, 0, 0)
+        header_action_layout.setSpacing(8)
+        unlock_tree = secondary_action_button("Unlock Tree", "productionGuideUnlockTreeButton")
+        unlock_tree.setProperty("primaryNavigation", True)
+        unlock_tree.clicked.connect(lambda checked=False: self._open_unlock_tree())
+        header_action_layout.addWidget(unlock_tree)
+        header_action_layout.addWidget(back)
+        layout.addWidget(SecondaryViewHeader(guide_title, guide_subtitle, header_actions))
+        header_panel.deleteLater()
 
-        filters_panel = QFrame()
-        filters_panel.setObjectName("productionGuideFilters")
-        filters = QHBoxLayout()
-        filters.setContentsMargins(0, 0, 0, 0)
-        filters.setSpacing(8)
         search = QLineEdit()
         search.setObjectName("productionGuideSearchInput")
         search.setPlaceholderText("Search products...")
         search.setText(self._guide_search_text)
         search.textChanged.connect(self._on_guide_search_changed)
-        filters.addWidget(search, 2)
 
-        stage_filter = QComboBox()
-        stage_filter.setObjectName("productionGuideStageFilter")
-        for option in ["All", *[PRODUCTION_STAGE_LABELS[stage] for stage in PRODUCTION_STAGE_ORDER]]:
-            stage_filter.addItem(option)
-        stage_filter.setCurrentText(self._guide_stage_filter_text)
-        stage_filter.currentTextChanged.connect(self._on_guide_stage_filter_changed)
-        filters.addWidget(stage_filter)
+        stage_filter = StageFilterBar(
+            [
+                ("ALL", "All"),
+                ("PRIMARY PRODUCTION", "Primary Production"),
+                ("PROCESSOR", "Processing"),
+                ("FABRICATOR", "Manufacturing"),
+                ("ASSEMBLER", "Assembly"),
+            ],
+            self._guide_stage_filter_text,
+            self._on_guide_stage_filter_changed,
+        )
 
         category_filter = QComboBox()
         category_filter.setObjectName("productionGuideCategoryFilter")
@@ -1797,9 +1136,6 @@ class FactoryView(QWidget):
             category_filter.addItem(option)
         category_filter.setCurrentText(self._guide_category_filter_text if self._guide_category_filter_text in self._guide_category_options() else "All")
         category_filter.currentTextChanged.connect(self._on_guide_category_filter_changed)
-        filters.addWidget(category_filter)
-        filters_panel.setLayout(filters)
-        layout.addWidget(filters_panel)
 
         scroll = QScrollArea()
         scroll.setObjectName("productionGuideScroll")
@@ -1811,33 +1147,54 @@ class FactoryView(QWidget):
         grid_host.resized.connect(self._on_guide_grid_host_resized)
         self._guide_grid_host = grid_host
         self._guide_grid = QGridLayout(grid_host)
-        self._guide_grid.setContentsMargins(0, 0, 0, 0)
-        self._guide_grid.setSpacing(10)
+        self._guide_grid.setContentsMargins(12, 12, 12, 12)
+        self._guide_grid.setSpacing(12)
         grid_host.setProperty("guideGridColumns", self._guide_grid_columns())
         self._populate_guide_grid()
         scroll.setWidget(grid_host)
-        layout.addWidget(scroll, 1)
+        QTimer.singleShot(0, scroll, lambda scroll=scroll: scroll.verticalScrollBar().setValue(self._guide_scroll_value))
+        representatives = {browser_category(rid, option.stage.value): rid for rid, option in self._guide_option_index().items()}
+        layout.addWidget(ResourceBrowser(search, category_filter, scroll, representatives, stage_filter), 1)
+        self._cached_guide_panel = panel
+        self._cached_guide_progress = self._guide_progress_signature()
+        return panel
+
+    def _build_unlock_tree_view(self) -> UnlockTreeView:
+        cached = self._cached_unlock_tree_panel
+        if cached is not None and is_qt_object_valid(cached):
+            cached.refresh_state()
+            cached.show()
+            QTimer.singleShot(0, cached.focus_default_region)
+            return cached
+        panel = UnlockTreeView(self._state, self._definitions, self._back_from_unlock_tree)
+        self._cached_unlock_tree_panel = panel
         return panel
 
     def _build_chain_inspector_view(self) -> QFrame:
         panel = QFrame()
         panel.setObjectName("chainInspectorView")
+        style_secondary(panel)
         layout = QVBoxLayout(panel)
-        layout.setContentsMargins(14, 12, 14, 14)
-        layout.setSpacing(12)
+        layout.setContentsMargins(18, 16, 18, 18)
+        layout.setSpacing(14)
 
         resource_id = self._chain_resource_id or ""
         option = self._guide_option_index().get(resource_id)
-        header = QHBoxLayout()
-        back = QPushButton("Back")
-        back.setObjectName("chainInspectorBackButton")
+        header_panel = QFrame()
+        header_panel.setObjectName("chainInspectorHeader")
+        header = QHBoxLayout(header_panel)
+        header.setContentsMargins(14, 10, 14, 10)
+        header.setSpacing(12)
+        back = secondary_action_button("Back", "chainInspectorBackButton")
+        back.setProperty("primaryNavigation", True)
         back.clicked.connect(lambda checked=False: self._back_from_chain_inspector())
         title = QLabel(f"CHAIN INSPECTOR · {self._resource_display_name(resource_id).upper()}")
         title.setObjectName("sectionLabel")
         header.addWidget(back)
         header.addWidget(title)
         header.addStretch(1)
-        layout.addLayout(header)
+        layout.addWidget(SecondaryViewHeader(title, "Production requirements and upstream flow", back))
+        header_panel.deleteLater()
 
         if option is None:
             empty = QLabel("No production chain data available for this product.")
@@ -1846,58 +1203,281 @@ class FactoryView(QWidget):
             layout.addStretch(1)
             return panel
 
+        technical_chassis = QFrame()
+        technical_chassis.setObjectName("secondaryTechnicalChassis")
+        technical_layout = QVBoxLayout(technical_chassis)
+        technical_layout.setContentsMargins(10, 10, 10, 10)
+        technical_layout.setSpacing(10)
+        technical_layout.addWidget(self._build_guide_recipe_details(resource_id))
+
         chain = self._build_chain(resource_id)
-        scroll = QScrollArea()
-        scroll.setObjectName("chainInspectorScroll")
-        scroll.setWidgetResizable(True)
-        scroll.setHorizontalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAsNeeded)
-        scroll.setVerticalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAlwaysOff)
-        scroll.setFrameShape(QFrame.Shape.NoFrame)
+        flow_shell = QFrame()
+        flow_shell.setObjectName("chainInspectorFlowShell")
+        flow_shell.setStyleSheet(panel.styleSheet())
+        flow_layout = QVBoxLayout(flow_shell)
+        flow_layout.setContentsMargins(10, 10, 10, 10)
+        flow_layout.setSpacing(0)
         host = QWidget()
         host.setObjectName("chainInspectorStageHost")
         host_layout = QHBoxLayout(host)
         host_layout.setContentsMargins(0, 0, 0, 0)
-        host_layout.setSpacing(10)
-        for index, stage in enumerate(PRODUCTION_STAGE_ORDER):
+        host_layout.setSpacing(8)
+        stack_height = max(
+            (
+                sum(116 if node["input_resources"] else 92 for node in nodes)
+                + max(0, len(nodes) - 1) * 6
+            )
+            for nodes in chain.values()
+        )
+        stage_height = 28 + stack_height
+        stage_groups: list[QWidget] = []
+        for stage in CHAIN_STAGE_ORDER:
             nodes = chain.get(stage, [])
             if not nodes:
                 continue
-            stage_panel = self._build_chain_stage_panel(stage, nodes)
-            host_layout.addWidget(stage_panel)
-            if index < len(PRODUCTION_STAGE_ORDER) - 1 and any(chain.get(later) for later in PRODUCTION_STAGE_ORDER[index + 1:]):
-                host_layout.addWidget(ChainFlowConnector())
-        host_layout.addStretch(1)
-        scroll.setWidget(host)
-        layout.addWidget(scroll, 1)
+            stage_group = self._build_chain_stage_group(stage, nodes)
+            stage_group.setFixedHeight(stage_height)
+            stage_groups.append(stage_group)
+        for index, stage_group in enumerate(stage_groups):
+            host_layout.addWidget(stage_group, 0, Qt.AlignmentFlag.AlignTop)
+            if index < len(stage_groups) - 1:
+                host_layout.addWidget(ChainFlowConnector(stage_group, stage_groups[index + 1]))
+        flow_layout.addWidget(host)
+        canvas = ZoomPanGraphicsView(object_prefix="chainInspector", scene_padding=8.0)
+        canvas.setMinimumHeight(190)
+        canvas.set_content_widget(flow_shell)
+        self._chain_canvas = canvas
+        technical_layout.addWidget(canvas, 1)
+        layout.addWidget(technical_chassis, 1)
         return panel
 
-    def _build_chain_stage_panel(self, stage: MachineType, nodes: list[dict[str, object]]) -> QFrame:
+    def _build_guide_recipe_details(self, resource_id: str) -> QFrame:
         panel = QFrame()
-        panel.setObjectName("chainStagePanel")
-        panel.setProperty("stage", PRODUCTION_STAGE_LABELS[stage])
-        panel.setMinimumWidth(390)
-        panel.setMaximumWidth(430)
+        panel.setObjectName("guideRecipeDetails")
+        panel.setProperty("chainSummary", True)
+        layout = QHBoxLayout(panel)
+        layout.setContentsMargins(12, 8, 10, 8)
+        layout.setSpacing(14)
+        entries = self._guide_recipe_index.produced_by(resource_id)
+        if entries:
+            entry = entries[0]
+            product = QFrame()
+            product.setObjectName("chainSummaryProduct")
+            product_layout = QVBoxLayout(product)
+            product_layout.setContentsMargins(0, 0, 0, 0)
+            product_layout.setSpacing(1)
+            name = QLabel(self._resource_display_name(resource_id).upper())
+            name.setObjectName("chainSummaryProductName")
+            family = QLabel(entry.machine_name.upper())
+            family.setObjectName("chainSummaryMachineFamily")
+            product_layout.addWidget(name)
+            product_layout.addWidget(family)
+            layout.addWidget(product, 2)
+
+            rate = QFrame()
+            rate.setObjectName("chainSummaryRateBlock")
+            rate.setFixedWidth(230)
+            rate_layout = QVBoxLayout(rate)
+            rate_layout.setContentsMargins(12, 6, 12, 6)
+            rate_layout.setSpacing(1)
+            rate_label = QLabel("PRODUCTION RATE")
+            rate_label.setObjectName("chainSummaryRateLabel")
+            rate_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
+            rate_value = QLabel(
+                f"{entry.output_amount:g} / {entry.cycle_seconds:g}s  ·  "
+                f"{entry.output_per_minute:g} / MIN"
+            )
+            rate_value.setObjectName("chainSummaryRateValue")
+            rate_value.setAlignment(Qt.AlignmentFlag.AlignCenter)
+            rate_layout.addWidget(rate_label)
+            rate_layout.addWidget(rate_value)
+            layout.addWidget(rate)
+        layout.addStretch(1)
+        count = len(self._guide_recipe_index.used_in(resource_id))
+        action = UsedInNavigationButton(count)
+        action.setFixedSize(142, 68)
+        action.clicked.connect(lambda checked=False: self._open_used_in_detail(resource_id))
+        layout.addWidget(action)
+        return panel
+
+
+    def _build_used_in_detail_view(self) -> QFrame:
+        panel = QFrame()
+        panel.setObjectName("usedInDetailView")
+        style_secondary(panel)
         layout = QVBoxLayout(panel)
-        layout.setContentsMargins(12, 10, 12, 12)
-        layout.setSpacing(8)
+        layout.setContentsMargins(18, 16, 18, 18)
+        layout.setSpacing(13)
+
+        resource_id = self._chain_resource_id or ""
+        entries = self._guide_recipe_index.used_in(resource_id)
+        header_panel = QFrame()
+        header_panel.setObjectName("usedInDetailHeader")
+        header = QHBoxLayout(header_panel)
+        header.setContentsMargins(14, 10, 14, 10)
+        header.setSpacing(12)
+        back = secondary_action_button("Back", "usedInBackButton")
+        back.clicked.connect(lambda checked=False: self._back_from_used_in_detail())
+        title = QLabel(f"USED IN · {self._resource_display_name(resource_id).upper()}")
+        title.setObjectName("sectionLabel")
+        count = QLabel(f"{len(entries)} downstream product{'s' if len(entries) != 1 else ''}")
+        count.setObjectName("usedInDetailCount")
+        layout.addWidget(SecondaryViewHeader(title, count, back))
+        header_panel.deleteLater()
+
+        rows = self._used_in_rows(resource_id)
+        scroll = QScrollArea()
+        scroll.setObjectName("usedInDetailScroll")
+        scroll.setWidgetResizable(True)
+        scroll.setHorizontalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAlwaysOff)
+        scroll.setVerticalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAsNeeded)
+        scroll.setFrameShape(QFrame.Shape.NoFrame)
+        content = GuideRecipeGridHost(rows, minimum_column_width=268)
+        content.setObjectName("usedInDetailGridHost")
+        scroll.setWidget(content)
+        chassis = QFrame()
+        chassis.setObjectName("secondaryContentChassis")
+        chassis_layout = QVBoxLayout(chassis)
+        chassis_layout.setContentsMargins(9, 9, 9, 9)
+        chassis_layout.addWidget(scroll)
+        layout.addWidget(chassis, 1)
+        return panel
+
+
+
+    def _build_produced_by_row(self, entry: GuideRecipeEntry, inputs: tuple[QPushButton, ...]) -> QFrame:
+        panel = QFrame()
+        panel.setObjectName("guideRecipeRow")
+        panel.setProperty("resourceId", entry.production.output_resource)
+        progression_state = production_progress_state(self._state, entry.production)
+        panel.setProperty("progressionState", progression_state)
+        panel.setMinimumHeight(92)
+        panel.setMaximumHeight(166)
+        layout = QVBoxLayout(panel)
+        layout.setContentsMargins(10, 8, 10, 8)
+        layout.setSpacing(6)
+
+        top = QHBoxLayout()
+        name = QLabel(entry.production.name)
+        name.setObjectName("guideRecipeName")
+        top.addWidget(name, 1)
+        rate = QLabel(f"{entry.output_per_minute:g}/min")
+        rate.setObjectName("guideRecipeDetail")
+        rate.setAlignment(Qt.AlignmentFlag.AlignRight | Qt.AlignmentFlag.AlignVCenter)
+        top.addWidget(rate)
+        layout.addLayout(top)
+
+        meta_row = QHBoxLayout()
+        meta_row.setContentsMargins(0, 0, 0, 0)
+        meta_row.setSpacing(5)
+        meta = QLabel(f"{entry.machine_name} ·")
+        meta.setObjectName("guideRecipeMeta")
+        meta.setProperty("secondaryTextRole", "metadata")
+        meta.setProperty("progressionState", progression_state)
+        production_rate = QLabel(f"{entry.output_amount:g} per {entry.cycle_seconds:g}s")
+        production_rate.setObjectName("guideRecipeRate")
+        production_rate.setProperty("progressionState", progression_state)
+        meta_row.addWidget(meta)
+        meta_row.addWidget(production_rate)
+        meta_row.addStretch(1)
+        layout.addLayout(meta_row)
+
+        if progression_state != "unlocked":
+            requirement_lines = _player_progression_lines(
+                progression_state,
+                unlock_requirement_lines(
+                    self._state,
+                    entry.production,
+                    {resource_id: self._resource_display_name(resource_id) for resource_id in self._guide_option_index()},
+                ),
+            )
+            requirements = QLabel("\n".join(requirement_lines))
+            requirements.setObjectName("productionGuideUnlock")
+            requirements.setProperty("progressionState", progression_state)
+            requirements.setWordWrap(True)
+            requirements.setToolTip("\n".join(requirement_lines))
+            layout.addWidget(requirements)
+
+        input_row = QHBoxLayout()
+        input_row.setSpacing(6)
+        input_label = QLabel("Inputs")
+        input_label.setObjectName("guideRecipeInputLabel")
+        input_row.addWidget(input_label)
+        if inputs:
+            for button in inputs:
+                input_row.addWidget(button)
+        else:
+            base = QLabel("Base product")
+            base.setObjectName("guideRecipeInputEmpty")
+            input_row.addWidget(base)
+        input_row.addStretch(1)
+        layout.addLayout(input_row)
+        return panel
+
+    def _guide_recipe_input_buttons(self, entry: GuideRecipeEntry) -> tuple[QPushButton, ...]:
+        buttons: list[QPushButton] = []
+        for input_resource_id, amount in entry.production.input_resources.items():
+            button = RecipeInputButton(f"{amount:g} {self._resource_display_name(input_resource_id)}")
+            button.setObjectName("guideRecipeInputLink")
+            button.setFixedHeight(34)
+            button.setProperty("resourceId", input_resource_id)
+            button.setCursor(Qt.CursorShape.PointingHandCursor)
+            button.clicked.connect(lambda checked=False, rid=input_resource_id: self._open_chain_from_guide(rid))
+            buttons.append(button)
+        return tuple(buttons)
+
+    def _used_in_rows(self, resource_id: str) -> tuple[QWidget, ...]:
+        rows: list[QWidget] = []
+        for entry in self._guide_recipe_index.used_in(resource_id):
+            amount = entry.production.input_resources[resource_id]
+            input_rate = entry.input_per_minute(resource_id)
+            progression_state = production_progress_state(self._state, entry.production)
+            status = _player_progression_lines(
+                progression_state,
+                unlock_requirement_lines(
+                    self._state,
+                    entry.production,
+                    {rid: self._resource_display_name(rid) for rid in self._guide_option_index()},
+                ),
+            )[0].title()
+            row = GuideRecipeRow(
+                resource_id=entry.production.output_resource,
+                resource_name=entry.production.name,
+                detail=f"OUTPUT  {entry.output_amount:g} / {entry.cycle_seconds:g}s · {entry.output_per_minute:g}/min\nINPUT  {amount:g}/cycle · {input_rate:g}/min",
+                meta=f"{entry.machine_name} · {status}",
+                icon_key=entry.production.icon_key or resource_icon_key(entry.production.output_resource),
+                accent_key=entry.production.accent_key or resource_accent_key(entry.production.output_resource),
+                progression_state=progression_state,
+            )
+            row.resource_selected.connect(self._open_chain_from_guide)
+            rows.append(row)
+        return tuple(rows)
+
+    def _build_chain_stage_group(self, stage: MachineType, nodes: list[dict[str, object]]) -> QWidget:
+        group = QWidget()
+        group.setObjectName("chainStageGroup")
+        group.setProperty("stage", PRODUCTION_STAGE_LABELS[stage])
+        group.setFixedWidth(264)
+        layout = QVBoxLayout(group)
+        layout.setContentsMargins(0, 0, 0, 0)
+        layout.setSpacing(0)
+        host = QWidget()
+        host.setObjectName("chainStageNodeHost")
+        node_layout = QVBoxLayout(host)
+        node_layout.setContentsMargins(0, 0, 0, 0)
+        node_layout.setSpacing(6)
         title = QLabel(PRODUCTION_STAGE_LABELS[stage].upper())
         title.setObjectName("chainStageTitle")
         title.setProperty("stageAccent", stage.value)
-        header_rule = QFrame()
-        header_rule.setObjectName("chainStageRule")
-        header_rule.setProperty("stageAccent", stage.value)
-        header = QHBoxLayout()
-        header.addWidget(title)
-        header.addWidget(header_rule, 1)
-        layout.addLayout(header)
+        node_layout.addWidget(title, 0, Qt.AlignmentFlag.AlignLeft)
         grid = QGridLayout()
         grid.setContentsMargins(0, 0, 0, 0)
-        grid.setHorizontalSpacing(8)
-        grid.setVerticalSpacing(8)
-        columns = 2
+        grid.setHorizontalSpacing(6)
+        grid.setVerticalSpacing(6)
+        columns = 1
         for index, node in enumerate(nodes):
             grid.addWidget(
-                ChainResourceBox(
+                resource_box := ChainResourceBox(
                     str(node["resource_id"]),
                     str(node["name"]),
                     stage,
@@ -1906,14 +1486,20 @@ class FactoryView(QWidget):
                     float(node["output_amount"]),
                     str(node["icon_key"]),
                     str(node["accent_key"]),
+                    node["input_resources"],
+                    {
+                        str(input_id): self._resource_display_name(str(input_id))
+                        for input_id in node["input_resources"]
+                    },
                 ),
                 index // columns,
                 index % columns,
             )
+            resource_box.resource_selected.connect(self._open_chain_from_guide)
         grid.setColumnStretch(columns, 1)
-        layout.addLayout(grid)
-        layout.addStretch(1)
-        return panel
+        node_layout.addLayout(grid)
+        layout.addWidget(host, 0, Qt.AlignmentFlag.AlignTop)
+        return group
 
     def _build_production_selection_view(self) -> QFrame:
         card, definition = self._production_drawer_card()
@@ -1925,12 +1511,13 @@ class FactoryView(QWidget):
 
         panel = QFrame()
         panel.setObjectName("productionSelectionView")
+        style_secondary(panel)
         layout = QVBoxLayout(panel)
         layout.setContentsMargins(14, 12, 14, 14)
         layout.setSpacing(12)
 
         title_row = QHBoxLayout()
-        title = QLabel("SELECT RESOURCE" if definition.machine_type.value == "extractor" else "SELECT RECIPE")
+        title = QLabel("SELECT RESOURCE" if definition.machine_type in PRIMARY_MACHINE_TYPES else "SELECT RECIPE")
         title.setObjectName("sectionLabel")
         current = self._active_production_option(card, definition)
         current_label = QLabel(f"Current: {current.name if current is not None else 'Not selected'}")
@@ -1940,20 +1527,13 @@ class FactoryView(QWidget):
         back = QPushButton("Back")
         back.setObjectName("productionSelectionBackButton")
         back.clicked.connect(lambda checked=False: self._close_drawer())
-        title_row.addWidget(title)
-        title_row.addWidget(current_label)
-        title_row.addStretch(1)
-        title_row.addWidget(back)
-        layout.addLayout(title_row)
+        layout.addWidget(SecondaryViewHeader(title, current_label, back))
 
-        filters = QHBoxLayout()
-        filters.setSpacing(8)
         search = QLineEdit()
         search.setObjectName("productionSearchInput")
         search.setPlaceholderText("Search production...")
         search.setText(self._production_search_text)
         search.textChanged.connect(self._on_production_search_changed)
-        filters.addWidget(search, 2)
 
         category_filter = QComboBox()
         category_filter.setObjectName("productionCategoryFilter")
@@ -1963,11 +1543,10 @@ class FactoryView(QWidget):
             category_filter.setCurrentText(self._production_category_filter_text)
         category_filter.blockSignals(False)
         category_filter.currentTextChanged.connect(self._on_production_category_filter_changed)
-        filters.addWidget(category_filter)
-        layout.addLayout(filters)
 
-        grid_host = QWidget()
+        grid_host = ResourceSelectionGridHost()
         grid_host.setObjectName("productionSelectionGridHost")
+        configure_resource_selection_grid_host(grid_host)
         grid_host.resizeEvent = lambda event, host=grid_host: self._on_production_grid_host_resized(host, event)
         grid = QGridLayout(grid_host)
         grid.setContentsMargins(0, 0, 0, 0)
@@ -1980,37 +1559,46 @@ class FactoryView(QWidget):
         scroll.setObjectName("productionSelectionScroll")
         scroll.setWidgetResizable(True)
         scroll.setFrameShape(QFrame.Shape.NoFrame)
+        configure_resource_selection_scroll(scroll)
         scroll.setWidget(grid_host)
-        layout.addWidget(scroll, 1)
+        representatives = {browser_category(p.output_resource, definition.machine_type.value): p.output_resource for p in definition.production_options}
+        layout.addWidget(ResourceBrowser(search, category_filter, scroll, representatives), 1)
         return panel
 
     def _build_factory_card_selection_view(self, hall: FactoryHall) -> QFrame:
         panel = QFrame()
         panel.setObjectName("factoryCardSelectionView")
+        style_secondary(panel)
         layout = QVBoxLayout(panel)
         layout.setContentsMargins(14, 12, 14, 14)
         layout.setSpacing(12)
 
-        header = QHBoxLayout()
-        title = QLabel("CARD SELECTION")
+        assignment_kind = {
+            "resources": "RESOURCE",
+            "factory": "FACTORY",
+            "energy": "ENERGY",
+        }[self._board_config.board_kind]
+        title = QLabel(f"ASSIGN {assignment_kind} CARD")
         title.setObjectName("sectionLabel")
-        slot_label = QLabel(f"Target Slot {self._drawer_slot_index + 1 if self._drawer_slot_index is not None else '-'}")
+        slot_label = QLabel(
+            f"{hall.name} · Slot "
+            f"{self._drawer_slot_index + 1 if self._drawer_slot_index is not None else '-'}"
+        )
         slot_label.setObjectName("cardSelectionTargetLabel")
-        back = QPushButton("Back")
-        back.setObjectName("cardSelectionBackButton")
+        back = secondary_action_button("Back", "cardSelectionBackButton")
         back.clicked.connect(lambda checked=False: self._close_drawer())
-        header.addWidget(title)
-        header.addWidget(slot_label)
-        header.addStretch(1)
-        header.addWidget(back)
-        layout.addLayout(header)
+        layout.addWidget(SecondaryViewHeader(title, slot_label, back))
 
-        filters = QHBoxLayout()
+        filters_panel = QFrame()
+        filters_panel.setObjectName("secondaryControlDeck")
+        filters = QHBoxLayout(filters_panel)
+        filters.setContentsMargins(10, 8, 10, 8)
         filters.setSpacing(8)
 
         search = QLineEdit()
         search.setObjectName("cardSearchInput")
-        search.setPlaceholderText("Search cards...")
+        search.setPlaceholderText(f"SEARCH {assignment_kind} CARDS")
+        search.setMaximumWidth(540)
         search.setText(self._card_search_text)
         search.textChanged.connect(self._on_card_search_changed)
         filters.addWidget(search, 2)
@@ -2025,16 +1613,6 @@ class FactoryView(QWidget):
         type_filter.currentTextChanged.connect(self._on_card_type_filter_changed)
         filters.addWidget(type_filter)
 
-        mk_filter = QComboBox()
-        mk_filter.setObjectName("cardSelectionMkFilter")
-        mk_filter.blockSignals(True)
-        mk_filter.addItems(self._card_mk_filter_options())
-        if self._card_mk_filter_text in self._card_mk_filter_options():
-            mk_filter.setCurrentText(self._card_mk_filter_text)
-        mk_filter.blockSignals(False)
-        mk_filter.currentTextChanged.connect(self._on_card_mk_filter_changed)
-        filters.addWidget(mk_filter)
-
         rarity_filter = QComboBox()
         rarity_filter.setObjectName("cardSelectionRarityFilter")
         rarity_filter.blockSignals(True)
@@ -2044,7 +1622,8 @@ class FactoryView(QWidget):
         rarity_filter.blockSignals(False)
         rarity_filter.currentTextChanged.connect(self._on_card_rarity_filter_changed)
         filters.addWidget(rarity_filter)
-        layout.addLayout(filters)
+        filters.addStretch(1)
+        layout.addWidget(filters_panel)
 
         grid_host = QWidget()
         grid_host.setObjectName("factoryCardSelectionGridHost")
@@ -2061,7 +1640,12 @@ class FactoryView(QWidget):
         scroll.setHorizontalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAlwaysOff)
         scroll.setFrameShape(QFrame.Shape.NoFrame)
         scroll.setWidget(grid_host)
-        layout.addWidget(scroll, 1)
+        chassis = QFrame()
+        chassis.setObjectName("secondaryContentChassis")
+        chassis_layout = QVBoxLayout(chassis)
+        chassis_layout.setContentsMargins(9, 9, 9, 9)
+        chassis_layout.addWidget(scroll)
+        layout.addWidget(chassis, 1)
         return panel
 
     def _build_production_selection_drawer(self) -> QFrame:
@@ -2079,7 +1663,7 @@ class FactoryView(QWidget):
         layout.setContentsMargins(12, 12, 12, 12)
         layout.setSpacing(10)
 
-        title = QLabel("SELECT RESOURCE" if definition.machine_type.value == "extractor" else "SELECT RECIPE")
+        title = QLabel("SELECT RESOURCE" if definition.machine_type in PRIMARY_MACHINE_TYPES else "SELECT RECIPE")
         title.setObjectName("sectionLabel")
         layout.addWidget(title)
 
@@ -2119,23 +1703,16 @@ class FactoryView(QWidget):
         return panel
 
     def _card_filter_options(self) -> list[str]:
-        types = {"All", "Energy", "Extractor", "Processor", "Fabricator", "Assembler"}
+        types = {"All"}
         for stack in build_placeable_inventory_stacks(self._state, self._definitions):
             definition = self._definitions.get(stack.first_card.definition_id)
+            if not self._definition_allowed(definition):
+                continue
             if isinstance(definition, MachineDefinition):
-                types.add(definition.machine_type.value.title())
+                types.add(definition.name)
             elif isinstance(definition, EnergyDefinition):
                 types.add("Energy")
         return ["All", *sorted(types - {"All"})]
-
-    def _card_mk_filter_options(self) -> list[str]:
-        levels = {"All"}
-        for stack in build_placeable_inventory_stacks(self._state, self._definitions):
-            definition = self._definitions.get(stack.first_card.definition_id)
-            mk_level = getattr(definition, "mk_level", None)
-            if mk_level is not None:
-                levels.add(f"MK {mk_level}")
-        return ["All", *sorted(levels - {"All"})]
 
     def _card_rarity_filter_options(self) -> list[str]:
         return ["All", *[rarity.value.title() for rarity in Rarity]]
@@ -2148,16 +1725,15 @@ class FactoryView(QWidget):
             definition = self._definitions.get(card.definition_id)
             if not isinstance(definition, (MachineDefinition, EnergyDefinition)):
                 continue
+            if not self._definition_allowed(definition):
+                continue
             name = definition.name if definition is not None else card.definition_id
             card_type = "Card"
             if isinstance(definition, MachineDefinition):
-                card_type = definition.machine_type.value.title()
+                card_type = definition.name
             elif isinstance(definition, EnergyDefinition):
                 card_type = "Energy"
             if self._card_type_filter_text not in ("", "All", card_type):
-                continue
-            mk_level = getattr(definition, "mk_level", None)
-            if self._card_mk_filter_text not in ("", "All") and self._card_mk_filter_text != f"MK {mk_level}":
                 continue
             if self._card_rarity_filter_text not in ("", "All", card.rarity.value.title()):
                 continue
@@ -2167,40 +1743,110 @@ class FactoryView(QWidget):
             stacks.append(stack)
         return tuple(stacks)
 
+    def _definition_allowed(self, definition: CardDefinition | None) -> bool:
+        if isinstance(definition, EnergyDefinition):
+            return self._board_config.allow_energy
+        if not isinstance(definition, MachineDefinition) or definition.machine_type not in self._board_config.allowed_machine_types:
+            return False
+        if self._board_config.board_kind == "resources":
+            from production_zero.core.machine_operations import site_accepts
+            site = self._units[self._selected_hall_id]
+            return site_accepts(self._state, site, definition.definition_id)
+        return True
+
     def _populate_card_selection_grid(self) -> None:
         if self._card_selection_grid is None:
             return
         self._clear_layout(self._card_selection_grid)
         stacks = self._filtered_placeable_stacks()
         if not stacks:
-            empty = QLabel("No compatible cards available")
+            empty_copy = {
+                "resources": (
+                    "NO COMPATIBLE RESOURCE CARDS",
+                    "Acquire compatible Primary Production cards from Industrial Supply.",
+                ),
+                "factory": (
+                    "NO COMPATIBLE FACTORY CARDS",
+                    "Acquire compatible production cards from Industrial Supply.",
+                ),
+                "energy": (
+                    "NO COMPATIBLE ENERGY CARDS",
+                    "Acquire compatible energy cards from Industrial Supply.",
+                ),
+            }[self._board_config.board_kind]
+            category = {"resources": "Resources", "factory": "Factory", "energy": "Energy"}[self._board_config.board_kind]
+            supply = secondary_action_button("OPEN INDUSTRIAL SUPPLY", "openIndustrialSupplyButton")
+            supply.clicked.connect(lambda checked=False, category=category: self.supply_requested.emit(category))
+            empty = EmptyStatePanel(*empty_copy, action=supply)
+            empty.findChild(QWidget, "emptyStateIcon").hide()
             empty.setObjectName("factoryCardSelectionEmpty")
             self._card_selection_grid.addWidget(empty, 0, 0)
             return
         columns = self._card_selection_grid_columns()
+        row_offset = 0
+        if len(stacks) <= 2:
+            noun = "CARD" if len(stacks) == 1 else "CARDS"
+            result_count = QLabel(f"{len(stacks)} COMPATIBLE {noun} AVAILABLE")
+            result_count.setObjectName("factoryCardSelectionResultCount")
+            result_count.setMaximumWidth(340)
+            self._card_selection_grid.addWidget(result_count, 0, 0, 1, columns)
+            row_offset = 1
         for index, stack in enumerate(stacks):
             tile = self._build_card_selection_tile(stack)
-            self._card_selection_grid.addWidget(tile, index // columns, index % columns)
-        self._card_selection_grid.setRowStretch((len(stacks) + columns - 1) // columns, 1)
+            self._card_selection_grid.addWidget(tile, row_offset + index // columns, index % columns)
+        self._card_selection_grid.setRowStretch(
+            row_offset + (len(stacks) + columns - 1) // columns,
+            1,
+        )
         self._card_selection_grid.setColumnStretch(columns, 1)
 
-    def _guide_option_index(self) -> dict[str, ProductionOptionDefinition]:
+    def _build_guide_option_index(self) -> dict[str, ProductionOptionDefinition]:
+        self._guide_option_index_build_count += 1
         indexed: dict[str, ProductionOptionDefinition] = {}
         for definition in self._definitions.values():
             if not isinstance(definition, MachineDefinition):
                 continue
             for option in definition.available_production_options:
+                if option.stage not in PRODUCTION_STAGE_ORDER:
+                    continue
                 existing = indexed.get(option.output_resource)
                 if existing is None or PRODUCTION_STAGE_ORDER.index(option.stage) > PRODUCTION_STAGE_ORDER.index(existing.stage):
                     indexed[option.output_resource] = option
         return indexed
 
+    def _guide_option_index(self) -> dict[str, ProductionOptionDefinition]:
+        return self._guide_option_index_cache
+
+    def _guide_progress_signature(self) -> tuple:
+        progress = self._state.production_progress
+        return (
+            tuple(sorted(progress.unlocked_production_ids)),
+            tuple(sorted((resource_id, round(amount, 6)) for resource_id, amount in progress.lifetime_produced.items())),
+            self._state.company.level,
+            frozenset(progress.first_produced_resource_ids),
+            frozenset(progress.mastered_family_ids),
+        )
+
     def _guide_items(self) -> list[ProductionOptionDefinition]:
-        return sorted(self._guide_option_index().values(), key=lambda option: (PRODUCTION_STAGE_ORDER.index(option.stage), option.name))
+        signature = self._guide_progress_signature()
+        if self._guide_items_cache_signature == signature:
+            return list(self._guide_items_cache)
+        order = {"unlocked": 0, "next": 1, "later": 2}
+        self._guide_items_cache_signature = signature
+        self._guide_items_cache_rebuild_count += 1
+        self._guide_items_cache = sorted(
+            self._guide_option_index().values(),
+            key=lambda option: (
+                order[production_progress_state(self._state, option)],
+                PRODUCTION_STAGE_ORDER.index(option.stage),
+                option.name,
+            ),
+        )
+        return list(self._guide_items_cache)
 
     def _guide_category_options(self) -> list[str]:
         categories = {
-            resource_category(option.output_resource, option.stage.value)
+            browser_category(option.output_resource, option.stage.value)
             for option in self._guide_items()
         }
         return ["All", *sorted(categories)]
@@ -2208,9 +1854,10 @@ class FactoryView(QWidget):
     def _filtered_guide_items(self) -> list[ProductionOptionDefinition]:
         search = self._guide_search_text.strip().lower()
         items = []
+        later_count = 0
         for option in self._guide_items():
             stage_label = PRODUCTION_STAGE_LABELS[option.stage]
-            category = resource_category(option.output_resource, option.stage.value)
+            category = browser_category(option.output_resource, option.stage.value)
             if self._guide_stage_filter_text not in ("", "All", stage_label):
                 continue
             if self._guide_category_filter_text not in ("", "All", category):
@@ -2218,6 +1865,11 @@ class FactoryView(QWidget):
             haystack = f"{option.name} {option.output_resource} {stage_label} {category}".lower()
             if search and search not in haystack:
                 continue
+            if not search and self._guide_stage_filter_text in ("", "All") and self._guide_category_filter_text in ("", "All"):
+                if production_progress_state(self._state, option) == "later":
+                    later_count += 1
+                    if later_count > 18:
+                        continue
             items.append(option)
         return items
 
@@ -2225,33 +1877,76 @@ class FactoryView(QWidget):
         if self._guide_grid is None:
             return
         self._guide_grid_rebuild_count += 1
-        self._clear_layout(self._guide_grid)
         items = self._filtered_guide_items()
+        while self._guide_grid.count():
+            widget = self._guide_grid.takeAt(0).widget()
+            if widget is not None:
+                widget.hide()
+                if not isinstance(widget, ProductionGuideTile):
+                    widget.deleteLater()
+        retained = {
+            str(tile.property("resourceId")): tile
+            for tile in self._guide_grid_host.findChildren(ProductionGuideTile)
+        }
+        # Tiles are cached so search/filter changes do not recreate all 353
+        # widgets.  Every cached child must remain explicitly hidden until it is
+        # inserted into this rebuild's grid; otherwise Qt shows parented,
+        # non-layout children at (0, 0), stacked in creation order.
+        for tile in retained.values():
+            tile.hide()
         if not items:
             empty = QLabel("No products found")
             empty.setObjectName("productionGuideEmpty")
             self._guide_grid.addWidget(empty, 0, 0)
             return
         columns = self._guide_grid_columns()
+        resource_names = {resource_id: self._resource_display_name(resource_id) for resource_id in self._guide_option_index()}
+        signature = self._guide_progress_signature()
+        if signature != getattr(self, "_guide_requirements_signature", None):
+            self._guide_requirements_signature = signature
+            self._guide_requirements_cache = {}
+            from production_zero.core.progression import _unlocked_output_resources
+            self._guide_unlocked_outputs = _unlocked_output_resources(self._state)
+        for option in items:
+            category = browser_category(option.output_resource, option.stage.value)
+            progress_state = production_progress_state(self._state, option)
+            cached_lines = self._guide_requirements_cache.get(option.output_resource)
+            if cached_lines is None:
+                cached_lines = _player_progression_lines(progress_state,
+                    unlock_requirement_lines(self._state, option, resource_names,
+                                             unlocked_outputs=self._guide_unlocked_outputs))
+                self._guide_requirements_cache[option.output_resource] = cached_lines
+            player_requirement_lines = cached_lines
+            tile = retained.get(option.output_resource)
+            if tile is None:
+                self._guide_tile_create_count += 1
+                tile = ProductionGuideTile(
+                    option.output_resource,
+                    option.name,
+                    option.stage,
+                    category,
+                    option.icon_key or resource_icon_key(option.output_resource),
+                    option.accent_key or resource_accent_key(option.output_resource),
+                    progress_state,
+                    player_requirement_lines,
+                )
+                tile.selected.connect(self._open_chain_from_guide)
+                tile.setParent(self._guide_grid_host)
+                tile.hide()
+                retained[option.output_resource] = tile
+            tile.setProperty("progressionState", progress_state)
+            tile.update_text("productionGuideUnlock", tile._unlock_text(progress_state, player_requirement_lines))
+            tile.setToolTip("\n".join((option.name,category,base_price_text(option.output_resource),*player_requirement_lines)))
         for index, option in enumerate(items):
-            category = resource_category(option.output_resource, option.stage.value)
-            self._guide_tile_create_count += 1
-            tile = ProductionGuideTile(
-                option.output_resource,
-                option.name,
-                option.stage,
-                category,
-                option.icon_key or resource_icon_key(option.output_resource),
-                option.accent_key or resource_accent_key(option.output_resource),
-            )
-            tile.selected.connect(self._open_chain_from_guide)
+            tile = retained[option.output_resource]
+            tile.show()
             self._guide_grid.addWidget(tile, index // columns, index % columns)
         self._guide_grid.setRowStretch((len(items) + columns - 1) // columns, 1)
         self._guide_grid.setColumnStretch(columns, 1)
 
     def _guide_grid_columns(self) -> int:
         width = self._guide_grid_host.width() if self._guide_grid_host is not None else self.width()
-        return max(2, min(8, width // 188))
+        return max(2, min(8, max(1, width - 24) // (RESOURCE_TILE_WIDTH + 12)))
 
     def _on_guide_grid_host_resized(self) -> None:
         self._guide_grid_resize_count += 1
@@ -2271,7 +1966,7 @@ class FactoryView(QWidget):
 
     def _build_chain(self, resource_id: str) -> dict[MachineType, list[dict[str, object]]]:
         option_index = self._guide_option_index()
-        stages: dict[MachineType, dict[str, dict[str, object]]] = {stage: {} for stage in PRODUCTION_STAGE_ORDER}
+        stages: dict[MachineType, dict[str, dict[str, object]]] = {stage: {} for stage in CHAIN_STAGE_ORDER}
         visiting: set[str] = set()
 
         def visit(current_resource_id: str, required_amount: float = 0.0) -> None:
@@ -2283,13 +1978,13 @@ class FactoryView(QWidget):
             visiting.add(current_resource_id)
             for input_resource_id, amount in option.input_resources.items():
                 visit(input_resource_id, amount)
-            stage_nodes = stages[option.stage]
+            stage_nodes = stages[_production_stage_group(option.stage)]
             node = stage_nodes.setdefault(
                 current_resource_id,
                 {
                     "resource_id": current_resource_id,
                     "name": option.name,
-                    "machine_family": option.stage.value.title(),
+                    "machine_family": _machine_type_label(option.stage),
                     "required_amount": 0.0,
                     "output_amount": option.output_amount or 0.0,
                     "icon_key": option.icon_key or resource_icon_key(current_resource_id),
@@ -2297,8 +1992,9 @@ class FactoryView(QWidget):
                 },
             )
             node["required_amount"] = float(node["required_amount"]) + required_amount
-            if not node["output_amount"]:
-                node["output_amount"] = option.output_amount or 0.0
+            entry = self._guide_recipe_index.produced_by(current_resource_id)[0]
+            node["input_resources"] = dict(entry.production.input_resources)
+            node["output_amount"] = entry.output_amount
             visiting.remove(current_resource_id)
 
         visit(resource_id)
@@ -2327,24 +2023,28 @@ class FactoryView(QWidget):
         sections = [
             ("Rarity", card.rarity.value.title()),
             ("Type", _stage_name_for_definition(definition)),
-            ("MK", str(getattr(definition, "mk_level", "-"))),
             ("Bonus", f"+{card.output_bonus_percent:.1f}%"),
-            ("Available", str(self._card_selection_available_count(card))),
         ]
         if isinstance(definition, MachineDefinition):
-            sections.extend(
-                [
-                    ("Output", f"{definition.base_output_per_tick * card.output_multiplier:g}"),
-                    ("Power", f"{definition.base_power_draw * card.power_multiplier:g} MW"),
-                ]
-            )
+            machine = self._state.machine_production.get(card_id)
+            production = definition.production_option(machine.selected_production_id) if machine and machine.selected_production_id else None
+            sections.extend([
+                ("Resource", production.name if production else "No resource selected"),
+                ("Output", f"{(production.output_amount_for(definition) if production else definition.base_output_per_tick) * card.output_multiplier:g}/cycle"),
+                ("Power", f"{(production.power_draw_for(definition) if production else definition.base_power_draw) * card.power_multiplier:g} MW"),
+            ])
+            if production and production.input_resources:
+                sections.append(("Inputs / cycle", _format_resource_amounts({rid: amount * card.mk_multiplier for rid, amount in production.input_resources.items()})))
         elif isinstance(definition, EnergyDefinition):
-            sections.append(("Generation", f"{definition.base_power_output * card.output_multiplier:g} MW"))
+            from production_zero.core.modifiers import research_multiplier
+            sections.append(("Generation", f"{definition.base_power_output * card.output_multiplier * research_multiplier(self._state.research, 'energy_output'):g} MW"))
+            if definition.requires_fuel:
+                sections.append(("Fuel / cycle", f"{definition.fuel_consumption_per_cycle * card.mk_multiplier:g} {definition.fuel_resource_id}"))
         title = definition.name if definition is not None else card.definition_id
         resource_id, icon_key, accent_key = self._selection_hover_icon_signature(definition)
-        icon = ResourceIconWidget(resource_id, icon_key, accent_key, size=34)
         signature = (card_id, tuple(label for label, _value in sections))
         if self._selection_hover_popup.details_signature != signature:
+            icon = card_hover_icon(definition, size=42) if definition is not None else ResourceIconWidget(resource_id, icon_key, accent_key, size=42)
             self._selection_hover_popup.set_details(title, icon, sections, signature)
         else:
             self._selection_hover_popup.update_values(sections)
@@ -2358,21 +2058,17 @@ class FactoryView(QWidget):
 
     def _card_selection_available_count(self, card: CardInstance) -> int:
         for stack in build_placeable_inventory_stacks(self._state, self._definitions):
-            if stack.first_card.card_id == card.card_id:
+            if stack.key is not None and stack.key == CardStackKey.from_card(card):
                 return stack.quantity
-        return 1
+            if any(c.card_id == card.card_id for c in stack.cards):
+                return stack.quantity
+        return 0
 
     def _selection_hover_icon_signature(self, definition: CardDefinition | None) -> tuple[str, str, str]:
-        if isinstance(definition, MachineDefinition):
-            production = definition.production_option(definition.default_production_id)
-            return (
-                production.output_resource,
-                production.icon_key or resource_icon_key(production.output_resource),
-                production.accent_key or resource_accent_key(production.output_resource),
-            )
-        if isinstance(definition, EnergyDefinition):
-            return ("power", "battery", "battery")
-        return ("factory_card", resource_icon_key("factory_card"), resource_accent_key("factory_card"))
+        if definition is None:
+            return ("factory_card", resource_icon_key("factory_card"), resource_accent_key("factory_card"))
+        icon_key, accent_key, resource_id = card_resource_icon_signature(definition)
+        return (resource_id, icon_key, accent_key)
 
     def _card_selection_grid_columns(self) -> int:
         width = self._content.width() if self._content.width() > 0 else self.width()
@@ -2384,9 +2080,9 @@ class FactoryView(QWidget):
 
     def _card_tile_meta(self, card: CardInstance, definition: CardDefinition | None) -> str:
         if isinstance(definition, MachineDefinition):
-            return f"{definition.machine_type.value.title()} · MK {definition.mk_level}"
+            return definition.name
         if isinstance(definition, EnergyDefinition):
-            return f"Energy · MK {definition.mk_level}"
+            return "Energy"
         return card.card_kind.value.title()
 
     def _populate_card_selection_list(self) -> None:
@@ -2439,27 +2135,43 @@ class FactoryView(QWidget):
             return ()
         search = self._production_search_text.strip().lower()
         options = []
-        for production in definition.available_production_options:
+        for production in self._production_picker_options(definition):
             haystack = f"{production.name} {production.output_resource} {' '.join(production.input_resources)}".lower()
             if search and search not in haystack:
                 continue
-            category = resource_category(production.output_resource, definition.machine_type.value)
+            category = browser_category(production.output_resource, definition.machine_type.value)
             if self._production_category_filter_text not in ("", "All", category):
                 continue
             options.append(production)
         return tuple(options)
+
+    def _production_picker_options(self, definition: MachineDefinition) -> tuple[ProductionOptionDefinition, ...]:
+        unlocked = list(production_options_for_machine(self._state, definition))
+        locked = [option for option in definition.available_production_options if not is_production_unlocked(self._state, option)]
+        locked.sort(key=lambda option: (
+            0 if production_progress_state(self._state, option) == "next" else 1,
+            len(option.input_resources),
+            option.name,
+        ))
+        return tuple([*unlocked, *locked[:2]])
+
+    def _locked_production_reason(self, production: ProductionOptionDefinition) -> str:
+        if is_production_unlocked(self._state, production):
+            return ""
+        lines = unlock_requirement_lines(self._state, production)
+        return lines[0] if lines else "LOCKED"
 
     def _production_category_filter_options(self) -> list[str]:
         card, definition = self._production_drawer_card()
         if card is None or not isinstance(definition, MachineDefinition):
             return ["All"]
         categories = {
-            resource_category(production.output_resource, definition.machine_type.value)
-            for production in definition.available_production_options
+            browser_category(production.output_resource, definition.machine_type.value)
+            for production in self._production_picker_options(definition)
         }
         preferred = (
             ["Ores / Metals", "Minerals", "Oil & Gas", "Agriculture", "Forestry"]
-            if definition.machine_type.value == "extractor"
+            if definition.machine_type in PRIMARY_MACHINE_TYPES
             else ["Materials", "Components", "Electronics", "Energy", "Transport", "Food & Agriculture", "Chemicals", "Medical"]
         )
         ordered = [category for category in preferred if category in categories]
@@ -2469,30 +2181,71 @@ class FactoryView(QWidget):
     def _populate_production_selection_grid(self) -> None:
         if self._production_selection_grid is None:
             return
-        self._clear_layout(self._production_selection_grid)
         card, definition = self._production_drawer_card()
         if card is None or not isinstance(definition, MachineDefinition):
             return
         current = self._active_production_option(card, definition)
         current_id = current.production_id if current is not None else None
+        self._production_options_signature = self._available_production_signature(definition)
         options = self._filtered_production_options()
+        retained = retain_grid_tiles(self._production_selection_grid, {p.output_resource for p in options})
         if not options:
-            empty = QLabel("No production options found")
+            empty = QLabel("No unlocked production options · Open Production Guide for the next requirement")
             empty.setObjectName("productionSelectionEmpty")
+            empty.setWordWrap(True)
             self._production_selection_grid.addWidget(empty, 0, 0)
             return
         columns = self._production_grid_columns()
         for index, production in enumerate(options):
-            category = resource_category(production.output_resource, definition.machine_type.value)
-            tile = ProductionSelectionTile(production, current_id, category)
-            tile.selected.connect(self._apply_production_option)
+            category = browser_category(production.output_resource, definition.machine_type.value)
+            tile = retained.get(production.output_resource)
+            if tile is None:
+                tile = ProductionSelectionTile(
+                    production, current_id, category,
+                    locked_reason=self._locked_production_reason(production),
+                )
+                tile.selected.connect(self._apply_production_option)
+            locked_reason = self._locked_production_reason(production)
+            tile.setEnabled(not locked_reason)
+            tile.setProperty("locked", bool(locked_reason))
+            tile.setProperty("current", production.production_id == current_id)
+            tile.setCursor(Qt.CursorShape.ForbiddenCursor if locked_reason else Qt.CursorShape.PointingHandCursor)
+            status = "CURRENT" if production.production_id == current_id else locked_reason
+            tile.update_text("productionTileCurrent", status)
+            tile.findChild(QLabel, "productionTileCurrent").setVisible(bool(status))
             self._production_selection_grid.addWidget(tile, index // columns, index % columns)
         self._production_selection_grid.setRowStretch((len(options) + columns - 1) // columns, 1)
         self._production_selection_grid.setColumnStretch(columns, 1)
 
+    def _available_production_signature(self, definition):
+        return frozenset(option.production_id for option in production_options_for_machine(self._state, definition))
+
+    def _refresh_open_production_options(self) -> None:
+        if self._drawer_mode != "production" or self._production_selection_grid is None:
+            return
+        card, definition = self._production_drawer_card()
+        if card is None or not isinstance(definition, MachineDefinition):
+            return
+        signature = self._available_production_signature(definition)
+        if signature == getattr(self, "_production_options_signature", None):
+            return
+        scroll = self.findChild(QScrollArea, "productionSelectionScroll")
+        position = scroll.verticalScrollBar().value() if scroll is not None else 0
+        self._populate_production_selection_grid()
+        category = self.findChild(QComboBox, "productionCategoryFilter")
+        if category is not None:
+            category.blockSignals(True)
+            selected = category.currentText()
+            category.clear()
+            category.addItems(list(dict.fromkeys(["All", selected, *self._production_category_filter_options()])))
+            category.setCurrentText(selected)
+            category.blockSignals(False)
+        if scroll is not None:
+            scroll.verticalScrollBar().setValue(position)
+
     def _production_grid_columns(self) -> int:
         width = self._production_selection_grid_host.width() if self._production_selection_grid_host is not None else self.width()
-        return max(2, min(8, width // 170))
+        return max(2, min(8, width // (RESOURCE_TILE_WIDTH + 10)))
 
     def _on_production_grid_host_resized(self, host: QWidget, event) -> None:
         previous = host.property("productionGridColumns")
@@ -2535,13 +2288,20 @@ class FactoryView(QWidget):
             self._production_select_button.setEnabled(self._selected_production_id is not None)
 
     def _rename_hall(self, name: str) -> None:
-        self._command_bus.dispatch(RenameHall(self._selected_hall_id, name))
+        self._command_bus.dispatch(RenameHall(self._selected_hall_id, name, self._board_config.board_kind))
         self._refresh_hall_tree()
 
     def _purchase_hall(self) -> None:
-        before = set(self._state.halls)
-        self._command_bus.dispatch(PurchaseHall())
-        created = [hall_id for hall_id in self._state.halls if hall_id not in before]
+        before = set(self._units)
+        quoted=self._build_hall_button.property('quotedCost')
+        if quoted is None:quoted=production_facility_price(self._state,self._board_config.board_kind)
+        self._command_bus.dispatch(PurchaseProductionUnit(
+            self._board_config.board_kind, self._board_config.unit_label, self._board_config.unit_id_prefix,
+            self._board_config.max_lines, self._board_config.max_slots_per_line,
+            self._board_config.start_unlocked_lines, self._board_config.start_slots_per_line,
+            expected_cost=quoted,
+        ))
+        created = [hall_id for hall_id in self._units if hall_id not in before]
         if created:
             self._selected_hall_id = created[0]
         self._refresh_hall_tree()
@@ -2554,6 +2314,8 @@ class FactoryView(QWidget):
         hall_id = item.data(0, Qt.ItemDataRole.UserRole)
         if hall_id is None:
             return
+        if hall_id != self._selected_hall_id:
+            self._reset_drawer_state()
         self._selected_hall_id = hall_id
         self._refresh_content()
 
@@ -2562,9 +2324,10 @@ class FactoryView(QWidget):
         elapsed = now - self._last_update
         self._last_update = now
         self._simulation.advance_time(self._state, elapsed)
-        self._refresh_runtime_widgets()
         if self._simulation_advanced_callback is not None:
             self._simulation_advanced_callback()
+        elif self.isVisible():
+            self._refresh_runtime_widgets()
 
     def set_simulation_advanced_callback(self, callback: Callable[[], None]) -> None:
         self._simulation_advanced_callback = callback
@@ -2583,8 +2346,79 @@ class FactoryView(QWidget):
         self._refresh_hall_tree()
         self._refresh_content()
 
+    def reset_for_state_change(self) -> None:
+        """Drop session-owned references after New Game or a manual load."""
+        from uuid import uuid4
+        if hasattr(self, '_cancel_machine_drag'):
+            self._cancel_machine_drag()
+            self._machine_drag_token = uuid4().hex
+        context = getattr(self, "_suspended_board", None)
+        if context is not None:
+            board = context["_factory_v2_board"]
+            if is_qt_object_valid(board):
+                board.hide()
+                board.deleteLater()
+            self._suspended_board = None
+        self._units = self._state.production_units(self._board_config.board_kind)
+        self._selected_hall_id = next(iter(self._units))
+        self._reset_drawer_state()
+        self._selected_machines = set()
+        self._selected_empty_slots = set()
+        self._card_search_text = ""
+        self._card_type_filter_text = "All"
+        self._card_rarity_filter_text = "All"
+        self._production_search_text = ""
+        self._production_category_filter_text = "All"
+        self._guide_search_text = ""
+        self._guide_stage_filter_text = "All"
+        self._guide_category_filter_text = "All"
+        self._selection_anchor = None
+        self._configuration_clipboard = ()
+        self._focused_line_id = None
+        self._rubber_origin = None
+        rubber = getattr(self, "_rubber_band", None)
+        if rubber is not None and is_qt_object_valid(rubber):
+            rubber.hide()
+            rubber.deleteLater()
+        self._hide_card_selection_hover()
+        for name in ("_cached_guide_panel", "_cached_unlock_tree_panel"):
+            widget = getattr(self, name, None)
+            if widget is not None and is_qt_object_valid(widget):
+                self._content_layout.removeWidget(widget)
+                widget.hide()
+                widget.deleteLater()
+            setattr(self, name, None)
+        self._cached_guide_progress = None
+        self._guide_requirements_signature = None
+        self._guide_requirements_cache = {}
+        self._guide_items_cache_signature = None
+        self._guide_items_cache = []
+        self._guide_scroll_value = 0
+        self._chain_resource_id = None
+        self._recent_install_slot_indexes.clear()
+        self._recent_production_change_card_ids.clear()
+        self._factory_v2_scroll_values.clear()
+        self._factory_v2_scroll_restore_generation += 1
+        self._factory_v2_scroll = None
+        self._factory_v2_board = None
+        self._resource_drawer = None
+        self._resources_drawer_open = False
+        self._last_update = perf_counter()
+        self.refresh_view()
+
+    def refresh_runtime(self) -> None:
+        if hasattr(self, '_check_machine_drag_sources'):
+            self._check_machine_drag_sources()
+        self._refresh_runtime_widgets()
+
     def _refresh_runtime_widgets(self) -> None:
-        hall = self._state.halls[self._selected_hall_id]
+        self._refresh_open_production_options()
+        if self._drawer_mode == "guide" and self._guide_grid is not None:
+            signature = self._guide_progress_signature()
+            if signature != getattr(self, "_cached_guide_progress", None):
+                self._populate_guide_grid()
+                self._cached_guide_progress = signature
+        hall = self._units[self._selected_hall_id]
         for slot_index, widget in list(self._slot_widgets.items()):
             if not is_qt_object_valid(widget):
                 self._slot_widgets.pop(slot_index, None)
@@ -2593,7 +2427,8 @@ class FactoryView(QWidget):
             card = self._state.cards.get(slot.card_id) if slot.card_id else None
             definition = self._definitions.get(card.definition_id) if card else None
             production_state = self._state.machine_production.get(card.card_id) if card else None
-            widget.set_data(slot, card, definition, production_state, self._state)
+            if hasattr(widget, "set_data"):
+                widget.set_data(slot, card, definition, production_state, self._state)
         if self._kpi_strip is not None and is_qt_object_valid(self._kpi_strip):
             self._kpi_strip.refresh()
         elif self._kpi_strip is not None:
@@ -2602,6 +2437,8 @@ class FactoryView(QWidget):
             self._resource_summary.refresh()
         elif self._resource_summary is not None:
             self._resource_summary = None
+        if self._cached_unlock_tree_panel is not None and is_qt_object_valid(self._cached_unlock_tree_panel) and self._cached_unlock_tree_panel.isVisible():
+            self._cached_unlock_tree_panel.refresh_state()
         self._refresh_unlock_panels()
         self._refresh_build_hall_button()
 
@@ -2610,9 +2447,12 @@ class FactoryView(QWidget):
             if not isinstance(panel, ClickableCapacityPanel):
                 continue
             cost = float(panel.property("unlockCost") or 0.0)
-            enabled = self._state.cash.amount >= cost
-            panel.setProperty("unlockEnabled", enabled)
-            panel.setCursor(Qt.CursorShape.PointingHandCursor if enabled else Qt.CursorShape.ArrowCursor)
+            enabled = self._state.cash.amount >= cost and panel.property("isNextUnlock") is not False
+            if hasattr(panel, "set_unlock_enabled"):
+                panel.set_unlock_enabled(enabled)
+            else:
+                panel.setProperty("unlockEnabled", enabled)
+                panel.setCursor(Qt.CursorShape.PointingHandCursor if enabled else Qt.CursorShape.ArrowCursor)
             panel.style().unpolish(panel)
             panel.style().polish(panel)
 
@@ -2624,11 +2464,11 @@ class FactoryView(QWidget):
             self._install_button.setEnabled(self._selected_card_id is not None)
 
     def _on_slot_clicked(self, slot_index: int) -> None:
-        hall = self._state.halls[self._selected_hall_id]
+        hall = self._units[self._selected_hall_id]
         slot = hall.slots[slot_index]
         if slot.card_id is not None:
             self._reset_drawer_state()
-            self._command_bus.dispatch(RemoveCardFromHall(self._selected_hall_id, slot_index))
+            self._command_bus.dispatch(RemoveCardFromHall(self._selected_hall_id, slot_index, self._board_config.board_kind))
             self._refresh_hall_tree()
         else:
             self._drawer_mode = "cards"
@@ -2647,6 +2487,8 @@ class FactoryView(QWidget):
         self._refresh_content()
 
     def _open_production_guide(self) -> None:
+        if not self._board_config.production_guide_enabled:
+            return
         self._drawer_mode = "guide"
         self._drawer_slot_index = None
         self._selected_card_id = None
@@ -2655,10 +2497,38 @@ class FactoryView(QWidget):
         self._refresh_content()
 
     def _open_chain_from_guide(self, resource_id: str) -> None:
+        self._capture_guide_scroll_value()
         self._drawer_mode = "chain"
         self._chain_resource_id = resource_id
         self._chain_back_mode = "guide"
         self._refresh_content()
+
+    def _open_unlock_tree(self) -> None:
+        self._capture_guide_scroll_value()
+        self._drawer_mode = "unlock_tree"
+        self._drawer_slot_index = None
+        self._selected_card_id = None
+        self._refresh_content()
+
+    def _back_from_unlock_tree(self) -> None:
+        self._drawer_mode = "guide"
+        self._refresh_content()
+
+    def _open_used_in_detail(self, resource_id: str) -> None:
+        self._drawer_mode = "used_in"
+        self._chain_resource_id = resource_id
+        self._chain_back_mode = "chain"
+        self._refresh_content()
+
+    def _back_from_used_in_detail(self) -> None:
+        self._drawer_mode = "chain"
+        self._chain_back_mode = "guide"
+        self._refresh_content()
+
+    def _capture_guide_scroll_value(self) -> None:
+        scroll = self.findChild(QScrollArea, "productionGuideScroll")
+        if scroll is not None:
+            self._guide_scroll_value = scroll.verticalScrollBar().value()
 
     def _open_chain_from_hall(self, resource_id: str) -> None:
         self._drawer_mode = "chain"
@@ -2686,7 +2556,7 @@ class FactoryView(QWidget):
             return
         installed_slot_index = self._drawer_slot_index
         self._command_bus.dispatch(
-            InstallCardInHall(self._selected_hall_id, installed_slot_index, card_id)
+            InstallCardInHall(self._selected_hall_id, installed_slot_index, card_id, self._board_config.board_kind)
         )
         self._recent_install_slot_indexes.add(installed_slot_index)
         self._reset_drawer_state()
@@ -2723,10 +2593,6 @@ class FactoryView(QWidget):
 
     def _on_card_type_filter_changed(self, text: str) -> None:
         self._card_type_filter_text = text
-        self._populate_card_selection_grid()
-
-    def _on_card_mk_filter_changed(self, text: str) -> None:
-        self._card_mk_filter_text = text
         self._populate_card_selection_grid()
 
     def _on_card_rarity_filter_changed(self, text: str) -> None:
@@ -2772,18 +2638,32 @@ class FactoryView(QWidget):
         if self._production_drawer_card_id is None:
             return
         card_id = self._production_drawer_card_id
+        card, definition = self._production_drawer_card()
+        if not isinstance(definition, MachineDefinition):
+            return
+        production = production_option_for_id(self._definitions, production_id)
+        if production is None or not definition.is_compatible_with(production):
+            return
+        if not is_production_unlocked(self._state, production):
+            return
         self._command_bus.dispatch(SelectMachineProduction(card_id, production_id, target_resource_id))
         self._recent_production_change_card_ids.add(card_id)
         self._reset_drawer_state()
         self._refresh_content()
 
-    def _unlock_line(self, line_id: str) -> None:
-        self._command_bus.dispatch(UnlockProductionLine(self._selected_hall_id, line_id))
+    def _unlock_line(self, line_id: str, expected_cost=None) -> None:
+        hall=self._units[self._selected_hall_id]
+        line=next(line for line in hall.production_lines if line.line_id==line_id)
+        quoted=unit_line_price(hall,hall.production_lines.index(line)+1,self._board_config.board_kind) if expected_cost is None else expected_cost
+        self._command_bus.dispatch(UnlockProductionLine(self._selected_hall_id, line_id, self._board_config.board_kind,quoted))
         self._refresh_hall_tree()
         self._refresh_content()
 
-    def _unlock_slot(self, line_id: str) -> None:
-        self._command_bus.dispatch(UnlockProductionSlot(self._selected_hall_id, line_id))
+    def _unlock_slot(self, line_id: str, expected_cost=None) -> None:
+        hall=self._units[self._selected_hall_id]
+        line=next(line for line in hall.production_lines if line.line_id==line_id)
+        quoted=unit_slot_price(hall,hall.production_lines.index(line)+1,len(line.slot_indexes)+1,self._board_config.board_kind) if expected_cost is None else expected_cost
+        self._command_bus.dispatch(UnlockProductionSlot(self._selected_hall_id, line_id, self._board_config.board_kind,quoted))
         self._refresh_hall_tree()
         self._refresh_content()
 
@@ -2808,8 +2688,7 @@ class FactoryView(QWidget):
             production = definition.production_option()
             return (
                 f"{definition.name}\n\n"
-                f"Type: {definition.machine_type.value.title()}\n"
-                f"MK: {definition.mk_level}\n"
+                f"Type: {definition.name}\n"
                 f"Rarity: {card.rarity.value.title()}\n"
                 f"Bonus: +{card.output_bonus_percent:.1f}%\n"
                 f"Base Output: {production.output_amount_for(definition) * card.output_multiplier:.1f}\n"
@@ -2820,7 +2699,6 @@ class FactoryView(QWidget):
             return (
                 f"{definition.name}\n\n"
                 f"Type: {definition.energy_type.value.title()}\n"
-                f"MK: {definition.mk_level}\n"
                 f"Rarity: {card.rarity.value.title()}\n"
                 f"Bonus: +{card.output_bonus_percent:.1f}%\n"
                 f"Power Output: {definition.base_power_output:.0f}\n"

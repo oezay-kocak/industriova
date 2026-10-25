@@ -12,7 +12,7 @@ from production_zero.core.state import FactoryHall, GameState
 def _drill(card_id: str, rarity: Rarity, bonus_tenths: int) -> CardInstance:
     return create_card_instance(
         card_id,
-        "machine.mining_drill.mk1",
+        "machine.extractor",
         CardKind.MACHINE,
         rarity,
         bonus_tenths=bonus_tenths,
@@ -81,7 +81,7 @@ def test_non_stackable_cards_are_recycled_individually() -> None:
     bus = CommandBus(state)
     card = CardInstance(
         "collectible",
-        "machine.mining_drill.mk1",
+        "machine.extractor",
         CardKind.MACHINE,
         Rarity.RARE,
         7.4,

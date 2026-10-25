@@ -1,0 +1,1821 @@
+{
+  "schema_version": 1,
+  "date": "2026-09-07",
+  "status": "conceptual deterministic scenario model; not telemetry and not runtime code",
+  "target_xp_level_25": 137700.0,
+  "parameters": {
+    "continuity_xp_per_minute": 40.0,
+    "continuity_daily_cap": 1200.0,
+    "continuity_bank_days": 3,
+    "efficiency_milestone_xp": 300.0,
+    "efficiency_thresholds": [
+      25.0,
+      100.0,
+      300.0,
+      750.0
+    ],
+    "regular_xp": [
+      100.0,
+      150.0,
+      225.0
+    ],
+    "regular_full_count": 4,
+    "regular_residual_multiplier": 0.25,
+    "daily_xp": [
+      600.0,
+      900.0,
+      1350.0
+    ],
+    "weekly_xp": [
+      3000.0,
+      4500.0,
+      6750.0
+    ],
+    "family_mastery_xp": 250.0
+  },
+  "profiles": {
+    "casual": {
+      "label": "Casual",
+      "weekly_session_minutes": [
+        0,
+        35,
+        0,
+        35,
+        0,
+        35,
+        35
+      ],
+      "accepted_pv_per_active_minute": 1.5,
+      "first_productions_per_session": 2,
+      "regular_contracts_per_day": 0.4,
+      "daily_contracts_per_day": 0.42857142857142855,
+      "weekly_contracts_per_week": 0.35,
+      "difficulty_weights": [
+        0.6,
+        0.3,
+        0.1
+      ]
+    },
+    "regular": {
+      "label": "Regular",
+      "weekly_session_minutes": [
+        60,
+        60,
+        60,
+        60,
+        60,
+        60,
+        60
+      ],
+      "accepted_pv_per_active_minute": 5.0,
+      "first_productions_per_session": 5,
+      "regular_contracts_per_day": 1.5,
+      "daily_contracts_per_day": 0.85,
+      "weekly_contracts_per_week": 0.75,
+      "difficulty_weights": [
+        0.25,
+        0.5,
+        0.25
+      ]
+    },
+    "optimizer": {
+      "label": "Optimizer",
+      "weekly_session_minutes": [
+        180,
+        180,
+        180,
+        180,
+        180,
+        180,
+        180
+      ],
+      "accepted_pv_per_active_minute": 12.0,
+      "first_productions_per_session": 10,
+      "regular_contracts_per_day": 8.0,
+      "daily_contracts_per_day": 1.0,
+      "weekly_contracts_per_week": 1.0,
+      "difficulty_weights": [
+        0.1,
+        0.3,
+        0.6
+      ]
+    }
+  },
+  "mastery_totals": {
+    "resource_first_production_xp": 24105.0,
+    "family_mastery_xp": 4500.0,
+    "combined_mastery_xp": 28605.0
+  },
+  "family_curves": {
+    "A": {
+      "battery": 16,
+      "precious": 19,
+      "catalyst": 21,
+      "aerospace": 23,
+      "nuclear": 25
+    },
+    "B": {
+      "battery": 15,
+      "precious": 18,
+      "catalyst": 20,
+      "aerospace": 22,
+      "nuclear": 25
+    }
+  },
+  "results": {
+    "A": {
+      "casual": {
+        "profile": "casual",
+        "curve": "A",
+        "calendar_days_to_level_25": 86.0,
+        "active_hours_to_level_25": 28.58,
+        "sources": {
+          "continuity": {
+            "xp": 67580.9,
+            "percent": 49.08
+          },
+          "efficiency": {
+            "xp": 14400.0,
+            "percent": 10.46
+          },
+          "first_production": {
+            "xp": 5010.0,
+            "percent": 3.64
+          },
+          "family_mastery": {
+            "xp": 2250.0,
+            "percent": 1.63
+          },
+          "regular_contracts": {
+            "xp": 4335.0,
+            "percent": 3.15
+          },
+          "daily_contracts": {
+            "xp": 27867.9,
+            "percent": 20.24
+          },
+          "weekly_contracts": {
+            "xp": 16256.2,
+            "percent": 11.81
+          }
+        },
+        "first_produced_resources": 96,
+        "mastered_families": 9,
+        "milestones": {
+          "2": {
+            "calendar_day": 1.031,
+            "active_hours": 0.018,
+            "cumulative_xp": 643
+          },
+          "3": {
+            "calendar_day": 1.386,
+            "active_hours": 0.225,
+            "cumulative_xp": 1465
+          },
+          "4": {
+            "calendar_day": 1.833,
+            "active_hours": 0.486,
+            "cumulative_xp": 2502
+          },
+          "5": {
+            "calendar_day": 3.128,
+            "active_hours": 0.658,
+            "cumulative_xp": 3790
+          },
+          "7": {
+            "calendar_day": 5.258,
+            "active_hours": 1.317,
+            "cumulative_xp": 7263
+          },
+          "9": {
+            "calendar_day": 7.318,
+            "active_hours": 2.333,
+            "cumulative_xp": 12172
+          },
+          "10": {
+            "calendar_day": 9.191,
+            "active_hours": 2.917,
+            "cumulative_xp": 15255
+          },
+          "11": {
+            "calendar_day": 12.072,
+            "active_hours": 3.542,
+            "cumulative_xp": 18805
+          },
+          "13": {
+            "calendar_day": 17.252,
+            "active_hours": 5.397,
+            "cumulative_xp": 27450
+          },
+          "15": {
+            "calendar_day": 24.134,
+            "active_hours": 7.662,
+            "cumulative_xp": 38395
+          },
+          "16": {
+            "calendar_day": 27.543,
+            "active_hours": 9.067,
+            "cumulative_xp": 44820
+          },
+          "18": {
+            "calendar_day": 36.778,
+            "active_hours": 12.12,
+            "cumulative_xp": 59755
+          },
+          "19": {
+            "calendar_day": 41.852,
+            "active_hours": 13.914,
+            "cumulative_xp": 68337
+          },
+          "20": {
+            "calendar_day": 48.102,
+            "active_hours": 15.81,
+            "cumulative_xp": 77710
+          },
+          "21": {
+            "calendar_day": 54.577,
+            "active_hours": 17.837,
+            "cumulative_xp": 87910
+          },
+          "22": {
+            "calendar_day": 61.518,
+            "active_hours": 20.135,
+            "cumulative_xp": 98973
+          },
+          "23": {
+            "calendar_day": 68.832,
+            "active_hours": 22.652,
+            "cumulative_xp": 110935
+          },
+          "25": {
+            "calendar_day": 86.0,
+            "active_hours": 28.583,
+            "cumulative_xp": 137700
+          }
+        },
+        "total_xp": 137700.0
+      },
+      "regular": {
+        "profile": "regular",
+        "curve": "A",
+        "calendar_days_to_level_25": 35.0,
+        "active_hours_to_level_25": 35.0,
+        "sources": {
+          "continuity": {
+            "xp": 42000.0,
+            "percent": 30.5
+          },
+          "efficiency": {
+            "xp": 30691.6,
+            "percent": 22.29
+          },
+          "first_production": {
+            "xp": 9620.0,
+            "percent": 6.99
+          },
+          "family_mastery": {
+            "xp": 3250.0,
+            "percent": 2.36
+          },
+          "regular_contracts": {
+            "xp": 7968.8,
+            "percent": 5.79
+          },
+          "daily_contracts": {
+            "xp": 27093.8,
+            "percent": 19.68
+          },
+          "weekly_contracts": {
+            "xp": 17075.9,
+            "percent": 12.4
+          }
+        },
+        "first_produced_resources": 170,
+        "mastered_families": 13,
+        "milestones": {
+          "2": {
+            "calendar_day": 0.16,
+            "active_hours": 0.16,
+            "cumulative_xp": 643
+          },
+          "3": {
+            "calendar_day": 0.365,
+            "active_hours": 0.365,
+            "cumulative_xp": 1465
+          },
+          "4": {
+            "calendar_day": 0.624,
+            "active_hours": 0.624,
+            "cumulative_xp": 2502
+          },
+          "5": {
+            "calendar_day": 0.945,
+            "active_hours": 0.945,
+            "cumulative_xp": 3790
+          },
+          "7": {
+            "calendar_day": 1.682,
+            "active_hours": 1.682,
+            "cumulative_xp": 7263
+          },
+          "9": {
+            "calendar_day": 2.884,
+            "active_hours": 2.884,
+            "cumulative_xp": 12172
+          },
+          "10": {
+            "calendar_day": 3.678,
+            "active_hours": 3.678,
+            "cumulative_xp": 15255
+          },
+          "11": {
+            "calendar_day": 4.589,
+            "active_hours": 4.589,
+            "cumulative_xp": 18805
+          },
+          "13": {
+            "calendar_day": 6.743,
+            "active_hours": 6.743,
+            "cumulative_xp": 27450
+          },
+          "15": {
+            "calendar_day": 9.518,
+            "active_hours": 9.518,
+            "cumulative_xp": 38395
+          },
+          "16": {
+            "calendar_day": 11.147,
+            "active_hours": 11.147,
+            "cumulative_xp": 44820
+          },
+          "18": {
+            "calendar_day": 14.931,
+            "active_hours": 14.931,
+            "cumulative_xp": 59755
+          },
+          "19": {
+            "calendar_day": 17.099,
+            "active_hours": 17.099,
+            "cumulative_xp": 68337
+          },
+          "20": {
+            "calendar_day": 19.366,
+            "active_hours": 19.366,
+            "cumulative_xp": 77710
+          },
+          "21": {
+            "calendar_day": 21.844,
+            "active_hours": 21.844,
+            "cumulative_xp": 87910
+          },
+          "22": {
+            "calendar_day": 24.674,
+            "active_hours": 24.674,
+            "cumulative_xp": 98973
+          },
+          "23": {
+            "calendar_day": 27.613,
+            "active_hours": 27.613,
+            "cumulative_xp": 110935
+          },
+          "25": {
+            "calendar_day": 35.0,
+            "active_hours": 35.0,
+            "cumulative_xp": 137700
+          }
+        },
+        "total_xp": 137700.0
+      },
+      "optimizer": {
+        "profile": "optimizer",
+        "curve": "A",
+        "calendar_days_to_level_25": 23.0,
+        "active_hours_to_level_25": 69.0,
+        "sources": {
+          "continuity": {
+            "xp": 27600.0,
+            "percent": 20.04
+          },
+          "efficiency": {
+            "xp": 27600.0,
+            "percent": 20.04
+          },
+          "first_production": {
+            "xp": 12885.0,
+            "percent": 9.36
+          },
+          "family_mastery": {
+            "xp": 3750.0,
+            "percent": 2.72
+          },
+          "regular_contracts": {
+            "xp": 21850.0,
+            "percent": 15.87
+          },
+          "daily_contracts": {
+            "xp": 26100.7,
+            "percent": 18.95
+          },
+          "weekly_contracts": {
+            "xp": 17914.3,
+            "percent": 13.01
+          }
+        },
+        "first_produced_resources": 220,
+        "mastered_families": 15,
+        "milestones": {
+          "2": {
+            "calendar_day": 0.094,
+            "active_hours": 0.283,
+            "cumulative_xp": 643
+          },
+          "3": {
+            "calendar_day": 0.215,
+            "active_hours": 0.644,
+            "cumulative_xp": 1465
+          },
+          "4": {
+            "calendar_day": 0.367,
+            "active_hours": 1.101,
+            "cumulative_xp": 2502
+          },
+          "5": {
+            "calendar_day": 0.556,
+            "active_hours": 1.667,
+            "cumulative_xp": 3790
+          },
+          "7": {
+            "calendar_day": 1.077,
+            "active_hours": 3.231,
+            "cumulative_xp": 7263
+          },
+          "9": {
+            "calendar_day": 1.929,
+            "active_hours": 5.786,
+            "cumulative_xp": 12172
+          },
+          "10": {
+            "calendar_day": 2.446,
+            "active_hours": 7.338,
+            "cumulative_xp": 15255
+          },
+          "11": {
+            "calendar_day": 3.039,
+            "active_hours": 9.117,
+            "cumulative_xp": 18805
+          },
+          "13": {
+            "calendar_day": 4.486,
+            "active_hours": 13.458,
+            "cumulative_xp": 27450
+          },
+          "15": {
+            "calendar_day": 6.326,
+            "active_hours": 18.977,
+            "cumulative_xp": 38395
+          },
+          "16": {
+            "calendar_day": 7.414,
+            "active_hours": 22.243,
+            "cumulative_xp": 44820
+          },
+          "18": {
+            "calendar_day": 9.85,
+            "active_hours": 29.549,
+            "cumulative_xp": 59755
+          },
+          "19": {
+            "calendar_day": 11.239,
+            "active_hours": 33.716,
+            "cumulative_xp": 68337
+          },
+          "20": {
+            "calendar_day": 12.809,
+            "active_hours": 38.426,
+            "cumulative_xp": 77710
+          },
+          "21": {
+            "calendar_day": 14.485,
+            "active_hours": 43.454,
+            "cumulative_xp": 87910
+          },
+          "22": {
+            "calendar_day": 16.316,
+            "active_hours": 48.949,
+            "cumulative_xp": 98973
+          },
+          "23": {
+            "calendar_day": 18.322,
+            "active_hours": 54.967,
+            "cumulative_xp": 110935
+          },
+          "25": {
+            "calendar_day": 23.0,
+            "active_hours": 69.0,
+            "cumulative_xp": 137700
+          }
+        },
+        "total_xp": 137700.0
+      }
+    },
+    "B": {
+      "casual": {
+        "profile": "casual",
+        "curve": "B",
+        "calendar_days_to_level_25": 86.0,
+        "active_hours_to_level_25": 28.58,
+        "sources": {
+          "continuity": {
+            "xp": 67580.9,
+            "percent": 49.08
+          },
+          "efficiency": {
+            "xp": 14400.0,
+            "percent": 10.46
+          },
+          "first_production": {
+            "xp": 5010.0,
+            "percent": 3.64
+          },
+          "family_mastery": {
+            "xp": 2250.0,
+            "percent": 1.63
+          },
+          "regular_contracts": {
+            "xp": 4335.0,
+            "percent": 3.15
+          },
+          "daily_contracts": {
+            "xp": 27867.9,
+            "percent": 20.24
+          },
+          "weekly_contracts": {
+            "xp": 16256.2,
+            "percent": 11.81
+          }
+        },
+        "first_produced_resources": 96,
+        "mastered_families": 9,
+        "milestones": {
+          "2": {
+            "calendar_day": 1.031,
+            "active_hours": 0.018,
+            "cumulative_xp": 643
+          },
+          "3": {
+            "calendar_day": 1.386,
+            "active_hours": 0.225,
+            "cumulative_xp": 1465
+          },
+          "4": {
+            "calendar_day": 1.833,
+            "active_hours": 0.486,
+            "cumulative_xp": 2502
+          },
+          "5": {
+            "calendar_day": 3.128,
+            "active_hours": 0.658,
+            "cumulative_xp": 3790
+          },
+          "7": {
+            "calendar_day": 5.258,
+            "active_hours": 1.317,
+            "cumulative_xp": 7263
+          },
+          "9": {
+            "calendar_day": 7.318,
+            "active_hours": 2.333,
+            "cumulative_xp": 12172
+          },
+          "10": {
+            "calendar_day": 9.191,
+            "active_hours": 2.917,
+            "cumulative_xp": 15255
+          },
+          "11": {
+            "calendar_day": 12.072,
+            "active_hours": 3.542,
+            "cumulative_xp": 18805
+          },
+          "13": {
+            "calendar_day": 17.252,
+            "active_hours": 5.397,
+            "cumulative_xp": 27450
+          },
+          "15": {
+            "calendar_day": 24.134,
+            "active_hours": 7.662,
+            "cumulative_xp": 38395
+          },
+          "16": {
+            "calendar_day": 27.543,
+            "active_hours": 9.067,
+            "cumulative_xp": 44820
+          },
+          "18": {
+            "calendar_day": 36.778,
+            "active_hours": 12.12,
+            "cumulative_xp": 59755
+          },
+          "19": {
+            "calendar_day": 41.852,
+            "active_hours": 13.914,
+            "cumulative_xp": 68337
+          },
+          "20": {
+            "calendar_day": 48.102,
+            "active_hours": 15.81,
+            "cumulative_xp": 77710
+          },
+          "21": {
+            "calendar_day": 54.577,
+            "active_hours": 17.837,
+            "cumulative_xp": 87910
+          },
+          "22": {
+            "calendar_day": 61.518,
+            "active_hours": 20.135,
+            "cumulative_xp": 98973
+          },
+          "23": {
+            "calendar_day": 68.832,
+            "active_hours": 22.652,
+            "cumulative_xp": 110935
+          },
+          "25": {
+            "calendar_day": 86.0,
+            "active_hours": 28.583,
+            "cumulative_xp": 137700
+          }
+        },
+        "total_xp": 137700.0
+      },
+      "regular": {
+        "profile": "regular",
+        "curve": "B",
+        "calendar_days_to_level_25": 35.0,
+        "active_hours_to_level_25": 35.0,
+        "sources": {
+          "continuity": {
+            "xp": 42000.0,
+            "percent": 30.5
+          },
+          "efficiency": {
+            "xp": 30691.6,
+            "percent": 22.29
+          },
+          "first_production": {
+            "xp": 9620.0,
+            "percent": 6.99
+          },
+          "family_mastery": {
+            "xp": 3250.0,
+            "percent": 2.36
+          },
+          "regular_contracts": {
+            "xp": 7968.8,
+            "percent": 5.79
+          },
+          "daily_contracts": {
+            "xp": 27093.8,
+            "percent": 19.68
+          },
+          "weekly_contracts": {
+            "xp": 17075.9,
+            "percent": 12.4
+          }
+        },
+        "first_produced_resources": 170,
+        "mastered_families": 13,
+        "milestones": {
+          "2": {
+            "calendar_day": 0.16,
+            "active_hours": 0.16,
+            "cumulative_xp": 643
+          },
+          "3": {
+            "calendar_day": 0.365,
+            "active_hours": 0.365,
+            "cumulative_xp": 1465
+          },
+          "4": {
+            "calendar_day": 0.624,
+            "active_hours": 0.624,
+            "cumulative_xp": 2502
+          },
+          "5": {
+            "calendar_day": 0.945,
+            "active_hours": 0.945,
+            "cumulative_xp": 3790
+          },
+          "7": {
+            "calendar_day": 1.682,
+            "active_hours": 1.682,
+            "cumulative_xp": 7263
+          },
+          "9": {
+            "calendar_day": 2.884,
+            "active_hours": 2.884,
+            "cumulative_xp": 12172
+          },
+          "10": {
+            "calendar_day": 3.678,
+            "active_hours": 3.678,
+            "cumulative_xp": 15255
+          },
+          "11": {
+            "calendar_day": 4.589,
+            "active_hours": 4.589,
+            "cumulative_xp": 18805
+          },
+          "13": {
+            "calendar_day": 6.743,
+            "active_hours": 6.743,
+            "cumulative_xp": 27450
+          },
+          "15": {
+            "calendar_day": 9.518,
+            "active_hours": 9.518,
+            "cumulative_xp": 38395
+          },
+          "16": {
+            "calendar_day": 11.147,
+            "active_hours": 11.147,
+            "cumulative_xp": 44820
+          },
+          "18": {
+            "calendar_day": 14.931,
+            "active_hours": 14.931,
+            "cumulative_xp": 59755
+          },
+          "19": {
+            "calendar_day": 17.099,
+            "active_hours": 17.099,
+            "cumulative_xp": 68337
+          },
+          "20": {
+            "calendar_day": 19.366,
+            "active_hours": 19.366,
+            "cumulative_xp": 77710
+          },
+          "21": {
+            "calendar_day": 21.844,
+            "active_hours": 21.844,
+            "cumulative_xp": 87910
+          },
+          "22": {
+            "calendar_day": 24.674,
+            "active_hours": 24.674,
+            "cumulative_xp": 98973
+          },
+          "23": {
+            "calendar_day": 27.613,
+            "active_hours": 27.613,
+            "cumulative_xp": 110935
+          },
+          "25": {
+            "calendar_day": 35.0,
+            "active_hours": 35.0,
+            "cumulative_xp": 137700
+          }
+        },
+        "total_xp": 137700.0
+      },
+      "optimizer": {
+        "profile": "optimizer",
+        "curve": "B",
+        "calendar_days_to_level_25": 23.0,
+        "active_hours_to_level_25": 69.0,
+        "sources": {
+          "continuity": {
+            "xp": 27600.0,
+            "percent": 20.04
+          },
+          "efficiency": {
+            "xp": 27600.0,
+            "percent": 20.04
+          },
+          "first_production": {
+            "xp": 12885.0,
+            "percent": 9.36
+          },
+          "family_mastery": {
+            "xp": 3750.0,
+            "percent": 2.72
+          },
+          "regular_contracts": {
+            "xp": 21850.0,
+            "percent": 15.87
+          },
+          "daily_contracts": {
+            "xp": 26100.7,
+            "percent": 18.95
+          },
+          "weekly_contracts": {
+            "xp": 17914.3,
+            "percent": 13.01
+          }
+        },
+        "first_produced_resources": 220,
+        "mastered_families": 15,
+        "milestones": {
+          "2": {
+            "calendar_day": 0.094,
+            "active_hours": 0.283,
+            "cumulative_xp": 643
+          },
+          "3": {
+            "calendar_day": 0.215,
+            "active_hours": 0.644,
+            "cumulative_xp": 1465
+          },
+          "4": {
+            "calendar_day": 0.367,
+            "active_hours": 1.101,
+            "cumulative_xp": 2502
+          },
+          "5": {
+            "calendar_day": 0.556,
+            "active_hours": 1.667,
+            "cumulative_xp": 3790
+          },
+          "7": {
+            "calendar_day": 1.077,
+            "active_hours": 3.231,
+            "cumulative_xp": 7263
+          },
+          "9": {
+            "calendar_day": 1.929,
+            "active_hours": 5.786,
+            "cumulative_xp": 12172
+          },
+          "10": {
+            "calendar_day": 2.446,
+            "active_hours": 7.338,
+            "cumulative_xp": 15255
+          },
+          "11": {
+            "calendar_day": 3.039,
+            "active_hours": 9.117,
+            "cumulative_xp": 18805
+          },
+          "13": {
+            "calendar_day": 4.486,
+            "active_hours": 13.458,
+            "cumulative_xp": 27450
+          },
+          "15": {
+            "calendar_day": 6.326,
+            "active_hours": 18.977,
+            "cumulative_xp": 38395
+          },
+          "16": {
+            "calendar_day": 7.414,
+            "active_hours": 22.243,
+            "cumulative_xp": 44820
+          },
+          "18": {
+            "calendar_day": 9.85,
+            "active_hours": 29.549,
+            "cumulative_xp": 59755
+          },
+          "19": {
+            "calendar_day": 11.239,
+            "active_hours": 33.716,
+            "cumulative_xp": 68337
+          },
+          "20": {
+            "calendar_day": 12.809,
+            "active_hours": 38.426,
+            "cumulative_xp": 77710
+          },
+          "21": {
+            "calendar_day": 14.485,
+            "active_hours": 43.454,
+            "cumulative_xp": 87910
+          },
+          "22": {
+            "calendar_day": 16.316,
+            "active_hours": 48.949,
+            "cumulative_xp": 98973
+          },
+          "23": {
+            "calendar_day": 18.322,
+            "active_hours": 54.967,
+            "cumulative_xp": 110935
+          },
+          "25": {
+            "calendar_day": 23.0,
+            "active_hours": 69.0,
+            "cumulative_xp": 137700
+          }
+        },
+        "total_xp": 137700.0
+      }
+    }
+  },
+  "recommended_parameters": {
+    "continuity_xp_per_minute": 40.0,
+    "continuity_daily_cap": 1200.0,
+    "continuity_bank_days": 3,
+    "efficiency_milestone_xp": 500.0,
+    "efficiency_thresholds": [
+      25.0,
+      100.0,
+      300.0,
+      750.0
+    ],
+    "regular_xp": [
+      100.0,
+      150.0,
+      225.0
+    ],
+    "regular_full_count": 4,
+    "regular_residual_multiplier": 0.0,
+    "daily_xp": [
+      600.0,
+      900.0,
+      1350.0
+    ],
+    "weekly_xp": [
+      3000.0,
+      4500.0,
+      6750.0
+    ],
+    "family_mastery_xp": 250.0
+  },
+  "recommended_results": {
+    "A": {
+      "casual": {
+        "profile": "casual",
+        "curve": "A",
+        "calendar_days_to_level_25": 80.0,
+        "active_hours_to_level_25": 26.25,
+        "sources": {
+          "continuity": {
+            "xp": 63000.0,
+            "percent": 45.75
+          },
+          "efficiency": {
+            "xp": 22500.0,
+            "percent": 16.34
+          },
+          "first_production": {
+            "xp": 4410.0,
+            "percent": 3.2
+          },
+          "family_mastery": {
+            "xp": 2250.0,
+            "percent": 1.63
+          },
+          "regular_contracts": {
+            "xp": 4080.0,
+            "percent": 2.96
+          },
+          "daily_contracts": {
+            "xp": 26228.6,
+            "percent": 19.05
+          },
+          "weekly_contracts": {
+            "xp": 15231.4,
+            "percent": 11.06
+          }
+        },
+        "first_produced_resources": 90,
+        "mastered_families": 9,
+        "milestones": {
+          "2": {
+            "calendar_day": 1.029,
+            "active_hours": 0.017,
+            "cumulative_xp": 643
+          },
+          "3": {
+            "calendar_day": 1.355,
+            "active_hours": 0.207,
+            "cumulative_xp": 1465
+          },
+          "4": {
+            "calendar_day": 1.767,
+            "active_hours": 0.447,
+            "cumulative_xp": 2502
+          },
+          "5": {
+            "calendar_day": 3.047,
+            "active_hours": 0.611,
+            "cumulative_xp": 3790
+          },
+          "7": {
+            "calendar_day": 5.095,
+            "active_hours": 1.222,
+            "cumulative_xp": 7263
+          },
+          "9": {
+            "calendar_day": 6.795,
+            "active_hours": 2.214,
+            "cumulative_xp": 12172
+          },
+          "10": {
+            "calendar_day": 8.68,
+            "active_hours": 2.73,
+            "cumulative_xp": 15255
+          },
+          "11": {
+            "calendar_day": 10.819,
+            "active_hours": 3.395,
+            "cumulative_xp": 18805
+          },
+          "13": {
+            "calendar_day": 15.756,
+            "active_hours": 5.108,
+            "cumulative_xp": 27450
+          },
+          "15": {
+            "calendar_day": 22.332,
+            "active_hours": 7.194,
+            "cumulative_xp": 38395
+          },
+          "16": {
+            "calendar_day": 26.32,
+            "active_hours": 8.354,
+            "cumulative_xp": 44820
+          },
+          "18": {
+            "calendar_day": 34.417,
+            "active_hours": 11.327,
+            "cumulative_xp": 59755
+          },
+          "19": {
+            "calendar_day": 40.062,
+            "active_hours": 12.87,
+            "cumulative_xp": 68337
+          },
+          "20": {
+            "calendar_day": 45.21,
+            "active_hours": 14.706,
+            "cumulative_xp": 77710
+          },
+          "21": {
+            "calendar_day": 50.728,
+            "active_hours": 16.758,
+            "cumulative_xp": 87910
+          },
+          "22": {
+            "calendar_day": 57.258,
+            "active_hours": 18.817,
+            "cumulative_xp": 98973
+          },
+          "23": {
+            "calendar_day": 64.273,
+            "active_hours": 21.159,
+            "cumulative_xp": 110935
+          },
+          "25": {
+            "calendar_day": 80.0,
+            "active_hours": 26.25,
+            "cumulative_xp": 137700
+          }
+        },
+        "total_xp": 137700.0
+      },
+      "regular": {
+        "profile": "regular",
+        "curve": "A",
+        "calendar_days_to_level_25": 30.0,
+        "active_hours_to_level_25": 30.0,
+        "sources": {
+          "continuity": {
+            "xp": 36000.0,
+            "percent": 26.14
+          },
+          "efficiency": {
+            "xp": 45000.0,
+            "percent": 32.68
+          },
+          "first_production": {
+            "xp": 8250.0,
+            "percent": 5.99
+          },
+          "family_mastery": {
+            "xp": 2750.0,
+            "percent": 2.0
+          },
+          "regular_contracts": {
+            "xp": 7031.2,
+            "percent": 5.11
+          },
+          "daily_contracts": {
+            "xp": 23906.2,
+            "percent": 17.36
+          },
+          "weekly_contracts": {
+            "xp": 14762.5,
+            "percent": 10.72
+          }
+        },
+        "first_produced_resources": 145,
+        "mastered_families": 11,
+        "milestones": {
+          "2": {
+            "calendar_day": 0.14,
+            "active_hours": 0.14,
+            "cumulative_xp": 643
+          },
+          "3": {
+            "calendar_day": 0.318,
+            "active_hours": 0.318,
+            "cumulative_xp": 1465
+          },
+          "4": {
+            "calendar_day": 0.543,
+            "active_hours": 0.543,
+            "cumulative_xp": 2502
+          },
+          "5": {
+            "calendar_day": 0.822,
+            "active_hours": 0.822,
+            "cumulative_xp": 3790
+          },
+          "7": {
+            "calendar_day": 1.494,
+            "active_hours": 1.494,
+            "cumulative_xp": 7263
+          },
+          "9": {
+            "calendar_day": 2.494,
+            "active_hours": 2.494,
+            "cumulative_xp": 12172
+          },
+          "10": {
+            "calendar_day": 3.187,
+            "active_hours": 3.187,
+            "cumulative_xp": 15255
+          },
+          "11": {
+            "calendar_day": 3.977,
+            "active_hours": 3.977,
+            "cumulative_xp": 18805
+          },
+          "13": {
+            "calendar_day": 5.869,
+            "active_hours": 5.869,
+            "cumulative_xp": 27450
+          },
+          "15": {
+            "calendar_day": 8.27,
+            "active_hours": 8.27,
+            "cumulative_xp": 38395
+          },
+          "16": {
+            "calendar_day": 9.671,
+            "active_hours": 9.671,
+            "cumulative_xp": 44820
+          },
+          "18": {
+            "calendar_day": 12.927,
+            "active_hours": 12.927,
+            "cumulative_xp": 59755
+          },
+          "19": {
+            "calendar_day": 14.848,
+            "active_hours": 14.848,
+            "cumulative_xp": 68337
+          },
+          "20": {
+            "calendar_day": 16.908,
+            "active_hours": 16.908,
+            "cumulative_xp": 77710
+          },
+          "21": {
+            "calendar_day": 19.066,
+            "active_hours": 19.066,
+            "cumulative_xp": 87910
+          },
+          "22": {
+            "calendar_day": 21.408,
+            "active_hours": 21.408,
+            "cumulative_xp": 98973
+          },
+          "23": {
+            "calendar_day": 24.053,
+            "active_hours": 24.053,
+            "cumulative_xp": 110935
+          },
+          "25": {
+            "calendar_day": 30.0,
+            "active_hours": 30.0,
+            "cumulative_xp": 137700
+          }
+        },
+        "total_xp": 137700.0
+      },
+      "optimizer": {
+        "profile": "optimizer",
+        "curve": "A",
+        "calendar_days_to_level_25": 21.0,
+        "active_hours_to_level_25": 63.0,
+        "sources": {
+          "continuity": {
+            "xp": 25200.0,
+            "percent": 18.3
+          },
+          "efficiency": {
+            "xp": 42000.0,
+            "percent": 30.5
+          },
+          "first_production": {
+            "xp": 11595.0,
+            "percent": 8.42
+          },
+          "family_mastery": {
+            "xp": 3500.0,
+            "percent": 2.54
+          },
+          "regular_contracts": {
+            "xp": 15960.0,
+            "percent": 11.59
+          },
+          "daily_contracts": {
+            "xp": 23159.3,
+            "percent": 16.82
+          },
+          "weekly_contracts": {
+            "xp": 16285.7,
+            "percent": 11.83
+          }
+        },
+        "first_produced_resources": 200,
+        "mastered_families": 14,
+        "milestones": {
+          "2": {
+            "calendar_day": 0.087,
+            "active_hours": 0.26,
+            "cumulative_xp": 643
+          },
+          "3": {
+            "calendar_day": 0.197,
+            "active_hours": 0.592,
+            "cumulative_xp": 1465
+          },
+          "4": {
+            "calendar_day": 0.337,
+            "active_hours": 1.01,
+            "cumulative_xp": 2502
+          },
+          "5": {
+            "calendar_day": 0.51,
+            "active_hours": 1.53,
+            "cumulative_xp": 3790
+          },
+          "7": {
+            "calendar_day": 0.978,
+            "active_hours": 2.933,
+            "cumulative_xp": 7263
+          },
+          "9": {
+            "calendar_day": 1.744,
+            "active_hours": 5.232,
+            "cumulative_xp": 12172
+          },
+          "10": {
+            "calendar_day": 2.22,
+            "active_hours": 6.66,
+            "cumulative_xp": 15255
+          },
+          "11": {
+            "calendar_day": 2.758,
+            "active_hours": 8.274,
+            "cumulative_xp": 18805
+          },
+          "13": {
+            "calendar_day": 4.073,
+            "active_hours": 12.219,
+            "cumulative_xp": 27450
+          },
+          "15": {
+            "calendar_day": 5.735,
+            "active_hours": 17.205,
+            "cumulative_xp": 38395
+          },
+          "16": {
+            "calendar_day": 6.718,
+            "active_hours": 20.155,
+            "cumulative_xp": 44820
+          },
+          "18": {
+            "calendar_day": 8.98,
+            "active_hours": 26.941,
+            "cumulative_xp": 59755
+          },
+          "19": {
+            "calendar_day": 10.223,
+            "active_hours": 30.67,
+            "cumulative_xp": 68337
+          },
+          "20": {
+            "calendar_day": 11.632,
+            "active_hours": 34.897,
+            "cumulative_xp": 77710
+          },
+          "21": {
+            "calendar_day": 13.162,
+            "active_hours": 39.487,
+            "cumulative_xp": 87910
+          },
+          "22": {
+            "calendar_day": 14.823,
+            "active_hours": 44.47,
+            "cumulative_xp": 98973
+          },
+          "23": {
+            "calendar_day": 16.623,
+            "active_hours": 49.868,
+            "cumulative_xp": 110935
+          },
+          "25": {
+            "calendar_day": 21.0,
+            "active_hours": 63.0,
+            "cumulative_xp": 137700
+          }
+        },
+        "total_xp": 137700.0
+      }
+    },
+    "B": {
+      "casual": {
+        "profile": "casual",
+        "curve": "B",
+        "calendar_days_to_level_25": 80.0,
+        "active_hours_to_level_25": 26.25,
+        "sources": {
+          "continuity": {
+            "xp": 63000.0,
+            "percent": 45.75
+          },
+          "efficiency": {
+            "xp": 22500.0,
+            "percent": 16.34
+          },
+          "first_production": {
+            "xp": 4410.0,
+            "percent": 3.2
+          },
+          "family_mastery": {
+            "xp": 2250.0,
+            "percent": 1.63
+          },
+          "regular_contracts": {
+            "xp": 4080.0,
+            "percent": 2.96
+          },
+          "daily_contracts": {
+            "xp": 26228.6,
+            "percent": 19.05
+          },
+          "weekly_contracts": {
+            "xp": 15231.4,
+            "percent": 11.06
+          }
+        },
+        "first_produced_resources": 90,
+        "mastered_families": 9,
+        "milestones": {
+          "2": {
+            "calendar_day": 1.029,
+            "active_hours": 0.017,
+            "cumulative_xp": 643
+          },
+          "3": {
+            "calendar_day": 1.355,
+            "active_hours": 0.207,
+            "cumulative_xp": 1465
+          },
+          "4": {
+            "calendar_day": 1.767,
+            "active_hours": 0.447,
+            "cumulative_xp": 2502
+          },
+          "5": {
+            "calendar_day": 3.047,
+            "active_hours": 0.611,
+            "cumulative_xp": 3790
+          },
+          "7": {
+            "calendar_day": 5.095,
+            "active_hours": 1.222,
+            "cumulative_xp": 7263
+          },
+          "9": {
+            "calendar_day": 6.795,
+            "active_hours": 2.214,
+            "cumulative_xp": 12172
+          },
+          "10": {
+            "calendar_day": 8.68,
+            "active_hours": 2.73,
+            "cumulative_xp": 15255
+          },
+          "11": {
+            "calendar_day": 10.819,
+            "active_hours": 3.395,
+            "cumulative_xp": 18805
+          },
+          "13": {
+            "calendar_day": 15.756,
+            "active_hours": 5.108,
+            "cumulative_xp": 27450
+          },
+          "15": {
+            "calendar_day": 22.332,
+            "active_hours": 7.194,
+            "cumulative_xp": 38395
+          },
+          "16": {
+            "calendar_day": 26.32,
+            "active_hours": 8.354,
+            "cumulative_xp": 44820
+          },
+          "18": {
+            "calendar_day": 34.417,
+            "active_hours": 11.327,
+            "cumulative_xp": 59755
+          },
+          "19": {
+            "calendar_day": 40.062,
+            "active_hours": 12.87,
+            "cumulative_xp": 68337
+          },
+          "20": {
+            "calendar_day": 45.21,
+            "active_hours": 14.706,
+            "cumulative_xp": 77710
+          },
+          "21": {
+            "calendar_day": 50.728,
+            "active_hours": 16.758,
+            "cumulative_xp": 87910
+          },
+          "22": {
+            "calendar_day": 57.258,
+            "active_hours": 18.817,
+            "cumulative_xp": 98973
+          },
+          "23": {
+            "calendar_day": 64.273,
+            "active_hours": 21.159,
+            "cumulative_xp": 110935
+          },
+          "25": {
+            "calendar_day": 80.0,
+            "active_hours": 26.25,
+            "cumulative_xp": 137700
+          }
+        },
+        "total_xp": 137700.0
+      },
+      "regular": {
+        "profile": "regular",
+        "curve": "B",
+        "calendar_days_to_level_25": 30.0,
+        "active_hours_to_level_25": 30.0,
+        "sources": {
+          "continuity": {
+            "xp": 36000.0,
+            "percent": 26.14
+          },
+          "efficiency": {
+            "xp": 45000.0,
+            "percent": 32.68
+          },
+          "first_production": {
+            "xp": 8250.0,
+            "percent": 5.99
+          },
+          "family_mastery": {
+            "xp": 2750.0,
+            "percent": 2.0
+          },
+          "regular_contracts": {
+            "xp": 7031.2,
+            "percent": 5.11
+          },
+          "daily_contracts": {
+            "xp": 23906.2,
+            "percent": 17.36
+          },
+          "weekly_contracts": {
+            "xp": 14762.5,
+            "percent": 10.72
+          }
+        },
+        "first_produced_resources": 145,
+        "mastered_families": 11,
+        "milestones": {
+          "2": {
+            "calendar_day": 0.14,
+            "active_hours": 0.14,
+            "cumulative_xp": 643
+          },
+          "3": {
+            "calendar_day": 0.318,
+            "active_hours": 0.318,
+            "cumulative_xp": 1465
+          },
+          "4": {
+            "calendar_day": 0.543,
+            "active_hours": 0.543,
+            "cumulative_xp": 2502
+          },
+          "5": {
+            "calendar_day": 0.822,
+            "active_hours": 0.822,
+            "cumulative_xp": 3790
+          },
+          "7": {
+            "calendar_day": 1.494,
+            "active_hours": 1.494,
+            "cumulative_xp": 7263
+          },
+          "9": {
+            "calendar_day": 2.494,
+            "active_hours": 2.494,
+            "cumulative_xp": 12172
+          },
+          "10": {
+            "calendar_day": 3.187,
+            "active_hours": 3.187,
+            "cumulative_xp": 15255
+          },
+          "11": {
+            "calendar_day": 3.977,
+            "active_hours": 3.977,
+            "cumulative_xp": 18805
+          },
+          "13": {
+            "calendar_day": 5.869,
+            "active_hours": 5.869,
+            "cumulative_xp": 27450
+          },
+          "15": {
+            "calendar_day": 8.27,
+            "active_hours": 8.27,
+            "cumulative_xp": 38395
+          },
+          "16": {
+            "calendar_day": 9.671,
+            "active_hours": 9.671,
+            "cumulative_xp": 44820
+          },
+          "18": {
+            "calendar_day": 12.927,
+            "active_hours": 12.927,
+            "cumulative_xp": 59755
+          },
+          "19": {
+            "calendar_day": 14.848,
+            "active_hours": 14.848,
+            "cumulative_xp": 68337
+          },
+          "20": {
+            "calendar_day": 16.908,
+            "active_hours": 16.908,
+            "cumulative_xp": 77710
+          },
+          "21": {
+            "calendar_day": 19.066,
+            "active_hours": 19.066,
+            "cumulative_xp": 87910
+          },
+          "22": {
+            "calendar_day": 21.408,
+            "active_hours": 21.408,
+            "cumulative_xp": 98973
+          },
+          "23": {
+            "calendar_day": 24.053,
+            "active_hours": 24.053,
+            "cumulative_xp": 110935
+          },
+          "25": {
+            "calendar_day": 30.0,
+            "active_hours": 30.0,
+            "cumulative_xp": 137700
+          }
+        },
+        "total_xp": 137700.0
+      },
+      "optimizer": {
+        "profile": "optimizer",
+        "curve": "B",
+        "calendar_days_to_level_25": 21.0,
+        "active_hours_to_level_25": 63.0,
+        "sources": {
+          "continuity": {
+            "xp": 25200.0,
+            "percent": 18.3
+          },
+          "efficiency": {
+            "xp": 42000.0,
+            "percent": 30.5
+          },
+          "first_production": {
+            "xp": 11595.0,
+            "percent": 8.42
+          },
+          "family_mastery": {
+            "xp": 3500.0,
+            "percent": 2.54
+          },
+          "regular_contracts": {
+            "xp": 15960.0,
+            "percent": 11.59
+          },
+          "daily_contracts": {
+            "xp": 23159.3,
+            "percent": 16.82
+          },
+          "weekly_contracts": {
+            "xp": 16285.7,
+            "percent": 11.83
+          }
+        },
+        "first_produced_resources": 200,
+        "mastered_families": 14,
+        "milestones": {
+          "2": {
+            "calendar_day": 0.087,
+            "active_hours": 0.26,
+            "cumulative_xp": 643
+          },
+          "3": {
+            "calendar_day": 0.197,
+            "active_hours": 0.592,
+            "cumulative_xp": 1465
+          },
+          "4": {
+            "calendar_day": 0.337,
+            "active_hours": 1.01,
+            "cumulative_xp": 2502
+          },
+          "5": {
+            "calendar_day": 0.51,
+            "active_hours": 1.53,
+            "cumulative_xp": 3790
+          },
+          "7": {
+            "calendar_day": 0.978,
+            "active_hours": 2.933,
+            "cumulative_xp": 7263
+          },
+          "9": {
+            "calendar_day": 1.744,
+            "active_hours": 5.232,
+            "cumulative_xp": 12172
+          },
+          "10": {
+            "calendar_day": 2.22,
+            "active_hours": 6.66,
+            "cumulative_xp": 15255
+          },
+          "11": {
+            "calendar_day": 2.758,
+            "active_hours": 8.274,
+            "cumulative_xp": 18805
+          },
+          "13": {
+            "calendar_day": 4.073,
+            "active_hours": 12.219,
+            "cumulative_xp": 27450
+          },
+          "15": {
+            "calendar_day": 5.735,
+            "active_hours": 17.205,
+            "cumulative_xp": 38395
+          },
+          "16": {
+            "calendar_day": 6.718,
+            "active_hours": 20.155,
+            "cumulative_xp": 44820
+          },
+          "18": {
+            "calendar_day": 8.98,
+            "active_hours": 26.941,
+            "cumulative_xp": 59755
+          },
+          "19": {
+            "calendar_day": 10.223,
+            "active_hours": 30.67,
+            "cumulative_xp": 68337
+          },
+          "20": {
+            "calendar_day": 11.632,
+            "active_hours": 34.897,
+            "cumulative_xp": 77710
+          },
+          "21": {
+            "calendar_day": 13.162,
+            "active_hours": 39.487,
+            "cumulative_xp": 87910
+          },
+          "22": {
+            "calendar_day": 14.823,
+            "active_hours": 44.47,
+            "cumulative_xp": 98973
+          },
+          "23": {
+            "calendar_day": 16.623,
+            "active_hours": 49.868,
+            "cumulative_xp": 110935
+          },
+          "25": {
+            "calendar_day": 21.0,
+            "active_hours": 63.0,
+            "cumulative_xp": 137700
+          }
+        },
+        "total_xp": 137700.0
+      }
+    }
+  },
+  "sensitivity_curve_B": {
+    "baseline": {
+      "casual": 86.0,
+      "regular": 35.0,
+      "optimizer": 23.0
+    },
+    "continuity_rate_35": {
+      "casual": 91.0,
+      "regular": 35.0,
+      "optimizer": 23.0
+    },
+    "continuity_rate_45": {
+      "casual": 81.0,
+      "regular": 35.0,
+      "optimizer": 23.0
+    },
+    "continuity_cap_1000": {
+      "casual": 86.0,
+      "regular": 37.0,
+      "optimizer": 24.0
+    },
+    "continuity_cap_1400": {
+      "casual": 86.0,
+      "regular": 33.0,
+      "optimizer": 22.0
+    },
+    "efficiency_250_each": {
+      "casual": 87.0,
+      "regular": 36.0,
+      "optimizer": 24.0
+    },
+    "efficiency_350_each": {
+      "casual": 84.0,
+      "regular": 34.0,
+      "optimizer": 22.0
+    },
+    "efficiency_500_each": {
+      "casual": 80.0,
+      "regular": 30.0,
+      "optimizer": 21.0
+    },
+    "regular_residual_10_percent": {
+      "casual": 86.0,
+      "regular": 35.0,
+      "optimizer": 24.0
+    },
+    "regular_residual_0_percent": {
+      "casual": 86.0,
+      "regular": 35.0,
+      "optimizer": 24.0
+    },
+    "regular_xp_minus_15_percent": {
+      "casual": 86.0,
+      "regular": 35.0,
+      "optimizer": 24.0
+    },
+    "regular_xp_plus_15_percent": {
+      "casual": 85.0,
+      "regular": 35.0,
+      "optimizer": 23.0
+    },
+    "daily_xp_minus_15_percent": {
+      "casual": 88.0,
+      "regular": 36.0,
+      "optimizer": 24.0
+    },
+    "daily_xp_plus_15_percent": {
+      "casual": 83.0,
+      "regular": 34.0,
+      "optimizer": 23.0
+    },
+    "weekly_xp_minus_15_percent": {
+      "casual": 87.0,
+      "regular": 36.0,
+      "optimizer": 24.0
+    },
+    "weekly_xp_plus_15_percent": {
+      "casual": 84.0,
+      "regular": 34.0,
+      "optimizer": 23.0
+    }
+  }
+}

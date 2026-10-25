@@ -1,0 +1,44 @@
+"""Complete the P2 report only from saved successful test and benchmark evidence."""
+import argparse,json,statistics,xml.etree.ElementTree as ET
+from pathlib import Path
+ROOT=Path(__file__).resolve().parents[1];OUT=ROOT/'artifacts/phase2'
+p=argparse.ArgumentParser();p.add_argument('--tests',default='final-tests');args=p.parse_args()
+def read(path):return json.loads(path.read_text(encoding='utf8'))
+results=read(OUT/args.tests/'results.json');baseline=read(ROOT/'artifacts/phase1/final-atlas-tests/results.json')
+actual={r['module']:r for r in results}
+assert len(results)==len(baseline)+1 and all(r['exit_code']==0 and r['failures']==r['errors']==r['skipped']==0 for r in results)
+assert all(actual[r['module']]['tests']==r['tests'] for r in baseline)
+summary=dict(modules=len(results),tests=sum(r['tests'] for r in results),new_tests=actual['test_phase2_inventory_backend.py']['tests'],baseline_tests=sum(r['tests'] for r in baseline),failures=0,skipped=0,module_seconds=round(sum(r['seconds'] for r in results),2),results=args.tests,baseline_module_counts_preserved=True)
+assert summary['baseline_tests']==1270
+(OUT/'final-test-summary.json').write_text(json.dumps(summary,indent=2))
+comparison=read(OUT/'comparison.json');protected=read(OUT/'protected-verification.json');migration=read(OUT/'migration-audit.json')
+assert protected['ok'] and migration['failed']==0
+b=read(OUT/'before/inventory-benchmark.json');a=read(OUT/'after/inventory-benchmark.json')
+lines=['Methode: Windows 11 / Python 3.12.14 / Qt 6.11.1 Offscreen; gleiche Fonts, Styles, Kataloge und Fixtures wie P1. Sieben frische Prozesse für Cold-UI und 20er-Kaufbursts; warme UI-Operationen 49 Stichproben, aktive Firmen/weitere Aktionen mindestens sieben. Alle Messungen seriell nach Testende, keine parallelen Tests/Builds. Vergleich ist der gesicherte **P1-Endstand vor P2** gegen P2. Rohdaten: `before/`, `after/`, `comparison.json`, vollständige Tabellen in `comparison-tables.md`. Median und Maximum sind Stichprobenwerte, keine FPS-/p95-Garantie.','', '| Bestand | Projektion vorher Median / Max ms | Projektion nachher Median / Max ms | Snapshot nachher Median / Max ms | JSON-Bytes vorher = nachher | Python aktuell / Peak MiB nachher |','| --- | --- | --- | --- | --- | --- |']
+def fmt(row):return f"{row['median_ms']:.2f} / {row['max_ms']:.2f}"
+for count in ('500','5000','10000'):
+ old,new=b['inventory'][count],a['inventory'][count];assert old['payload_bytes']==new['payload_bytes']
+ lines.append(f"| {count} | {fmt(old['projection'])} | {fmt(new['projection'])} | {fmt(new['snapshot'])} | {new['payload_bytes']} | {new['python_current_bytes']/2**20:.2f} / {new['python_peak_bytes']/2**20:.2f} |")
+lines+=['','Gleiche unplatzierte Drei-Typen-Fixture (Production/Energy/Freight), sämtliche konkreten IDs enthalten. Speicher separat mit `tracemalloc` für Zustand plus Projektion plus abgelösten Snapshot gemessen; keine Prozess-/GPU-Messung und kein Langzeit-Leaknachweis. Timing ohne `tracemalloc`. Definitionen sind außerhalb der Speicherprobe bereits geladen. Gleiche Payloadgrößen belegen, dass keine Karten-/Historydaten für schnellere Snapshots ausgelassen wurden.','', '| Erwerb ohne Gebäude/Slots | P1 | P2 Median / Max ms (n=7) |','| --- | --- | --- |']
+for count in ('1','10','100','1000'):
+ old,new=b['acquisition'][count],a['acquisition'][count];assert len(old['rejections'])==7 and len(new['samples_ms'])==7
+ lines.append(f"| {count} Karten | 7× wegen fehlender Slots abgelehnt | {fmt(new)} |")
+lines+=['','Dieser Erwerbsvergleich zeigt eine absichtlich geänderte Fachregel, keinen Geschwindigkeitsgewinn eines identischen alten Kaufpfads. Eine einzelne Buchung und der vollständige Kartenbestand werden in den Regressionen geprüft.','', '| P1-Kontrolle | n vorher / nachher | Vorher Median / Max ms | Nachher Median / Max ms |','| --- | --- | --- | --- |']
+def pair(label,kind,key,field='total'):
+ old,new=comparison['before'][kind][key],comparison['after'][kind][key]
+ if field:old,new=old[field],new[field]
+ lines.append(f"| {label} | {old['n']} / {new['n']} | {fmt(old)} | {fmt(new)} |")
+for label,key in [('Unlock Konstruktion','unlock.constructor.cold'),('Unlock Status','unlock.refresh'),('Unlock Rebuild warm','unlock.rebuild.warm'),('Unlock Zoom/Pan','unlock.zoom_pan'),('Guide erstes Öffnen','guide.first_open'),('Guide schließen/öffnen','guide.close_reopen'),('Guide Suche','guide.search'),('Guide Filter','guide.filter'),('Picker Konstruktion','leaderboard.picker_construct'),('Picker Suche','leaderboard.picker_filter'),('Leaderboard eigene Zeile','leaderboard.changed_refresh'),('500er Shift-Auswahl','selection.500.shift')]:pair(label,'ui',key)
+for count in (50,500):pair(f'{count}: 20er-Kaufburst','rapid_bursts',f'rapid_ui.{count}.20_individual_purchases',None)
+for key in ('500.render','500.refresh','500.tick','500.snapshot','500.encoding','500.commit','500.full_save','500.load'):pair('Aktiv '+key,'active',key,None)
+for key in ('500.sale20','500.mk4','500.slots7','500.recipe20','500.copy_paste10'):pair('UI '+key,'extended',key)
+lines+=['','Kaufbursts verwenden die echten Supply-/MainWindow-Callbacks mit unveränderter 50/500-Karten-Ausgangsfixture. P2 verändert jedoch absichtlich die resultierende Platzierung; neue Käufe erzeugen keine belegten Boardlinien mehr. Diese Messungen sind deshalb keine isolierte UI-Optimierungsbehauptung. Die vorhandene P1-Auswahl-/Aktionsregression installiert die neuen Karten ausdrücklich und behält ihren ursprünglichen vollständigen Boardumfang. Die zusätzliche aktive 500-Karten-Probe behält sämtliche 500 Sites, ihre Slotstrukturen, 240 Historywerte und die vollständige Renderfläche. Die 100/500-Auswahlboards bleiben dieselben synthetischen Stressflächen oberhalb regulärer Hallengrenzen.','', 'Alle P1-UI-/Atlas-/Snapshotquellen sind gegen die P2-Sicherung unverändert. Pixel-/Cache-/Widgetidentitätsregressionen laufen weiterhin. Verbleibende Frameüberschreitungen großer Paints, erstmaliger Filtermaterialisierung und Snapshots werden nicht als gelöst bezeichnet; native Windows-Gesten/FPS wurden in P2 nicht neu abgenommen.']
+lines += ['', 'Die Kontrollen sind kein pauschaler Latenz-Erfolg: Das Guide-Suchpaar steigt im Median von 23,57 auf 26,85 ms; sieben Slotfreischaltungen bei 500 Karten von 104,87 auf 126,95 ms. Andere unveränderte Pfade fallen günstiger aus. Die Messwerte bleiben vollständig sichtbar; aus identischen UI-Quellen allein folgt keine Garantie identischer Laufzeit. P2 führt keine zusätzliche UI-Optimierung ein.']
+lines += ['', 'Zusätzliche vollständige JSON-Prüfung der aktiven 10/50/100/500-Karten-Saves: Genau ein Blatt unterscheidet sich jeweils, der vom initialen Spielstand erzeugte `company_xp_progress.utc_high_water_timestamp`. Die 100er-/500er-Payloads weichen dadurch um ein Zeichen ab; alle Karten, Slotstrukturen, Konfigurationen und Historywerte sind gleich. Nachweis: `active-payload-comparison.json`. Die separat fest datierte Inventarprobe hat exakt identische Payloadgrößen.']
+path=ROOT/'docs/industriova-03-phase2-inventory-backend-report.md';report=path.read_text(encoding='utf8')
+start=report.index('## 12. Stress- und Performancenachweise');end=report.index('## 13.',start)
+report=report[:start]+'## 12. Stress- und Performancenachweise\n\n'+'\n'.join(lines)+'\n\n'+report[end:]
+testtext=(f"**{summary['tests']}/{summary['tests']} Tests in {summary['modules']}/{summary['modules']} Modulen bestanden; 0 Fehler, 0 Skips.** Alle 1270 vorhandenen Fälle mit unveränderter Fallzahl je Bestandsmodul plus {summary['new_tests']} neue P2-Fälle. Vollständiger serieller Modullauf mit erforderlichen Modulwiederholungen: `artifacts/phase2/{args.tests}/`, Einzeltext/JUnit/`results.json`; `final-test-summary.json` enthält die Zählung. Summierte Modul-Prozesszeiten {summary['module_seconds']:.2f} s.\n\n"
+ f"Ursprüngliche Migrationsmatrix: **{migration['passed']} Slots bestanden**, 0 Fehler. Abschließender SHA256-Schutz: **{len(protected['protected'])} geschützte Bestandsdateien und alle fünf persönlichen Saves unverändert**, einschließlich aller UI-/P1-Assets, Daten, Builddateien und ursprünglichen P0-/P1-Nachweise (große ZIP-Abhängigkeiten wurden bereits bei der Sicherung vollständig gehasht). `protected-verification.json` und `implementation.diff` dokumentieren Grenzen und den tatsächlichen P2-Delta gegen die Arbeitskopie.\n\n")
+testtext += 'Der erste vollständige Lauf bleibt unter `first-full-tests/` erhalten. Ein vorhandener Dialogtest erwartete noch automatische Kaufplatzierung; ausschließlich dieser Sollwert wurde fachlich auf unplatzierten Besitz aktualisiert. Das ganze betroffene Modul wurde erneut ausgeführt. `final-tests/provenance.json` ordnet jeden endgültigen Modulnachweis seinem ursprünglichen oder wiederholten Lauf zu; kein fehlgeschlagener Nachweis wurde überschrieben.\n\n'
+report=report.replace('<!-- P2_TESTS -->',testtext);path.write_text(report,encoding='utf8');print(json.dumps(summary,indent=2))

@@ -1,0 +1,26 @@
+{
+  "version": "0.3.0.contract-auto-test",
+  "platform": "offscreen",
+  "fixture": "synthetic QA company",
+  "save_store": null,
+  "screenshots": [
+    {
+      "file": "factory.png",
+      "tab": "Factory",
+      "width": 1600,
+      "height": 980
+    },
+    {
+      "file": "freight.png",
+      "tab": "Freight",
+      "width": 1600,
+      "height": 980
+    },
+    {
+      "file": "research.png",
+      "tab": "Research",
+      "width": 1600,
+      "height": 980
+    }
+  ]
+}

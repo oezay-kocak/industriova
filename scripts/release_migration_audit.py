@@ -1,0 +1,64 @@
+"""Verify migration from backed-up save payloads without touching originals."""
+from contextlib import closing
+import json
+from pathlib import Path
+import sqlite3
+import re
+from production_zero.persistence.sqlite_store import deserialize_game_state, serialize_game_state
+
+
+def run():
+    backup = Path("artifacts/release-backups/20261018T185514851717Z").resolve()
+    manifest = json.loads((backup / "manifest.json").read_text(encoding="utf-8"))
+    results = []
+    for entry in manifest["saves"]:
+        path = backup / entry["backup"]
+        if path.suffix not in {".sqlite", ".db"}:
+            continue
+        with closing(sqlite3.connect(path.as_uri() + "?mode=ro", uri=True)) as db:
+            rows = db.execute("SELECT slot,state_json FROM saves").fetchall()
+        for slot, raw in rows:
+            try:
+                old = json.loads(raw)
+                state = deserialize_game_state(old)
+                new = serialize_game_state(state)
+                expected_cards = {cid for cid, card in old["cards"].items() if card.get("card_kind") != "recipe" and not card.get("definition_id", "").startswith("recipe.")}
+                old_units = {key: unit for board in ('halls', 'resource_sites', 'energy_plants') for key, unit in old.get(board, {}).items()}
+                new_units = {key: unit for board in ('halls', 'resource_sites', 'energy_plants') for key, unit in new.get(board, {}).items()}
+                old_installed = sorted(slot['card_id'] for unit in old_units.values() for slot in unit.get('slots', []) if slot.get('card_id'))
+                new_installed = sorted(slot['card_id'] for unit in new_units.values() for slot in unit.get('slots', []) if slot.get('card_id'))
+                def legacy_mk(card):
+                    match = re.search(r'\.mk(\d+)', card.get('definition_id', ''))
+                    return int(card.get('mk_level', match.group(1) if match else 1))
+                checks = {
+                    "cash": old["cash"] == new["cash"],
+                    "cards": expected_cards == set(new["cards"]),
+                    "rarities": all(old["cards"][cid]["rarity"] == new["cards"][cid]["rarity"] and old["cards"][cid]["output_bonus_percent"] == new["cards"][cid]["output_bonus_percent"] for cid in expected_cards),
+                    "resources": all(float(stock["amount"] if isinstance(stock, dict) else stock) == new["resources"][rid]["amount"] for rid, stock in old.get("resources", {}).items()),
+                    "company_level_xp": all(old.get("company", {}).get(key, default) == new["company"][key] for key, default in (("level", 1), ("current_xp", 0.))),
+                    "mk": all(new['cards'][cid]['mk_level'] == legacy_mk(old['cards'][cid]) for cid in expected_cards),
+                    "recipes_and_progress": all(all(new.get('machine_production', {}).get(cid, {}).get(key) == value for key, value in machine.items()) for cid, machine in old.get('machine_production', {}).items() if cid in expected_cards),
+                    "inflight": old.get('freight', {}).get('outbound_shipments', {}) == new['freight']['outbound_shipments'],
+                    "freight_routes": all(new['freight']['assignments'][cid]['resource_id'] == route['resource_id'] and new['freight']['assignments'][cid]['destination_kind'] == route['destination_kind'] for cid, route in old.get('freight', {}).get('assignments', {}).items()),
+                    "placements": old_installed == new_installed,
+                    "building_structure": all(key in new_units and new_units[key]['max_lines'] >= unit.get('max_lines', 1) and len(new_units[key]['slots']) >= len(unit.get('slots', [])) for key, unit in old_units.items()),
+                    "production_line_unlocks": all(new_units[key]['production_lines'] == unit['production_lines'] for key, unit in old_units.items() if 'production_lines' in unit),
+                    "freight_facilities": all(key in new['freight']['facilities'] and new['freight']['facilities'][key]['slots'] == facility['slots'] and new['freight']['facilities'][key]['expansion_level'] == facility.get('expansion_level', 0) for key, facility in old.get('freight', {}).get('facilities', {}).items()),
+                    "consortium": all(new['consortium'].get(key) == value for key, value in old.get('consortium', {}).items()),
+                    "idempotent": new == serialize_game_state(deserialize_game_state(new)),
+                    "specialized_sites": all(len({state.cards[s.card_id].definition_id for s in site.slots if s.card_id}) <= 1 for site in state.resource_sites.values()),
+                }
+                results.append(dict(source=entry["source"], slot=slot, checks=checks, passed=all(checks.values())))
+            except Exception as error:
+                results.append(dict(source=entry["source"], slot=slot, passed=False, error=str(error)))
+    report = {"results": results, "passed": sum(r["passed"] for r in results), "failed": sum(not r["passed"] for r in results)}
+    Path("artifacts/industriova-release/migration-audit.json").write_text(json.dumps(report, indent=2), encoding="utf-8")
+    print(json.dumps({key: value for key, value in report.items() if key != "results"}))
+    for result in results:
+        if not result["passed"]:
+            print(json.dumps(result))
+    assert report['failed'] == 0, 'Save migration invariants failed; see migration-audit.json'
+
+
+if __name__ == "__main__":
+    run()

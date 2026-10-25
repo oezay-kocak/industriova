@@ -60,7 +60,7 @@ def test_economy_stress_tool_reports_card_scrap_and_supply_metrics() -> None:
     assert summary["net_supply_growth"] == sum(summary["remaining_cards_by_rarity"].values())
 
     rendered = format_summary(summary)
-    assert "Production Zero Economy Stress Test" in rendered
+    assert "Industriova Economy Stress Test" in rendered
     assert "Net supply growth" in rendered
 
 

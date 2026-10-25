@@ -1,0 +1,74 @@
+INDUSTRIOVA - WINDOWS PLAYTEST
+
+Version 0.2.0.dev6 - Entwicklungs-Playtest mit aktuellem UI-Polish.
+Die vollstaendige menschliche Gameplay-Abnahme steht weiterhin aus.
+
+1. Die ZIP-Datei vollstaendig entpacken (Rechtsklick > Alle extrahieren).
+2. Im entpackten Ordner Industriova.exe doppelt anklicken.
+   Den Ordner _internal neben der EXE belassen.
+
+Keine Installation, kein Python und keine PowerShell erforderlich.
+Diese Version ist fuer Windows 10/11 (64 Bit).
+
+Eine neue Firma startet mit zwei Common Freight Trucks.
+Der Dev-Tab bleibt zum Testen freigeschaltet. Ganz oben:
+- NEW GAME: Neue Firma starten. Nach Rueckfrage wird der aktuelle
+  Fortschritt inklusive Autosave ersetzt.
+- SAVE GAME: Manuellen Spielstand sichern und Autosave aktualisieren.
+- LOAD GAME: Den zuletzt manuell gesicherten Spielstand wiederherstellen.
+
+Automatisch gespeichert wird alle 30 Sekunden und beim normalen Beenden.
+Beim naechsten Start wird der Autosave geladen.
+Spielstaende liegen unter %LOCALAPPDATA%\Industriova\playtests\dev6\saves.
+Alte Production-Zero-Testspielstaende werden vollstaendig ignoriert.
+Es findet keine automatische Uebernahme oder Migration aus dem alten Ordner statt.
+Manuelle Sicherung: Industriova\saves\dev\dev_save.json.
+Die ZIP enthaelt keinen vorgefertigten oder persoenlichen Spielstand.
+
+XP unter 10 werden weiter gutgeschrieben, aber nicht im Ticker gemeldet.
+
+Maschinenkauf: Industrial Supply oeffnen, Maschine waehlen, Menge und Gesamtpreis
+bestaetigen. Gekaufte Maschinen werden in freie kompatible Slots eingesetzt.
+Ressourcenstandorte haben einen Typ: Mining Complex, Drilling Field oder
+Agricultural Estate. Den Typ eines leeren Standorts kann man dort einstellen.
+
+Linksklick waehlt eine Maschine, Strg erweitert die Auswahl, Shift markiert
+einen Bereich. Auswahlgruppen lassen sich auf freie Slots ziehen. Rechtsklick
+oeffnet das Kartenmenue. Der gruene Knopf mit Aufwaertspfeilen verbessert
+die MK-Stufe; bei einer ausgewaehlten Karte auch die passende Auswahlgruppe.
+Recipe und Copy/Paste stehen im Kartenmenue bereit. PAUSE bzw. RESUME
+steuern das Gebaeude im Header. Gebaeudenamen zum Umbenennen anklicken;
+Rechtsklick in der linken Gebaeudeliste bietet den bestaetigten Verkauf.
+Build Site / Build Facility oeffnen eine Typauswahl, danach BUY bestaetigen.
+Neue Contracts erfordern eine eigene Produktauswahl und Annahme.
+Copy/Paste kauft nach Bestaetigung neue MK1-Common-Maschinen.
+
+Der globale Resources-Button oeffnet eine verschiebbare Ressourcenuebersicht.
+Freight-Routen koennen Sell, Contract oder Consortium Contract beliefern.
+Neue Einstellungen gelten fuer die naechste Fahrt; geladene Ware bleibt ihrer
+laufenden Sendung zugeordnet. Rechtsklick auf ein Fahrzeug bietet MK, Pause
+und Verkauf. Die Event-Route ist vorerst gesperrt.
+
+Packs, Karten-Crafting, Inventory-Haupttab und dynamischer Market entfallen.
+Offene technische Abnahmepunkte stehen im lokalen Abschlussbericht.
+
+Unified production UX (development playtest):
+- Building PAUSE and line PAUSE are independent. Resuming a building preserves manually paused lines.
+- COPY / CTRL+C copies selected machines, or the focused populated line.
+- Right-click an unlocked target line and choose PASTE MACHINES, or use CTRL+V.
+- Paste requires confirmation and buys new MK1 Common machines at Common Supply prices. It never upgrades or overwrites existing machines.
+- Freight uses FLEET, RAIL LINE, AIR ROUTE or SHIPPING LINE rows. A new row is purchased with its first slot; each later slot follows the existing next-slot price curve.
+- Freight supports Ctrl/Shift selection, rectangle selection, group moves, shared route actions and paid templates.
+- Research industry hovers list affected products from the canonical assignments; long lists scroll within the info box.
+
+Final dev6 micro polish:
+- Eight positions per Freight line; starting slots and purchase prices are unchanged.
+- More compact contract products, stronger rewards and taller action buttons.
+- Research product lists include resource icons and the existing fallback artwork.
+- Dev6 has isolated playtest storage; older Industriova and Production Zero saves are not loaded.
+
+Final dev6 UI approval pass:
+- Only the next Sector, Line or Block expansion is displayed. Unlock reveals its successor.
+- Freight uses transparent board layers without the old dark background rectangle.
+- Contract reward pairs and the missing-products hint are centered.
+- Dev6 has its own fresh playtest save directory; dev5 saves are not auto-loaded.

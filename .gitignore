@@ -18,8 +18,10 @@ ENV/
 # Packaging and build output
 build/
 dist/
+*.zip
 *.egg-info/
 *.egg
+*.whl
 
 # PySide/Qt generated files and local runtime output
 *.qmlc
@@ -43,3 +45,30 @@ artifacts/
 
 # Local developer saves
 saves/
+
+# Private state, credentials and local diagnostic exports
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+*.pfx
+credentials*.json
+service-account*.json
+*.sqlite
+*.sqlite-*
+*.sqlite3
+*.sqlite3-*
+*.db
+*.db-*
+*.save
+*.bak
+*.jsonl
+crashdumps/
+performance-logs/
+
+# Historical duplicate build recipe; retained locally for old audit references
+/ProductionZero.spec
+# Local, generated economy stress output
+/economy_stress_v2_freight.json

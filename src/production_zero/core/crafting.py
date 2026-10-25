@@ -5,11 +5,11 @@ from production_zero.core.cards import (
     CardInstance,
     create_card_instance,
 )
-from production_zero.core.definitions import CardDefinition, EnergyDefinition, FreightDefinition, MachineDefinition, RecipeDefinition
+from production_zero.core.definitions import CardDefinition, EnergyDefinition, FreightDefinition, MachineDefinition
 from production_zero.core.enums import Rarity
 
 
-CRAFT_INPUT_COUNT = 5
+CRAFT_INPUT_COUNT = 4
 RARITY_CRAFT_UPGRADES: dict[Rarity, Rarity] = {
     Rarity.UNCOMMON: Rarity.RARE,
     Rarity.RARE: Rarity.EPIC,
@@ -51,8 +51,10 @@ def preview_crafted_card(
     target_definition: CardDefinition,
     card_id: str = "craft-preview",
 ) -> CardInstance:
-    if not isinstance(target_definition, (MachineDefinition, EnergyDefinition, RecipeDefinition, FreightDefinition)):
-        raise ValueError("Rarity crafting target must be a machine, energy, recipe, or freight card.")
+    if len(input_cards) != CRAFT_INPUT_COUNT:
+        raise ValueError(f"Rarity crafting requires exactly {CRAFT_INPUT_COUNT} cards.")
+    if not isinstance(target_definition, (MachineDefinition, EnergyDefinition, FreightDefinition)):
+        raise ValueError("Rarity crafting target must be a machine, energy, or freight card.")
     output_rarity = crafted_rarity(input_cards[0].rarity)
     return create_card_instance(
         card_id=card_id,
@@ -74,8 +76,8 @@ def craft_rarity_card(
     if target_definition_id not in definitions:
         raise ValueError(f"Unknown crafting target: {target_definition_id}")
     target_definition = definitions[target_definition_id]
-    if not isinstance(target_definition, (MachineDefinition, EnergyDefinition, RecipeDefinition, FreightDefinition)):
-        raise ValueError("Rarity crafting target must be a machine, energy, recipe, or freight card.")
+    if not isinstance(target_definition, (MachineDefinition, EnergyDefinition, FreightDefinition)):
+        raise ValueError("Rarity crafting target must be a machine, energy, or freight card.")
 
     installed = state.installed_card_ids() | state.installed_freight_card_ids()
     input_cards = []

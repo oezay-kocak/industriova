@@ -35,6 +35,7 @@ class MachineIcon(str, Enum):
     WIND_TURBINE = "wind_turbine"
     EXTRACTOR = "extractor"
     PROCESSOR = "processor"
+    FABRICATOR = "fabricator"
     ASSEMBLER = "assembler"
     COAL_POWER = "coal_power"
     GAS_POWER = "gas_power"
@@ -67,6 +68,18 @@ def icon_accent(icon: GameIcon) -> Accent:
     return _ICON_ACCENTS.get(icon, Accent.NEUTRAL)
 
 
+def energy_bolt_polygon(rect: QRectF) -> QPolygonF:
+    """Return a simple, closed lightning silhouette contained by ``rect``."""
+    return QPolygonF([
+        _point(rect, 0.57, 0.02),
+        _point(rect, 0.18, 0.56),
+        _point(rect, 0.45, 0.56),
+        _point(rect, 0.34, 0.98),
+        _point(rect, 0.82, 0.40),
+        _point(rect, 0.54, 0.40),
+    ])
+
+
 def draw_game_icon(painter: QPainter, icon: GameIcon, rect: QRectF, *, accent: Accent | None = None, disabled: bool = False) -> None:
     tokens = GAME_UI_TOKENS
     accent = icon_accent(icon) if accent is None else accent
@@ -87,21 +100,8 @@ def draw_game_icon(painter: QPainter, icon: GameIcon, rect: QRectF, *, accent: A
         painter.drawLine(inner.center().x(), inner.top(), inner.center().x(), inner.bottom())
         painter.drawArc(inner.adjusted(0, 0, 0, 0), 35 * 16, 290 * 16)
     elif icon == GameIcon.ENERGY:
-        points = [
-            inner.left() + inner.width() * 0.55,
-            inner.top(),
-            inner.left() + inner.width() * 0.22,
-            inner.center().y(),
-            inner.left() + inner.width() * 0.5,
-            inner.center().y(),
-            inner.left() + inner.width() * 0.38,
-            inner.bottom(),
-            inner.right() - inner.width() * 0.18,
-            inner.center().y() - inner.height() * 0.08,
-            inner.left() + inner.width() * 0.55,
-            inner.center().y() - inner.height() * 0.08,
-        ]
-        painter.drawPolyline(QPolygonF([rect.topLeft().__class__(points[i], points[i + 1]) for i in range(0, len(points), 2)]))
+        painter.setBrush(color)
+        painter.drawPolygon(energy_bolt_polygon(inner))
     elif icon == GameIcon.STORAGE:
         painter.drawRoundedRect(inner, 4, 4)
         painter.drawLine(inner.left(), inner.top() + inner.height() * 0.35, inner.right(), inner.top() + inner.height() * 0.35)
@@ -300,6 +300,29 @@ def _draw_assembler_icon(painter: QPainter, rect: QRectF, colors: dict[str, QCol
     _draw_accent_core(painter, _rect(rect, 0.43, 0.64, 0.14, 0.13), colors)
 
 
+def _draw_fabricator_icon(painter: QPainter, rect: QRectF, colors: dict[str, QColor]) -> None:
+    gantry = _rect(rect, 0.18, 0.18, 0.64, 0.46)
+    rail = _rect(rect, 0.22, 0.20, 0.56, 0.11)
+    bed = _rect(rect, 0.20, 0.70, 0.60, 0.13)
+    press = [
+        _point(rect, 0.39, 0.38),
+        _point(rect, 0.61, 0.38),
+        _point(rect, 0.55, 0.58),
+        _point(rect, 0.45, 0.58),
+    ]
+    _draw_body_rect(painter, gantry, colors, 0.09)
+    painter.setPen(QPen(colors["dark_cut"], _stroke(rect, 0.032), Qt.PenStyle.SolidLine, Qt.PenCapStyle.RoundCap))
+    painter.drawLine(_point(rect, 0.28, 0.32), _point(rect, 0.28, 0.65))
+    painter.drawLine(_point(rect, 0.72, 0.32), _point(rect, 0.72, 0.65))
+    painter.setPen(QPen(colors["body_edge"], _stroke(rect, 0.038), Qt.PenStyle.SolidLine, Qt.PenCapStyle.RoundCap, Qt.PenJoinStyle.RoundJoin))
+    painter.drawRoundedRect(rail, 3, 3)
+    _draw_body_polygon(painter, press, colors, rect)
+    _draw_body_rect(painter, bed, colors, 0.08)
+    _draw_accent_core(painter, _rect(rect, 0.43, 0.47, 0.14, 0.12), colors)
+    painter.setPen(QPen(colors["glass"], _stroke(rect, 0.024), Qt.PenStyle.SolidLine, Qt.PenCapStyle.RoundCap))
+    painter.drawLine(_point(rect, 0.30, 0.75), _point(rect, 0.70, 0.75))
+
+
 def _draw_solar_icon(painter: QPainter, rect: QRectF, colors: dict[str, QColor]) -> None:
     panel = _rect(rect, 0.12, 0.28, 0.76, 0.42)
     _draw_body_rect(painter, panel, colors, 0.055)
@@ -400,6 +423,8 @@ def draw_machine_icon(painter: QPainter, icon: MachineIcon, rect: QRectF, *, acc
         _draw_extractor_icon(painter, inner, colors)
     elif icon == MachineIcon.PROCESSOR:
         _draw_processor_icon(painter, inner, colors)
+    elif icon == MachineIcon.FABRICATOR:
+        _draw_fabricator_icon(painter, inner, colors)
     elif icon == MachineIcon.ASSEMBLER:
         _draw_assembler_icon(painter, inner, colors)
     elif icon == MachineIcon.COAL_POWER:

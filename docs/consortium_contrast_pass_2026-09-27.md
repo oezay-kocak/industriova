@@ -1,0 +1,29 @@
+# Consortium final contrast / material pass — 2026-09-27
+
+1. **Implementation summary.** Applied a Consortium-scoped contrast pass using existing Production Zero materials. Accepted layouts, heights, roster behavior, product buttons, contract composition, progression content and mechanics remain intact.
+
+2. **Files changed.** `src/production_zero/ui/consortium_materials.py`, `src/production_zero/ui/consortium_view.py`, `src/production_zero/ui/theme.py`, `tests/test_consortium_material.py`, and `scripts/capture_consortium_material.py`. This report is new. Existing unrelated workspace changes were preserved.
+
+3. **Silver treatment.** One `ConsortiumWorkspaceFrame` now paints the four main workspaces and nested silver structural frames, including Daily/Weekly, Overview panels, roster and header XP module. The existing chassis-light token transitions only to subtle Qt darkening factors of 104/108, rather than chassis-mid or graphite. The narrow shadow outline, inset highlight and dark recess retain depth. Pixel checks require all four rim midpoints above 185 average RGB, with less than 30 variation.
+
+4. **Background-box causes and fixes.** Nested sections previously retained the generic material painter and its dark edge falloff. Anonymous layout hosts and product-choice wrappers were also susceptible to inherited widget backgrounds. Section frames now share the corrected painter; header layout hosts have an explicit transparent scoped style; product-choice wrappers and tab-bar child hosts are transparent. Existing transparent tab stack, scroll viewport and disabled viewport/host autofill are retained. No cover-up rectangles were added. Nested corner pixels are checked against the adjacent parent material.
+
+5. **Overview concrete modules.** All four stat modules now use the established secondary-shell light/mid concrete palette. Labels use dark secondary text; values use strong dark primary text. Status and Recent Activity retain dark interiors, full height, unchanged stat positions and chairman/XP placement.
+
+6. **Contract concrete housings.** Product selection uses the existing concrete palette and dark directly placed headings/reward preview text. Active requirement rows receive a zero-margin concrete host around their existing layout. Product buttons and their child labels retain their existing accepted painter, colors and geometry. Metadata and eligibility remain graphite.
+
+7. **Management Settings.** The existing 148px footer now uses concrete with dark headings/labels. Inputs retain their readable dark-field/light-text treatment. Captured geometry is exactly identical to the previous pass for 1, 2, 10, 25 and 50 members at all three resolutions, including footer coordinates, roster heights and scroll ranges.
+
+8. **Buttons.** Save Settings and Invite Player use `RaisedPZButton(variant="primary")`, including its existing yellow raised surface, dark text, hover, pressed and disabled states. Their previous compact minimum-height behavior is retained. Leave/Disband remain the existing destructive red variant.
+
+9. **Visual findings.** Reviewed full-size Overview, selected Contracts, active Contracts and 50-member screens, plus all three reduced contact sheets. Silver stays distinct around all sides; light stat/settings/requirement housings separate clearly from the dark sections. Corners show the intended parent surface. All nine Resources/Factory/Inventory reference screenshots are pixel-identical to the preceding pass.
+
+10. **Fixes after first render.** Narrowed light-housing typography selectors to directly placed labels so nested product-object text remains untouched. Added the active requirement host after finding that the active path still lacked the requested concrete housing. Rerendered the complete capture set. A final selector audit found the product-choice object name was shared with the regular Contracts screen; its transparency rule was restricted to Consortium before final validation. No geometry repair was needed; focused anchoring and layout assertions passed.
+
+11. **Capture manifest.** `artifacts/consortium_contrast/manifest.json` contains 54 captures: 18 states at 1366×768, 1600×980 and 1920×1080. Includes empty/selected/active Daily+Weekly, sparse/populated Overview, default/progressed Progression, 1/2/10/25/50 members and last-row scroll, plus three reference screens. `baseline_comparison.json` records exact prior-pass geometry/reference equality and unchanged sampled active product interiors. `geometry.json` records roster/footer measurements. Contact sheets are `contact_1366x768.png`, `contact_1600x980.png`, and `contact_1920x1080.png`.
+
+12. **Focused tests.** 54 final focused tests passed in isolated processes: 35 Consortium material/final UX/UI tests plus 19 regular Contracts polish/selection tests. Coverage includes four-sided silver, corners, light-surface text colors, button semantics, Overview/Contract geometry, exact root sizes, roster scroll/anchors and existing behavior. Final logs: `artifacts/consortium_contrast/final_isolated/`. The optional combined-process rerun stalled and was interrupted; all five modules subsequently passed independently.
+
+13. **Full suite.** 981 tests passed across 69 isolated modules using established QA fonts; zero failures, errors, skips or unsuccessful modules. Results: `artifacts/consortium_contrast/tests/summary.json`. Compileall passed again after the final selector correction. The correction narrowed one rule to Consortium; all 54 tests in the five affected Consortium/Contracts modules then passed in fresh isolated processes on that final stylesheet.
+
+14. **Remaining human design decisions.** None required for implementation. Final aesthetic approval remains with human review. Existing compact-screen contract scrolling is preserved; this pass does not resize accepted content to remove it.

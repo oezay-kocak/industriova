@@ -22,7 +22,10 @@ def _load_resource_market_field(field_name: str, fallback: float) -> dict[str, f
     }
 
 
-BASE_MARKET_PRICES: dict[str, float] = _load_resource_market_field("base_market_price", 1.0)
+from production_zero.core.fixed_prices import build_fixed_prices
+
+LEGACY_BASE_MARKET_PRICES: dict[str, float] = _load_resource_market_field("base_market_price", 1.0)
+BASE_MARKET_PRICES: dict[str, float] = build_fixed_prices(LEGACY_BASE_MARKET_PRICES)
 BASE_VOLATILITY: dict[str, float] = _load_resource_market_field("volatility", 0.008)
 RESOURCE_RANDOM_OFFSETS: dict[str, int] = {
     resource_id: int.from_bytes(hashlib.sha256(resource_id.encode("utf-8")).digest()[:4], "big") % 1_000_000
@@ -229,7 +232,7 @@ def create_market_state(resource_ids: Iterable[str] | None = None) -> MarketStat
 def market_price_for(market: MarketState, resource_id: str) -> float:
     if resource_id not in BASE_MARKET_PRICES:
         return 0.0
-    return market.ensure_resource(resource_id).current_price
+    return BASE_MARKET_PRICES[resource_id]
 
 
 def active_market_event(market: MarketState) -> MarketEventDefinition:
@@ -249,14 +252,7 @@ def advance_market_time(
     if elapsed_seconds < 0:
         raise ValueError("Elapsed market time cannot be negative.")
     market.elapsed_seconds += elapsed_seconds
-    _refresh_event(market)
-    while market.elapsed_seconds >= market.next_market_tick_seconds:
-        market.market_tick += 1
-        _refresh_event(market)
-        event = active_market_event(market)
-        for resource_id in resource_ids or BASE_MARKET_PRICES:
-            _advance_resource_price(market.ensure_resource(resource_id), event, seed, market.market_tick)
-        market.next_market_tick_seconds += MARKET_TICK_SECONDS
+    # The elapsed clock still drives Supply and legacy timing; prices are fixed.
 
 
 def _refresh_event(market: MarketState) -> None:

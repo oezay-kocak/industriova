@@ -1,0 +1,4338 @@
+{
+  "schema_version": 3,
+  "families": [
+    {
+      "id": "base_metals_carbon",
+      "name": "Base Metals & Carbon",
+      "company_level": 1,
+      "resources": [
+        "iron_ore",
+        "copper_ore",
+        "coal",
+        "bauxite"
+      ]
+    },
+    {
+      "id": "construction_minerals",
+      "name": "Construction Minerals",
+      "company_level": 1,
+      "resources": [
+        "limestone",
+        "quartz"
+      ]
+    },
+    {
+      "id": "forestry",
+      "name": "Forestry",
+      "company_level": 1,
+      "resources": [
+        "timber"
+      ]
+    },
+    {
+      "id": "staple_agriculture",
+      "name": "Staple Agriculture",
+      "company_level": 1,
+      "resources": [
+        "wheat"
+      ]
+    },
+    {
+      "id": "petroleum",
+      "name": "Petroleum",
+      "company_level": 1,
+      "resources": [
+        "crude_oil"
+      ]
+    },
+    {
+      "id": "field_crops",
+      "name": "Field Crops",
+      "company_level": 1,
+      "resources": [
+        "corn",
+        "soybeans",
+        "potatoes"
+      ]
+    },
+    {
+      "id": "process_minerals",
+      "name": "Process Minerals",
+      "company_level": 1,
+      "resources": [
+        "clay",
+        "gypsum",
+        "silica_sand",
+        "kaolin"
+      ]
+    },
+    {
+      "id": "food_fiber_crops",
+      "name": "Food & Fiber Crops",
+      "company_level": 1,
+      "resources": [
+        "sugarcane",
+        "cotton",
+        "rapeseed",
+        "fruit"
+      ]
+    },
+    {
+      "id": "gas_elastomers",
+      "name": "Gas & Elastomers",
+      "company_level": 1,
+      "resources": [
+        "natural_gas",
+        "natural_rubber"
+      ]
+    },
+    {
+      "id": "chemical_minerals",
+      "name": "Chemical Minerals",
+      "company_level": 1,
+      "resources": [
+        "salt",
+        "sulfur",
+        "phosphate_rock",
+        "potash"
+      ]
+    },
+    {
+      "id": "common_alloy_metals",
+      "name": "Common Alloy Metals",
+      "company_level": 1,
+      "resources": [
+        "zinc_ore",
+        "lead_ore",
+        "tin_ore",
+        "manganese_ore"
+      ]
+    },
+    {
+      "id": "advanced_alloy_metals",
+      "name": "Advanced Alloy Metals",
+      "company_level": 1,
+      "resources": [
+        "chromium_ore",
+        "nickel_ore"
+      ]
+    },
+    {
+      "id": "carbon_specialty_minerals",
+      "name": "Carbon & Specialty Minerals",
+      "company_level": 1,
+      "resources": [
+        "graphite",
+        "fluorspar",
+        "magnesite",
+        "borate_ore"
+      ]
+    },
+    {
+      "id": "battery_electronics_feedstocks",
+      "name": "Battery & Electronics Feedstocks",
+      "company_level": 1,
+      "resources": [
+        "lithium_ore",
+        "cobalt_ore",
+        "rare_earth_ore"
+      ]
+    },
+    {
+      "id": "precious_metals",
+      "name": "Precious Metals",
+      "company_level": 1,
+      "resources": [
+        "gold_ore",
+        "silver_ore"
+      ]
+    },
+    {
+      "id": "catalyst_precious_metals",
+      "name": "Catalyst Precious Metals",
+      "company_level": 1,
+      "resources": [
+        "platinum_ore",
+        "palladium_ore"
+      ]
+    },
+    {
+      "id": "aerospace_refractory_metals",
+      "name": "Aerospace & Refractory Metals",
+      "company_level": 1,
+      "resources": [
+        "titanium_ore",
+        "tungsten_ore",
+        "molybdenum_ore",
+        "vanadium_ore",
+        "niobium_ore"
+      ]
+    },
+    {
+      "id": "nuclear_materials",
+      "name": "Nuclear Materials",
+      "company_level": 1,
+      "resources": [
+        "uranium_ore"
+      ]
+    }
+  ],
+  "resources": {
+    "iron_ore": {
+      "production_id": "resource.iron_ore",
+      "stage": "extractor",
+      "family_id": "base_metals_carbon",
+      "extractor_family_ids": [
+        "base_metals_carbon"
+      ],
+      "company_level": 1
+    },
+    "copper_ore": {
+      "production_id": "resource.copper_ore",
+      "stage": "extractor",
+      "family_id": "base_metals_carbon",
+      "extractor_family_ids": [
+        "base_metals_carbon"
+      ],
+      "company_level": 1
+    },
+    "bauxite": {
+      "production_id": "resource.bauxite",
+      "stage": "extractor",
+      "family_id": "base_metals_carbon",
+      "extractor_family_ids": [
+        "base_metals_carbon"
+      ],
+      "company_level": 1
+    },
+    "nickel_ore": {
+      "production_id": "resource.nickel_ore",
+      "stage": "extractor",
+      "family_id": "advanced_alloy_metals",
+      "extractor_family_ids": [
+        "advanced_alloy_metals"
+      ],
+      "company_level": 1
+    },
+    "zinc_ore": {
+      "production_id": "resource.zinc_ore",
+      "stage": "extractor",
+      "family_id": "common_alloy_metals",
+      "extractor_family_ids": [
+        "common_alloy_metals"
+      ],
+      "company_level": 1
+    },
+    "lead_ore": {
+      "production_id": "resource.lead_ore",
+      "stage": "extractor",
+      "family_id": "common_alloy_metals",
+      "extractor_family_ids": [
+        "common_alloy_metals"
+      ],
+      "company_level": 1
+    },
+    "tin_ore": {
+      "production_id": "resource.tin_ore",
+      "stage": "extractor",
+      "family_id": "common_alloy_metals",
+      "extractor_family_ids": [
+        "common_alloy_metals"
+      ],
+      "company_level": 1
+    },
+    "manganese_ore": {
+      "production_id": "resource.manganese_ore",
+      "stage": "extractor",
+      "family_id": "common_alloy_metals",
+      "extractor_family_ids": [
+        "common_alloy_metals"
+      ],
+      "company_level": 1
+    },
+    "chromium_ore": {
+      "production_id": "resource.chromium_ore",
+      "stage": "extractor",
+      "family_id": "advanced_alloy_metals",
+      "extractor_family_ids": [
+        "advanced_alloy_metals"
+      ],
+      "company_level": 1
+    },
+    "titanium_ore": {
+      "production_id": "resource.titanium_ore",
+      "stage": "extractor",
+      "family_id": "aerospace_refractory_metals",
+      "extractor_family_ids": [
+        "aerospace_refractory_metals"
+      ],
+      "company_level": 1
+    },
+    "tungsten_ore": {
+      "production_id": "resource.tungsten_ore",
+      "stage": "extractor",
+      "family_id": "aerospace_refractory_metals",
+      "extractor_family_ids": [
+        "aerospace_refractory_metals"
+      ],
+      "company_level": 1
+    },
+    "cobalt_ore": {
+      "production_id": "resource.cobalt_ore",
+      "stage": "extractor",
+      "family_id": "battery_electronics_feedstocks",
+      "extractor_family_ids": [
+        "battery_electronics_feedstocks"
+      ],
+      "company_level": 1
+    },
+    "molybdenum_ore": {
+      "production_id": "resource.molybdenum_ore",
+      "stage": "extractor",
+      "family_id": "aerospace_refractory_metals",
+      "extractor_family_ids": [
+        "aerospace_refractory_metals"
+      ],
+      "company_level": 1
+    },
+    "vanadium_ore": {
+      "production_id": "resource.vanadium_ore",
+      "stage": "extractor",
+      "family_id": "aerospace_refractory_metals",
+      "extractor_family_ids": [
+        "aerospace_refractory_metals"
+      ],
+      "company_level": 1
+    },
+    "silver_ore": {
+      "production_id": "resource.silver_ore",
+      "stage": "extractor",
+      "family_id": "precious_metals",
+      "extractor_family_ids": [
+        "precious_metals"
+      ],
+      "company_level": 1
+    },
+    "gold_ore": {
+      "production_id": "resource.gold_ore",
+      "stage": "extractor",
+      "family_id": "precious_metals",
+      "extractor_family_ids": [
+        "precious_metals"
+      ],
+      "company_level": 1
+    },
+    "platinum_ore": {
+      "production_id": "resource.platinum_ore",
+      "stage": "extractor",
+      "family_id": "catalyst_precious_metals",
+      "extractor_family_ids": [
+        "catalyst_precious_metals"
+      ],
+      "company_level": 1
+    },
+    "palladium_ore": {
+      "production_id": "resource.palladium_ore",
+      "stage": "extractor",
+      "family_id": "catalyst_precious_metals",
+      "extractor_family_ids": [
+        "catalyst_precious_metals"
+      ],
+      "company_level": 1
+    },
+    "lithium_ore": {
+      "production_id": "resource.lithium_ore",
+      "stage": "extractor",
+      "family_id": "battery_electronics_feedstocks",
+      "extractor_family_ids": [
+        "battery_electronics_feedstocks"
+      ],
+      "company_level": 1
+    },
+    "uranium_ore": {
+      "production_id": "resource.uranium_ore",
+      "stage": "extractor",
+      "family_id": "nuclear_materials",
+      "extractor_family_ids": [
+        "nuclear_materials"
+      ],
+      "company_level": 1
+    },
+    "rare_earth_ore": {
+      "production_id": "resource.rare_earth_ore",
+      "stage": "extractor",
+      "family_id": "battery_electronics_feedstocks",
+      "extractor_family_ids": [
+        "battery_electronics_feedstocks"
+      ],
+      "company_level": 1
+    },
+    "niobium_ore": {
+      "production_id": "resource.niobium_ore",
+      "stage": "extractor",
+      "family_id": "aerospace_refractory_metals",
+      "extractor_family_ids": [
+        "aerospace_refractory_metals"
+      ],
+      "company_level": 1
+    },
+    "coal": {
+      "production_id": "resource.coal",
+      "stage": "extractor",
+      "family_id": "base_metals_carbon",
+      "extractor_family_ids": [
+        "base_metals_carbon"
+      ],
+      "company_level": 1
+    },
+    "quartz": {
+      "production_id": "resource.quartz",
+      "stage": "extractor",
+      "family_id": "construction_minerals",
+      "extractor_family_ids": [
+        "construction_minerals"
+      ],
+      "company_level": 1
+    },
+    "silica_sand": {
+      "production_id": "resource.silica_sand",
+      "stage": "extractor",
+      "family_id": "process_minerals",
+      "extractor_family_ids": [
+        "process_minerals"
+      ],
+      "company_level": 1
+    },
+    "limestone": {
+      "production_id": "resource.limestone",
+      "stage": "extractor",
+      "family_id": "construction_minerals",
+      "extractor_family_ids": [
+        "construction_minerals"
+      ],
+      "company_level": 1
+    },
+    "gypsum": {
+      "production_id": "resource.gypsum",
+      "stage": "extractor",
+      "family_id": "process_minerals",
+      "extractor_family_ids": [
+        "process_minerals"
+      ],
+      "company_level": 1
+    },
+    "clay": {
+      "production_id": "resource.clay",
+      "stage": "extractor",
+      "family_id": "process_minerals",
+      "extractor_family_ids": [
+        "process_minerals"
+      ],
+      "company_level": 1
+    },
+    "kaolin": {
+      "production_id": "resource.kaolin",
+      "stage": "extractor",
+      "family_id": "process_minerals",
+      "extractor_family_ids": [
+        "process_minerals"
+      ],
+      "company_level": 1
+    },
+    "phosphate_rock": {
+      "production_id": "resource.phosphate_rock",
+      "stage": "extractor",
+      "family_id": "chemical_minerals",
+      "extractor_family_ids": [
+        "chemical_minerals"
+      ],
+      "company_level": 1
+    },
+    "potash": {
+      "production_id": "resource.potash",
+      "stage": "extractor",
+      "family_id": "chemical_minerals",
+      "extractor_family_ids": [
+        "chemical_minerals"
+      ],
+      "company_level": 1
+    },
+    "salt": {
+      "production_id": "resource.salt",
+      "stage": "extractor",
+      "family_id": "chemical_minerals",
+      "extractor_family_ids": [
+        "chemical_minerals"
+      ],
+      "company_level": 1
+    },
+    "sulfur": {
+      "production_id": "resource.sulfur",
+      "stage": "extractor",
+      "family_id": "chemical_minerals",
+      "extractor_family_ids": [
+        "chemical_minerals"
+      ],
+      "company_level": 1
+    },
+    "graphite": {
+      "production_id": "resource.graphite",
+      "stage": "extractor",
+      "family_id": "carbon_specialty_minerals",
+      "extractor_family_ids": [
+        "carbon_specialty_minerals"
+      ],
+      "company_level": 1
+    },
+    "fluorspar": {
+      "production_id": "resource.fluorspar",
+      "stage": "extractor",
+      "family_id": "carbon_specialty_minerals",
+      "extractor_family_ids": [
+        "carbon_specialty_minerals"
+      ],
+      "company_level": 1
+    },
+    "magnesite": {
+      "production_id": "resource.magnesite",
+      "stage": "extractor",
+      "family_id": "carbon_specialty_minerals",
+      "extractor_family_ids": [
+        "carbon_specialty_minerals"
+      ],
+      "company_level": 1
+    },
+    "borate_ore": {
+      "production_id": "resource.borate_ore",
+      "stage": "extractor",
+      "family_id": "carbon_specialty_minerals",
+      "extractor_family_ids": [
+        "carbon_specialty_minerals"
+      ],
+      "company_level": 1
+    },
+    "crude_oil": {
+      "production_id": "resource.crude_oil",
+      "stage": "extractor",
+      "family_id": "petroleum",
+      "extractor_family_ids": [
+        "petroleum"
+      ],
+      "company_level": 1
+    },
+    "natural_gas": {
+      "production_id": "resource.natural_gas",
+      "stage": "extractor",
+      "family_id": "gas_elastomers",
+      "extractor_family_ids": [
+        "gas_elastomers"
+      ],
+      "company_level": 1
+    },
+    "timber": {
+      "production_id": "resource.timber",
+      "stage": "extractor",
+      "family_id": "forestry",
+      "extractor_family_ids": [
+        "forestry"
+      ],
+      "company_level": 1
+    },
+    "wheat": {
+      "production_id": "resource.wheat",
+      "stage": "extractor",
+      "family_id": "staple_agriculture",
+      "extractor_family_ids": [
+        "staple_agriculture"
+      ],
+      "company_level": 1
+    },
+    "corn": {
+      "production_id": "resource.corn",
+      "stage": "extractor",
+      "family_id": "field_crops",
+      "extractor_family_ids": [
+        "field_crops"
+      ],
+      "company_level": 1
+    },
+    "soybeans": {
+      "production_id": "resource.soybeans",
+      "stage": "extractor",
+      "family_id": "field_crops",
+      "extractor_family_ids": [
+        "field_crops"
+      ],
+      "company_level": 1
+    },
+    "sugarcane": {
+      "production_id": "resource.sugarcane",
+      "stage": "extractor",
+      "family_id": "food_fiber_crops",
+      "extractor_family_ids": [
+        "food_fiber_crops"
+      ],
+      "company_level": 1
+    },
+    "cotton": {
+      "production_id": "resource.cotton",
+      "stage": "extractor",
+      "family_id": "food_fiber_crops",
+      "extractor_family_ids": [
+        "food_fiber_crops"
+      ],
+      "company_level": 1
+    },
+    "rapeseed": {
+      "production_id": "resource.rapeseed",
+      "stage": "extractor",
+      "family_id": "food_fiber_crops",
+      "extractor_family_ids": [
+        "food_fiber_crops"
+      ],
+      "company_level": 1
+    },
+    "potatoes": {
+      "production_id": "resource.potatoes",
+      "stage": "extractor",
+      "family_id": "field_crops",
+      "extractor_family_ids": [
+        "field_crops"
+      ],
+      "company_level": 1
+    },
+    "fruit": {
+      "production_id": "resource.fruit",
+      "stage": "extractor",
+      "family_id": "food_fiber_crops",
+      "extractor_family_ids": [
+        "food_fiber_crops"
+      ],
+      "company_level": 1
+    },
+    "natural_rubber": {
+      "production_id": "resource.natural_rubber",
+      "stage": "extractor",
+      "family_id": "gas_elastomers",
+      "extractor_family_ids": [
+        "gas_elastomers"
+      ],
+      "company_level": 1
+    },
+    "iron": {
+      "production_id": "recipe.processor.iron",
+      "stage": "processor",
+      "family_id": "base_metals_carbon",
+      "extractor_family_ids": [
+        "base_metals_carbon"
+      ],
+      "company_level": 1
+    },
+    "steel": {
+      "production_id": "recipe.processor.steel",
+      "stage": "processor",
+      "family_id": "base_metals_carbon",
+      "extractor_family_ids": [
+        "base_metals_carbon"
+      ],
+      "company_level": 1
+    },
+    "stainless_steel": {
+      "production_id": "recipe.processor.stainless_steel",
+      "stage": "processor",
+      "family_id": "advanced_alloy_metals",
+      "extractor_family_ids": [
+        "base_metals_carbon",
+        "advanced_alloy_metals"
+      ],
+      "company_level": 1
+    },
+    "copper": {
+      "production_id": "recipe.processor.copper",
+      "stage": "processor",
+      "family_id": "base_metals_carbon",
+      "extractor_family_ids": [
+        "base_metals_carbon"
+      ],
+      "company_level": 1
+    },
+    "aluminum": {
+      "production_id": "recipe.processor.aluminum",
+      "stage": "processor",
+      "family_id": "base_metals_carbon",
+      "extractor_family_ids": [
+        "base_metals_carbon"
+      ],
+      "company_level": 1
+    },
+    "zinc": {
+      "production_id": "recipe.processor.zinc",
+      "stage": "processor",
+      "family_id": "common_alloy_metals",
+      "extractor_family_ids": [
+        "common_alloy_metals"
+      ],
+      "company_level": 1
+    },
+    "lead": {
+      "production_id": "recipe.processor.lead",
+      "stage": "processor",
+      "family_id": "common_alloy_metals",
+      "extractor_family_ids": [
+        "common_alloy_metals"
+      ],
+      "company_level": 1
+    },
+    "tin": {
+      "production_id": "recipe.processor.tin",
+      "stage": "processor",
+      "family_id": "common_alloy_metals",
+      "extractor_family_ids": [
+        "common_alloy_metals"
+      ],
+      "company_level": 1
+    },
+    "nickel": {
+      "production_id": "recipe.processor.nickel",
+      "stage": "processor",
+      "family_id": "advanced_alloy_metals",
+      "extractor_family_ids": [
+        "advanced_alloy_metals"
+      ],
+      "company_level": 1
+    },
+    "titanium": {
+      "production_id": "recipe.processor.titanium",
+      "stage": "processor",
+      "family_id": "aerospace_refractory_metals",
+      "extractor_family_ids": [
+        "aerospace_refractory_metals"
+      ],
+      "company_level": 1
+    },
+    "tungsten": {
+      "production_id": "recipe.processor.tungsten",
+      "stage": "processor",
+      "family_id": "aerospace_refractory_metals",
+      "extractor_family_ids": [
+        "aerospace_refractory_metals"
+      ],
+      "company_level": 1
+    },
+    "manganese": {
+      "production_id": "recipe.processor.manganese",
+      "stage": "processor",
+      "family_id": "common_alloy_metals",
+      "extractor_family_ids": [
+        "common_alloy_metals"
+      ],
+      "company_level": 1
+    },
+    "chromium": {
+      "production_id": "recipe.processor.chromium",
+      "stage": "processor",
+      "family_id": "advanced_alloy_metals",
+      "extractor_family_ids": [
+        "advanced_alloy_metals"
+      ],
+      "company_level": 1
+    },
+    "cobalt": {
+      "production_id": "recipe.processor.cobalt",
+      "stage": "processor",
+      "family_id": "battery_electronics_feedstocks",
+      "extractor_family_ids": [
+        "battery_electronics_feedstocks"
+      ],
+      "company_level": 1
+    },
+    "molybdenum": {
+      "production_id": "recipe.processor.molybdenum",
+      "stage": "processor",
+      "family_id": "aerospace_refractory_metals",
+      "extractor_family_ids": [
+        "aerospace_refractory_metals"
+      ],
+      "company_level": 1
+    },
+    "vanadium": {
+      "production_id": "recipe.processor.vanadium",
+      "stage": "processor",
+      "family_id": "aerospace_refractory_metals",
+      "extractor_family_ids": [
+        "aerospace_refractory_metals"
+      ],
+      "company_level": 1
+    },
+    "lithium": {
+      "production_id": "recipe.processor.lithium",
+      "stage": "processor",
+      "family_id": "battery_electronics_feedstocks",
+      "extractor_family_ids": [
+        "battery_electronics_feedstocks"
+      ],
+      "company_level": 1
+    },
+    "gold": {
+      "production_id": "recipe.processor.gold",
+      "stage": "processor",
+      "family_id": "precious_metals",
+      "extractor_family_ids": [
+        "precious_metals"
+      ],
+      "company_level": 1
+    },
+    "silver": {
+      "production_id": "recipe.processor.silver",
+      "stage": "processor",
+      "family_id": "precious_metals",
+      "extractor_family_ids": [
+        "precious_metals"
+      ],
+      "company_level": 1
+    },
+    "platinum": {
+      "production_id": "recipe.processor.platinum",
+      "stage": "processor",
+      "family_id": "catalyst_precious_metals",
+      "extractor_family_ids": [
+        "catalyst_precious_metals"
+      ],
+      "company_level": 1
+    },
+    "palladium": {
+      "production_id": "recipe.processor.palladium",
+      "stage": "processor",
+      "family_id": "catalyst_precious_metals",
+      "extractor_family_ids": [
+        "catalyst_precious_metals"
+      ],
+      "company_level": 1
+    },
+    "rare_earth_metals": {
+      "production_id": "recipe.processor.rare_earth_metals",
+      "stage": "processor",
+      "family_id": "battery_electronics_feedstocks",
+      "extractor_family_ids": [
+        "battery_electronics_feedstocks"
+      ],
+      "company_level": 1
+    },
+    "niobium": {
+      "production_id": "recipe.processor.niobium",
+      "stage": "processor",
+      "family_id": "aerospace_refractory_metals",
+      "extractor_family_ids": [
+        "aerospace_refractory_metals"
+      ],
+      "company_level": 1
+    },
+    "nickel_alloy": {
+      "production_id": "recipe.processor.nickel_alloy",
+      "stage": "processor",
+      "family_id": "aerospace_refractory_metals",
+      "extractor_family_ids": [
+        "base_metals_carbon",
+        "advanced_alloy_metals",
+        "aerospace_refractory_metals"
+      ],
+      "company_level": 1
+    },
+    "superconducting_alloy": {
+      "production_id": "recipe.processor.superconducting_alloy",
+      "stage": "processor",
+      "family_id": "aerospace_refractory_metals",
+      "extractor_family_ids": [
+        "battery_electronics_feedstocks",
+        "aerospace_refractory_metals"
+      ],
+      "company_level": 1
+    },
+    "glass": {
+      "production_id": "recipe.processor.glass",
+      "stage": "processor",
+      "family_id": "carbon_specialty_minerals",
+      "extractor_family_ids": [
+        "construction_minerals",
+        "process_minerals",
+        "carbon_specialty_minerals"
+      ],
+      "company_level": 1
+    },
+    "cement": {
+      "production_id": "recipe.processor.cement",
+      "stage": "processor",
+      "family_id": "process_minerals",
+      "extractor_family_ids": [
+        "construction_minerals",
+        "process_minerals"
+      ],
+      "company_level": 1
+    },
+    "ceramics": {
+      "production_id": "recipe.processor.ceramics",
+      "stage": "processor",
+      "family_id": "carbon_specialty_minerals",
+      "extractor_family_ids": [
+        "process_minerals",
+        "carbon_specialty_minerals"
+      ],
+      "company_level": 1
+    },
+    "processed_gypsum": {
+      "production_id": "recipe.processor.processed_gypsum",
+      "stage": "processor",
+      "family_id": "process_minerals",
+      "extractor_family_ids": [
+        "process_minerals"
+      ],
+      "company_level": 1
+    },
+    "purified_graphite": {
+      "production_id": "recipe.processor.purified_graphite",
+      "stage": "processor",
+      "family_id": "carbon_specialty_minerals",
+      "extractor_family_ids": [
+        "carbon_specialty_minerals"
+      ],
+      "company_level": 1
+    },
+    "silicon": {
+      "production_id": "recipe.processor.silicon",
+      "stage": "processor",
+      "family_id": "construction_minerals",
+      "extractor_family_ids": [
+        "base_metals_carbon",
+        "construction_minerals"
+      ],
+      "company_level": 1
+    },
+    "high_purity_silicon": {
+      "production_id": "recipe.processor.high_purity_silicon",
+      "stage": "processor",
+      "family_id": "carbon_specialty_minerals",
+      "extractor_family_ids": [
+        "construction_minerals",
+        "petroleum",
+        "gas_elastomers",
+        "carbon_specialty_minerals"
+      ],
+      "company_level": 1
+    },
+    "carbon_fiber": {
+      "production_id": "recipe.processor.carbon_fiber",
+      "stage": "processor",
+      "family_id": "carbon_specialty_minerals",
+      "extractor_family_ids": [
+        "petroleum",
+        "gas_elastomers",
+        "carbon_specialty_minerals"
+      ],
+      "company_level": 1
+    },
+    "lumber": {
+      "production_id": "recipe.processor.lumber",
+      "stage": "processor",
+      "family_id": "forestry",
+      "extractor_family_ids": [
+        "forestry"
+      ],
+      "company_level": 1
+    },
+    "wood_pulp": {
+      "production_id": "recipe.processor.wood_pulp",
+      "stage": "processor",
+      "family_id": "gas_elastomers",
+      "extractor_family_ids": [
+        "forestry",
+        "petroleum",
+        "gas_elastomers"
+      ],
+      "company_level": 1
+    },
+    "cellulose": {
+      "production_id": "recipe.processor.cellulose",
+      "stage": "processor",
+      "family_id": "gas_elastomers",
+      "extractor_family_ids": [
+        "forestry",
+        "petroleum",
+        "gas_elastomers"
+      ],
+      "company_level": 1
+    },
+    "treated_lumber": {
+      "production_id": "recipe.processor.treated_lumber",
+      "stage": "processor",
+      "family_id": "gas_elastomers",
+      "extractor_family_ids": [
+        "forestry",
+        "petroleum",
+        "gas_elastomers"
+      ],
+      "company_level": 1
+    },
+    "polymer": {
+      "production_id": "recipe.processor.polymer",
+      "stage": "processor",
+      "family_id": "gas_elastomers",
+      "extractor_family_ids": [
+        "petroleum",
+        "gas_elastomers"
+      ],
+      "company_level": 1
+    },
+    "synthetic_rubber": {
+      "production_id": "recipe.processor.synthetic_rubber",
+      "stage": "processor",
+      "family_id": "chemical_minerals",
+      "extractor_family_ids": [
+        "petroleum",
+        "gas_elastomers",
+        "chemical_minerals"
+      ],
+      "company_level": 1
+    },
+    "industrial_resin": {
+      "production_id": "recipe.processor.industrial_resin",
+      "stage": "processor",
+      "family_id": "gas_elastomers",
+      "extractor_family_ids": [
+        "petroleum",
+        "gas_elastomers"
+      ],
+      "company_level": 1
+    },
+    "chemical_feedstock": {
+      "production_id": "recipe.processor.chemical_feedstock",
+      "stage": "processor",
+      "family_id": "gas_elastomers",
+      "extractor_family_ids": [
+        "petroleum",
+        "gas_elastomers"
+      ],
+      "company_level": 1
+    },
+    "sulfuric_acid": {
+      "production_id": "recipe.processor.sulfuric_acid",
+      "stage": "processor",
+      "family_id": "chemical_minerals",
+      "extractor_family_ids": [
+        "gas_elastomers",
+        "chemical_minerals"
+      ],
+      "company_level": 1
+    },
+    "chlorine": {
+      "production_id": "recipe.processor.chlorine",
+      "stage": "processor",
+      "family_id": "chemical_minerals",
+      "extractor_family_ids": [
+        "chemical_minerals"
+      ],
+      "company_level": 1
+    },
+    "ammonia": {
+      "production_id": "recipe.processor.ammonia",
+      "stage": "processor",
+      "family_id": "gas_elastomers",
+      "extractor_family_ids": [
+        "gas_elastomers"
+      ],
+      "company_level": 1
+    },
+    "phosphoric_acid": {
+      "production_id": "recipe.processor.phosphoric_acid",
+      "stage": "processor",
+      "family_id": "chemical_minerals",
+      "extractor_family_ids": [
+        "gas_elastomers",
+        "chemical_minerals"
+      ],
+      "company_level": 1
+    },
+    "potassium_compound": {
+      "production_id": "recipe.processor.potassium_compound",
+      "stage": "processor",
+      "family_id": "chemical_minerals",
+      "extractor_family_ids": [
+        "chemical_minerals"
+      ],
+      "company_level": 1
+    },
+    "industrial_gas": {
+      "production_id": "recipe.processor.industrial_gas",
+      "stage": "processor",
+      "family_id": "gas_elastomers",
+      "extractor_family_ids": [
+        "gas_elastomers"
+      ],
+      "company_level": 1
+    },
+    "hydrogen": {
+      "production_id": "recipe.processor.hydrogen",
+      "stage": "processor",
+      "family_id": "gas_elastomers",
+      "extractor_family_ids": [
+        "gas_elastomers"
+      ],
+      "company_level": 1
+    },
+    "bitumen": {
+      "production_id": "recipe.processor.bitumen",
+      "stage": "processor",
+      "family_id": "petroleum",
+      "extractor_family_ids": [
+        "petroleum"
+      ],
+      "company_level": 1
+    },
+    "flour": {
+      "production_id": "recipe.processor.flour",
+      "stage": "processor",
+      "family_id": "staple_agriculture",
+      "extractor_family_ids": [
+        "staple_agriculture"
+      ],
+      "company_level": 1
+    },
+    "corn_meal": {
+      "production_id": "recipe.processor.corn_meal",
+      "stage": "processor",
+      "family_id": "field_crops",
+      "extractor_family_ids": [
+        "field_crops"
+      ],
+      "company_level": 1
+    },
+    "starch": {
+      "production_id": "recipe.processor.starch",
+      "stage": "processor",
+      "family_id": "field_crops",
+      "extractor_family_ids": [
+        "field_crops"
+      ],
+      "company_level": 1
+    },
+    "raw_sugar": {
+      "production_id": "recipe.processor.raw_sugar",
+      "stage": "processor",
+      "family_id": "food_fiber_crops",
+      "extractor_family_ids": [
+        "food_fiber_crops"
+      ],
+      "company_level": 1
+    },
+    "refined_sugar": {
+      "production_id": "recipe.processor.refined_sugar",
+      "stage": "processor",
+      "family_id": "food_fiber_crops",
+      "extractor_family_ids": [
+        "food_fiber_crops"
+      ],
+      "company_level": 1
+    },
+    "soy_oil": {
+      "production_id": "recipe.processor.soy_oil",
+      "stage": "processor",
+      "family_id": "field_crops",
+      "extractor_family_ids": [
+        "field_crops"
+      ],
+      "company_level": 1
+    },
+    "soy_protein": {
+      "production_id": "recipe.processor.soy_protein",
+      "stage": "processor",
+      "family_id": "field_crops",
+      "extractor_family_ids": [
+        "field_crops"
+      ],
+      "company_level": 1
+    },
+    "vegetable_oil": {
+      "production_id": "recipe.processor.vegetable_oil",
+      "stage": "processor",
+      "family_id": "food_fiber_crops",
+      "extractor_family_ids": [
+        "field_crops",
+        "food_fiber_crops"
+      ],
+      "company_level": 1
+    },
+    "cotton_fiber": {
+      "production_id": "recipe.processor.cotton_fiber",
+      "stage": "processor",
+      "family_id": "food_fiber_crops",
+      "extractor_family_ids": [
+        "food_fiber_crops"
+      ],
+      "company_level": 1
+    },
+    "fruit_concentrate": {
+      "production_id": "recipe.processor.fruit_concentrate",
+      "stage": "processor",
+      "family_id": "food_fiber_crops",
+      "extractor_family_ids": [
+        "food_fiber_crops"
+      ],
+      "company_level": 1
+    },
+    "processed_rubber": {
+      "production_id": "recipe.processor.processed_rubber",
+      "stage": "processor",
+      "family_id": "chemical_minerals",
+      "extractor_family_ids": [
+        "gas_elastomers",
+        "chemical_minerals"
+      ],
+      "company_level": 1
+    },
+    "fermentation_feedstock": {
+      "production_id": "recipe.processor.fermentation_feedstock",
+      "stage": "processor",
+      "family_id": "food_fiber_crops",
+      "extractor_family_ids": [
+        "field_crops",
+        "food_fiber_crops"
+      ],
+      "company_level": 1
+    },
+    "galvanized_metal": {
+      "production_id": "recipe.processor.galvanized_metal",
+      "stage": "processor",
+      "family_id": "common_alloy_metals",
+      "extractor_family_ids": [
+        "base_metals_carbon",
+        "common_alloy_metals"
+      ],
+      "company_level": 1
+    },
+    "shielding_material": {
+      "production_id": "recipe.processor.shielding_material",
+      "stage": "processor",
+      "family_id": "carbon_specialty_minerals",
+      "extractor_family_ids": [
+        "common_alloy_metals",
+        "carbon_specialty_minerals"
+      ],
+      "company_level": 1
+    },
+    "vanadium_alloy": {
+      "production_id": "recipe.processor.vanadium_alloy",
+      "stage": "processor",
+      "family_id": "aerospace_refractory_metals",
+      "extractor_family_ids": [
+        "base_metals_carbon",
+        "aerospace_refractory_metals"
+      ],
+      "company_level": 1
+    },
+    "catalyst_metal": {
+      "production_id": "recipe.processor.catalyst_metal",
+      "stage": "processor",
+      "family_id": "catalyst_precious_metals",
+      "extractor_family_ids": [
+        "catalyst_precious_metals"
+      ],
+      "company_level": 1
+    },
+    "nuclear_material": {
+      "production_id": "recipe.processor.nuclear_material",
+      "stage": "processor",
+      "family_id": "nuclear_materials",
+      "extractor_family_ids": [
+        "common_alloy_metals",
+        "nuclear_materials"
+      ],
+      "company_level": 1
+    },
+    "bio_lubricant": {
+      "production_id": "recipe.processor.bio_lubricant",
+      "stage": "processor",
+      "family_id": "gas_elastomers",
+      "extractor_family_ids": [
+        "food_fiber_crops",
+        "gas_elastomers"
+      ],
+      "company_level": 1
+    },
+    "organic_feedstock": {
+      "production_id": "recipe.processor.organic_feedstock",
+      "stage": "processor",
+      "family_id": "food_fiber_crops",
+      "extractor_family_ids": [
+        "staple_agriculture",
+        "field_crops",
+        "food_fiber_crops"
+      ],
+      "company_level": 1
+    },
+    "iron_components": {
+      "production_id": "recipe.fabricator.iron_components",
+      "stage": "fabricator",
+      "family_id": "base_metals_carbon",
+      "extractor_family_ids": [
+        "base_metals_carbon"
+      ],
+      "company_level": 1
+    },
+    "steel_components": {
+      "production_id": "recipe.fabricator.steel_components",
+      "stage": "fabricator",
+      "family_id": "base_metals_carbon",
+      "extractor_family_ids": [
+        "base_metals_carbon"
+      ],
+      "company_level": 1
+    },
+    "stainless_components": {
+      "production_id": "recipe.fabricator.stainless_components",
+      "stage": "fabricator",
+      "family_id": "advanced_alloy_metals",
+      "extractor_family_ids": [
+        "base_metals_carbon",
+        "advanced_alloy_metals"
+      ],
+      "company_level": 1
+    },
+    "aluminum_components": {
+      "production_id": "recipe.fabricator.aluminum_components",
+      "stage": "fabricator",
+      "family_id": "base_metals_carbon",
+      "extractor_family_ids": [
+        "base_metals_carbon"
+      ],
+      "company_level": 1
+    },
+    "titanium_components": {
+      "production_id": "recipe.fabricator.titanium_components",
+      "stage": "fabricator",
+      "family_id": "aerospace_refractory_metals",
+      "extractor_family_ids": [
+        "aerospace_refractory_metals"
+      ],
+      "company_level": 1
+    },
+    "precision_components": {
+      "production_id": "recipe.fabricator.precision_components",
+      "stage": "fabricator",
+      "family_id": "aerospace_refractory_metals",
+      "extractor_family_ids": [
+        "base_metals_carbon",
+        "aerospace_refractory_metals"
+      ],
+      "company_level": 1
+    },
+    "gear_components": {
+      "production_id": "recipe.fabricator.gear_components",
+      "stage": "fabricator",
+      "family_id": "common_alloy_metals",
+      "extractor_family_ids": [
+        "base_metals_carbon",
+        "common_alloy_metals"
+      ],
+      "company_level": 1
+    },
+    "bearing_components": {
+      "production_id": "recipe.fabricator.bearing_components",
+      "stage": "fabricator",
+      "family_id": "advanced_alloy_metals",
+      "extractor_family_ids": [
+        "base_metals_carbon",
+        "advanced_alloy_metals"
+      ],
+      "company_level": 1
+    },
+    "cutting_tooling": {
+      "production_id": "recipe.fabricator.cutting_tooling",
+      "stage": "fabricator",
+      "family_id": "aerospace_refractory_metals",
+      "extractor_family_ids": [
+        "base_metals_carbon",
+        "aerospace_refractory_metals"
+      ],
+      "company_level": 1
+    },
+    "hydraulic_components": {
+      "production_id": "recipe.fabricator.hydraulic_components",
+      "stage": "fabricator",
+      "family_id": "gas_elastomers",
+      "extractor_family_ids": [
+        "base_metals_carbon",
+        "petroleum",
+        "gas_elastomers"
+      ],
+      "company_level": 1
+    },
+    "pump_components": {
+      "production_id": "recipe.fabricator.pump_components",
+      "stage": "fabricator",
+      "family_id": "base_metals_carbon",
+      "extractor_family_ids": [
+        "base_metals_carbon"
+      ],
+      "company_level": 1
+    },
+    "compressor_components": {
+      "production_id": "recipe.fabricator.compressor_components",
+      "stage": "fabricator",
+      "family_id": "base_metals_carbon",
+      "extractor_family_ids": [
+        "base_metals_carbon"
+      ],
+      "company_level": 1
+    },
+    "turbine_components": {
+      "production_id": "recipe.fabricator.turbine_components",
+      "stage": "fabricator",
+      "family_id": "aerospace_refractory_metals",
+      "extractor_family_ids": [
+        "base_metals_carbon",
+        "advanced_alloy_metals",
+        "aerospace_refractory_metals"
+      ],
+      "company_level": 1
+    },
+    "structural_components": {
+      "production_id": "recipe.fabricator.structural_components",
+      "stage": "fabricator",
+      "family_id": "process_minerals",
+      "extractor_family_ids": [
+        "base_metals_carbon",
+        "construction_minerals",
+        "process_minerals"
+      ],
+      "company_level": 1
+    },
+    "mining_components": {
+      "production_id": "recipe.fabricator.mining_components",
+      "stage": "fabricator",
+      "family_id": "aerospace_refractory_metals",
+      "extractor_family_ids": [
+        "base_metals_carbon",
+        "aerospace_refractory_metals"
+      ],
+      "company_level": 1
+    },
+    "vehicle_components": {
+      "production_id": "recipe.fabricator.vehicle_components",
+      "stage": "fabricator",
+      "family_id": "chemical_minerals",
+      "extractor_family_ids": [
+        "base_metals_carbon",
+        "gas_elastomers",
+        "chemical_minerals"
+      ],
+      "company_level": 1
+    },
+    "marine_components": {
+      "production_id": "recipe.fabricator.marine_components",
+      "stage": "fabricator",
+      "family_id": "gas_elastomers",
+      "extractor_family_ids": [
+        "base_metals_carbon",
+        "petroleum",
+        "gas_elastomers"
+      ],
+      "company_level": 1
+    },
+    "rail_components": {
+      "production_id": "recipe.fabricator.rail_components",
+      "stage": "fabricator",
+      "family_id": "common_alloy_metals",
+      "extractor_family_ids": [
+        "base_metals_carbon",
+        "common_alloy_metals"
+      ],
+      "company_level": 1
+    },
+    "aerospace_components": {
+      "production_id": "recipe.fabricator.aerospace_components",
+      "stage": "fabricator",
+      "family_id": "aerospace_refractory_metals",
+      "extractor_family_ids": [
+        "base_metals_carbon",
+        "petroleum",
+        "gas_elastomers",
+        "carbon_specialty_minerals",
+        "aerospace_refractory_metals"
+      ],
+      "company_level": 1
+    },
+    "copper_wire": {
+      "production_id": "recipe.fabricator.copper_wire",
+      "stage": "fabricator",
+      "family_id": "base_metals_carbon",
+      "extractor_family_ids": [
+        "base_metals_carbon"
+      ],
+      "company_level": 1
+    },
+    "insulated_wire": {
+      "production_id": "recipe.fabricator.insulated_wire",
+      "stage": "fabricator",
+      "family_id": "gas_elastomers",
+      "extractor_family_ids": [
+        "base_metals_carbon",
+        "petroleum",
+        "gas_elastomers"
+      ],
+      "company_level": 1
+    },
+    "electrical_components": {
+      "production_id": "recipe.fabricator.electrical_components",
+      "stage": "fabricator",
+      "family_id": "common_alloy_metals",
+      "extractor_family_ids": [
+        "base_metals_carbon",
+        "petroleum",
+        "gas_elastomers",
+        "common_alloy_metals"
+      ],
+      "company_level": 1
+    },
+    "transformer_components": {
+      "production_id": "recipe.fabricator.transformer_components",
+      "stage": "fabricator",
+      "family_id": "base_metals_carbon",
+      "extractor_family_ids": [
+        "base_metals_carbon"
+      ],
+      "company_level": 1
+    },
+    "motor_components": {
+      "production_id": "recipe.fabricator.motor_components",
+      "stage": "fabricator",
+      "family_id": "battery_electronics_feedstocks",
+      "extractor_family_ids": [
+        "base_metals_carbon",
+        "battery_electronics_feedstocks"
+      ],
+      "company_level": 1
+    },
+    "magnetic_components": {
+      "production_id": "recipe.fabricator.magnetic_components",
+      "stage": "fabricator",
+      "family_id": "battery_electronics_feedstocks",
+      "extractor_family_ids": [
+        "base_metals_carbon",
+        "battery_electronics_feedstocks"
+      ],
+      "company_level": 1
+    },
+    "power_electronics": {
+      "production_id": "recipe.fabricator.power_electronics",
+      "stage": "fabricator",
+      "family_id": "precious_metals",
+      "extractor_family_ids": [
+        "base_metals_carbon",
+        "construction_minerals",
+        "petroleum",
+        "gas_elastomers",
+        "carbon_specialty_minerals",
+        "precious_metals"
+      ],
+      "company_level": 1
+    },
+    "display_components": {
+      "production_id": "recipe.fabricator.display_components",
+      "stage": "fabricator",
+      "family_id": "carbon_specialty_minerals",
+      "extractor_family_ids": [
+        "construction_minerals",
+        "petroleum",
+        "process_minerals",
+        "gas_elastomers",
+        "carbon_specialty_minerals"
+      ],
+      "company_level": 1
+    },
+    "semiconductor_components": {
+      "production_id": "recipe.fabricator.semiconductor_components",
+      "stage": "fabricator",
+      "family_id": "precious_metals",
+      "extractor_family_ids": [
+        "base_metals_carbon",
+        "construction_minerals",
+        "petroleum",
+        "gas_elastomers",
+        "carbon_specialty_minerals",
+        "precious_metals"
+      ],
+      "company_level": 1
+    },
+    "semiconductor_die": {
+      "production_id": "recipe.fabricator.semiconductor_die",
+      "stage": "fabricator",
+      "family_id": "precious_metals",
+      "extractor_family_ids": [
+        "base_metals_carbon",
+        "construction_minerals",
+        "petroleum",
+        "gas_elastomers",
+        "carbon_specialty_minerals",
+        "precious_metals"
+      ],
+      "company_level": 1
+    },
+    "sensor_components": {
+      "production_id": "recipe.fabricator.sensor_components",
+      "stage": "fabricator",
+      "family_id": "precious_metals",
+      "extractor_family_ids": [
+        "base_metals_carbon",
+        "construction_minerals",
+        "petroleum",
+        "gas_elastomers",
+        "carbon_specialty_minerals",
+        "battery_electronics_feedstocks",
+        "precious_metals"
+      ],
+      "company_level": 1
+    },
+    "control_electronics": {
+      "production_id": "recipe.fabricator.control_electronics",
+      "stage": "fabricator",
+      "family_id": "precious_metals",
+      "extractor_family_ids": [
+        "base_metals_carbon",
+        "construction_minerals",
+        "petroleum",
+        "gas_elastomers",
+        "carbon_specialty_minerals",
+        "precious_metals"
+      ],
+      "company_level": 1
+    },
+    "computing_components": {
+      "production_id": "recipe.fabricator.computing_components",
+      "stage": "fabricator",
+      "family_id": "precious_metals",
+      "extractor_family_ids": [
+        "base_metals_carbon",
+        "construction_minerals",
+        "petroleum",
+        "gas_elastomers",
+        "carbon_specialty_minerals",
+        "precious_metals"
+      ],
+      "company_level": 1
+    },
+    "memory_components": {
+      "production_id": "recipe.fabricator.memory_components",
+      "stage": "fabricator",
+      "family_id": "precious_metals",
+      "extractor_family_ids": [
+        "base_metals_carbon",
+        "construction_minerals",
+        "petroleum",
+        "gas_elastomers",
+        "carbon_specialty_minerals",
+        "precious_metals"
+      ],
+      "company_level": 1
+    },
+    "processor_components": {
+      "production_id": "recipe.fabricator.processor_components",
+      "stage": "fabricator",
+      "family_id": "precious_metals",
+      "extractor_family_ids": [
+        "base_metals_carbon",
+        "construction_minerals",
+        "petroleum",
+        "gas_elastomers",
+        "carbon_specialty_minerals",
+        "battery_electronics_feedstocks",
+        "precious_metals"
+      ],
+      "company_level": 1
+    },
+    "telecom_components": {
+      "production_id": "recipe.fabricator.telecom_components",
+      "stage": "fabricator",
+      "family_id": "precious_metals",
+      "extractor_family_ids": [
+        "base_metals_carbon",
+        "construction_minerals",
+        "petroleum",
+        "gas_elastomers",
+        "carbon_specialty_minerals",
+        "battery_electronics_feedstocks",
+        "precious_metals"
+      ],
+      "company_level": 1
+    },
+    "network_components": {
+      "production_id": "recipe.fabricator.network_components",
+      "stage": "fabricator",
+      "family_id": "precious_metals",
+      "extractor_family_ids": [
+        "base_metals_carbon",
+        "construction_minerals",
+        "petroleum",
+        "gas_elastomers",
+        "carbon_specialty_minerals",
+        "precious_metals"
+      ],
+      "company_level": 1
+    },
+    "avionics_components": {
+      "production_id": "recipe.fabricator.avionics_components",
+      "stage": "fabricator",
+      "family_id": "precious_metals",
+      "extractor_family_ids": [
+        "base_metals_carbon",
+        "construction_minerals",
+        "petroleum",
+        "gas_elastomers",
+        "carbon_specialty_minerals",
+        "precious_metals"
+      ],
+      "company_level": 1
+    },
+    "battery_materials": {
+      "production_id": "recipe.fabricator.battery_materials",
+      "stage": "fabricator",
+      "family_id": "battery_electronics_feedstocks",
+      "extractor_family_ids": [
+        "advanced_alloy_metals",
+        "battery_electronics_feedstocks"
+      ],
+      "company_level": 1
+    },
+    "battery_components": {
+      "production_id": "recipe.fabricator.battery_components",
+      "stage": "fabricator",
+      "family_id": "battery_electronics_feedstocks",
+      "extractor_family_ids": [
+        "base_metals_carbon",
+        "advanced_alloy_metals",
+        "battery_electronics_feedstocks"
+      ],
+      "company_level": 1
+    },
+    "advanced_cell_components": {
+      "production_id": "recipe.fabricator.advanced_cell_components",
+      "stage": "fabricator",
+      "family_id": "battery_electronics_feedstocks",
+      "extractor_family_ids": [
+        "base_metals_carbon",
+        "carbon_specialty_minerals",
+        "battery_electronics_feedstocks"
+      ],
+      "company_level": 1
+    },
+    "storage_components": {
+      "production_id": "recipe.fabricator.storage_components",
+      "stage": "fabricator",
+      "family_id": "precious_metals",
+      "extractor_family_ids": [
+        "base_metals_carbon",
+        "construction_minerals",
+        "petroleum",
+        "gas_elastomers",
+        "carbon_specialty_minerals",
+        "precious_metals"
+      ],
+      "company_level": 1
+    },
+    "solar_components": {
+      "production_id": "recipe.fabricator.solar_components",
+      "stage": "fabricator",
+      "family_id": "carbon_specialty_minerals",
+      "extractor_family_ids": [
+        "base_metals_carbon",
+        "construction_minerals",
+        "petroleum",
+        "process_minerals",
+        "gas_elastomers",
+        "carbon_specialty_minerals"
+      ],
+      "company_level": 1
+    },
+    "wind_components": {
+      "production_id": "recipe.fabricator.wind_components",
+      "stage": "fabricator",
+      "family_id": "aerospace_refractory_metals",
+      "extractor_family_ids": [
+        "base_metals_carbon",
+        "petroleum",
+        "gas_elastomers",
+        "advanced_alloy_metals",
+        "carbon_specialty_minerals",
+        "aerospace_refractory_metals"
+      ],
+      "company_level": 1
+    },
+    "reactor_components": {
+      "production_id": "recipe.fabricator.reactor_components",
+      "stage": "fabricator",
+      "family_id": "nuclear_materials",
+      "extractor_family_ids": [
+        "common_alloy_metals",
+        "nuclear_materials"
+      ],
+      "company_level": 1
+    },
+    "electrolyzer_components": {
+      "production_id": "recipe.fabricator.electrolyzer_components",
+      "stage": "fabricator",
+      "family_id": "precious_metals",
+      "extractor_family_ids": [
+        "base_metals_carbon",
+        "construction_minerals",
+        "petroleum",
+        "gas_elastomers",
+        "carbon_specialty_minerals",
+        "precious_metals"
+      ],
+      "company_level": 1
+    },
+    "concrete_components": {
+      "production_id": "recipe.fabricator.concrete_components",
+      "stage": "fabricator",
+      "family_id": "process_minerals",
+      "extractor_family_ids": [
+        "base_metals_carbon",
+        "construction_minerals",
+        "process_minerals"
+      ],
+      "company_level": 1
+    },
+    "glass_panels": {
+      "production_id": "recipe.fabricator.glass_panels",
+      "stage": "fabricator",
+      "family_id": "carbon_specialty_minerals",
+      "extractor_family_ids": [
+        "base_metals_carbon",
+        "construction_minerals",
+        "process_minerals",
+        "carbon_specialty_minerals"
+      ],
+      "company_level": 1
+    },
+    "ceramic_components": {
+      "production_id": "recipe.fabricator.ceramic_components",
+      "stage": "fabricator",
+      "family_id": "carbon_specialty_minerals",
+      "extractor_family_ids": [
+        "process_minerals",
+        "carbon_specialty_minerals"
+      ],
+      "company_level": 1
+    },
+    "insulation_material": {
+      "production_id": "recipe.fabricator.insulation_material",
+      "stage": "fabricator",
+      "family_id": "gas_elastomers",
+      "extractor_family_ids": [
+        "petroleum",
+        "process_minerals",
+        "gas_elastomers"
+      ],
+      "company_level": 1
+    },
+    "composite_components": {
+      "production_id": "recipe.fabricator.composite_components",
+      "stage": "fabricator",
+      "family_id": "carbon_specialty_minerals",
+      "extractor_family_ids": [
+        "petroleum",
+        "gas_elastomers",
+        "carbon_specialty_minerals"
+      ],
+      "company_level": 1
+    },
+    "packaging_components": {
+      "production_id": "recipe.fabricator.packaging_components",
+      "stage": "fabricator",
+      "family_id": "gas_elastomers",
+      "extractor_family_ids": [
+        "forestry",
+        "petroleum",
+        "gas_elastomers"
+      ],
+      "company_level": 1
+    },
+    "food_ingredients": {
+      "production_id": "recipe.fabricator.food_ingredients",
+      "stage": "fabricator",
+      "family_id": "food_fiber_crops",
+      "extractor_family_ids": [
+        "staple_agriculture",
+        "field_crops",
+        "food_fiber_crops"
+      ],
+      "company_level": 1
+    },
+    "nutrition_components": {
+      "production_id": "recipe.fabricator.nutrition_components",
+      "stage": "fabricator",
+      "family_id": "food_fiber_crops",
+      "extractor_family_ids": [
+        "field_crops",
+        "food_fiber_crops"
+      ],
+      "company_level": 1
+    },
+    "fertilizer_components": {
+      "production_id": "recipe.fabricator.fertilizer_components",
+      "stage": "fabricator",
+      "family_id": "chemical_minerals",
+      "extractor_family_ids": [
+        "gas_elastomers",
+        "chemical_minerals"
+      ],
+      "company_level": 1
+    },
+    "agricultural_chemicals": {
+      "production_id": "recipe.fabricator.agricultural_chemicals",
+      "stage": "fabricator",
+      "family_id": "chemical_minerals",
+      "extractor_family_ids": [
+        "petroleum",
+        "gas_elastomers",
+        "chemical_minerals"
+      ],
+      "company_level": 1
+    },
+    "technical_textile": {
+      "production_id": "recipe.fabricator.technical_textile",
+      "stage": "fabricator",
+      "family_id": "gas_elastomers",
+      "extractor_family_ids": [
+        "petroleum",
+        "food_fiber_crops",
+        "gas_elastomers"
+      ],
+      "company_level": 1
+    },
+    "industrial_fabric": {
+      "production_id": "recipe.fabricator.industrial_fabric",
+      "stage": "fabricator",
+      "family_id": "chemical_minerals",
+      "extractor_family_ids": [
+        "petroleum",
+        "food_fiber_crops",
+        "gas_elastomers",
+        "chemical_minerals"
+      ],
+      "company_level": 1
+    },
+    "wooden_components": {
+      "production_id": "recipe.fabricator.wooden_components",
+      "stage": "fabricator",
+      "family_id": "gas_elastomers",
+      "extractor_family_ids": [
+        "forestry",
+        "petroleum",
+        "gas_elastomers"
+      ],
+      "company_level": 1
+    },
+    "fiber_components": {
+      "production_id": "recipe.fabricator.fiber_components",
+      "stage": "fabricator",
+      "family_id": "gas_elastomers",
+      "extractor_family_ids": [
+        "forestry",
+        "petroleum",
+        "gas_elastomers"
+      ],
+      "company_level": 1
+    },
+    "bio_composite": {
+      "production_id": "recipe.fabricator.bio_composite",
+      "stage": "fabricator",
+      "family_id": "gas_elastomers",
+      "extractor_family_ids": [
+        "forestry",
+        "petroleum",
+        "gas_elastomers"
+      ],
+      "company_level": 1
+    },
+    "biopolymer": {
+      "production_id": "recipe.fabricator.biopolymer",
+      "stage": "fabricator",
+      "family_id": "food_fiber_crops",
+      "extractor_family_ids": [
+        "field_crops",
+        "food_fiber_crops"
+      ],
+      "company_level": 1
+    },
+    "tire_components": {
+      "production_id": "recipe.fabricator.tire_components",
+      "stage": "fabricator",
+      "family_id": "carbon_specialty_minerals",
+      "extractor_family_ids": [
+        "petroleum",
+        "gas_elastomers",
+        "chemical_minerals",
+        "carbon_specialty_minerals"
+      ],
+      "company_level": 1
+    },
+    "ethanol_components": {
+      "production_id": "recipe.fabricator.ethanol_components",
+      "stage": "fabricator",
+      "family_id": "food_fiber_crops",
+      "extractor_family_ids": [
+        "field_crops",
+        "food_fiber_crops"
+      ],
+      "company_level": 1
+    },
+    "biodiesel_feedstock": {
+      "production_id": "recipe.fabricator.biodiesel_feedstock",
+      "stage": "fabricator",
+      "family_id": "gas_elastomers",
+      "extractor_family_ids": [
+        "petroleum",
+        "field_crops",
+        "food_fiber_crops",
+        "gas_elastomers"
+      ],
+      "company_level": 1
+    },
+    "galvanized_components": {
+      "production_id": "recipe.fabricator.galvanized_components",
+      "stage": "fabricator",
+      "family_id": "common_alloy_metals",
+      "extractor_family_ids": [
+        "base_metals_carbon",
+        "common_alloy_metals"
+      ],
+      "company_level": 1
+    },
+    "shielding_components": {
+      "production_id": "recipe.fabricator.shielding_components",
+      "stage": "fabricator",
+      "family_id": "carbon_specialty_minerals",
+      "extractor_family_ids": [
+        "common_alloy_metals",
+        "carbon_specialty_minerals"
+      ],
+      "company_level": 1
+    },
+    "advanced_alloy_components": {
+      "production_id": "recipe.fabricator.advanced_alloy_components",
+      "stage": "fabricator",
+      "family_id": "aerospace_refractory_metals",
+      "extractor_family_ids": [
+        "base_metals_carbon",
+        "aerospace_refractory_metals"
+      ],
+      "company_level": 1
+    },
+    "catalyst_components": {
+      "production_id": "recipe.fabricator.catalyst_components",
+      "stage": "fabricator",
+      "family_id": "catalyst_precious_metals",
+      "extractor_family_ids": [
+        "catalyst_precious_metals"
+      ],
+      "company_level": 1
+    },
+    "gas_handling_components": {
+      "production_id": "recipe.fabricator.gas_handling_components",
+      "stage": "fabricator",
+      "family_id": "gas_elastomers",
+      "extractor_family_ids": [
+        "gas_elastomers"
+      ],
+      "company_level": 1
+    },
+    "asphalt_components": {
+      "production_id": "recipe.fabricator.asphalt_components",
+      "stage": "fabricator",
+      "family_id": "process_minerals",
+      "extractor_family_ids": [
+        "construction_minerals",
+        "petroleum",
+        "process_minerals"
+      ],
+      "company_level": 1
+    },
+    "agricultural_mineral_components": {
+      "production_id": "recipe.fabricator.agricultural_mineral_components",
+      "stage": "fabricator",
+      "family_id": "chemical_minerals",
+      "extractor_family_ids": [
+        "gas_elastomers",
+        "chemical_minerals"
+      ],
+      "company_level": 1
+    },
+    "sweetener_components": {
+      "production_id": "recipe.fabricator.sweetener_components",
+      "stage": "fabricator",
+      "family_id": "food_fiber_crops",
+      "extractor_family_ids": [
+        "staple_agriculture",
+        "field_crops",
+        "food_fiber_crops"
+      ],
+      "company_level": 1
+    },
+    "silicon_substrate": {
+      "production_id": "recipe.fabricator.silicon_substrate",
+      "stage": "fabricator",
+      "family_id": "carbon_specialty_minerals",
+      "extractor_family_ids": [
+        "base_metals_carbon",
+        "construction_minerals",
+        "process_minerals",
+        "carbon_specialty_minerals"
+      ],
+      "company_level": 1
+    },
+    "rubber_blend_components": {
+      "production_id": "recipe.fabricator.rubber_blend_components",
+      "stage": "fabricator",
+      "family_id": "chemical_minerals",
+      "extractor_family_ids": [
+        "petroleum",
+        "gas_elastomers",
+        "chemical_minerals"
+      ],
+      "company_level": 1
+    },
+    "refractory_alloy_components": {
+      "production_id": "recipe.fabricator.refractory_alloy_components",
+      "stage": "fabricator",
+      "family_id": "aerospace_refractory_metals",
+      "extractor_family_ids": [
+        "battery_electronics_feedstocks",
+        "aerospace_refractory_metals"
+      ],
+      "company_level": 1
+    },
+    "filtration_components": {
+      "production_id": "recipe.fabricator.filtration_components",
+      "stage": "fabricator",
+      "family_id": "carbon_specialty_minerals",
+      "extractor_family_ids": [
+        "petroleum",
+        "process_minerals",
+        "gas_elastomers",
+        "carbon_specialty_minerals"
+      ],
+      "company_level": 1
+    },
+    "membrane_components": {
+      "production_id": "recipe.fabricator.membrane_components",
+      "stage": "fabricator",
+      "family_id": "chemical_minerals",
+      "extractor_family_ids": [
+        "forestry",
+        "petroleum",
+        "gas_elastomers",
+        "chemical_minerals"
+      ],
+      "company_level": 1
+    },
+    "medical_components": {
+      "production_id": "recipe.fabricator.medical_components",
+      "stage": "fabricator",
+      "family_id": "catalyst_precious_metals",
+      "extractor_family_ids": [
+        "base_metals_carbon",
+        "construction_minerals",
+        "process_minerals",
+        "advanced_alloy_metals",
+        "carbon_specialty_minerals",
+        "catalyst_precious_metals"
+      ],
+      "company_level": 1
+    },
+    "autonomous_components": {
+      "production_id": "recipe.fabricator.autonomous_components",
+      "stage": "fabricator",
+      "family_id": "battery_electronics_feedstocks",
+      "extractor_family_ids": [
+        "base_metals_carbon",
+        "construction_minerals",
+        "petroleum",
+        "gas_elastomers",
+        "carbon_specialty_minerals",
+        "battery_electronics_feedstocks"
+      ],
+      "company_level": 1
+    },
+    "server_components": {
+      "production_id": "recipe.fabricator.server_components",
+      "stage": "fabricator",
+      "family_id": "precious_metals",
+      "extractor_family_ids": [
+        "base_metals_carbon",
+        "construction_minerals",
+        "petroleum",
+        "gas_elastomers",
+        "carbon_specialty_minerals",
+        "precious_metals"
+      ],
+      "company_level": 1
+    },
+    "ai_compute_components": {
+      "production_id": "recipe.fabricator.ai_compute_components",
+      "stage": "fabricator",
+      "family_id": "precious_metals",
+      "extractor_family_ids": [
+        "construction_minerals",
+        "petroleum",
+        "gas_elastomers",
+        "carbon_specialty_minerals",
+        "battery_electronics_feedstocks",
+        "precious_metals"
+      ],
+      "company_level": 1
+    },
+    "chemical_components": {
+      "production_id": "recipe.fabricator.chemical_components",
+      "stage": "fabricator",
+      "family_id": "chemical_minerals",
+      "extractor_family_ids": [
+        "petroleum",
+        "gas_elastomers",
+        "chemical_minerals"
+      ],
+      "company_level": 1
+    },
+    "bio_material_components": {
+      "production_id": "recipe.fabricator.bio_material_components",
+      "stage": "fabricator",
+      "family_id": "gas_elastomers",
+      "extractor_family_ids": [
+        "forestry",
+        "petroleum",
+        "food_fiber_crops",
+        "gas_elastomers"
+      ],
+      "company_level": 1
+    },
+    "nuclear_fuel_components": {
+      "production_id": "recipe.fabricator.nuclear_fuel_components",
+      "stage": "fabricator",
+      "family_id": "nuclear_materials",
+      "extractor_family_ids": [
+        "common_alloy_metals",
+        "carbon_specialty_minerals",
+        "nuclear_materials"
+      ],
+      "company_level": 1
+    },
+    "grid_storage_components": {
+      "production_id": "recipe.fabricator.grid_storage_components",
+      "stage": "fabricator",
+      "family_id": "aerospace_refractory_metals",
+      "extractor_family_ids": [
+        "base_metals_carbon",
+        "carbon_specialty_minerals",
+        "battery_electronics_feedstocks",
+        "aerospace_refractory_metals"
+      ],
+      "company_level": 1
+    },
+    "corrosion_resistant_components": {
+      "production_id": "recipe.fabricator.corrosion_resistant_components",
+      "stage": "fabricator",
+      "family_id": "advanced_alloy_metals",
+      "extractor_family_ids": [
+        "base_metals_carbon",
+        "common_alloy_metals",
+        "advanced_alloy_metals"
+      ],
+      "company_level": 1
+    },
+    "industrial_equipment": {
+      "production_id": "recipe.assembler.industrial_equipment",
+      "stage": "assembler",
+      "family_id": "common_alloy_metals",
+      "extractor_family_ids": [
+        "base_metals_carbon",
+        "petroleum",
+        "gas_elastomers",
+        "common_alloy_metals"
+      ],
+      "company_level": 1
+    },
+    "heavy_machinery": {
+      "production_id": "recipe.assembler.heavy_machinery",
+      "stage": "assembler",
+      "family_id": "precious_metals",
+      "extractor_family_ids": [
+        "base_metals_carbon",
+        "construction_minerals",
+        "petroleum",
+        "process_minerals",
+        "gas_elastomers",
+        "carbon_specialty_minerals",
+        "precious_metals"
+      ],
+      "company_level": 1
+    },
+    "mining_equipment": {
+      "production_id": "recipe.assembler.mining_equipment",
+      "stage": "assembler",
+      "family_id": "aerospace_refractory_metals",
+      "extractor_family_ids": [
+        "base_metals_carbon",
+        "aerospace_refractory_metals"
+      ],
+      "company_level": 1
+    },
+    "mining_drill": {
+      "production_id": "recipe.assembler.mining_drill",
+      "stage": "assembler",
+      "family_id": "aerospace_refractory_metals",
+      "extractor_family_ids": [
+        "base_metals_carbon",
+        "battery_electronics_feedstocks",
+        "aerospace_refractory_metals"
+      ],
+      "company_level": 1
+    },
+    "heavy_mining_drill": {
+      "production_id": "recipe.assembler.heavy_mining_drill",
+      "stage": "assembler",
+      "family_id": "aerospace_refractory_metals",
+      "extractor_family_ids": [
+        "base_metals_carbon",
+        "construction_minerals",
+        "petroleum",
+        "gas_elastomers",
+        "carbon_specialty_minerals",
+        "precious_metals",
+        "aerospace_refractory_metals"
+      ],
+      "company_level": 1
+    },
+    "excavator": {
+      "production_id": "recipe.assembler.excavator",
+      "stage": "assembler",
+      "family_id": "chemical_minerals",
+      "extractor_family_ids": [
+        "base_metals_carbon",
+        "construction_minerals",
+        "petroleum",
+        "process_minerals",
+        "gas_elastomers",
+        "chemical_minerals"
+      ],
+      "company_level": 1
+    },
+    "industrial_crusher": {
+      "production_id": "recipe.assembler.industrial_crusher",
+      "stage": "assembler",
+      "family_id": "aerospace_refractory_metals",
+      "extractor_family_ids": [
+        "base_metals_carbon",
+        "common_alloy_metals",
+        "aerospace_refractory_metals"
+      ],
+      "company_level": 1
+    },
+    "industrial_pump": {
+      "production_id": "recipe.assembler.industrial_pump",
+      "stage": "assembler",
+      "family_id": "battery_electronics_feedstocks",
+      "extractor_family_ids": [
+        "base_metals_carbon",
+        "battery_electronics_feedstocks"
+      ],
+      "company_level": 1
+    },
+    "industrial_compressor": {
+      "production_id": "recipe.assembler.industrial_compressor",
+      "stage": "assembler",
+      "family_id": "battery_electronics_feedstocks",
+      "extractor_family_ids": [
+        "base_metals_carbon",
+        "battery_electronics_feedstocks"
+      ],
+      "company_level": 1
+    },
+    "hydraulic_system": {
+      "production_id": "recipe.assembler.hydraulic_system",
+      "stage": "assembler",
+      "family_id": "gas_elastomers",
+      "extractor_family_ids": [
+        "base_metals_carbon",
+        "petroleum",
+        "gas_elastomers"
+      ],
+      "company_level": 1
+    },
+    "electric_motor": {
+      "production_id": "recipe.assembler.electric_motor",
+      "stage": "assembler",
+      "family_id": "battery_electronics_feedstocks",
+      "extractor_family_ids": [
+        "base_metals_carbon",
+        "petroleum",
+        "gas_elastomers",
+        "common_alloy_metals",
+        "battery_electronics_feedstocks"
+      ],
+      "company_level": 1
+    },
+    "precision_motor": {
+      "production_id": "recipe.assembler.precision_motor",
+      "stage": "assembler",
+      "family_id": "aerospace_refractory_metals",
+      "extractor_family_ids": [
+        "base_metals_carbon",
+        "battery_electronics_feedstocks",
+        "aerospace_refractory_metals"
+      ],
+      "company_level": 1
+    },
+    "gearbox": {
+      "production_id": "recipe.assembler.gearbox",
+      "stage": "assembler",
+      "family_id": "advanced_alloy_metals",
+      "extractor_family_ids": [
+        "base_metals_carbon",
+        "common_alloy_metals",
+        "advanced_alloy_metals"
+      ],
+      "company_level": 1
+    },
+    "cnc_machine": {
+      "production_id": "recipe.assembler.cnc_machine",
+      "stage": "assembler",
+      "family_id": "aerospace_refractory_metals",
+      "extractor_family_ids": [
+        "base_metals_carbon",
+        "construction_minerals",
+        "petroleum",
+        "process_minerals",
+        "gas_elastomers",
+        "carbon_specialty_minerals",
+        "precious_metals",
+        "aerospace_refractory_metals"
+      ],
+      "company_level": 1
+    },
+    "industrial_cutting_machine": {
+      "production_id": "recipe.assembler.industrial_cutting_machine",
+      "stage": "assembler",
+      "family_id": "aerospace_refractory_metals",
+      "extractor_family_ids": [
+        "base_metals_carbon",
+        "construction_minerals",
+        "petroleum",
+        "gas_elastomers",
+        "carbon_specialty_minerals",
+        "precious_metals",
+        "aerospace_refractory_metals"
+      ],
+      "company_level": 1
+    },
+    "processing_equipment": {
+      "production_id": "recipe.assembler.processing_equipment",
+      "stage": "assembler",
+      "family_id": "precious_metals",
+      "extractor_family_ids": [
+        "base_metals_carbon",
+        "construction_minerals",
+        "petroleum",
+        "gas_elastomers",
+        "carbon_specialty_minerals",
+        "precious_metals"
+      ],
+      "company_level": 1
+    },
+    "advanced_furnace": {
+      "production_id": "recipe.assembler.advanced_furnace",
+      "stage": "assembler",
+      "family_id": "precious_metals",
+      "extractor_family_ids": [
+        "base_metals_carbon",
+        "construction_minerals",
+        "petroleum",
+        "process_minerals",
+        "gas_elastomers",
+        "advanced_alloy_metals",
+        "carbon_specialty_minerals",
+        "precious_metals"
+      ],
+      "company_level": 1
+    },
+    "construction_materials": {
+      "production_id": "recipe.assembler.construction_materials",
+      "stage": "assembler",
+      "family_id": "gas_elastomers",
+      "extractor_family_ids": [
+        "base_metals_carbon",
+        "construction_minerals",
+        "forestry",
+        "petroleum",
+        "process_minerals",
+        "gas_elastomers"
+      ],
+      "company_level": 1
+    },
+    "reinforced_concrete": {
+      "production_id": "recipe.assembler.reinforced_concrete",
+      "stage": "assembler",
+      "family_id": "process_minerals",
+      "extractor_family_ids": [
+        "base_metals_carbon",
+        "construction_minerals",
+        "process_minerals"
+      ],
+      "company_level": 1
+    },
+    "structural_systems": {
+      "production_id": "recipe.assembler.structural_systems",
+      "stage": "assembler",
+      "family_id": "process_minerals",
+      "extractor_family_ids": [
+        "base_metals_carbon",
+        "construction_minerals",
+        "process_minerals"
+      ],
+      "company_level": 1
+    },
+    "industrial_hall_modules": {
+      "production_id": "recipe.assembler.industrial_hall_modules",
+      "stage": "assembler",
+      "family_id": "carbon_specialty_minerals",
+      "extractor_family_ids": [
+        "base_metals_carbon",
+        "construction_minerals",
+        "petroleum",
+        "process_minerals",
+        "gas_elastomers",
+        "common_alloy_metals",
+        "carbon_specialty_minerals"
+      ],
+      "company_level": 1
+    },
+    "prefabricated_structures": {
+      "production_id": "recipe.assembler.prefabricated_structures",
+      "stage": "assembler",
+      "family_id": "gas_elastomers",
+      "extractor_family_ids": [
+        "base_metals_carbon",
+        "construction_minerals",
+        "forestry",
+        "petroleum",
+        "process_minerals",
+        "gas_elastomers"
+      ],
+      "company_level": 1
+    },
+    "industrial_glass_panels": {
+      "production_id": "recipe.assembler.industrial_glass_panels",
+      "stage": "assembler",
+      "family_id": "carbon_specialty_minerals",
+      "extractor_family_ids": [
+        "base_metals_carbon",
+        "construction_minerals",
+        "process_minerals",
+        "carbon_specialty_minerals"
+      ],
+      "company_level": 1
+    },
+    "industrial_insulation": {
+      "production_id": "recipe.assembler.industrial_insulation",
+      "stage": "assembler",
+      "family_id": "gas_elastomers",
+      "extractor_family_ids": [
+        "forestry",
+        "petroleum",
+        "process_minerals",
+        "gas_elastomers"
+      ],
+      "company_level": 1
+    },
+    "engineered_structures": {
+      "production_id": "recipe.assembler.engineered_structures",
+      "stage": "assembler",
+      "family_id": "carbon_specialty_minerals",
+      "extractor_family_ids": [
+        "base_metals_carbon",
+        "construction_minerals",
+        "petroleum",
+        "process_minerals",
+        "gas_elastomers",
+        "carbon_specialty_minerals"
+      ],
+      "company_level": 1
+    },
+    "electrical_cable": {
+      "production_id": "recipe.assembler.electrical_cable",
+      "stage": "assembler",
+      "family_id": "gas_elastomers",
+      "extractor_family_ids": [
+        "base_metals_carbon",
+        "petroleum",
+        "gas_elastomers"
+      ],
+      "company_level": 1
+    },
+    "power_cable": {
+      "production_id": "recipe.assembler.power_cable",
+      "stage": "assembler",
+      "family_id": "gas_elastomers",
+      "extractor_family_ids": [
+        "base_metals_carbon",
+        "petroleum",
+        "gas_elastomers"
+      ],
+      "company_level": 1
+    },
+    "transformer": {
+      "production_id": "recipe.assembler.transformer",
+      "stage": "assembler",
+      "family_id": "common_alloy_metals",
+      "extractor_family_ids": [
+        "base_metals_carbon",
+        "petroleum",
+        "gas_elastomers",
+        "common_alloy_metals"
+      ],
+      "company_level": 1
+    },
+    "switchgear": {
+      "production_id": "recipe.assembler.switchgear",
+      "stage": "assembler",
+      "family_id": "precious_metals",
+      "extractor_family_ids": [
+        "base_metals_carbon",
+        "construction_minerals",
+        "petroleum",
+        "gas_elastomers",
+        "common_alloy_metals",
+        "carbon_specialty_minerals",
+        "precious_metals"
+      ],
+      "company_level": 1
+    },
+    "industrial_relay": {
+      "production_id": "recipe.assembler.industrial_relay",
+      "stage": "assembler",
+      "family_id": "precious_metals",
+      "extractor_family_ids": [
+        "base_metals_carbon",
+        "construction_minerals",
+        "petroleum",
+        "gas_elastomers",
+        "common_alloy_metals",
+        "carbon_specialty_minerals",
+        "precious_metals"
+      ],
+      "company_level": 1
+    },
+    "high_voltage_equipment": {
+      "production_id": "recipe.assembler.high_voltage_equipment",
+      "stage": "assembler",
+      "family_id": "precious_metals",
+      "extractor_family_ids": [
+        "base_metals_carbon",
+        "construction_minerals",
+        "petroleum",
+        "process_minerals",
+        "gas_elastomers",
+        "carbon_specialty_minerals",
+        "precious_metals"
+      ],
+      "company_level": 1
+    },
+    "industrial_generator": {
+      "production_id": "recipe.assembler.industrial_generator",
+      "stage": "assembler",
+      "family_id": "aerospace_refractory_metals",
+      "extractor_family_ids": [
+        "base_metals_carbon",
+        "advanced_alloy_metals",
+        "battery_electronics_feedstocks",
+        "aerospace_refractory_metals"
+      ],
+      "company_level": 1
+    },
+    "industrial_inverter": {
+      "production_id": "recipe.assembler.industrial_inverter",
+      "stage": "assembler",
+      "family_id": "precious_metals",
+      "extractor_family_ids": [
+        "base_metals_carbon",
+        "construction_minerals",
+        "petroleum",
+        "gas_elastomers",
+        "carbon_specialty_minerals",
+        "precious_metals"
+      ],
+      "company_level": 1
+    },
+    "solar_array": {
+      "production_id": "recipe.assembler.solar_array",
+      "stage": "assembler",
+      "family_id": "precious_metals",
+      "extractor_family_ids": [
+        "base_metals_carbon",
+        "construction_minerals",
+        "petroleum",
+        "process_minerals",
+        "gas_elastomers",
+        "carbon_specialty_minerals",
+        "precious_metals"
+      ],
+      "company_level": 1
+    },
+    "wind_turbine": {
+      "production_id": "recipe.assembler.wind_turbine",
+      "stage": "assembler",
+      "family_id": "aerospace_refractory_metals",
+      "extractor_family_ids": [
+        "base_metals_carbon",
+        "construction_minerals",
+        "petroleum",
+        "process_minerals",
+        "gas_elastomers",
+        "advanced_alloy_metals",
+        "carbon_specialty_minerals",
+        "precious_metals",
+        "aerospace_refractory_metals"
+      ],
+      "company_level": 1
+    },
+    "gas_turbine": {
+      "production_id": "recipe.assembler.gas_turbine",
+      "stage": "assembler",
+      "family_id": "aerospace_refractory_metals",
+      "extractor_family_ids": [
+        "base_metals_carbon",
+        "advanced_alloy_metals",
+        "aerospace_refractory_metals"
+      ],
+      "company_level": 1
+    },
+    "steam_turbine": {
+      "production_id": "recipe.assembler.steam_turbine",
+      "stage": "assembler",
+      "family_id": "aerospace_refractory_metals",
+      "extractor_family_ids": [
+        "base_metals_carbon",
+        "advanced_alloy_metals",
+        "aerospace_refractory_metals"
+      ],
+      "company_level": 1
+    },
+    "grid_battery": {
+      "production_id": "recipe.assembler.grid_battery",
+      "stage": "assembler",
+      "family_id": "precious_metals",
+      "extractor_family_ids": [
+        "base_metals_carbon",
+        "construction_minerals",
+        "petroleum",
+        "gas_elastomers",
+        "advanced_alloy_metals",
+        "carbon_specialty_minerals",
+        "battery_electronics_feedstocks",
+        "precious_metals"
+      ],
+      "company_level": 1
+    },
+    "grid_storage_system": {
+      "production_id": "recipe.assembler.grid_storage_system",
+      "stage": "assembler",
+      "family_id": "precious_metals",
+      "extractor_family_ids": [
+        "base_metals_carbon",
+        "construction_minerals",
+        "petroleum",
+        "gas_elastomers",
+        "carbon_specialty_minerals",
+        "precious_metals"
+      ],
+      "company_level": 1
+    },
+    "hydrogen_electrolyzer": {
+      "production_id": "recipe.assembler.hydrogen_electrolyzer",
+      "stage": "assembler",
+      "family_id": "precious_metals",
+      "extractor_family_ids": [
+        "base_metals_carbon",
+        "construction_minerals",
+        "petroleum",
+        "gas_elastomers",
+        "carbon_specialty_minerals",
+        "precious_metals"
+      ],
+      "company_level": 1
+    },
+    "nuclear_fuel_assembly": {
+      "production_id": "recipe.assembler.nuclear_fuel_assembly",
+      "stage": "assembler",
+      "family_id": "nuclear_materials",
+      "extractor_family_ids": [
+        "common_alloy_metals",
+        "carbon_specialty_minerals",
+        "nuclear_materials"
+      ],
+      "company_level": 1
+    },
+    "nuclear_reactor": {
+      "production_id": "recipe.assembler.nuclear_reactor",
+      "stage": "assembler",
+      "family_id": "nuclear_materials",
+      "extractor_family_ids": [
+        "base_metals_carbon",
+        "construction_minerals",
+        "petroleum",
+        "process_minerals",
+        "gas_elastomers",
+        "common_alloy_metals",
+        "carbon_specialty_minerals",
+        "precious_metals",
+        "nuclear_materials"
+      ],
+      "company_level": 1
+    },
+    "basic_chip": {
+      "production_id": "recipe.assembler.basic_chip",
+      "stage": "assembler",
+      "family_id": "precious_metals",
+      "extractor_family_ids": [
+        "base_metals_carbon",
+        "construction_minerals",
+        "petroleum",
+        "process_minerals",
+        "gas_elastomers",
+        "carbon_specialty_minerals",
+        "precious_metals"
+      ],
+      "company_level": 1
+    },
+    "microcontroller": {
+      "production_id": "recipe.assembler.microcontroller",
+      "stage": "assembler",
+      "family_id": "precious_metals",
+      "extractor_family_ids": [
+        "base_metals_carbon",
+        "construction_minerals",
+        "petroleum",
+        "gas_elastomers",
+        "carbon_specialty_minerals",
+        "precious_metals"
+      ],
+      "company_level": 1
+    },
+    "microchip": {
+      "production_id": "recipe.assembler.microchip",
+      "stage": "assembler",
+      "family_id": "precious_metals",
+      "extractor_family_ids": [
+        "base_metals_carbon",
+        "construction_minerals",
+        "petroleum",
+        "gas_elastomers",
+        "carbon_specialty_minerals",
+        "precious_metals"
+      ],
+      "company_level": 1
+    },
+    "cpu": {
+      "production_id": "recipe.assembler.cpu",
+      "stage": "assembler",
+      "family_id": "precious_metals",
+      "extractor_family_ids": [
+        "base_metals_carbon",
+        "construction_minerals",
+        "petroleum",
+        "gas_elastomers",
+        "carbon_specialty_minerals",
+        "battery_electronics_feedstocks",
+        "precious_metals"
+      ],
+      "company_level": 1
+    },
+    "memory_module": {
+      "production_id": "recipe.assembler.memory_module",
+      "stage": "assembler",
+      "family_id": "precious_metals",
+      "extractor_family_ids": [
+        "base_metals_carbon",
+        "construction_minerals",
+        "petroleum",
+        "gas_elastomers",
+        "carbon_specialty_minerals",
+        "precious_metals"
+      ],
+      "company_level": 1
+    },
+    "industrial_sensor": {
+      "production_id": "recipe.assembler.industrial_sensor",
+      "stage": "assembler",
+      "family_id": "precious_metals",
+      "extractor_family_ids": [
+        "base_metals_carbon",
+        "construction_minerals",
+        "petroleum",
+        "gas_elastomers",
+        "carbon_specialty_minerals",
+        "battery_electronics_feedstocks",
+        "precious_metals"
+      ],
+      "company_level": 1
+    },
+    "industrial_controller": {
+      "production_id": "recipe.assembler.industrial_controller",
+      "stage": "assembler",
+      "family_id": "precious_metals",
+      "extractor_family_ids": [
+        "base_metals_carbon",
+        "construction_minerals",
+        "petroleum",
+        "gas_elastomers",
+        "carbon_specialty_minerals",
+        "battery_electronics_feedstocks",
+        "precious_metals"
+      ],
+      "company_level": 1
+    },
+    "industrial_display": {
+      "production_id": "recipe.assembler.industrial_display",
+      "stage": "assembler",
+      "family_id": "precious_metals",
+      "extractor_family_ids": [
+        "base_metals_carbon",
+        "construction_minerals",
+        "petroleum",
+        "process_minerals",
+        "gas_elastomers",
+        "carbon_specialty_minerals",
+        "precious_metals"
+      ],
+      "company_level": 1
+    },
+    "industrial_computer": {
+      "production_id": "recipe.assembler.industrial_computer",
+      "stage": "assembler",
+      "family_id": "precious_metals",
+      "extractor_family_ids": [
+        "base_metals_carbon",
+        "construction_minerals",
+        "petroleum",
+        "process_minerals",
+        "gas_elastomers",
+        "carbon_specialty_minerals",
+        "precious_metals"
+      ],
+      "company_level": 1
+    },
+    "server": {
+      "production_id": "recipe.assembler.server",
+      "stage": "assembler",
+      "family_id": "precious_metals",
+      "extractor_family_ids": [
+        "base_metals_carbon",
+        "construction_minerals",
+        "petroleum",
+        "gas_elastomers",
+        "carbon_specialty_minerals",
+        "precious_metals"
+      ],
+      "company_level": 1
+    },
+    "server_rack": {
+      "production_id": "recipe.assembler.server_rack",
+      "stage": "assembler",
+      "family_id": "precious_metals",
+      "extractor_family_ids": [
+        "base_metals_carbon",
+        "construction_minerals",
+        "petroleum",
+        "process_minerals",
+        "gas_elastomers",
+        "carbon_specialty_minerals",
+        "precious_metals"
+      ],
+      "company_level": 1
+    },
+    "compute_node": {
+      "production_id": "recipe.assembler.compute_node",
+      "stage": "assembler",
+      "family_id": "precious_metals",
+      "extractor_family_ids": [
+        "base_metals_carbon",
+        "construction_minerals",
+        "petroleum",
+        "gas_elastomers",
+        "carbon_specialty_minerals",
+        "battery_electronics_feedstocks",
+        "precious_metals"
+      ],
+      "company_level": 1
+    },
+    "ai_accelerator": {
+      "production_id": "recipe.assembler.ai_accelerator",
+      "stage": "assembler",
+      "family_id": "precious_metals",
+      "extractor_family_ids": [
+        "base_metals_carbon",
+        "construction_minerals",
+        "petroleum",
+        "gas_elastomers",
+        "carbon_specialty_minerals",
+        "battery_electronics_feedstocks",
+        "precious_metals"
+      ],
+      "company_level": 1
+    },
+    "ai_server": {
+      "production_id": "recipe.assembler.ai_server",
+      "stage": "assembler",
+      "family_id": "precious_metals",
+      "extractor_family_ids": [
+        "base_metals_carbon",
+        "construction_minerals",
+        "petroleum",
+        "gas_elastomers",
+        "carbon_specialty_minerals",
+        "battery_electronics_feedstocks",
+        "precious_metals"
+      ],
+      "company_level": 1
+    },
+    "data_center_module": {
+      "production_id": "recipe.assembler.data_center_module",
+      "stage": "assembler",
+      "family_id": "aerospace_refractory_metals",
+      "extractor_family_ids": [
+        "base_metals_carbon",
+        "construction_minerals",
+        "petroleum",
+        "process_minerals",
+        "gas_elastomers",
+        "carbon_specialty_minerals",
+        "battery_electronics_feedstocks",
+        "precious_metals",
+        "aerospace_refractory_metals"
+      ],
+      "company_level": 1
+    },
+    "supercomputer": {
+      "production_id": "recipe.assembler.supercomputer",
+      "stage": "assembler",
+      "family_id": "aerospace_refractory_metals",
+      "extractor_family_ids": [
+        "base_metals_carbon",
+        "construction_minerals",
+        "petroleum",
+        "gas_elastomers",
+        "carbon_specialty_minerals",
+        "battery_electronics_feedstocks",
+        "precious_metals",
+        "aerospace_refractory_metals"
+      ],
+      "company_level": 1
+    },
+    "robotic_actuator": {
+      "production_id": "recipe.assembler.robotic_actuator",
+      "stage": "assembler",
+      "family_id": "aerospace_refractory_metals",
+      "extractor_family_ids": [
+        "base_metals_carbon",
+        "battery_electronics_feedstocks",
+        "aerospace_refractory_metals"
+      ],
+      "company_level": 1
+    },
+    "servo_motor": {
+      "production_id": "recipe.assembler.servo_motor",
+      "stage": "assembler",
+      "family_id": "aerospace_refractory_metals",
+      "extractor_family_ids": [
+        "base_metals_carbon",
+        "construction_minerals",
+        "petroleum",
+        "gas_elastomers",
+        "carbon_specialty_minerals",
+        "battery_electronics_feedstocks",
+        "precious_metals",
+        "aerospace_refractory_metals"
+      ],
+      "company_level": 1
+    },
+    "robotic_arm": {
+      "production_id": "recipe.assembler.robotic_arm",
+      "stage": "assembler",
+      "family_id": "aerospace_refractory_metals",
+      "extractor_family_ids": [
+        "base_metals_carbon",
+        "construction_minerals",
+        "petroleum",
+        "gas_elastomers",
+        "carbon_specialty_minerals",
+        "battery_electronics_feedstocks",
+        "precious_metals",
+        "aerospace_refractory_metals"
+      ],
+      "company_level": 1
+    },
+    "industrial_robot": {
+      "production_id": "recipe.assembler.industrial_robot",
+      "stage": "assembler",
+      "family_id": "aerospace_refractory_metals",
+      "extractor_family_ids": [
+        "base_metals_carbon",
+        "construction_minerals",
+        "petroleum",
+        "gas_elastomers",
+        "carbon_specialty_minerals",
+        "battery_electronics_feedstocks",
+        "precious_metals",
+        "aerospace_refractory_metals"
+      ],
+      "company_level": 1
+    },
+    "industrial_drone": {
+      "production_id": "recipe.assembler.industrial_drone",
+      "stage": "assembler",
+      "family_id": "aerospace_refractory_metals",
+      "extractor_family_ids": [
+        "base_metals_carbon",
+        "construction_minerals",
+        "petroleum",
+        "gas_elastomers",
+        "advanced_alloy_metals",
+        "carbon_specialty_minerals",
+        "battery_electronics_feedstocks",
+        "precious_metals",
+        "aerospace_refractory_metals"
+      ],
+      "company_level": 1
+    },
+    "autonomous_mobile_robot": {
+      "production_id": "recipe.assembler.autonomous_mobile_robot",
+      "stage": "assembler",
+      "family_id": "precious_metals",
+      "extractor_family_ids": [
+        "base_metals_carbon",
+        "construction_minerals",
+        "petroleum",
+        "gas_elastomers",
+        "chemical_minerals",
+        "carbon_specialty_minerals",
+        "battery_electronics_feedstocks",
+        "precious_metals"
+      ],
+      "company_level": 1
+    },
+    "advanced_industrial_robot": {
+      "production_id": "recipe.assembler.advanced_industrial_robot",
+      "stage": "assembler",
+      "family_id": "precious_metals",
+      "extractor_family_ids": [
+        "base_metals_carbon",
+        "construction_minerals",
+        "petroleum",
+        "gas_elastomers",
+        "carbon_specialty_minerals",
+        "battery_electronics_feedstocks",
+        "precious_metals"
+      ],
+      "company_level": 1
+    },
+    "utility_vehicle": {
+      "production_id": "recipe.assembler.utility_vehicle",
+      "stage": "assembler",
+      "family_id": "precious_metals",
+      "extractor_family_ids": [
+        "base_metals_carbon",
+        "construction_minerals",
+        "petroleum",
+        "gas_elastomers",
+        "chemical_minerals",
+        "carbon_specialty_minerals",
+        "battery_electronics_feedstocks",
+        "precious_metals"
+      ],
+      "company_level": 1
+    },
+    "combustion_vehicle": {
+      "production_id": "recipe.assembler.combustion_vehicle",
+      "stage": "assembler",
+      "family_id": "aerospace_refractory_metals",
+      "extractor_family_ids": [
+        "base_metals_carbon",
+        "gas_elastomers",
+        "chemical_minerals",
+        "advanced_alloy_metals",
+        "aerospace_refractory_metals"
+      ],
+      "company_level": 1
+    },
+    "electric_vehicle": {
+      "production_id": "recipe.assembler.electric_vehicle",
+      "stage": "assembler",
+      "family_id": "battery_electronics_feedstocks",
+      "extractor_family_ids": [
+        "base_metals_carbon",
+        "gas_elastomers",
+        "chemical_minerals",
+        "advanced_alloy_metals",
+        "battery_electronics_feedstocks"
+      ],
+      "company_level": 1
+    },
+    "premium_electric_vehicle": {
+      "production_id": "recipe.assembler.premium_electric_vehicle",
+      "stage": "assembler",
+      "family_id": "battery_electronics_feedstocks",
+      "extractor_family_ids": [
+        "base_metals_carbon",
+        "construction_minerals",
+        "petroleum",
+        "process_minerals",
+        "gas_elastomers",
+        "chemical_minerals",
+        "carbon_specialty_minerals",
+        "battery_electronics_feedstocks"
+      ],
+      "company_level": 1
+    },
+    "autonomous_vehicle": {
+      "production_id": "recipe.assembler.autonomous_vehicle",
+      "stage": "assembler",
+      "family_id": "precious_metals",
+      "extractor_family_ids": [
+        "base_metals_carbon",
+        "construction_minerals",
+        "petroleum",
+        "gas_elastomers",
+        "chemical_minerals",
+        "carbon_specialty_minerals",
+        "battery_electronics_feedstocks",
+        "precious_metals"
+      ],
+      "company_level": 1
+    },
+    "commercial_truck": {
+      "production_id": "recipe.assembler.commercial_truck",
+      "stage": "assembler",
+      "family_id": "precious_metals",
+      "extractor_family_ids": [
+        "base_metals_carbon",
+        "construction_minerals",
+        "petroleum",
+        "gas_elastomers",
+        "chemical_minerals",
+        "carbon_specialty_minerals",
+        "battery_electronics_feedstocks",
+        "precious_metals"
+      ],
+      "company_level": 1
+    },
+    "industrial_tires": {
+      "production_id": "recipe.assembler.industrial_tires",
+      "stage": "assembler",
+      "family_id": "carbon_specialty_minerals",
+      "extractor_family_ids": [
+        "petroleum",
+        "gas_elastomers",
+        "chemical_minerals",
+        "carbon_specialty_minerals"
+      ],
+      "company_level": 1
+    },
+    "railway_track": {
+      "production_id": "recipe.assembler.railway_track",
+      "stage": "assembler",
+      "family_id": "common_alloy_metals",
+      "extractor_family_ids": [
+        "base_metals_carbon",
+        "common_alloy_metals"
+      ],
+      "company_level": 1
+    },
+    "freight_railcar": {
+      "production_id": "recipe.assembler.freight_railcar",
+      "stage": "assembler",
+      "family_id": "common_alloy_metals",
+      "extractor_family_ids": [
+        "base_metals_carbon",
+        "construction_minerals",
+        "process_minerals",
+        "common_alloy_metals"
+      ],
+      "company_level": 1
+    },
+    "diesel_locomotive": {
+      "production_id": "recipe.assembler.diesel_locomotive",
+      "stage": "assembler",
+      "family_id": "aerospace_refractory_metals",
+      "extractor_family_ids": [
+        "base_metals_carbon",
+        "common_alloy_metals",
+        "advanced_alloy_metals",
+        "aerospace_refractory_metals"
+      ],
+      "company_level": 1
+    },
+    "electric_locomotive": {
+      "production_id": "recipe.assembler.electric_locomotive",
+      "stage": "assembler",
+      "family_id": "precious_metals",
+      "extractor_family_ids": [
+        "base_metals_carbon",
+        "construction_minerals",
+        "petroleum",
+        "gas_elastomers",
+        "common_alloy_metals",
+        "carbon_specialty_minerals",
+        "battery_electronics_feedstocks",
+        "precious_metals"
+      ],
+      "company_level": 1
+    },
+    "high_speed_train": {
+      "production_id": "recipe.assembler.high_speed_train",
+      "stage": "assembler",
+      "family_id": "aerospace_refractory_metals",
+      "extractor_family_ids": [
+        "base_metals_carbon",
+        "construction_minerals",
+        "petroleum",
+        "gas_elastomers",
+        "common_alloy_metals",
+        "carbon_specialty_minerals",
+        "precious_metals",
+        "aerospace_refractory_metals"
+      ],
+      "company_level": 1
+    },
+    "autonomous_freight_train": {
+      "production_id": "recipe.assembler.autonomous_freight_train",
+      "stage": "assembler",
+      "family_id": "precious_metals",
+      "extractor_family_ids": [
+        "base_metals_carbon",
+        "construction_minerals",
+        "petroleum",
+        "gas_elastomers",
+        "common_alloy_metals",
+        "carbon_specialty_minerals",
+        "battery_electronics_feedstocks",
+        "precious_metals"
+      ],
+      "company_level": 1
+    },
+    "workboat": {
+      "production_id": "recipe.assembler.workboat",
+      "stage": "assembler",
+      "family_id": "aerospace_refractory_metals",
+      "extractor_family_ids": [
+        "base_metals_carbon",
+        "petroleum",
+        "gas_elastomers",
+        "advanced_alloy_metals",
+        "aerospace_refractory_metals"
+      ],
+      "company_level": 1
+    },
+    "cargo_vessel": {
+      "production_id": "recipe.assembler.cargo_vessel",
+      "stage": "assembler",
+      "family_id": "gas_elastomers",
+      "extractor_family_ids": [
+        "base_metals_carbon",
+        "petroleum",
+        "gas_elastomers"
+      ],
+      "company_level": 1
+    },
+    "container_ship": {
+      "production_id": "recipe.assembler.container_ship",
+      "stage": "assembler",
+      "family_id": "precious_metals",
+      "extractor_family_ids": [
+        "base_metals_carbon",
+        "construction_minerals",
+        "petroleum",
+        "process_minerals",
+        "gas_elastomers",
+        "carbon_specialty_minerals",
+        "precious_metals"
+      ],
+      "company_level": 1
+    },
+    "tanker": {
+      "production_id": "recipe.assembler.tanker",
+      "stage": "assembler",
+      "family_id": "advanced_alloy_metals",
+      "extractor_family_ids": [
+        "base_metals_carbon",
+        "petroleum",
+        "gas_elastomers",
+        "common_alloy_metals",
+        "advanced_alloy_metals"
+      ],
+      "company_level": 1
+    },
+    "autonomous_cargo_ship": {
+      "production_id": "recipe.assembler.autonomous_cargo_ship",
+      "stage": "assembler",
+      "family_id": "precious_metals",
+      "extractor_family_ids": [
+        "base_metals_carbon",
+        "construction_minerals",
+        "petroleum",
+        "gas_elastomers",
+        "carbon_specialty_minerals",
+        "battery_electronics_feedstocks",
+        "precious_metals"
+      ],
+      "company_level": 1
+    },
+    "high_speed_vessel": {
+      "production_id": "recipe.assembler.high_speed_vessel",
+      "stage": "assembler",
+      "family_id": "aerospace_refractory_metals",
+      "extractor_family_ids": [
+        "base_metals_carbon",
+        "petroleum",
+        "gas_elastomers",
+        "advanced_alloy_metals",
+        "carbon_specialty_minerals",
+        "aerospace_refractory_metals"
+      ],
+      "company_level": 1
+    },
+    "light_aircraft": {
+      "production_id": "recipe.assembler.light_aircraft",
+      "stage": "assembler",
+      "family_id": "aerospace_refractory_metals",
+      "extractor_family_ids": [
+        "base_metals_carbon",
+        "construction_minerals",
+        "petroleum",
+        "gas_elastomers",
+        "carbon_specialty_minerals",
+        "precious_metals",
+        "aerospace_refractory_metals"
+      ],
+      "company_level": 1
+    },
+    "cargo_aircraft": {
+      "production_id": "recipe.assembler.cargo_aircraft",
+      "stage": "assembler",
+      "family_id": "aerospace_refractory_metals",
+      "extractor_family_ids": [
+        "base_metals_carbon",
+        "construction_minerals",
+        "petroleum",
+        "gas_elastomers",
+        "carbon_specialty_minerals",
+        "precious_metals",
+        "aerospace_refractory_metals"
+      ],
+      "company_level": 1
+    },
+    "commercial_aircraft": {
+      "production_id": "recipe.assembler.commercial_aircraft",
+      "stage": "assembler",
+      "family_id": "aerospace_refractory_metals",
+      "extractor_family_ids": [
+        "base_metals_carbon",
+        "construction_minerals",
+        "petroleum",
+        "gas_elastomers",
+        "advanced_alloy_metals",
+        "carbon_specialty_minerals",
+        "precious_metals",
+        "aerospace_refractory_metals"
+      ],
+      "company_level": 1
+    },
+    "jet_engine": {
+      "production_id": "recipe.assembler.jet_engine",
+      "stage": "assembler",
+      "family_id": "aerospace_refractory_metals",
+      "extractor_family_ids": [
+        "base_metals_carbon",
+        "advanced_alloy_metals",
+        "aerospace_refractory_metals"
+      ],
+      "company_level": 1
+    },
+    "advanced_aircraft": {
+      "production_id": "recipe.assembler.advanced_aircraft",
+      "stage": "assembler",
+      "family_id": "aerospace_refractory_metals",
+      "extractor_family_ids": [
+        "base_metals_carbon",
+        "construction_minerals",
+        "petroleum",
+        "gas_elastomers",
+        "advanced_alloy_metals",
+        "carbon_specialty_minerals",
+        "precious_metals",
+        "aerospace_refractory_metals"
+      ],
+      "company_level": 1
+    },
+    "autonomous_aircraft": {
+      "production_id": "recipe.assembler.autonomous_aircraft",
+      "stage": "assembler",
+      "family_id": "aerospace_refractory_metals",
+      "extractor_family_ids": [
+        "base_metals_carbon",
+        "construction_minerals",
+        "petroleum",
+        "gas_elastomers",
+        "carbon_specialty_minerals",
+        "battery_electronics_feedstocks",
+        "precious_metals",
+        "aerospace_refractory_metals"
+      ],
+      "company_level": 1
+    },
+    "satellite": {
+      "production_id": "recipe.assembler.satellite",
+      "stage": "assembler",
+      "family_id": "aerospace_refractory_metals",
+      "extractor_family_ids": [
+        "base_metals_carbon",
+        "construction_minerals",
+        "petroleum",
+        "process_minerals",
+        "gas_elastomers",
+        "carbon_specialty_minerals",
+        "battery_electronics_feedstocks",
+        "precious_metals",
+        "aerospace_refractory_metals"
+      ],
+      "company_level": 1
+    },
+    "communication_satellite": {
+      "production_id": "recipe.assembler.communication_satellite",
+      "stage": "assembler",
+      "family_id": "aerospace_refractory_metals",
+      "extractor_family_ids": [
+        "base_metals_carbon",
+        "construction_minerals",
+        "petroleum",
+        "process_minerals",
+        "gas_elastomers",
+        "carbon_specialty_minerals",
+        "battery_electronics_feedstocks",
+        "precious_metals",
+        "aerospace_refractory_metals"
+      ],
+      "company_level": 1
+    },
+    "navigation_satellite": {
+      "production_id": "recipe.assembler.navigation_satellite",
+      "stage": "assembler",
+      "family_id": "aerospace_refractory_metals",
+      "extractor_family_ids": [
+        "base_metals_carbon",
+        "construction_minerals",
+        "petroleum",
+        "gas_elastomers",
+        "carbon_specialty_minerals",
+        "battery_electronics_feedstocks",
+        "precious_metals",
+        "aerospace_refractory_metals"
+      ],
+      "company_level": 1
+    },
+    "rocket_engine": {
+      "production_id": "recipe.assembler.rocket_engine",
+      "stage": "assembler",
+      "family_id": "aerospace_refractory_metals",
+      "extractor_family_ids": [
+        "base_metals_carbon",
+        "advanced_alloy_metals",
+        "aerospace_refractory_metals"
+      ],
+      "company_level": 1
+    },
+    "launch_vehicle": {
+      "production_id": "recipe.assembler.launch_vehicle",
+      "stage": "assembler",
+      "family_id": "aerospace_refractory_metals",
+      "extractor_family_ids": [
+        "base_metals_carbon",
+        "construction_minerals",
+        "petroleum",
+        "gas_elastomers",
+        "advanced_alloy_metals",
+        "carbon_specialty_minerals",
+        "precious_metals",
+        "aerospace_refractory_metals"
+      ],
+      "company_level": 1
+    },
+    "orbital_vehicle": {
+      "production_id": "recipe.assembler.orbital_vehicle",
+      "stage": "assembler",
+      "family_id": "aerospace_refractory_metals",
+      "extractor_family_ids": [
+        "base_metals_carbon",
+        "construction_minerals",
+        "petroleum",
+        "gas_elastomers",
+        "carbon_specialty_minerals",
+        "precious_metals",
+        "aerospace_refractory_metals"
+      ],
+      "company_level": 1
+    },
+    "packaged_food": {
+      "production_id": "recipe.assembler.packaged_food",
+      "stage": "assembler",
+      "family_id": "gas_elastomers",
+      "extractor_family_ids": [
+        "forestry",
+        "petroleum",
+        "staple_agriculture",
+        "field_crops",
+        "food_fiber_crops",
+        "gas_elastomers"
+      ],
+      "company_level": 1
+    },
+    "processed_food": {
+      "production_id": "recipe.assembler.processed_food",
+      "stage": "assembler",
+      "family_id": "food_fiber_crops",
+      "extractor_family_ids": [
+        "staple_agriculture",
+        "field_crops",
+        "food_fiber_crops"
+      ],
+      "company_level": 1
+    },
+    "packaged_nutrition": {
+      "production_id": "recipe.assembler.packaged_nutrition",
+      "stage": "assembler",
+      "family_id": "gas_elastomers",
+      "extractor_family_ids": [
+        "forestry",
+        "petroleum",
+        "field_crops",
+        "food_fiber_crops",
+        "gas_elastomers"
+      ],
+      "company_level": 1
+    },
+    "bakery_products": {
+      "production_id": "recipe.assembler.bakery_products",
+      "stage": "assembler",
+      "family_id": "gas_elastomers",
+      "extractor_family_ids": [
+        "forestry",
+        "petroleum",
+        "staple_agriculture",
+        "field_crops",
+        "food_fiber_crops",
+        "gas_elastomers"
+      ],
+      "company_level": 1
+    },
+    "packaged_meals": {
+      "production_id": "recipe.assembler.packaged_meals",
+      "stage": "assembler",
+      "family_id": "gas_elastomers",
+      "extractor_family_ids": [
+        "forestry",
+        "petroleum",
+        "staple_agriculture",
+        "field_crops",
+        "food_fiber_crops",
+        "gas_elastomers"
+      ],
+      "company_level": 1
+    },
+    "packaged_beverages": {
+      "production_id": "recipe.assembler.packaged_beverages",
+      "stage": "assembler",
+      "family_id": "gas_elastomers",
+      "extractor_family_ids": [
+        "forestry",
+        "petroleum",
+        "field_crops",
+        "food_fiber_crops",
+        "gas_elastomers"
+      ],
+      "company_level": 1
+    },
+    "soft_drinks": {
+      "production_id": "recipe.assembler.soft_drinks",
+      "stage": "assembler",
+      "family_id": "gas_elastomers",
+      "extractor_family_ids": [
+        "forestry",
+        "petroleum",
+        "field_crops",
+        "food_fiber_crops",
+        "gas_elastomers"
+      ],
+      "company_level": 1
+    },
+    "animal_feed": {
+      "production_id": "recipe.assembler.animal_feed",
+      "stage": "assembler",
+      "family_id": "food_fiber_crops",
+      "extractor_family_ids": [
+        "staple_agriculture",
+        "field_crops",
+        "food_fiber_crops"
+      ],
+      "company_level": 1
+    },
+    "fertilizer": {
+      "production_id": "recipe.assembler.fertilizer",
+      "stage": "assembler",
+      "family_id": "chemical_minerals",
+      "extractor_family_ids": [
+        "gas_elastomers",
+        "chemical_minerals"
+      ],
+      "company_level": 1
+    },
+    "advanced_fertilizer": {
+      "production_id": "recipe.assembler.advanced_fertilizer",
+      "stage": "assembler",
+      "family_id": "chemical_minerals",
+      "extractor_family_ids": [
+        "petroleum",
+        "gas_elastomers",
+        "chemical_minerals"
+      ],
+      "company_level": 1
+    },
+    "construction_frames": {
+      "production_id": "recipe.assembler.construction_frames",
+      "stage": "assembler",
+      "family_id": "gas_elastomers",
+      "extractor_family_ids": [
+        "base_metals_carbon",
+        "construction_minerals",
+        "forestry",
+        "petroleum",
+        "process_minerals",
+        "gas_elastomers"
+      ],
+      "company_level": 1
+    },
+    "packaging_materials": {
+      "production_id": "recipe.assembler.packaging_materials",
+      "stage": "assembler",
+      "family_id": "gas_elastomers",
+      "extractor_family_ids": [
+        "forestry",
+        "petroleum",
+        "gas_elastomers"
+      ],
+      "company_level": 1
+    },
+    "industrial_packaging": {
+      "production_id": "recipe.assembler.industrial_packaging",
+      "stage": "assembler",
+      "family_id": "gas_elastomers",
+      "extractor_family_ids": [
+        "forestry",
+        "petroleum",
+        "gas_elastomers"
+      ],
+      "company_level": 1
+    },
+    "protective_packaging": {
+      "production_id": "recipe.assembler.protective_packaging",
+      "stage": "assembler",
+      "family_id": "gas_elastomers",
+      "extractor_family_ids": [
+        "forestry",
+        "petroleum",
+        "process_minerals",
+        "gas_elastomers"
+      ],
+      "company_level": 1
+    },
+    "cargo_pallets": {
+      "production_id": "recipe.assembler.cargo_pallets",
+      "stage": "assembler",
+      "family_id": "gas_elastomers",
+      "extractor_family_ids": [
+        "forestry",
+        "petroleum",
+        "gas_elastomers"
+      ],
+      "company_level": 1
+    },
+    "commercial_furniture": {
+      "production_id": "recipe.assembler.commercial_furniture",
+      "stage": "assembler",
+      "family_id": "chemical_minerals",
+      "extractor_family_ids": [
+        "forestry",
+        "petroleum",
+        "food_fiber_crops",
+        "gas_elastomers",
+        "chemical_minerals"
+      ],
+      "company_level": 1
+    },
+    "sustainable_packaging": {
+      "production_id": "recipe.assembler.sustainable_packaging",
+      "stage": "assembler",
+      "family_id": "gas_elastomers",
+      "extractor_family_ids": [
+        "forestry",
+        "petroleum",
+        "gas_elastomers"
+      ],
+      "company_level": 1
+    },
+    "clothing": {
+      "production_id": "recipe.assembler.clothing",
+      "stage": "assembler",
+      "family_id": "gas_elastomers",
+      "extractor_family_ids": [
+        "petroleum",
+        "food_fiber_crops",
+        "gas_elastomers"
+      ],
+      "company_level": 1
+    },
+    "workwear": {
+      "production_id": "recipe.assembler.workwear",
+      "stage": "assembler",
+      "family_id": "chemical_minerals",
+      "extractor_family_ids": [
+        "petroleum",
+        "food_fiber_crops",
+        "gas_elastomers",
+        "chemical_minerals"
+      ],
+      "company_level": 1
+    },
+    "protective_clothing": {
+      "production_id": "recipe.assembler.protective_clothing",
+      "stage": "assembler",
+      "family_id": "carbon_specialty_minerals",
+      "extractor_family_ids": [
+        "petroleum",
+        "food_fiber_crops",
+        "gas_elastomers",
+        "chemical_minerals",
+        "carbon_specialty_minerals"
+      ],
+      "company_level": 1
+    },
+    "industrial_clothing": {
+      "production_id": "recipe.assembler.industrial_clothing",
+      "stage": "assembler",
+      "family_id": "chemical_minerals",
+      "extractor_family_ids": [
+        "petroleum",
+        "food_fiber_crops",
+        "gas_elastomers",
+        "chemical_minerals"
+      ],
+      "company_level": 1
+    },
+    "safety_equipment": {
+      "production_id": "recipe.assembler.safety_equipment",
+      "stage": "assembler",
+      "family_id": "carbon_specialty_minerals",
+      "extractor_family_ids": [
+        "base_metals_carbon",
+        "construction_minerals",
+        "petroleum",
+        "process_minerals",
+        "food_fiber_crops",
+        "gas_elastomers",
+        "chemical_minerals",
+        "carbon_specialty_minerals"
+      ],
+      "company_level": 1
+    },
+    "advanced_protective_equipment": {
+      "production_id": "recipe.assembler.advanced_protective_equipment",
+      "stage": "assembler",
+      "family_id": "precious_metals",
+      "extractor_family_ids": [
+        "base_metals_carbon",
+        "construction_minerals",
+        "petroleum",
+        "food_fiber_crops",
+        "gas_elastomers",
+        "chemical_minerals",
+        "carbon_specialty_minerals",
+        "battery_electronics_feedstocks",
+        "precious_metals"
+      ],
+      "company_level": 1
+    },
+    "industrial_plastics": {
+      "production_id": "recipe.assembler.industrial_plastics",
+      "stage": "assembler",
+      "family_id": "carbon_specialty_minerals",
+      "extractor_family_ids": [
+        "forestry",
+        "petroleum",
+        "gas_elastomers",
+        "carbon_specialty_minerals"
+      ],
+      "company_level": 1
+    },
+    "industrial_rubber_products": {
+      "production_id": "recipe.assembler.industrial_rubber_products",
+      "stage": "assembler",
+      "family_id": "carbon_specialty_minerals",
+      "extractor_family_ids": [
+        "petroleum",
+        "gas_elastomers",
+        "chemical_minerals",
+        "carbon_specialty_minerals"
+      ],
+      "company_level": 1
+    },
+    "industrial_seals": {
+      "production_id": "recipe.assembler.industrial_seals",
+      "stage": "assembler",
+      "family_id": "aerospace_refractory_metals",
+      "extractor_family_ids": [
+        "base_metals_carbon",
+        "petroleum",
+        "gas_elastomers",
+        "chemical_minerals",
+        "carbon_specialty_minerals",
+        "aerospace_refractory_metals"
+      ],
+      "company_level": 1
+    },
+    "industrial_chemicals": {
+      "production_id": "recipe.assembler.industrial_chemicals",
+      "stage": "assembler",
+      "family_id": "chemical_minerals",
+      "extractor_family_ids": [
+        "petroleum",
+        "gas_elastomers",
+        "chemical_minerals"
+      ],
+      "company_level": 1
+    },
+    "bio_based_chemicals": {
+      "production_id": "recipe.assembler.bio_based_chemicals",
+      "stage": "assembler",
+      "family_id": "chemical_minerals",
+      "extractor_family_ids": [
+        "forestry",
+        "petroleum",
+        "food_fiber_crops",
+        "gas_elastomers",
+        "chemical_minerals"
+      ],
+      "company_level": 1
+    },
+    "bioplastic": {
+      "production_id": "recipe.assembler.bioplastic",
+      "stage": "assembler",
+      "family_id": "gas_elastomers",
+      "extractor_family_ids": [
+        "forestry",
+        "petroleum",
+        "field_crops",
+        "food_fiber_crops",
+        "gas_elastomers"
+      ],
+      "company_level": 1
+    },
+    "biofuel": {
+      "production_id": "recipe.assembler.biofuel",
+      "stage": "assembler",
+      "family_id": "chemical_minerals",
+      "extractor_family_ids": [
+        "petroleum",
+        "field_crops",
+        "food_fiber_crops",
+        "gas_elastomers",
+        "chemical_minerals"
+      ],
+      "company_level": 1
+    },
+    "biodiesel": {
+      "production_id": "recipe.assembler.biodiesel",
+      "stage": "assembler",
+      "family_id": "gas_elastomers",
+      "extractor_family_ids": [
+        "petroleum",
+        "field_crops",
+        "food_fiber_crops",
+        "gas_elastomers"
+      ],
+      "company_level": 1
+    },
+    "crop_protection_products": {
+      "production_id": "recipe.assembler.crop_protection_products",
+      "stage": "assembler",
+      "family_id": "chemical_minerals",
+      "extractor_family_ids": [
+        "petroleum",
+        "gas_elastomers",
+        "chemical_minerals"
+      ],
+      "company_level": 1
+    },
+    "laboratory_equipment": {
+      "production_id": "recipe.assembler.laboratory_equipment",
+      "stage": "assembler",
+      "family_id": "aerospace_refractory_metals",
+      "extractor_family_ids": [
+        "base_metals_carbon",
+        "construction_minerals",
+        "petroleum",
+        "process_minerals",
+        "gas_elastomers",
+        "carbon_specialty_minerals",
+        "precious_metals",
+        "aerospace_refractory_metals"
+      ],
+      "company_level": 1
+    },
+    "medical_monitor": {
+      "production_id": "recipe.assembler.medical_monitor",
+      "stage": "assembler",
+      "family_id": "catalyst_precious_metals",
+      "extractor_family_ids": [
+        "base_metals_carbon",
+        "construction_minerals",
+        "petroleum",
+        "process_minerals",
+        "gas_elastomers",
+        "advanced_alloy_metals",
+        "carbon_specialty_minerals",
+        "battery_electronics_feedstocks",
+        "precious_metals",
+        "catalyst_precious_metals"
+      ],
+      "company_level": 1
+    },
+    "surgical_equipment": {
+      "production_id": "recipe.assembler.surgical_equipment",
+      "stage": "assembler",
+      "family_id": "aerospace_refractory_metals",
+      "extractor_family_ids": [
+        "base_metals_carbon",
+        "advanced_alloy_metals",
+        "aerospace_refractory_metals"
+      ],
+      "company_level": 1
+    },
+    "diagnostic_system": {
+      "production_id": "recipe.assembler.diagnostic_system",
+      "stage": "assembler",
+      "family_id": "catalyst_precious_metals",
+      "extractor_family_ids": [
+        "base_metals_carbon",
+        "construction_minerals",
+        "petroleum",
+        "process_minerals",
+        "gas_elastomers",
+        "advanced_alloy_metals",
+        "carbon_specialty_minerals",
+        "battery_electronics_feedstocks",
+        "precious_metals",
+        "catalyst_precious_metals"
+      ],
+      "company_level": 1
+    },
+    "advanced_medical_equipment": {
+      "production_id": "recipe.assembler.advanced_medical_equipment",
+      "stage": "assembler",
+      "family_id": "aerospace_refractory_metals",
+      "extractor_family_ids": [
+        "base_metals_carbon",
+        "construction_minerals",
+        "petroleum",
+        "process_minerals",
+        "gas_elastomers",
+        "advanced_alloy_metals",
+        "carbon_specialty_minerals",
+        "battery_electronics_feedstocks",
+        "precious_metals",
+        "catalyst_precious_metals",
+        "aerospace_refractory_metals"
+      ],
+      "company_level": 1
+    },
+    "communication_cable": {
+      "production_id": "recipe.assembler.communication_cable",
+      "stage": "assembler",
+      "family_id": "precious_metals",
+      "extractor_family_ids": [
+        "base_metals_carbon",
+        "construction_minerals",
+        "petroleum",
+        "gas_elastomers",
+        "carbon_specialty_minerals",
+        "battery_electronics_feedstocks",
+        "precious_metals"
+      ],
+      "company_level": 1
+    },
+    "network_switch": {
+      "production_id": "recipe.assembler.network_switch",
+      "stage": "assembler",
+      "family_id": "precious_metals",
+      "extractor_family_ids": [
+        "base_metals_carbon",
+        "construction_minerals",
+        "petroleum",
+        "gas_elastomers",
+        "carbon_specialty_minerals",
+        "precious_metals"
+      ],
+      "company_level": 1
+    },
+    "router": {
+      "production_id": "recipe.assembler.router",
+      "stage": "assembler",
+      "family_id": "precious_metals",
+      "extractor_family_ids": [
+        "base_metals_carbon",
+        "construction_minerals",
+        "petroleum",
+        "gas_elastomers",
+        "carbon_specialty_minerals",
+        "battery_electronics_feedstocks",
+        "precious_metals"
+      ],
+      "company_level": 1
+    },
+    "radio_transceiver": {
+      "production_id": "recipe.assembler.radio_transceiver",
+      "stage": "assembler",
+      "family_id": "precious_metals",
+      "extractor_family_ids": [
+        "base_metals_carbon",
+        "construction_minerals",
+        "petroleum",
+        "gas_elastomers",
+        "carbon_specialty_minerals",
+        "battery_electronics_feedstocks",
+        "precious_metals"
+      ],
+      "company_level": 1
+    },
+    "cellular_base_station": {
+      "production_id": "recipe.assembler.cellular_base_station",
+      "stage": "assembler",
+      "family_id": "precious_metals",
+      "extractor_family_ids": [
+        "base_metals_carbon",
+        "construction_minerals",
+        "petroleum",
+        "process_minerals",
+        "gas_elastomers",
+        "carbon_specialty_minerals",
+        "battery_electronics_feedstocks",
+        "precious_metals"
+      ],
+      "company_level": 1
+    },
+    "high_speed_network_system": {
+      "production_id": "recipe.assembler.high_speed_network_system",
+      "stage": "assembler",
+      "family_id": "precious_metals",
+      "extractor_family_ids": [
+        "base_metals_carbon",
+        "construction_minerals",
+        "petroleum",
+        "gas_elastomers",
+        "carbon_specialty_minerals",
+        "precious_metals"
+      ],
+      "company_level": 1
+    },
+    "semiconductor_equipment": {
+      "production_id": "recipe.assembler.semiconductor_equipment",
+      "stage": "assembler",
+      "family_id": "aerospace_refractory_metals",
+      "extractor_family_ids": [
+        "base_metals_carbon",
+        "construction_minerals",
+        "petroleum",
+        "process_minerals",
+        "gas_elastomers",
+        "carbon_specialty_minerals",
+        "precious_metals",
+        "aerospace_refractory_metals"
+      ],
+      "company_level": 1
+    },
+    "industrial_laser": {
+      "production_id": "recipe.assembler.industrial_laser",
+      "stage": "assembler",
+      "family_id": "aerospace_refractory_metals",
+      "extractor_family_ids": [
+        "base_metals_carbon",
+        "construction_minerals",
+        "petroleum",
+        "gas_elastomers",
+        "carbon_specialty_minerals",
+        "battery_electronics_feedstocks",
+        "precious_metals",
+        "aerospace_refractory_metals"
+      ],
+      "company_level": 1
+    },
+    "machine_vision_system": {
+      "production_id": "recipe.assembler.machine_vision_system",
+      "stage": "assembler",
+      "family_id": "precious_metals",
+      "extractor_family_ids": [
+        "base_metals_carbon",
+        "construction_minerals",
+        "petroleum",
+        "gas_elastomers",
+        "carbon_specialty_minerals",
+        "battery_electronics_feedstocks",
+        "precious_metals"
+      ],
+      "company_level": 1
+    },
+    "autonomous_control_system": {
+      "production_id": "recipe.assembler.autonomous_control_system",
+      "stage": "assembler",
+      "family_id": "precious_metals",
+      "extractor_family_ids": [
+        "base_metals_carbon",
+        "construction_minerals",
+        "petroleum",
+        "gas_elastomers",
+        "carbon_specialty_minerals",
+        "battery_electronics_feedstocks",
+        "precious_metals"
+      ],
+      "company_level": 1
+    },
+    "advanced_semiconductor_equipment": {
+      "production_id": "recipe.assembler.advanced_semiconductor_equipment",
+      "stage": "assembler",
+      "family_id": "aerospace_refractory_metals",
+      "extractor_family_ids": [
+        "base_metals_carbon",
+        "construction_minerals",
+        "petroleum",
+        "process_minerals",
+        "gas_elastomers",
+        "carbon_specialty_minerals",
+        "battery_electronics_feedstocks",
+        "precious_metals",
+        "aerospace_refractory_metals"
+      ],
+      "company_level": 1
+    },
+    "carbon_capture_plant": {
+      "production_id": "recipe.assembler.carbon_capture_plant",
+      "stage": "assembler",
+      "family_id": "carbon_specialty_minerals",
+      "extractor_family_ids": [
+        "base_metals_carbon",
+        "petroleum",
+        "process_minerals",
+        "gas_elastomers",
+        "chemical_minerals",
+        "carbon_specialty_minerals"
+      ],
+      "company_level": 1
+    },
+    "desalination_plant": {
+      "production_id": "recipe.assembler.desalination_plant",
+      "stage": "assembler",
+      "family_id": "precious_metals",
+      "extractor_family_ids": [
+        "base_metals_carbon",
+        "construction_minerals",
+        "forestry",
+        "petroleum",
+        "process_minerals",
+        "gas_elastomers",
+        "chemical_minerals",
+        "carbon_specialty_minerals",
+        "precious_metals"
+      ],
+      "company_level": 1
+    },
+    "synthetic_fuel_plant": {
+      "production_id": "recipe.assembler.synthetic_fuel_plant",
+      "stage": "assembler",
+      "family_id": "catalyst_precious_metals",
+      "extractor_family_ids": [
+        "base_metals_carbon",
+        "construction_minerals",
+        "petroleum",
+        "gas_elastomers",
+        "chemical_minerals",
+        "carbon_specialty_minerals",
+        "precious_metals",
+        "catalyst_precious_metals"
+      ],
+      "company_level": 1
+    },
+    "quantum_computing_module": {
+      "production_id": "recipe.assembler.quantum_computing_module",
+      "stage": "assembler",
+      "family_id": "aerospace_refractory_metals",
+      "extractor_family_ids": [
+        "base_metals_carbon",
+        "construction_minerals",
+        "petroleum",
+        "gas_elastomers",
+        "carbon_specialty_minerals",
+        "battery_electronics_feedstocks",
+        "precious_metals",
+        "aerospace_refractory_metals"
+      ],
+      "company_level": 1
+    },
+    "superconducting_magnet_system": {
+      "production_id": "recipe.assembler.superconducting_magnet_system",
+      "stage": "assembler",
+      "family_id": "aerospace_refractory_metals",
+      "extractor_family_ids": [
+        "base_metals_carbon",
+        "construction_minerals",
+        "petroleum",
+        "gas_elastomers",
+        "carbon_specialty_minerals",
+        "battery_electronics_feedstocks",
+        "precious_metals",
+        "aerospace_refractory_metals"
+      ],
+      "company_level": 1
+    },
+    "fusion_reactor_module": {
+      "production_id": "recipe.assembler.fusion_reactor_module",
+      "stage": "assembler",
+      "family_id": "nuclear_materials",
+      "extractor_family_ids": [
+        "base_metals_carbon",
+        "construction_minerals",
+        "petroleum",
+        "gas_elastomers",
+        "common_alloy_metals",
+        "carbon_specialty_minerals",
+        "battery_electronics_feedstocks",
+        "precious_metals",
+        "aerospace_refractory_metals",
+        "nuclear_materials"
+      ],
+      "company_level": 1
+    }
+  }
+}

@@ -60,7 +60,7 @@ def test_leaderboard_view_shows_company_level_and_total_earnings_tabs() -> None:
 
     tabs = view.findChild(QTabWidget, "leaderboardTabs")
     assert tabs is not None
-    assert [tabs.tabText(index) for index in range(tabs.count())] == ["Company Level", "Total Earnings"]
+    assert [tabs.tabText(index) for index in range(tabs.count())] == ["Company Level", "Total Earnings", "Product Production"]
     assert tabs.tabBar().isHidden()
 
     level_rows = _rows(view)
@@ -89,17 +89,18 @@ def test_leaderboard_redesign_uses_header_chips_and_rank_highlights() -> None:
         assert header is not None
         assert header.findChild(QLabel, "leaderboardHeroTitle").text() == "LEADERBOARD"
         assert header.findChild(QLabel, "leaderboardHeroSubtitle").text() == "GLOBAL RANKINGS / COMPANY DOMINANCE"
-        assert [label.text() for label in header.findChildren(QLabel, "leaderboardMetricLabel")] == ["YOUR RANK", "YOUR LEVEL", "ENTRIES"]
+        assert not header.findChildren(QLabel, "leaderboardMetricLabel")
+        assert not header._monochrome
 
         chips = view.findChildren(QPushButton, "leaderboardMetricChip")
-        assert [chip.text() for chip in chips] == ["COMPANY LEVEL", "TOTAL EARNINGS"]
+        assert [chip.text() for chip in chips] == ["COMPANY LEVEL", "TOTAL EARNINGS", "PRODUCTION"]
         assert chips[0].property("active") is True
         assert chips[1].property("active") is False
 
         rows = _rows(view)
         assert rows[0].property("rankTier") == "gold"
-        assert rows[1].property("rankTier") == "silver"
-        assert rows[2].property("rankTier") == "bronze"
+        assert next(row for row in rows if row.property("rank") == 2).property("rankTier") == "silver"
+        assert next(row for row in rows if row.property("rank") == 3).property("rankTier") == "bronze"
         assert next(row for row in rows if row.property("ownPlayer") is True).findChild(QLabel, "leaderboardYouBadge").text() == "YOU"
 
         chips[1].click()
@@ -121,11 +122,12 @@ def test_leaderboard_view_shows_own_rank_when_outside_top_list() -> None:
     provider = LocalLeaderboardService(state, mock_entries=_mock_entries())
     view = LeaderboardView(provider, limit=2)
 
-    own_panels = view.findChildren(QFrame, "ownLeaderboardPanel")
+    own_panels = view.findChildren(QFrame, "leaderboardPinnedContainer")
     own_text = "\n".join(label.text() for panel in own_panels for label in panel.findChildren(QLabel))
 
     assert "#4" in own_text
-    assert "YOUR RANK" in own_text
+    assert "YOU" in own_text
+    assert not view.findChildren(QFrame, "leaderboardFooterMetric")
     assert "Your Company" in own_text
 
 

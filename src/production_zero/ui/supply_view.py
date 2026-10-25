@@ -1,11 +1,11 @@
 from __future__ import annotations
 
 from collections.abc import Callable
-from dataclasses import dataclass
+from dataclasses import dataclass, replace
 from time import perf_counter
 
 from PySide6.QtCore import QEvent, QPoint, QRectF, QTimer, Qt
-from PySide6.QtGui import QColor, QLinearGradient, QPainter, QPen
+from PySide6.QtGui import QFont, QFontMetrics, QColor, QLinearGradient, QPainter, QPen
 from PySide6.QtWidgets import (
     QComboBox,
     QFrame,
@@ -21,17 +21,19 @@ from PySide6.QtWidgets import (
     QWidget,
 )
 
-from production_zero.core.cards import create_card_instance, effective_recipe_inputs, effective_recipe_outputs
-from production_zero.core.commands import BuyCommonSupplyCard, BuyDailyFreightSupplyCard, BuyDailyMachineSupplyCard, BuyDailyUncommonSupplyCard, CommandBus
-from production_zero.core.definitions import CardDefinition, EnergyDefinition, FreightDefinition, MachineDefinition, RecipeDefinition
+from production_zero.core.cards import create_card_instance
+from production_zero.core.commands import BuyCommonSupplyCard, BuyDailyFreightSupplyCard, BuyDailyMachineSupplyCard, CommandBus
+from production_zero.core.definitions import CardDefinition, EnergyDefinition, FreightDefinition, MachineDefinition
 from production_zero.core.freight import freight_stats
 from production_zero.core.state import GameState
 from production_zero.core.supply import SupplyOffer, common_supply_offers, refresh_supply, seconds_until_supply_daily_reset
-from production_zero.ui.card_hover import CardHoverInfoPopup
+from production_zero.ui.card_hover import CardHoverInfoPopup, card_hover_icon
+from production_zero.ui.empty_state import EmptyStatePanel
 from production_zero.ui.factory_view_v2 import _display_card_title, prototype_family_for_definition
 from production_zero.ui.game_ui.rendering import draw_machine_card_prototype
-from production_zero.ui.game_ui.tokens import GAME_UI_TOKENS
-from production_zero.ui.resource_icons import ResourceIconWidget, resource_accent_key, resource_icon_key
+from production_zero.ui.game_ui.tokens import Accent
+from production_zero.ui.main_tab_header import MainTabHeader
+from production_zero.ui.resource_icons import ResourceIconWidget, card_resource_icon_signature, resource_accent_key, resource_icon_key
 from production_zero.ui.text_format import smart_card_title
 from production_zero.ui.widget_lifecycle import clear_layout_safely, hide_detach_delete
 
@@ -41,11 +43,20 @@ COMMON_SUPPLY_CARD_HEIGHT = 276
 FEATURED_SUPPLY_CARD_WIDTH = 208
 FEATURED_SUPPLY_CARD_HEIGHT = 276
 SUPPLY_GRID_SPACING = 12
+DAILY_SUPPLY_VISIBLE_CARDS = 4
+DAILY_SUPPLY_GRID_COLUMNS = 4
+DAILY_SUPPLY_GRID_ROWS = 1
+DAILY_SUPPLY_CARD_GAP = 14
+DAILY_SUPPLY_ROW_GAP = 18
+DAILY_SUPPLY_GALLERY_HORIZONTAL_PADDING = 18
+DAILY_SUPPLY_GALLERY_VERTICAL_PADDING = 22
+DAILY_SUPPLY_MIN_CARD_WIDTH = 160
 COMMON_SUPPLY_BUFFER_ROWS = 2
 COMMON_SUPPLY_SEARCH_DEBOUNCE_MS = 180
 COMMON_SUPPLY_HOVER_DELAY_MS = 300
 COMMON_SUPPLY_TITLE_HEIGHT = 38
 COMMON_SUPPLY_HEADER_HEIGHT = 64
+COMMON_SUPPLY_LEFT_PADDING = 12
 
 
 @dataclass(frozen=True, slots=True)
@@ -56,7 +67,6 @@ class CommonSupplyCardDisplayData:
     offer_id: str
     name: str
     type_label: str
-    secondary_label: str
     rarity_label: str
     rarity_key: str
     bonus_text: str
@@ -151,7 +161,6 @@ class SupplyOfferCardFrame(QFrame):
 
         self._name_label = self._hidden_label("supplyCardName")
         self._rarity_label = self._hidden_label("supplyCardRarity")
-        self._mk_label = self._hidden_label("supplyCardMk")
         self._bonus_label = self._hidden_label("supplyCardBonus")
         self._function_label = self._hidden_label("supplyCardFunction")
         self._primary_label = self._hidden_label("supplyCardOutput")
@@ -163,7 +172,7 @@ class SupplyOfferCardFrame(QFrame):
 
         self._price_label = QLabel(self)
         self._price_label.setObjectName("supplyCardPrice")
-        self._price_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        self._price_label.setAlignment(Qt.AlignmentFlag.AlignLeft | Qt.AlignmentFlag.AlignVCenter)
         self._price_label.setAttribute(Qt.WidgetAttribute.WA_TransparentForMouseEvents, True)
         self._price_label.setAutoFillBackground(False)
 
@@ -187,19 +196,30 @@ class SupplyOfferCardFrame(QFrame):
         button_text: str,
         can_buy: bool,
     ) -> None:
+        signature = (data, source, state, button_text, can_buy)
+        if getattr(self, "_binding_signature", None) == signature:
+            return
+        self._binding_signature = signature
         self._supply_data = data
         self._source = source
         self._state = state
         self.setProperty("state", state)
         self.setProperty("source", source)
         self.setProperty("cardKind", data.definition.card_kind.value)
+        previous_freight_family = str(self.property("freightFamily") or "")
+        freight_family = data.definition.family.value if isinstance(data.definition, FreightDefinition) else ""
+        self.setProperty("freightFamily", freight_family)
+        if freight_family != previous_freight_family:
+            self.style().unpolish(self)
+            self.style().polish(self)
+            self._buy_button.style().unpolish(self._buy_button)
+            self._buy_button.style().polish(self._buy_button)
         self.setProperty("definitionId", data.definition_id)
         self.setProperty("offerId", data.offer_id)
         self._name_label.setText(data.name)
         self._name_label.setProperty("displayText", _display_card_title(data.definition))
         self._rarity_label.setText(data.rarity_label)
         self._rarity_line.setProperty("rarity", data.rarity_key)
-        self._mk_label.setText(data.secondary_label)
         self._bonus_label.setText(data.bonus_text)
         self._function_label.setText(data.type_label.upper())
         self._primary_label.setText(data.primary_text)
@@ -228,9 +248,46 @@ class SupplyOfferCardFrame(QFrame):
 
     def _position_footer(self) -> None:
         rect = QRectF(3, 3, max(1, self.width() - 6), max(1, self.height() - 6))
-        footer_top = int(rect.bottom() - 38)
-        self._price_label.setGeometry(int(rect.left() + 13), footer_top + 4, 58, 26)
-        self._buy_button.setGeometry(int(rect.right() - 120), footer_top + 4, 106, 26)
+        scale = max(0.48, min(1.0, rect.width() / FEATURED_SUPPLY_CARD_WIDTH))
+        footer = self._footer_rect(rect)
+        side_inset = max(5, round(8 * scale))
+        gap = max(5, round(7 * scale))
+        button_width = max(64, round(78 * scale))
+        available_width = int(footer.width()) - side_inset * 2
+        price_width = max(30, available_width - gap - button_width)
+        control_height = max(22, int(footer.height()) - 6)
+        control_top = int(footer.top() + (footer.height() - control_height) / 2)
+        font = self._price_label.font()
+        font.setPixelSize(13)
+        font.setWeight(QFont.Weight.Black)
+        while QFontMetrics(font).horizontalAdvance(self._price_label.text()) > price_width - 2 and font.pixelSize() > 6:
+            font.setPixelSize(font.pixelSize() - 1)
+        self._price_label.setFont(font)
+        # A stylesheet font-size overrides setFont(). Apply the fitted size at
+        # the same precedence, including after a recycled offer changes price.
+        self._price_label.setStyleSheet(f"font-size: {font.pixelSize()}px;")
+        self._price_label.setAlignment(Qt.AlignmentFlag.AlignLeft | Qt.AlignmentFlag.AlignVCenter)
+        price_left = int(footer.left()) + side_inset
+        button_left = price_left + price_width + gap
+        self._price_label.setGeometry(price_left, control_top, price_width, control_height)
+        self._buy_button.setGeometry(button_left, control_top, button_width, control_height)
+        if self._state == "locked":
+            self._price_label.hide()
+            self._buy_button.setGeometry(price_left, int(footer.top()), available_width, int(footer.height()))
+        else:
+            self._price_label.show()
+
+    def _footer_rect(self, rect: QRectF) -> QRectF:
+        scale = max(0.48, min(1.0, rect.width() / FEATURED_SUPPLY_CARD_WIDTH))
+        horizontal_inset = max(7, round(10 * scale))
+        bottom_inset = max(7, round(9 * scale))
+        footer_height = max(30, round(34 * scale))
+        return QRectF(
+            rect.left() + horizontal_inset,
+            rect.bottom() - bottom_inset - footer_height,
+            rect.width() - horizontal_inset * 2,
+            footer_height,
+        )
 
     def paintEvent(self, event) -> None:  # noqa: N802
         data = self._supply_data
@@ -245,7 +302,7 @@ class SupplyOfferCardFrame(QFrame):
                 rect,
                 title=_display_card_title(data.definition),
                 family=prototype_family_for_definition(data.definition),
-                meta=f"{data.secondary_label} · {data.rarity_label.upper()}",
+                meta=data.rarity_label.upper(),
                 detail=self._detail_text(data),
                 secondary=self._secondary_text(data),
                 disabled=self._state == "locked",
@@ -272,7 +329,7 @@ class SupplyOfferCardFrame(QFrame):
         return text.upper()
 
     def _draw_supply_footer(self, painter: QPainter, rect: QRectF) -> None:
-        footer = QRectF(rect.left() + 10, rect.bottom() - 43, rect.width() - 20, 34)
+        footer = self._footer_rect(rect)
         body = QLinearGradient(footer.topLeft(), footer.bottomLeft())
         body.setColorAt(0.0, QColor(255, 255, 255, 18))
         body.setColorAt(0.45, QColor(7, 10, 10, 168))
@@ -280,13 +337,6 @@ class SupplyOfferCardFrame(QFrame):
         painter.setPen(QPen(QColor(246, 244, 229, 34), 1))
         painter.setBrush(body)
         painter.drawRoundedRect(footer, 7, 7)
-
-        font = GAME_UI_TOKENS.typography.micro_label()
-        font.setPointSize(6)
-        font.setWeight(font.Weight.Black)
-        painter.setFont(font)
-        painter.setPen(QColor("#82928d"))
-        painter.drawText(footer.adjusted(10, 1, -126, -16), Qt.AlignmentFlag.AlignLeft | Qt.AlignmentFlag.AlignVCenter, "PRICE")
 
 
 class SupplyView(QWidget):
@@ -298,6 +348,7 @@ class SupplyView(QWidget):
         on_state_changed: Callable[[], None] | None = None,
     ) -> None:
         super().__init__()
+        self.setObjectName("supplyView")
         self._state = state
         self._bus = command_bus
         self._definitions = definitions
@@ -311,20 +362,21 @@ class SupplyView(QWidget):
         self._common_card_pool: list[QFrame] = []
         self._common_card_bindings: dict[QFrame, int] = {}
         self._common_visible_indexes: set[int] = set()
+        self._common_empty_state: EmptyStatePanel | None = None
         self._common_last_scroll_value = 0
         self._common_last_viewport_height = 0
         self._common_filter_apply_count = 0
         self._common_reflow_count = 0
+        self._common_display_signature: tuple = ()
+        self._common_filtered_signature: tuple = ()
+        self._filter_chip_signatures: dict[QComboBox, tuple[str, tuple[str, ...]]] = {}
+        self._selector_flyout_signatures: dict[QComboBox, tuple[str, ...]] = {}
         self._common_performance = {
             "initial_ms": 0.0,
             "filter_ms": 0.0,
             "visible_update_ms": 0.0,
             "pool_size": 0,
         }
-        self._search_debounce = QTimer(self)
-        self._search_debounce.setSingleShot(True)
-        self._search_debounce.setInterval(COMMON_SUPPLY_SEARCH_DEBOUNCE_MS)
-        self._search_debounce.timeout.connect(self._apply_common_filter)
         self._hover_timer = QTimer(self)
         self._hover_timer.setSingleShot(True)
         self._hover_timer.setInterval(COMMON_SUPPLY_HOVER_DELAY_MS)
@@ -335,6 +387,10 @@ class SupplyView(QWidget):
         self._selector_buttons: dict[QComboBox, QPushButton] = {}
         self._selector_flyouts: dict[QComboBox, QFrame] = {}
         self._header_metric_values: dict[str, QLabel] = {}
+        self._daily_offer_galleries: list[QScrollArea] = []
+        self._daily_offer_bands: list[QFrame] = []
+        self._daily_gallery_layouts: list[QGridLayout] = []
+        self._daily_card_size = (FEATURED_SUPPLY_CARD_WIDTH, FEATURED_SUPPLY_CARD_HEIGHT)
 
         layout = QVBoxLayout(self)
         layout.setContentsMargins(0, 0, 0, 0)
@@ -359,19 +415,39 @@ class SupplyView(QWidget):
         refresh_supply(self._state, self._definitions)
         self._common_offers = common_supply_offers(self._definitions)
         start = perf_counter()
-        self._common_display_data = [self._display_data_for_offer(offer) for offer in self._common_offers]
+        display_data = [self._display_data_for_offer(offer) for offer in self._common_offers]
+        display_signature = tuple(
+            (data.offer_id, data.definition_id, data.rarity_label, data.price_text)
+            for data in display_data
+        )
+        common_structure_changed = display_signature != self._common_display_signature
+        self._common_display_signature = display_signature
+        self._common_display_data = display_data
         self._common_performance["initial_ms"] = (perf_counter() - start) * 1000
         self._refresh_store_header_metrics()
-        self._refresh_daily_cards()
         self._refresh_freight_daily_cards()
         self._refresh_machine_daily_cards()
-        self._refresh_common_filters()
-        self._apply_common_filter()
+        self._refresh_common_purchase_buttons()
+        if common_structure_changed:
+            self._refresh_common_filters()
+            self._apply_common_filter(reset_scroll=False)
+        else:
+            self._refresh_filter_widgets()
+            self._apply_common_filter(reset_scroll=False)
 
     def resizeEvent(self, event) -> None:  # noqa: N802
         super().resizeEvent(event)
 
     def eventFilter(self, watched, event) -> bool:  # noqa: N802
+        if event.type() == QEvent.Type.Wheel:
+            daily_viewports = []
+            if hasattr(self, "_daily_scroll"):
+                daily_viewports.append(self._daily_scroll.viewport())
+            if hasattr(self, "_daily_offer_galleries"):
+                daily_viewports.extend(gallery.viewport() for gallery in self._daily_offer_galleries)
+            if any(watched is viewport for viewport in daily_viewports):
+                event.accept()
+                return True
         if (
             hasattr(self, "_common_scroll")
             and watched is self._common_scroll.viewport()
@@ -385,33 +461,35 @@ class SupplyView(QWidget):
             ):
                 self._layout_common_virtual_grid(columns)
                 self._update_common_visible_cards()
-        elif event.type() == QEvent.Type.Enter and watched in self._common_card_pool:
+        elif (
+            hasattr(self, "_daily_scroll")
+            and watched is self._daily_scroll.viewport()
+            and event.type() == QEvent.Type.Resize
+        ):
+            self._layout_daily_modules()
+        elif (
+            hasattr(self, "_daily_offer_galleries")
+            and event.type() == QEvent.Type.Resize
+            and any(watched is gallery.viewport() for gallery in self._daily_offer_galleries)
+        ):
+            self._sync_daily_gallery_layouts()
+        elif event.type() == QEvent.Type.Enter and isinstance(watched, SupplyOfferCardFrame):
             self._schedule_common_hover(watched)
-        elif event.type() == QEvent.Type.Leave and watched in self._common_card_pool:
+        elif event.type() == QEvent.Type.Leave and isinstance(watched, SupplyOfferCardFrame):
             self._hide_common_hover(watched)
         return super().eventFilter(watched, event)
 
     def _build_store_header(self) -> QFrame:
-        panel = QFrame()
-        panel.setObjectName("supplyStoreHeader")
-        layout = QHBoxLayout(panel)
-        layout.setContentsMargins(14, 12, 14, 12)
-        layout.setSpacing(12)
-        icon = ResourceIconWidget("industrial_supply", "package", "steel", size=42)
-        icon.setObjectName("supplyStoreIcon")
-        title_wrap = QVBoxLayout()
-        title_wrap.setSpacing(2)
-        title = QLabel("INDUSTRIAL SUPPLY")
-        title.setObjectName("supplyStoreTitle")
-        subtitle = QLabel("Procurement · Daily Rotations · Permanent Supply")
-        subtitle.setObjectName("supplyStoreSubtitle")
-        title_wrap.addWidget(title)
-        title_wrap.addWidget(subtitle)
-        layout.addWidget(icon)
-        layout.addLayout(title_wrap, 1)
+        panel = MainTabHeader(
+            object_name="supplyStoreHeader",
+            title="INDUSTRIAL SUPPLY",
+            subtitle="PROCUREMENT · DAILY ROTATIONS · PERMANENT SUPPLY",
+            title_object_name="supplyStoreTitle",
+            subtitle_object_name="supplyStoreSubtitle",
+            accent=Accent.NEUTRAL,
+        )
         for metric_key, label, value in (
             ("daily_reset", "DAILY RESET", self._format_duration(seconds_until_supply_daily_reset(self._state)).upper()),
-            ("available", "AVAILABLE", str(len(common_supply_offers(self._definitions)))),
         ):
             module = QFrame()
             module.setObjectName("supplyHeaderMetric")
@@ -425,20 +503,13 @@ class SupplyView(QWidget):
             module_layout.addWidget(metric_label)
             module_layout.addWidget(metric_value)
             self._header_metric_values[metric_key] = metric_value
-            layout.addWidget(module)
+            panel.add_status_module(module)
         return panel
 
     def _refresh_store_header_metrics(self) -> None:
         if not self._header_metric_values:
             return
-        available = (
-            len(self._common_offers)
-            + len(self._state.supply.daily_offers)
-            + len(self._state.supply.freight_daily_offers)
-            + len(self._state.supply.machine_daily_offers)
-        )
         self._header_metric_values["daily_reset"].setText(self._format_duration(seconds_until_supply_daily_reset(self._state)).upper())
-        self._header_metric_values["available"].setText(f"{available:,}")
 
     def _build_section_selector(self) -> QFrame:
         panel = QFrame()
@@ -461,36 +532,93 @@ class SupplyView(QWidget):
         page = QWidget()
         page.setObjectName("supplyDailyPage")
         layout = QVBoxLayout(page)
-        layout.setContentsMargins(0, 0, 0, 0)
-        layout.setSpacing(10)
-        layout.addWidget(self._section_header("DAILY SUPPLY", "Daily procurement rotation", "supplyDailyStatus"))
+        layout.setContentsMargins(6, 6, 6, 6)
+        layout.setSpacing(0)
 
         scroll = QScrollArea()
         scroll.setObjectName("supplyDailyScroll")
         scroll.setWidgetResizable(True)
         scroll.setHorizontalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAlwaysOff)
+        scroll.setVerticalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAlwaysOff)
         scroll.setFrameShape(QFrame.Shape.NoFrame)
+        scroll.viewport().installEventFilter(self)
+        self._daily_scroll = scroll
         content = QWidget()
         content.setObjectName("supplyDailyContent")
-        content_layout = QVBoxLayout(content)
+        self._daily_content = content
+        content_layout = QGridLayout(content)
         content_layout.setContentsMargins(0, 0, 0, 0)
-        content_layout.setSpacing(10)
-        recipe_section, self._daily_grid = self._daily_offer_section("DAILY RECIPES", "supplyDailyRecipeSection")
+        content_layout.setHorizontalSpacing(12)
+        content_layout.setVerticalSpacing(12)
+        self._daily_content_layout = content_layout
         freight_section, self._freight_daily_grid = self._daily_offer_section("DAILY FREIGHT", "supplyDailyFreightSection")
         machine_section, self._machine_daily_grid = self._daily_offer_section("DAILY MACHINES", "supplyDailyMachineSection")
-        content_layout.addWidget(recipe_section)
-        content_layout.addWidget(freight_section)
-        content_layout.addWidget(machine_section)
-        content_layout.addStretch(1)
+        self._daily_sections = (freight_section, machine_section)
+        self._daily_module_columns_used = 0
+        self._layout_daily_modules()
         scroll.setWidget(content)
         layout.addWidget(scroll, 1)
         return page
 
+    def _layout_daily_modules(self) -> None:
+        if not hasattr(self, "_daily_content_layout") or not hasattr(self, "_daily_sections"):
+            return
+        width = self._daily_scroll.viewport().width() if hasattr(self, "_daily_scroll") else self.width()
+        height = self._daily_scroll.viewport().height() if hasattr(self, "_daily_scroll") else self.height()
+        if hasattr(self, "_daily_content"):
+            self._daily_content.setFixedHeight(max(1, height))
+        columns = 2 if width >= 760 else 1
+        if columns == self._daily_module_columns_used:
+            self._sync_daily_gallery_layouts()
+            return
+        self._daily_module_columns_used = columns
+        while self._daily_content_layout.count():
+            item = self._daily_content_layout.takeAt(0)
+            widget = item.widget()
+            if widget is not None:
+                widget.setParent(None)
+        for index, section in enumerate(self._daily_sections):
+            self._daily_content_layout.addWidget(section, index // columns, index % columns)
+        for column in range(3):
+            self._daily_content_layout.setColumnStretch(column, 1 if column < columns else 0)
+        rows = (len(self._daily_sections) + columns - 1) // columns
+        for row in range(len(self._daily_sections) + 1):
+            self._daily_content_layout.setRowStretch(row, 1 if row < rows else 0)
+        self._sync_daily_gallery_layouts()
+
+    def _sync_daily_gallery_widths(self, columns: int) -> None:
+        self._sync_daily_gallery_layouts()
+
+    def _sync_daily_gallery_layouts(self) -> None:
+        aspect = FEATURED_SUPPLY_CARD_HEIGHT / FEATURED_SUPPLY_CARD_WIDTH
+        for gallery, band, card_layout in zip(self._daily_offer_galleries, self._daily_offer_bands, self._daily_gallery_layouts, strict=False):
+            viewport_width = gallery.viewport().width() or gallery.width()
+            viewport_height = gallery.viewport().height() or gallery.height()
+            if viewport_width <= 0:
+                viewport_width = max(1, gallery.parentWidget().width() - 20 if gallery.parentWidget() is not None else FEATURED_SUPPLY_CARD_WIDTH)
+            if viewport_height <= 0:
+                viewport_height = FEATURED_SUPPLY_CARD_HEIGHT + DAILY_SUPPLY_GALLERY_VERTICAL_PADDING * 2
+            # Leave a small rounding reserve so the four fixed-width cards never
+            # create a hidden 1-2 px horizontal scroll range in QScrollArea.
+            usable_width = max(1, viewport_width - DAILY_SUPPLY_GALLERY_HORIZONTAL_PADDING * 2 - 4)
+            usable_height = max(1, viewport_height - DAILY_SUPPLY_GALLERY_VERTICAL_PADDING * 2)
+            max_width = (usable_width - DAILY_SUPPLY_CARD_GAP * (DAILY_SUPPLY_GRID_COLUMNS - 1)) / DAILY_SUPPLY_GRID_COLUMNS
+            max_height = (usable_height - DAILY_SUPPLY_ROW_GAP * (DAILY_SUPPLY_GRID_ROWS - 1)) / DAILY_SUPPLY_GRID_ROWS
+            card_width = max(1, min(FEATURED_SUPPLY_CARD_WIDTH, int(max_width), round(max_height / aspect)))
+            card_height = round(card_width * aspect)
+            for index in range(card_layout.count()):
+                widget = card_layout.itemAt(index).widget()
+                if isinstance(widget, SupplyOfferCardFrame):
+                    widget.setFixedSize(card_width, card_height)
+            self._daily_card_size = (card_width, card_height)
+            card_layout.activate()
+
     def _daily_offer_section(self, title_text: str, object_name: str) -> tuple[QFrame, QGridLayout]:
         section = QFrame()
         section.setObjectName(object_name)
+        section.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Expanding)
         layout = QVBoxLayout(section)
-        layout.setContentsMargins(10, 10, 10, 10)
+        layout.setContentsMargins(6, 10, 6, 10)
         layout.setSpacing(8)
         header = QHBoxLayout()
         header.setContentsMargins(0, 0, 0, 0)
@@ -500,53 +628,61 @@ class SupplyView(QWidget):
         title_wrap.setSpacing(1)
         title = QLabel(title_text)
         title.setObjectName("supplyDailySectionTitle")
-        subtitle = QLabel("CHOOSE 1 OF 3")
+        subtitle = QLabel(f"CHOOSE 1 OF {DAILY_SUPPLY_VISIBLE_CARDS}")
         subtitle.setObjectName("supplyDailySectionSubtitle")
         title_wrap.addWidget(title)
         title_wrap.addWidget(subtitle)
         header.addLayout(title_wrap, 1)
         layout.addLayout(header)
-        grid = QGridLayout()
-        grid.setContentsMargins(0, 0, 0, 0)
-        grid.setSpacing(10)
-        layout.addLayout(grid)
+        gallery = QScrollArea(section)
+        gallery.setObjectName("supplyDailyOfferScroll")
+        gallery.setWidgetResizable(True)
+        gallery.setFrameShape(QFrame.Shape.NoFrame)
+        gallery.setHorizontalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAlwaysOff)
+        gallery.setVerticalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAlwaysOff)
+        gallery.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Expanding)
+        gallery.viewport().installEventFilter(self)
+        band = QFrame()
+        band.setObjectName("supplyDailyOfferBand")
+        band.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Expanding)
+        grid = QGridLayout(band)
+        grid.setContentsMargins(DAILY_SUPPLY_GALLERY_HORIZONTAL_PADDING, DAILY_SUPPLY_GALLERY_VERTICAL_PADDING, DAILY_SUPPLY_GALLERY_HORIZONTAL_PADDING, DAILY_SUPPLY_GALLERY_VERTICAL_PADDING)
+        grid.setHorizontalSpacing(DAILY_SUPPLY_CARD_GAP)
+        grid.setVerticalSpacing(DAILY_SUPPLY_ROW_GAP)
+        grid.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        gallery.setWidget(band)
+        self._daily_offer_galleries.append(gallery)
+        self._daily_offer_bands.append(band)
+        self._daily_gallery_layouts.append(grid)
+        layout.addWidget(gallery, 1)
         return section, grid
 
     def _build_common_page(self) -> QWidget:
         page = QWidget()
         page.setObjectName("supplyCommonPage")
         layout = QVBoxLayout(page)
-        layout.setContentsMargins(0, 0, 0, 0)
+        layout.setContentsMargins(6, 6, 6, 6)
         layout.setSpacing(10)
-        layout.addWidget(self._section_header("COMMON SUPPLY", "Always available", "supplyCommonStatus"))
 
         toolbar = QFrame()
         toolbar.setObjectName("supplyToolbar")
         toolbar_layout = QHBoxLayout(toolbar)
         toolbar_layout.setContentsMargins(10, 10, 10, 10)
-        toolbar_layout.setSpacing(10)
-        self._search = QLineEdit()
-        self._search.setObjectName("supplySearch")
-        self._search.setPlaceholderText("Search cards...")
-        self._search.textChanged.connect(self._schedule_common_filter)
-        self._type_filter = QComboBox(toolbar)
-        self._type_filter.setObjectName("supplyTypeFilter")
-        self._type_filter.hide()
+        from production_zero.ui.supply_categories import SupplyCategoryButtons
+        from production_zero.ui.game_ui.tokens import GAME_UI_TOKENS
+        self._type_filter = SupplyCategoryButtons(toolbar)
+        self._type_filter.setObjectName("supplyCategoryButtons")
         self._type_filter.currentTextChanged.connect(self._on_common_type_changed)
-        self._mk_filter = QComboBox(toolbar)
-        self._mk_filter.setObjectName("supplyMkFilter")
-        self._mk_filter.hide()
-        self._mk_filter.currentTextChanged.connect(self._apply_common_filter)
-        self._sort = QComboBox(toolbar)
-        self._sort.setObjectName("supplySortSelect")
-        self._sort.addItems(["Name", "Price"])
-        self._sort.hide()
-        self._sort.currentTextChanged.connect(self._apply_common_filter)
-        toolbar_layout.addWidget(self._labeled_control("SEARCH", self._search), 2)
-        self._type_chip_layout = self._add_chip_group(toolbar_layout, "TYPE", self._type_filter)
-        self._add_selector_group(toolbar_layout, "MACHINE / CLASS", self._mk_filter, "supplyMachineSelector")
-        self._add_selector_group(toolbar_layout, "SORT", self._sort, "supplySortSelector")
-        toolbar_layout.addStretch(1)
+        category_label = QLabel("CATEGORY")
+        category_label.setObjectName("supplyCategoryHeading")
+        font = GAME_UI_TOKENS.typography.industrial_title()
+        font.setPointSize(22)
+        font.setBold(True)
+        category_label.setFont(font)
+        category_label.setStyleSheet(f"color: #101713; background: transparent; font-family: '{font.family()}'; font-size: 24px; font-weight: 900;")
+        toolbar_layout.addWidget(category_label)
+        toolbar_layout.addWidget(self._type_filter, 1)
+        self._common_status_label = None
         layout.addWidget(toolbar)
 
         self._common_scroll = QScrollArea()
@@ -597,6 +733,14 @@ class SupplyView(QWidget):
         self._hide_detail_overlay()
         self._hide_common_hover()
 
+    def show_common(self, category="All") -> None:
+        """Open the reusable Common Supply page at a board's card category."""
+        if category not in self._type_filter.categories:
+            category = "All"
+        self.refresh()
+        self._type_filter.setCurrentText(category)
+        self._show_section(1)
+
     def _sync_section_buttons(self, index: int) -> None:
         for button_index, button in enumerate(self._section_buttons):
             button.blockSignals(True)
@@ -607,20 +751,12 @@ class SupplyView(QWidget):
             button.blockSignals(False)
 
     def _refresh_common_filters(self) -> None:
-        type_options = sorted({data.type_label for data in self._common_display_data})
-        self._set_options(self._type_filter, type_options)
-        if not self._type_filter.currentText() and type_options:
-            self._type_filter.setCurrentText(type_options[0])
-        self._refresh_common_secondary_filter()
-        self._refresh_filter_widgets()
+        # The four basic categories are stable; purchases never rebuild controls.
+        pass
 
-    def _refresh_common_secondary_filter(self) -> None:
-        selected_type = self._type_filter.currentText()
-        labels = sorted({data.secondary_label for data in self._common_display_data if data.type_label == selected_type})
-        self._set_options(self._mk_filter, ["All", *labels])
-        self._rebuild_selector_flyout(self._mk_filter)
-
-    def _set_options(self, combo: QComboBox, options: list[str]) -> None:
+    def _set_options(self, combo: QComboBox, options: list[str]) -> bool:
+        if [combo.itemText(index) for index in range(combo.count())] == options:
+            return False
         current = combo.currentText()
         combo.blockSignals(True)
         combo.clear()
@@ -628,61 +764,57 @@ class SupplyView(QWidget):
         if current in options:
             combo.setCurrentText(current)
         combo.blockSignals(False)
-
-    def _refresh_daily_cards(self) -> None:
-        remaining = self._format_duration(seconds_until_supply_daily_reset(self._state))
-        self._daily_label.setText(f"RESET\n{remaining.upper()}")
-        self._clear_layout(self._daily_grid)
-        for index, offer in enumerate(self._state.supply.daily_offers):
-            card = self._supply_card(offer, "daily")
-            self._daily_grid.addWidget(card, 0, index, Qt.AlignmentFlag.AlignHCenter)
-            card.show()
-            self._daily_grid.setColumnStretch(index, 1)
+        return True
 
     def _refresh_freight_daily_cards(self) -> None:
-        self._clear_layout(self._freight_daily_grid)
-        for index, offer in enumerate(self._state.supply.freight_daily_offers):
-            card = self._supply_card(offer, "freight_daily")
-            self._freight_daily_grid.addWidget(card, 0, index, Qt.AlignmentFlag.AlignHCenter)
-            card.show()
-            self._freight_daily_grid.setColumnStretch(index, 1)
+        self._refresh_daily_offer_cards(self._freight_daily_grid, self._state.supply.freight_daily_offers, "freight_daily")
 
     def _refresh_machine_daily_cards(self) -> None:
-        self._clear_layout(self._machine_daily_grid)
-        for index, offer in enumerate(self._state.supply.machine_daily_offers):
-            card = self._supply_card(offer, "machine_daily")
-            self._machine_daily_grid.addWidget(card, 0, index, Qt.AlignmentFlag.AlignHCenter)
-            card.show()
-            self._machine_daily_grid.setColumnStretch(index, 1)
+        self._refresh_daily_offer_cards(self._machine_daily_grid, self._state.supply.machine_daily_offers, "machine_daily")
 
-    def _schedule_common_filter(self, *args) -> None:
-        self._search_debounce.start()
+    def _refresh_daily_offer_cards(self, layout: QGridLayout, offers: list[SupplyOffer], source: str) -> None:
+        existing = [layout.itemAt(i).widget() for i in range(layout.count())]
+        if [getattr(c, "_supply_data", None).offer for c in existing if isinstance(c, SupplyOfferCardFrame)] == offers:
+            for card, offer in zip(existing, offers):
+                state = self._offer_state(offer, source)
+                card.bind_offer(self._display_data_for_offer(offer), source=source, state=state,
+                                button_text=self._button_text(source, state), can_buy=self._can_buy(offer, source))
+                self._set_purchase_hint(card, offer, source)
+            self._sync_daily_gallery_layouts()
+            return
+        self._hide_common_hover()
+        self._clear_layout(layout)
+        for index, offer in enumerate(offers):
+            card = self._supply_card(offer, source)
+            layout.addWidget(card, index // DAILY_SUPPLY_GRID_COLUMNS, index % DAILY_SUPPLY_GRID_COLUMNS, Qt.AlignmentFlag.AlignCenter)
+            card.show()
+        self._sync_daily_gallery_layouts()
 
     def _on_common_type_changed(self, *args) -> None:
-        self._refresh_common_secondary_filter()
         self._apply_common_filter()
 
-    def _apply_common_filter(self, *args) -> None:
+    def _apply_common_filter(self, *args, reset_scroll: bool = True) -> None:
         if not hasattr(self, "_common_grid_container"):
             return
         start = perf_counter()
         selected_type = self._type_filter.currentText()
-        selected_secondary = self._mk_filter.currentText()
-        search = self._search.text().strip().lower() if hasattr(self, "_search") else ""
         data = [
             item
             for item in self._common_display_data
-            if item.type_label == selected_type
-            and selected_secondary in ("", "All", item.secondary_label)
-            and (not search or search in item.search_text)
+            if selected_type == 'All' or self._supply_category(item.definition) == selected_type
         ]
-        self._filtered_common_data = self._sort_display_data(data)
-        self._common_status_label.setText(f"{len(self._filtered_common_data):,} cards")
+        filtered = self._sort_display_data(data)
+        filtered_signature = tuple(item.offer_id for item in filtered)
+        structure_changed = filtered_signature != self._common_filtered_signature
+        self._common_filtered_signature = filtered_signature
+        self._filtered_common_data = filtered
         self._refresh_filter_widgets()
         self._common_filter_apply_count += 1
         self._common_performance["filter_ms"] = (perf_counter() - start) * 1000
-        self._common_scroll.verticalScrollBar().setValue(0)
-        self._layout_common_virtual_grid()
+        if reset_scroll and structure_changed:
+            self._common_scroll.verticalScrollBar().setValue(0)
+        if structure_changed:
+            self._layout_common_virtual_grid()
         self._update_common_visible_cards()
 
     def _layout_common_virtual_grid(self, columns: int | None = None) -> None:
@@ -694,7 +826,11 @@ class SupplyView(QWidget):
         self._common_grid_rows_used = rows
         spacing = SUPPLY_GRID_SPACING
         width = self._common_grid_available_width()
-        height = rows * COMMON_SUPPLY_CARD_HEIGHT + max(0, rows - 1) * spacing
+        viewport_height = self._common_scroll.viewport().height() if hasattr(self, "_common_scroll") else 0
+        if not self._filtered_common_data:
+            height = max(260, viewport_height)
+        else:
+            height = rows * COMMON_SUPPLY_CARD_HEIGHT + max(0, rows - 1) * spacing
         self._common_grid_container.setMinimumSize(width, height)
         self._common_grid_container.resize(width, height)
         self._common_reflow_count += 1
@@ -708,8 +844,11 @@ class SupplyView(QWidget):
         if not self._filtered_common_data:
             self._hide_common_card_pool()
             self._hide_common_hover()
+            self._show_common_empty_state()
+            self._refresh_common_purchase_buttons()
             self._common_performance["visible_update_ms"] = (perf_counter() - start) * 1000
             return
+        self._hide_common_empty_state()
         columns = max(1, self._common_grid_columns_used or self._common_grid_columns())
         row_pitch = COMMON_SUPPLY_CARD_HEIGHT + SUPPLY_GRID_SPACING
         scroll_y = self._common_scroll.verticalScrollBar().value()
@@ -726,14 +865,20 @@ class SupplyView(QWidget):
             for index in (row * columns + column,)
             if index < len(self._filtered_common_data)
         ]
-        self._ensure_common_card_pool(len(indexes))
+        viewport_rows = viewport_height // row_pitch + 1
+        stable_pool_size = min(
+            len(self._filtered_common_data),
+            columns * (viewport_rows + COMMON_SUPPLY_BUFFER_ROWS * 2 + 1),
+        )
+        self._ensure_common_card_pool(max(len(indexes), stable_pool_size))
+        x_offset = self._common_sparse_x_offset(len(self._filtered_common_data), columns)
         active_cards = set()
         for pool_index, data_index in enumerate(indexes):
             card = self._common_card_pool[pool_index]
             self._bind_common_card_widget(card, data_index)
             row = data_index // columns
             column = data_index % columns
-            x = column * (COMMON_SUPPLY_CARD_WIDTH + SUPPLY_GRID_SPACING)
+            x = x_offset + column * (COMMON_SUPPLY_CARD_WIDTH + SUPPLY_GRID_SPACING)
             y = row * row_pitch
             card.move(x, y)
             card.show()
@@ -748,8 +893,27 @@ class SupplyView(QWidget):
         self._common_visible_indexes = set(indexes)
         self._common_last_scroll_value = scroll_y
         self._common_last_viewport_height = viewport_height
+        self._refresh_common_purchase_buttons()
         self._common_performance["visible_update_ms"] = (perf_counter() - start) * 1000
         self._common_performance["pool_size"] = len(self._common_card_pool)
+
+    def _refresh_common_purchase_buttons(self) -> None:
+        button_text = "BUY"
+        for card, data_index in tuple(self._common_card_bindings.items()):
+            if data_index >= len(self._filtered_common_data) or not isinstance(card, SupplyOfferCardFrame):
+                continue
+            data = self._filtered_common_data[data_index]
+            card.bind_offer(
+                self._quantity_priced_data(data, "common"),
+                source="common",
+                state=self._offer_state(data.offer, "common"),
+                button_text=button_text,
+                can_buy=self._can_buy(data.offer, "common"),
+            )
+            self._set_purchase_hint(card, data.offer, "common")
+
+    def _common_sparse_x_offset(self, item_count: int, columns: int) -> int:
+        return COMMON_SUPPLY_LEFT_PADDING
 
     def _ensure_common_card_pool(self, target_count: int) -> None:
         while len(self._common_card_pool) < target_count:
@@ -761,26 +925,51 @@ class SupplyView(QWidget):
         self._common_card_bindings = {}
         self._common_visible_indexes = set()
 
+    def _show_common_empty_state(self) -> None:
+        if self._common_empty_state is None:
+            self._common_empty_state = EmptyStatePanel(
+                "No common supply cards",
+                "No current offers in this category. Choose another category.",
+                accent="supply",
+                object_name="commonSupplyEmptyState",
+                parent=self._common_grid_container,
+            )
+        width = self._common_grid_available_width()
+        viewport_height = self._common_scroll.viewport().height() if hasattr(self, "_common_scroll") else 260
+        panel_width = min(560, max(320, width - 48))
+        panel_height = min(260, max(220, viewport_height - 48))
+        x = max(16, (width - panel_width) // 2)
+        y = max(16, (viewport_height - panel_height) // 2)
+        self._common_empty_state.setGeometry(x, y, panel_width, panel_height)
+        self._common_empty_state.show()
+        self._common_empty_state.raise_()
+
+    def _hide_common_empty_state(self) -> None:
+        if self._common_empty_state is not None:
+            self._common_empty_state.hide()
+
     def _supply_card(self, offer: SupplyOffer, source: str) -> QFrame:
         data = self._display_data_for_offer(offer)
         state = self._offer_state(offer, source)
         card = SupplyOfferCardFrame()
+        card.installEventFilter(self)
         card.setObjectName(self._card_object_name(source))
         if source == "common":
             card.setFixedSize(COMMON_SUPPLY_CARD_WIDTH, COMMON_SUPPLY_CARD_HEIGHT)
             card.setSizePolicy(QSizePolicy.Policy.Fixed, QSizePolicy.Policy.Fixed)
         else:
-            card.setFixedSize(FEATURED_SUPPLY_CARD_WIDTH, FEATURED_SUPPLY_CARD_HEIGHT)
+            card.setFixedSize(*self._daily_card_size)
             card.setSizePolicy(QSizePolicy.Policy.Fixed, QSizePolicy.Policy.Fixed)
         card._buy_button.setObjectName(self._button_object_name(source))  # type: ignore[attr-defined]
         card._buy_button.clicked.connect(lambda checked=False, current_offer=offer, current_source=source: self._buy_offer(current_offer, current_source))  # type: ignore[attr-defined]
         card.bind_offer(
-            data,
+            self._quantity_priced_data(data, source),
             source=source,
             state=state,
             button_text=self._button_text(source, state),
             can_buy=self._can_buy(offer, source),
         )
+        self._set_purchase_hint(card, offer, source)
         return card
 
     def _create_common_card_widget(self) -> QFrame:
@@ -806,29 +995,19 @@ class SupplyView(QWidget):
             self._hover_popup.hide()
         if isinstance(card, SupplyOfferCardFrame):
             card.bind_offer(
-                data,
+                self._quantity_priced_data(data, "common"),
                 source="common",
                 state=self._offer_state(data.offer, "common"),
                 button_text="BUY",
                 can_buy=self._can_buy(data.offer, "common"),
             )
+            self._set_purchase_hint(card, data.offer, "common")
         if self._hover_card is card:
             self._hover_timer.stop()
             self._hide_common_hover(card)
 
     def _common_card_title_text(self, data: CommonSupplyCardDisplayData) -> str:
-        title = data.name
-        suffixes = {data.secondary_label}
-        if data.secondary_label.upper().startswith("MK "):
-            level = data.secondary_label.split()[-1]
-            roman = {"1": "I", "2": "II", "3": "III", "4": "IV", "5": "V"}.get(level)
-            if roman is not None:
-                suffixes.add(f"MK {roman}")
-        for suffix in sorted(suffixes, key=len, reverse=True):
-            marker = f" {suffix}"
-            if title.upper().endswith(marker.upper()):
-                return title[: -len(marker)]
-        return title
+        return data.name
 
     def _replace_common_card_icon(self, card: QFrame, data: CommonSupplyCardDisplayData) -> None:
         layout = card._icon_layout  # type: ignore[attr-defined]
@@ -880,7 +1059,7 @@ class SupplyView(QWidget):
             data.accent_key,
         )
         if self._hover_popup.details_signature != signature:
-            icon = ResourceIconWidget(data.icon_resource_id, data.icon_key, data.accent_key, size=34)
+            icon = card_hover_icon(data.definition, size=42)
             self._hover_popup.set_details(data.name, icon, sections, signature)
         else:
             self._hover_popup.update_values(sections)
@@ -924,21 +1103,10 @@ class SupplyView(QWidget):
         )
         sections = [
             ("Card Type", self._type_label(definition)),
-            ("Tier", self._mk_label(definition)),
             ("Rarity", offer.rarity.value.title()),
             ("Bonus", f"+{offer.bonus_tenths / 10:.1f}%"),
         ]
-        if isinstance(definition, RecipeDefinition):
-            outputs = effective_recipe_outputs(card, dict(definition.output_resources))
-            inputs = effective_recipe_inputs(card, dict(definition.input_resources))
-            sections.extend(
-                [
-                    ("Recipe Type", self._function_label(definition)),
-                    ("Outputs", self._resources_text(outputs)),
-                    ("Inputs", self._resources_text(inputs)),
-                ]
-            )
-        elif isinstance(definition, FreightDefinition):
+        if isinstance(definition, FreightDefinition):
             stats = freight_stats(card, definition)
             sections.extend(
                 [
@@ -953,7 +1121,7 @@ class SupplyView(QWidget):
             sections.extend([("Primary", primary), ("Secondary", secondary)])
         sections.extend(
             [
-                ("Price", f"${offer.price_cash:,.0f}"),
+                ("Price", f"${offer.price_cash:,.2f}"),
                 ("Owned", str(self._owned_count(offer))),
                 ("State", self._offer_state(offer, "common").upper()),
             ]
@@ -964,6 +1132,11 @@ class SupplyView(QWidget):
         key = (offer.definition_id, offer.rarity.value, offer.bonus_tenths, offer.price_cash)
         cached = self._common_display_cache.get(key)
         if cached is not None:
+            # A later daily rotation can repeat the same quality and price.
+            # Reuse its presentation without keeping the previous offer ID.
+            if cached.offer != offer:
+                cached = replace(cached, offer=offer, offer_id=offer.offer_id)
+                self._common_display_cache[key] = cached
             return cached
         definition = self._definitions[offer.definition_id]
         icon_resource_id, icon_key, accent_key = self._icon_signature(definition)
@@ -975,37 +1148,35 @@ class SupplyView(QWidget):
             offer_id=offer.offer_id,
             name=definition.name,
             type_label=self._type_label(definition),
-            secondary_label=self._secondary_filter_label(definition),
             rarity_label=offer.rarity.value.title(),
             rarity_key=offer.rarity.value,
             bonus_text=f"+{offer.bonus_tenths / 10:.1f}%",
             primary_text=primary,
             secondary_text=secondary,
-            price_text=f"${offer.price_cash:.0f}",
+            price_text=f"${offer.price_cash:.2f}",
             icon_resource_id=icon_resource_id,
             icon_key=icon_key,
             accent_key=accent_key,
-            search_text=f"{definition.name} {offer.definition_id} {self._function_label(definition)} {self._secondary_filter_label(definition)}".lower(),
+            search_text=f"{definition.name} {offer.definition_id} {self._function_label(definition)}".lower(),
         )
         self._common_display_cache[key] = data
         return data
 
+    def _quantity_priced_data(self, data: CommonSupplyCardDisplayData, source: str) -> CommonSupplyCardDisplayData:
+        return data
+
     def _sort_display_data(self, data: list[CommonSupplyCardDisplayData]) -> list[CommonSupplyCardDisplayData]:
-        if self._sort.currentText() == "Price":
-            return sorted(data, key=lambda item: (item.offer.price_cash, item.name))
         return sorted(data, key=lambda item: item.name)
 
+    @staticmethod
+    def _supply_category(definition):
+        from production_zero.core.machine_operations import SITE_TYPES
+        if isinstance(definition, FreightDefinition): return "Freight"
+        if isinstance(definition, EnergyDefinition): return "Energy"
+        if definition.definition_id in SITE_TYPES: return "Resources"
+        return "Factory"
+
     def _compact_values(self, offer: SupplyOffer, definition: CardDefinition) -> tuple[str, str]:
-        if isinstance(definition, RecipeDefinition):
-            card = create_card_instance(
-                "preview",
-                offer.definition_id,
-                offer.card_kind,
-                offer.rarity,
-                bonus_tenths=offer.bonus_tenths,
-            )
-            outputs = effective_recipe_outputs(card, dict(definition.output_resources))
-            return f"Output: {self._elide_text(self._resources_text(outputs), 24)}", ""
         return self._effective_values(offer, definition)
 
     def _elide_text(self, text: str, max_chars: int) -> str:
@@ -1014,6 +1185,53 @@ class SupplyView(QWidget):
         return f"{text[: max(0, max_chars - 1)].rstrip()}…"
 
     def _buy_offer(self, offer: SupplyOffer, source: str) -> None:
+        from production_zero.ui.release_dialogs import inform
+        from PySide6.QtWidgets import QDialog
+        problem = self._purchase_problem(offer, source, 1)
+        if problem:
+            inform(self, *problem)
+            return
+        dialog = self._purchase_dialog(offer, source)
+        try:
+            if dialog.exec() != QDialog.DialogCode.Accepted:
+                return
+            self._commit_purchase(dialog)
+        except (ValueError, KeyError) as error:
+            inform(self, "Purchase to inventory", str(error))
+        finally:
+            dialog.deleteLater()
+
+    def _purchase_dialog(self, offer, source):
+        from production_zero.core.supply import common_supply_max_quantity
+        from production_zero.ui.release_dialogs import InventoryPurchaseDialog
+        maximum = common_supply_max_quantity(self._state, self._definitions, offer.definition_id) if source == "common" else int(self._state.cash.amount >= offer.price_cash)
+        dialog = InventoryPurchaseDialog(self._definitions[offer.definition_id].name, offer.rarity.value,
+            offer.price_cash, self._state.cash.amount, maximum, self, quantity_selectable=source == "common")
+        dialog.offer = offer
+        dialog.source = source
+        return dialog
+
+    def _commit_purchase(self, dialog):
+        # Freeze one command per confirmed intent, including retries/double signals.
+        if dialog.purchase_command is None:
+            offer = dialog.offer
+            quantity = dialog.quantity.value() if dialog.quantity is not None else 1
+            if quantity < 1:
+                raise ValueError("Insufficient cash: MAX is zero.")
+            kwargs = dict(expected_unit_price=offer.price_cash, operation_id=dialog.operation_id)
+            if dialog.source == "common":
+                command = BuyCommonSupplyCard(offer.definition_id, self._definitions, quantity, **kwargs)
+            elif dialog.source == "freight_daily":
+                command = BuyDailyFreightSupplyCard(offer.offer_id, self._definitions, **kwargs)
+            elif dialog.source == "machine_daily":
+                command = BuyDailyMachineSupplyCard(offer.offer_id, self._definitions, **kwargs)
+            else:
+                raise ValueError("This offer is no longer available.")
+            dialog.purchase_command = command
+        self._bus.dispatch(dialog.purchase_command)
+        self._notify_and_refresh()
+
+    def _execute_offer_purchase(self, offer: SupplyOffer, source: str) -> None:
         if source == "common":
             self._buy_common(offer.definition_id)
         elif source == "freight_daily":
@@ -1026,7 +1244,7 @@ class SupplyView(QWidget):
     def _common_grid_columns(self) -> int:
         width = self._common_grid_available_width() if hasattr(self, "_common_scroll") else self.width()
         pitch = COMMON_SUPPLY_CARD_WIDTH + SUPPLY_GRID_SPACING
-        return max(1, min(7, width // pitch))
+        return max(1, min(7, max(1, width - COMMON_SUPPLY_LEFT_PADDING * 2) // pitch))
 
     def _common_grid_available_width(self) -> int:
         if not hasattr(self, "_common_scroll"):
@@ -1068,19 +1286,45 @@ class SupplyView(QWidget):
         return "locked"
 
     def _can_buy(self, offer: SupplyOffer, source: str) -> bool:
-        if self._state.cash.amount < offer.price_cash:
-            return False
-        if source == "daily":
-            return self._state.supply.daily_purchased_period_index != self._state.supply.daily_period_index
-        if source == "freight_daily":
-            return self._state.supply.freight_daily_purchased_period_index != self._state.supply.freight_daily_period_index
-        if source == "machine_daily":
-            return self._state.supply.machine_daily_purchased_period_index != self._state.supply.machine_daily_period_index
-        return True
+        quantity = self._common_buy_quantity() if source == "common" else 1
+        return self._purchase_problem(offer, source, quantity) is None
+
+    def _set_purchase_hint(self, card, offer, source):
+        problem = self._purchase_problem(offer, source, self._common_buy_quantity() if source == "common" else 1)
+        message = ": ".join(problem) if problem is not None else "Purchase to inventory. Install manually when ready."
+        card._buy_button.setToolTip(message)
+        card.setToolTip(message if problem is not None else "")
+
+    def _purchase_problem(self, offer, source, quantity):
+        definition = self._definitions.get(offer.definition_id)
+        if not isinstance(definition, (MachineDefinition, EnergyDefinition, FreightDefinition)):
+            return "Machine Unavailable", "This machine is no longer available."
+        if type(quantity) is not int or not 1 <= quantity <= 10000:
+            return "Invalid Quantity", "Choose a whole quantity from 1 to 10000."
+        if source in {"freight_daily", "machine_daily"}:
+            prefix = "freight_daily" if source == "freight_daily" else "machine_daily"
+            book = self._state.supply
+            if getattr(book, prefix + "_purchased_period_index") == getattr(book, prefix + "_period_index"):
+                return "Purchase Limit Reached", "This daily category has already been purchased. Wait for the next reset."
+            if offer not in getattr(book, prefix + "_offers"):
+                return "Machine Unavailable", "This offer has expired. Choose a current offer."
+        elif source != "common":
+            return "Machine Unavailable", "This offer is no longer available."
+        total = offer.price_cash * quantity
+        if self._state.cash.amount < total:
+            return "Insufficient Cash", f"Required: ${total:,.2f}. Available: ${self._state.cash.amount:,.2f}."
+        return None
 
     def _buy_common(self, definition_id: str) -> None:
-        self._bus.dispatch(BuyCommonSupplyCard(definition_id, self._definitions))
+        self._bus.dispatch(BuyCommonSupplyCard(definition_id, self._definitions, self._common_buy_quantity()))
         self._notify_and_refresh()
+
+    def _common_buy_quantity(self) -> int:
+        return getattr(self, "_pending_purchase_quantity", None) or 1
+
+    def _on_buy_quantity_changed(self, *args) -> None:
+        self._refresh_filter_widgets()
+        self._refresh_common_purchase_buttons()
 
     def _buy_daily(self, offer_id: str) -> None:
         self._bus.dispatch(BuyDailyUncommonSupplyCard(offer_id, self._definitions))
@@ -1097,6 +1341,11 @@ class SupplyView(QWidget):
     def _notify_and_refresh(self) -> None:
         if self._on_state_changed is not None:
             self._on_state_changed()
+            if self.property("uiDirty"):
+                # The originating purchase projection remains current even
+                # when invoked programmatically from a hidden tab.
+                self.refresh()
+                self.setProperty("uiDirty", False)
         else:
             self.refresh()
 
@@ -1104,59 +1353,29 @@ class SupplyView(QWidget):
         if source in {"daily", "freight_daily", "machine_daily"} and state == "purchased":
             return "PURCHASED"
         if source in {"daily", "freight_daily", "machine_daily"} and state == "locked":
-            return "LOCKED UNTIL RESET"
-        return "Buy" if source == "common" else "Choose"
+            return "LOCKED\nUNTIL RESET"
+        return "BUY"
 
     def _icon_signature(self, definition: CardDefinition) -> tuple[str, str, str]:
-        if isinstance(definition, MachineDefinition):
-            production = definition.production_option(definition.default_production_id)
-            resource_id = production.output_resource or definition.output_resource
-            return (
-                resource_id,
-                production.icon_key or definition.icon_key or resource_icon_key(resource_id),
-                production.accent_key or definition.accent_key or resource_accent_key(resource_id),
-            )
-        if isinstance(definition, EnergyDefinition):
-            return ("power", "battery", "battery")
-        if isinstance(definition, RecipeDefinition):
-            output_resource = next(iter(definition.output_resources), definition.definition_id)
-            return (
-                output_resource,
-                definition.icon_key or resource_icon_key(output_resource),
-                definition.accent_key or resource_accent_key(output_resource),
-            )
-        if isinstance(definition, FreightDefinition):
-            freight_accent = {
-                "truck": "truck",
-                "train": "rail",
-                "ship": "ship",
-                "aircraft": "aircraft",
-            }.get(definition.family.value, resource_accent_key(definition.name))
-            return (
-                definition.definition_id,
-                resource_icon_key(definition.name),
-                freight_accent,
-            )
-        return (definition.definition_id, resource_icon_key(definition.definition_id), resource_accent_key(definition.definition_id))
+        icon_key, accent_key, resource_id = card_resource_icon_signature(definition)
+        return resource_id, icon_key, accent_key
 
     def _function_label(self, definition: CardDefinition) -> str:
         if isinstance(definition, MachineDefinition):
-            return definition.machine_type.value.title()
+            return definition.name
         if isinstance(definition, EnergyDefinition):
             return "Energy"
-        if isinstance(definition, RecipeDefinition):
-            return f"{definition.stage.value.title()} Recipe"
         if isinstance(definition, FreightDefinition):
             return definition.family.value.replace("_", " ").title()
         return definition.card_kind.value.title()
 
     def _owned_count(self, offer: SupplyOffer) -> int:
         return sum(
-            stack.quantity
-            for stack in self._state.inventory_card_stacks()
-            if stack.first_card.definition_id == offer.definition_id
-            and stack.first_card.rarity == offer.rarity
-            and stack.first_card.output_bonus_tenths == offer.bonus_tenths
+            1
+            for card in self._state.cards.values()
+            if card.definition_id == offer.definition_id
+            and card.rarity == offer.rarity
+            and card.output_bonus_tenths == offer.bonus_tenths
         )
 
     def _labeled_control(self, label_text: str, control: QWidget) -> QWidget:
@@ -1262,26 +1481,54 @@ class SupplyView(QWidget):
         return f"{(combo.currentText() or 'All').upper()} >"
 
     def _refresh_filter_widgets(self) -> None:
-        if hasattr(self, "_type_chip_layout"):
-            self._refresh_chip_group(self._type_chip_layout, self._type_filter, "type")
-        for combo, button in self._selector_buttons.items():
-            button.setText(self._selector_text(combo))
-            button.style().unpolish(button)
-            button.style().polish(button)
-            self._refresh_selector_flyout(combo)
+        pass
+
+    def reset_for_state_change(self):
+        self._hover_timer.stop()
+        self._hide_common_hover()
+        self._pending_purchase_quantity = None
+        self._common_display_cache.clear()
+        self._common_display_data.clear()
+        self._filtered_common_data.clear()
+        self._common_display_signature = ()
+        self._common_filtered_signature = ()
+        self._common_card_bindings.clear()
+        self._hide_common_card_pool()
+        for card in self._common_card_pool:
+            card._supply_data = None
+            card._binding_signature = None
+        self._type_filter.blockSignals(True)
+        self._type_filter.setCurrentIndex(0)
+        self._type_filter.blockSignals(False)
+        self._common_scroll.verticalScrollBar().setValue(0)
+        self._show_section(0)
+        self.refresh()
 
     def _refresh_chip_group(self, layout: QHBoxLayout, combo: QComboBox, group: str) -> None:
-        self._clear_layout(layout)
+        options = tuple(combo.itemText(index) for index in range(combo.count()))
+        signature = (group, options)
+        chips = [layout.itemAt(index).widget() for index in range(layout.count())]
+        if self._filter_chip_signatures.get(combo) != signature:
+            self._clear_layout(layout)
+            chips = []
+            for option in options:
+                chip = QPushButton(option.upper())
+                chip.setObjectName("supplyFilterChip")
+                chip.setProperty("filterGroup", group)
+                chip.setProperty("filterValue", option)
+                chip.setCursor(Qt.CursorShape.PointingHandCursor)
+                chip.clicked.connect(lambda checked=False, value=option, target=combo: self._set_filter_value(target, value))
+                layout.addWidget(chip)
+                chips.append(chip)
+            self._filter_chip_signatures[combo] = signature
         current = combo.currentText()
-        for option in [combo.itemText(index) for index in range(combo.count())]:
-            chip = QPushButton(option.upper())
-            chip.setObjectName("supplyFilterChip")
-            chip.setProperty("filterGroup", group)
-            chip.setProperty("filterValue", option)
-            chip.setProperty("active", option == current)
-            chip.setCursor(Qt.CursorShape.PointingHandCursor)
-            chip.clicked.connect(lambda checked=False, value=option, target=combo: self._set_filter_value(target, value))
-            layout.addWidget(chip)
+        for chip, option in zip(chips, options):
+            active = option == current
+            if chip.property("active") != active:
+                chip.setProperty("active", active)
+                chip.style().unpolish(chip)
+                chip.style().polish(chip)
+                chip.update()
 
     def _set_filter_value(self, combo: QComboBox, value: str) -> None:
         if combo.currentText() == value:
@@ -1319,10 +1566,6 @@ class SupplyView(QWidget):
                     f"Fuel {fuel} {definition.fuel_consumption_per_minute:g}/min",
                 )
             return f"Generation {definition.base_power_output * card.output_multiplier:g} MW", "No Fuel Required"
-        if isinstance(definition, RecipeDefinition):
-            output = f"Recipe Output {self._resources_text(effective_recipe_outputs(card, dict(definition.output_resources)))}"
-            inputs = f"Recipe Inputs {self._resources_text(effective_recipe_inputs(card, dict(definition.input_resources)))}"
-            return output, inputs
         if isinstance(definition, FreightDefinition):
             stats = freight_stats(card, definition)
             return f"Transport Capacity {stats.capacity:g}", f"Transport Time {self._format_short_duration(stats.transport_time_seconds)}"
@@ -1330,22 +1573,6 @@ class SupplyView(QWidget):
 
     def _type_label(self, definition: CardDefinition) -> str:
         return definition.card_kind.value.title()
-
-    def _secondary_filter_label(self, definition: CardDefinition) -> str:
-        if isinstance(definition, RecipeDefinition):
-            return definition.stage.value.title()
-        return self._mk_label(definition)
-
-    def _mk_label(self, definition: CardDefinition) -> str:
-        if isinstance(definition, FreightDefinition):
-            return definition.class_label
-        level = self._mk_level(definition)
-        return "-" if level == 0 else f"MK {level}"
-
-    def _mk_level(self, definition: CardDefinition) -> int:
-        if isinstance(definition, FreightDefinition):
-            return definition.class_level
-        return int(getattr(definition, "mk_level", 0))
 
     def _format_duration(self, seconds: float) -> str:
         total_minutes = int(seconds // 60)

@@ -25,7 +25,7 @@ def _card_definitions():
 
 
 def _install_truck(state: GameState, bus: CommandBus, definitions, resource_id: str) -> None:
-    card = create_card_instance("truck-1", "freight.truck.class1", CardKind.FREIGHT, Rarity.COMMON)
+    card = create_card_instance("truck-1", "freight.truck", CardKind.FREIGHT, Rarity.COMMON)
     bus.dispatch(AddCard(card))
     bus.dispatch(InstallFreightCard("garage-1", 0, card.card_id, definitions))
     bus.dispatch(AssignFreightCard(card.card_id, resource_id, "market"))
@@ -108,26 +108,23 @@ def test_inventory_storage_expansion_requires_cash_without_mutating_state() -> N
     assert {resource_id: stock.capacity for resource_id, stock in state.resources.items()} == before_capacities
 
 
-def test_inventory_storage_upgrade_costs_rise_and_max_level_blocks_more_upgrades() -> None:
+def test_inventory_storage_upgrade_costs_rise_and_expansion_passes_legacy_limit() -> None:
     definitions = load_resource_definitions(Path("src/production_zero/data/resource_definitions.json"))
     state = GameState(rng_seed=703, resources=create_resource_inventory(definitions))
     bus = CommandBus(state)
-    costs = [inventory_storage_upgrade_cost(level) for level in range(4)]
-    assert costs == sorted(costs)
-    assert len(set(costs)) == len(costs)
-    bus.dispatch(AddCash(sum(inventory_storage_upgrade_cost(level) for level in range(MAX_INVENTORY_STORAGE_LEVEL))))
-
-    for _ in range(MAX_INVENTORY_STORAGE_LEVEL):
+    costs = [inventory_storage_upgrade_cost(level) for level in range(25)]
+    assert all(right > left for left, right in zip(costs, costs[1:]))
+    bus.dispatch(AddCash(sum(costs)))
+    previous = state.storage_capacity
+    for level, cost in enumerate(costs):
+        cash = state.cash.amount
         bus.dispatch(ExpandInventoryStorage(definitions))
-
-    cash_at_max = state.cash.amount
-    capacity_at_max = state.resources["iron_ore"].capacity
-    with pytest.raises(ValueError, match="maximum level"):
-        bus.dispatch(ExpandInventoryStorage(definitions))
-
-    assert state.inventory_storage_level == MAX_INVENTORY_STORAGE_LEVEL
-    assert state.cash.amount == cash_at_max
-    assert state.resources["iron_ore"].capacity == capacity_at_max
+        assert state.inventory_storage_level == level + 1
+        assert state.cash.amount == pytest.approx(cash - cost)
+        assert state.storage_capacity > previous
+        previous = state.storage_capacity
+    assert state.cash.amount == pytest.approx(0)
+    assert state.inventory_storage_level == 25
 
 
 def test_cash_commands_keep_currency_single_and_explicit() -> None:
@@ -153,9 +150,9 @@ def test_static_sell_prices_cover_current_economic_resources() -> None:
 
 
 def test_hall_purchase_price_scales_with_existing_halls() -> None:
-    assert hall_purchase_price(1) == 1000
-    assert hall_purchase_price(2) == 1500
-    assert hall_purchase_price(3) == 2000
+    assert hall_purchase_price(1) == 15200
+    assert hall_purchase_price(2) == 86000
+    assert hall_purchase_price(3) == 237000
 
 
 def test_sell_resource_consumes_stock_adds_cash_and_records_history() -> None:
@@ -177,9 +174,9 @@ def test_sell_resource_consumes_stock_adds_cash_and_records_history() -> None:
 
     SimulationEngine(definitions).advance_time(state, 60)
 
-    assert state.cash.amount == 32
-    assert state.statistics.total_earnings == 32
-    assert state.history.values_for("cash") == (32.0, 32.0)
+    assert state.cash.amount == 27
+    assert state.statistics.total_earnings == 27
+    assert state.history.values_for("cash") == (27.0, 27.0)
 
     with pytest.raises(ValueError):
         bus.dispatch(SellResource("steel", 7, definitions))
@@ -201,7 +198,7 @@ def test_sell_resource_uses_current_market_price() -> None:
 
     SimulationEngine(definitions).advance_time(state, 60)
 
-    assert state.cash.amount == 10
+    assert state.cash.amount == pytest.approx(4.0)
 
 
 def test_industrial_scrap_is_account_bound_and_not_sellable() -> None:
@@ -236,8 +233,8 @@ def test_configure_auto_sell_stores_resource_threshold() -> None:
 def test_unlock_production_line_spends_cash_and_adds_slots() -> None:
     state = GameState(rng_seed=10)
     bus = CommandBus(state)
-    bus.dispatch(BuildHall(FactoryHall(hall_id="hall-1", name="Halle 1", slot_count=6)))
-    bus.dispatch(AddCash(750))
+    bus.dispatch(BuildHall(FactoryHall(hall_id="hall-1", name="Halle 1", slot_count=6, max_lines=MAX_FACTORY_LINES)))
+    bus.dispatch(AddCash(3600))
 
     bus.dispatch(UnlockProductionLine("hall-1", "hall-1.line-3"))
 
@@ -245,7 +242,7 @@ def test_unlock_production_line_spends_cash_and_adds_slots() -> None:
     assert state.cash.amount == 0
     assert hall.production_lines[2].unlocked is True
     assert hall.production_lines[2].slot_indexes == [6, 7, 8]
-    assert len(hall.slots) == 60
+    assert len(hall.slots) == 50
     assert hall.slot_count == 9
     assert state.history.values_for("cash") == (0.0,)
 
@@ -284,7 +281,7 @@ def test_unlock_production_slots_individually_up_to_eight_per_line() -> None:
 def test_unlock_production_lines_three_to_six_and_full_hall_capacity() -> None:
     state = GameState(rng_seed=112)
     bus = CommandBus(state)
-    bus.dispatch(BuildHall(FactoryHall(hall_id="hall-1", name="Halle 1", slot_count=6)))
+    bus.dispatch(BuildHall(FactoryHall(hall_id="hall-1", name="Halle 1", slot_count=6, max_lines=MAX_FACTORY_LINES)))
     bus.dispatch(AddCash(50_000))
 
     for line_number in range(3, MAX_FACTORY_LINES + 1):
@@ -303,8 +300,8 @@ def test_unlock_production_lines_three_to_six_and_full_hall_capacity() -> None:
 
     unlocked_indexes = hall.unlocked_slot_indexes()
     assert hall.slot_count == MAX_FACTORY_LINES * MAX_FACTORY_SLOTS_PER_LINE
-    assert len(unlocked_indexes) == 60
-    assert len(set(unlocked_indexes)) == 60
+    assert len(unlocked_indexes) == 50
+    assert len(set(unlocked_indexes)) == 50
     assert all(len(line.slot_indexes) == MAX_FACTORY_SLOTS_PER_LINE for line in hall.production_lines)
 
 
@@ -312,13 +309,13 @@ def test_factory_halls_keep_independent_slot_expansions() -> None:
     state = GameState(rng_seed=113)
     bus = CommandBus(state)
     bus.dispatch(BuildHall(FactoryHall(hall_id="hall-1", name="Halle 1", slot_count=6)))
-    bus.dispatch(AddCash(2_000))
+    bus.dispatch(AddCash(20_000))
     bus.dispatch(PurchaseHall())
 
     bus.dispatch(UnlockProductionSlot("hall-1", "hall-1.line-1"))
 
     assert state.halls["hall-1"].slot_count == 7
-    assert state.halls["hall-2"].slot_count == 6
+    assert state.halls["hall-2"].slot_count == 3
     assert len(state.halls["hall-1"].production_lines[0].slot_indexes) == 4
     assert len(state.halls["hall-2"].production_lines[0].slot_indexes) == 3
 
@@ -327,17 +324,17 @@ def test_purchase_hall_spends_cash_and_creates_independent_hall() -> None:
     state = GameState(rng_seed=12)
     bus = CommandBus(state)
     bus.dispatch(BuildHall(FactoryHall(hall_id="hall-1", name="Halle 1", slot_count=6)))
-    bus.dispatch(AddCash(1000))
+    bus.dispatch(AddCash(15_200))
 
     bus.dispatch(PurchaseHall())
 
     assert state.cash.amount == 0
     assert set(state.halls) == {"hall-1", "hall-2"}
     assert state.halls["hall-2"].name == "Hall 2"
-    assert len(state.halls["hall-2"].slots) == 60
-    assert state.halls["hall-2"].slot_count == 6
+    assert len(state.halls["hall-2"].slots) == 50
+    assert state.halls["hall-2"].slot_count == 3
     assert state.halls["hall-2"].production_lines[0].slot_indexes == [0, 1, 2]
-    assert state.halls["hall-2"].production_lines[1].slot_indexes == [3, 4, 5]
+    assert state.halls["hall-2"].production_lines[1].slot_indexes == []
     assert state.halls["hall-2"].production_lines[2].slot_indexes == []
     assert state.halls["hall-2"].production_lines[2].unlocked is False
     assert state.history.values_for("cash") == (0.0,)
@@ -347,7 +344,7 @@ def test_purchase_hall_requires_enough_cash_and_scales_next_price() -> None:
     state = GameState(rng_seed=13)
     bus = CommandBus(state)
     bus.dispatch(BuildHall(FactoryHall(hall_id="hall-1", name="Halle 1", slot_count=6)))
-    bus.dispatch(AddCash(2499))
+    bus.dispatch(AddCash(16_699))
 
     bus.dispatch(PurchaseHall())
 
@@ -369,11 +366,12 @@ def test_metric_series_keeps_recent_points_only() -> None:
     assert series.snapshot() == (3.0, 4.0, 5.0)
 
 
-def test_metric_history_returns_sample_windows_for_chart_ranges() -> None:
+def test_metric_history_returns_elapsed_time_windows_for_chart_ranges() -> None:
     history = MetricHistory()
     for value in range(700):
+        history.elapsed_seconds = value
         history.append("cash", value, max_points=1_000)
 
-    assert history.values_for_range("cash", "10M")[0] == 100.0
-    assert len(history.values_for_range("cash", "10M")) == 600
+    assert history.values_for_range("cash", "10M")[0] == 99.0
+    assert len(history.values_for_range("cash", "10M")) == 601
     assert len(history.values_for_range("cash", "ALL")) == 700

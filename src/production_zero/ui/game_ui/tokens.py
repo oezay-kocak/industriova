@@ -77,6 +77,7 @@ class GameUiColors:
     success: str = "#65d88f"
     safety_yellow: str = "#ffd21f"
     area_anchor_red: str = "#c83a2b"
+    train: str = area_anchor_red
     warning: str = "#df6b2f"
     warning_orange: str = "#df6b2f"
     danger: str = "#f06f73"
